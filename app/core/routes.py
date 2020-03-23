@@ -9,7 +9,7 @@ from app.api.routes import get_results
 @bp.route('/')
 def index():
     r = requests.get("https://flatteningthecurve.herokuapp.com/covid/results")
-    data = json.loads(r.get_data())
+    data = r.json()
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(x=list(data["Italy"].keys()), y=list(data["Italy"].values()),
