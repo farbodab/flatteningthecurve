@@ -1,0 +1,48 @@
+#header-container {
+    height:300px;
+    width:100%;
+    position: relative;
+    background-color: lightgrey;
+}
+
+#title-div {
+    position: absolute;
+    top:50%;
+    left:50%;
+    text-align: center;
+    transform:translate(-50%, -50%);
+    width:75%;
+}
+
+#which-curve {
+    margin:30px;
+    display:flex;
+}
+
+#which-curve-text {
+    width: 300px;
+    padding:20px;
+    background-color: lightgrey;
+}
+
+#which-curve-graph {
+    flex-grow: 1;
+}
+
+#who-what-content {
+    text-align: center;
+    margin:50px 100px 50px 100px;
+}
+
+#footer {
+    height:100px;
+    background-color: lightgrey;
+}
+
+#resources-button {
+    font-size:20px;
+    white-space: pre-wrap !important;
+    width:300px;
+    line-height: 25px;
+    padding:20px;
+}
