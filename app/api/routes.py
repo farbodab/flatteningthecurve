@@ -9,7 +9,7 @@ import pandas as pd
 import io
 import requests
 
-@bp.route('/covid/tests', methods=['GET'])
+@bp.route('/covid/tests', methods=['GET', 'POST'])
 @as_json
 def tests():
     url = "https://docs.google.com/spreadsheets/d/152uZD6ApMM87PisTK1QYU4TdPMkzbJDjpjwl1gaaQKI/export?format=csv&id=152uZD6ApMM87PisTK1QYU4TdPMkzbJDjpjwl1gaaQKI&gid=0"
@@ -44,7 +44,7 @@ def tests():
                 db.session.commit()
     return 'success',200
 
-@bp.route('/covid/cases', methods=['GET'])
+@bp.route('/covid/cases', methods=['GET', 'POST'])
 @as_json
 def cases():
     url = "https://docs.google.com/spreadsheets/d/1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo/export?format=csv&id=1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo"
