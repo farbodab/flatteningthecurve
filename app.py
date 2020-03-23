@@ -12,16 +12,16 @@ def index():
 
     fig.add_trace(go.Scatter(x=list(data["Italy"].keys()), y=list(data["Italy"].values()),
                     mode='lines',
-                    name='Italy', line=dict(color='#BF55EC', width=4)))
+                    name='Italy', line=dict(color='#BF55EC', width=6)))
     fig.add_trace(go.Scatter(x=list(data["Ontario"].keys()), y=list(data["Ontario"].values()),
                     mode='lines+markers',
-                    name='Ontario',line=dict(color='#F1F227', width=4)))
+                    name='Ontario',line=dict(color='#F1F227', width=6), marker=dict(size=15)))
     fig.add_trace(go.Scatter(x=list(data["Singapore"].keys()), y=list(data["Singapore"].values()),
                     mode='lines',
-                    name='Singapore',line=dict(color='#32CD32', width=4)))
+                    name='Singapore',line=dict(color='#32CD32', width=6)))
     fig.add_trace(go.Scatter(x=list(data["South Korea"].keys()), y=list(data["South Korea"].values()),
                     mode='lines',
-                    name='South Korea', line=dict(color='#00CED1', width=4)))
+                    name='South Korea', line=dict(color='#00CED1', width=6)))
     fig.update_layout(
                     autosize=True,
                     width=1200,
@@ -39,7 +39,7 @@ def index():
             name="1",
             line=dict(
                 color="#FFFFFF",
-                width=3,
+                width=5,
                 dash="dashdot",
             ),
     )
@@ -53,7 +53,7 @@ def index():
             y1=170,
             line=dict(
                 color="#FFFFFF",
-                width=3,
+                width=5,
                 dash="dash",
             ),
     )
