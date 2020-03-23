@@ -12,21 +12,22 @@ def index():
     fig.add_trace(go.Scatter(x=list(data["Italy"].keys()), y=list(data["Italy"].values()),
                     mode='lines',
                     name='Italy'))
-    fig.add_trace(go.Scatter(x=list(data["Ontario"].keys()), y=list(data["Italy"].values()),
+    fig.add_trace(go.Scatter(x=list(data["Ontario"].keys()), y=list(data["Ontario"].values()),
                     mode='lines',
                     name='Ontario'))
-    fig.add_trace(go.Scatter(x=list(data["Italy"].keys()), y=list(data["Singapore"].values()),
+    fig.add_trace(go.Scatter(x=list(data["Singapore"].keys()), y=list(data["Singapore"].values()),
                     mode='lines',
                     name='Singapore'))
     fig.add_trace(go.Scatter(x=list(data["South Korea"].keys()), y=list(data["South Korea"].values()),
                     mode='lines',
                     name='South Korea'))
     fig.update_layout(
-                    autosize=False,
-                    width=1000,
-                    height=800,
+                    autosize=True,
+                    width=1200,
+                    height=1000,
                    xaxis_title='Days after 100 confirmed cases',
-                   yaxis_title='ICU beds')
+                   yaxis_title='ICU beds',
+                   yaxis_range=[0,1])
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
 
