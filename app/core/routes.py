@@ -1,10 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, request, jsonify, g, render_template
 import requests
 import plotly.graph_objects as go
+from app import db
+from app.core import bp
 
-app = Flask(__name__)
-
-@app.route('/')
+@bp.route('/')
 def index():
     r = requests.get("https://ihs-api.herokuapp.com/covid/allc")
     data = r.json()
@@ -74,6 +74,6 @@ def index():
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
 
-@app.route('/about')
+@bp.route('/about')
 def about():
     return render_template('story.html')
