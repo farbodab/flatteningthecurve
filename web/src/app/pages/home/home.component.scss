@@ -1,0 +1,31 @@
+#header {
+    height:300px;
+    background-color: lightgrey;
+}
+
+#title {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 300px;
+}
+
+#which-curve {
+    margin:10px;
+    display:flex;
+}
+
+#which-curve-text {
+    width: 250px;
+    padding:10px;
+    background-color: lightgrey;
+}
+
+#which-curve-graph {
+    background-color: lightgrey;
+    flex-grow: 1;
+}
+
+#we-are {
+    text-align: center;
+    margin:10px;
+}
