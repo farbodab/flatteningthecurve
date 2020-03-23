@@ -27,7 +27,20 @@ def index():
                     height=1000,
                    xaxis_title='Days after 100 confirmed cases',
                    yaxis_title='ICU beds',
-                   yaxis_range=[0,1])
+                   yaxis_range=[0,2000])
+    fig.add_shape(
+        # Line Horizontal
+            type="line",
+            x0=0,
+            y0=1500,
+            x1=30,
+            y1=1500,
+            line=dict(
+                color="LightSeaGreen",
+                width=4,
+                dash="dashdot",
+            ),
+    )
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
 
