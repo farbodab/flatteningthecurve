@@ -36,7 +36,7 @@ def index():
             x1=30,
             y1=375,
             line=dict(
-                color="LightSeaGreen",
+                color="#FFFFFF",
                 width=1,
                 dash="dashdot",
             ),
@@ -50,7 +50,7 @@ def index():
             x1=30,
             y1=170,
             line=dict(
-                color="LightSeaGreen",
+                color="#FFFFFF",
                 width=1,
                 dash="dash",
             ),
