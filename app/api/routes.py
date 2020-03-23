@@ -115,6 +115,7 @@ def get_results():
     df = df.loc[df.case_id > 100].reset_index(drop=True)
     df.index += 1
     df = df.reset_index()
+    df['case_id'] = df['case_id']*0.05
     provines_dict = {}
     province_dict = df.set_index(['index'])['case_id'].to_dict()
     provines_dict["Ontario"] = province_dict
@@ -124,7 +125,7 @@ def get_results():
         df = pd.read_sql(c.statement, db.engine)
         df = df.loc[df.hundred.notna()]
         if len(df)>0:
-            df['count'] = df['count']
+            df['count'] = df['count']*0.05
             province_dict = df.set_index(['hundred'])['count'].to_dict()
             provines_dict[province] = province_dict
     return provines_dict
