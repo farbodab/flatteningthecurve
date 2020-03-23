@@ -13,6 +13,11 @@ export class ApiService {
   }
 
   get_graph_data() {
-
+    this.http_client.get(this.api_endpoint).subscribe(response => {
+      console.log(response);
+    }, error => {
+      
+      console.log(error);
+    });
   }
 }

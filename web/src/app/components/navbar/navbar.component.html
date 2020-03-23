@@ -1,5 +1,8 @@
 <mat-toolbar>
     <mat-toolbar-row>
+        <div id='title' *ngIf='shows_title'>
+            #HowsMyFlattening
+        </div>
         <div id='primary-nav'>
             <button mat-button routerLink='/'>Home</button>
             <button mat-button routerLink='/story'>Story</button>
