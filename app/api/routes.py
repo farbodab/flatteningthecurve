@@ -95,9 +95,8 @@ def new_covid():
         for item in items:
             date = datetime.strptime(item['date'],"%Y-%m-%d")
             province = item['province']
-            confirmed = item['confirmed']
-            hundred = item['hundred']
-            c = Comparison(province=province, count=confirmed, date=date, hundred=hundred)
+            confirmed = item['new']
+            c = Comparison(province=province, count=confirmed, date=date)
             db.session.add(c)
             db.session.commit()
         return 'success',200
@@ -111,21 +110,25 @@ def get_results():
     items = request.get_json()
     c = Covid.query.filter_by(province="Ontario")
     df = pd.read_sql(c.statement, db.engine)
-    df = df.groupby("date").case_id.count().cumsum().reset_index()
-    df = df.loc[df.case_id > 100].reset_index(drop=True)
-    df.index += 1
-    df = df.reset_index()
+    case_count = df.groupby("date").case_id.count().cumsum().reset_index()
+    case_count = case_count.loc[case_count.case_id > 100]
+    df = df.groupby("date").case_id.count().reset_index()
     df['case_id'] = df['case_id']*0.05
+    df['case_id'] = df['case_id'].rolling(min_periods=1, window=7).sum()
+    df = df.loc[df.date.isin(case_count.date.values)].reset_index()
     provines_dict = {}
-    province_dict = df.set_index(['index'])['case_id'].to_dict()
+    province_dict = df['case_id'].to_dict()
     provines_dict["Ontario"] = province_dict
     provinces = ["Italy", "South Korea", "Singapore"]
     for province in provinces:
         c = Comparison.query.filter_by(province=province)
         df = pd.read_sql(c.statement, db.engine)
-        df = df.loc[df.hundred.notna()]
-        if len(df)>0:
-            df['count'] = df['count']*0.05
-            province_dict = df.set_index(['hundred'])['count'].to_dict()
-            provines_dict[province] = province_dict
+        case_count = df['count'].cumsum()
+        df['case_count'] = case_count
+        df = df.loc[df['case_count'] > 100].reset_index()
+        df['count'] = df['count']*0.05
+        df['count'] = df['count'].rolling(min_periods=1, window=7).sum()
+        df = df.reset_index()
+        province_dict = df['count'].to_dict()
+        provines_dict[province] = province_dict
     return provines_dict
