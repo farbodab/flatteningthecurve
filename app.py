@@ -11,34 +11,48 @@ def index():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=list(data["Italy"].keys()), y=list(data["Italy"].values()),
                     mode='lines',
-                    name='Italy'))
+                    name='Italy', line=dict(color='#BF55EC', width=4)))
     fig.add_trace(go.Scatter(x=list(data["Ontario"].keys()), y=list(data["Ontario"].values()),
-                    mode='lines',
-                    name='Ontario'))
+                    mode='lines+markers',
+                    name='Ontario',line=dict(color='#F1F227', width=4)))
     fig.add_trace(go.Scatter(x=list(data["Singapore"].keys()), y=list(data["Singapore"].values()),
                     mode='lines',
-                    name='Singapore'))
+                    name='Singapore',line=dict(color='#32CD32', width=4)))
     fig.add_trace(go.Scatter(x=list(data["South Korea"].keys()), y=list(data["South Korea"].values()),
                     mode='lines',
-                    name='South Korea'))
+                    name='South Korea', line=dict(color='#00CED1', width=4)))
     fig.update_layout(
                     autosize=True,
                     width=1200,
                     height=1000,
                    xaxis_title='Days after 100 confirmed cases',
                    yaxis_title='ICU beds',
-                   yaxis_range=[0,2000])
+                   yaxis_range=[0,500], plot_bgcolor="#333333")
     fig.add_shape(
         # Line Horizontal
             type="line",
             x0=0,
-            y0=1500,
+            y0=375,
             x1=30,
-            y1=1500,
+            y1=375,
             line=dict(
                 color="LightSeaGreen",
-                width=4,
+                width=1,
                 dash="dashdot",
+            ),
+    )
+
+    fig.add_shape(
+        # Line Horizontal
+            type="line",
+            x0=0,
+            y0=170,
+            x1=30,
+            y1=170,
+            line=dict(
+                color="LightSeaGreen",
+                width=1,
+                dash="dash",
             ),
     )
     div = fig.to_html(full_html=True)
