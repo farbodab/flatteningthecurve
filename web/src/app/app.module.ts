@@ -13,8 +13,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { StoryComponent } from './pages/story/story.component';
 import { ResourcesComponent } from './pages/resources/resources.component';
 import { ConnectComponent } from './pages/connect/connect.component';
-
-
+import { HomeGraphComponent } from './components/home-graph/home-graph.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,8 @@ import { ConnectComponent } from './pages/connect/connect.component';
     HomeComponent,
     StoryComponent,
     ResourcesComponent,
-    ConnectComponent
+    ConnectComponent,
+    HomeGraphComponent
   ],
   imports: [
     BrowserModule,

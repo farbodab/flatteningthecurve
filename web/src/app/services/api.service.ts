@@ -12,12 +12,15 @@ export class ApiService {
 
   }
 
-  get_graph_data() {
+  get_graph_data(on_success, on_error) {
     this.http_client.get(this.api_endpoint).subscribe(response => {
-      console.log(response);
+      if(on_success) {
+        on_success(response)
+      }
     }, error => {
-      
-      console.log(error);
+      if(on_error) {
+        on_error(error);
+      }
     });
   }
 }
