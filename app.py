@@ -9,6 +9,7 @@ def index():
     r = requests.get("https://ihs-api.herokuapp.com/covid/allc")
     data = r.json()
     fig = go.Figure()
+
     fig.add_trace(go.Scatter(x=list(data["Italy"].keys()), y=list(data["Italy"].values()),
                     mode='lines',
                     name='Italy', line=dict(color='#BF55EC', width=4)))
@@ -27,7 +28,7 @@ def index():
                     height=1000,
                    xaxis_title='Days after 100 confirmed cases',
                    yaxis_title='ICU beds',
-                   yaxis_range=[0,500], plot_bgcolor="#333333")
+                   yaxis_range=[0,500],plot_bgcolor="#333333")
     fig.add_shape(
         # Line Horizontal
             type="line",
@@ -35,9 +36,10 @@ def index():
             y0=375,
             x1=30,
             y1=375,
+            name="1",
             line=dict(
                 color="#FFFFFF",
-                width=1,
+                width=3,
                 dash="dashdot",
             ),
     )
@@ -51,10 +53,24 @@ def index():
             y1=170,
             line=dict(
                 color="#FFFFFF",
-                width=1,
+                width=3,
                 dash="dash",
             ),
     )
+
+    fig.add_trace(go.Scatter(
+    x=[3, 3],
+    y=[175, 380],
+    text=["10% ICU Capacity",
+          "25% ICU Capacity"],
+    mode="text",
+    showlegend=False,
+    textfont=dict(
+        family="sans serif",
+        size=12,
+        color="#FFFFFF"
+    )
+        ))
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
 
