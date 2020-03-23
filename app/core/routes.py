@@ -8,8 +8,7 @@ from app.api.routes import get_results
 
 @bp.route('/')
 def index():
-    #r = requests.get("https://ihs-api.herokuapp.com/covid/allc")
-    r = get_results()
+    r = requests.get("https://flatteningthecurve.herokuapp.com/covid/results")
     data = json.loads(r.get_data())
     fig = go.Figure()
 
