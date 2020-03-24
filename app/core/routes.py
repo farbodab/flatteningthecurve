@@ -74,8 +74,7 @@ def index():
     )
         ))
     div = fig.to_html(full_html=True)
-    fig.write_image("app/static/fig1.png", width=1200, height=1000)
-    return 'success'
+    return render_template('index.html', plot=div)
 
 @bp.route('/about')
 def about():
