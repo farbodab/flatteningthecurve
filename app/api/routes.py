@@ -165,20 +165,51 @@ def get_phus():
         provines_dict[region] = province_dict
     return provines_dict
 
-@bp.route('/covid/phuc', methods=['GET'])
+@bp.route('/covid/testresults', methods=['GET'])
 @as_json
-def get_phuc():
-    c = PHUCapacity.query.filter_by()
-    dfs = pd.read_sql(c.statement, db.engine)
-    regions = dfs.region.unique()
-    provines_dict = {}
-    for region in regions:
-        df = dfs.loc[dfs.region == region]
-        case_count = df.groupby("date").case_id.count().cumsum().reset_index()
-        df = df.groupby("date").case_id.count().reset_index()
-        df['case_id'] = df['case_id']*0.05
-        df['case_id'] = df['case_id'].rolling(min_periods=1, window=7).sum()
-        df['date_str'] = df['date'].astype(str)
-        province_dict = df.set_index('date_str')['case_id'].to_dict()
-        provines_dict[region] = province_dict
-    return provines_dict
+def get_testresults():
+    df = pd.read_sql_table('covidtests', db.engine)
+    date = datetime.strptime("2020-02-28","%Y-%m-%d")
+    df = df.loc[df.date > date]
+    tests ={}
+
+    deaths = {}
+    investigations = {}
+    negatives = {}
+    positives = {}
+    resolveds = {}
+    totals = {}
+    investigations_pct = {}
+    negatives_pct = {}
+    positives_pct = {}
+
+    for index, row in df.iterrows():
+        date = str(row['date'].date())
+        negative = row['negative']
+        investigation = row['investigation']
+        positive = row['positive']
+        resolved = row['resolved']
+        death = row['deaths']
+        total = row['total']
+
+        deaths[date] = death
+        investigations[date] = investigation
+        negatives[date] = negative
+        positives[date] = positive
+        resolveds[date] = resolved
+        totals[date] = total
+        positives_pct[date] = negative/total
+        negatives_pct[date] = positive/total
+        investigations_pct[date] = investigation/total
+
+    tests['Deaths'] = deaths
+    tests['Under Investigation'] = investigations
+    tests['Positive'] = positives
+    tests['Negatives'] = negatives
+    tests['Total tested'] = totals
+    tests['Resolved'] = resolveds
+    tests['Positive pct'] = positives_pct
+    tests['Negative pct'] = negatives_pct
+    tests['Investigation pct'] = investigations_pct
+
+    return  tests

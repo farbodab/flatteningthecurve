@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify, g, render_template
 import json
 import requests
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from app import db
 from app.core import bp
-from app.api.routes import get_results, get_phus
+from app.api.routes import get_results, get_phus, get_testresults
 
 @bp.route('/')
 def index():
@@ -93,7 +94,40 @@ def phus():
                     height=1000,
                    xaxis_title='Date',
                    yaxis_title='Case Count',
-                   yaxis_range=[0,200],plot_bgcolor="#333333")
+                   plot_bgcolor="#333333")
+
+    div = fig.to_html(full_html=True)
+    return render_template('index.html', plot=div)
+
+@bp.route('/tests')
+def tests():
+    r = get_testresults()
+    data = json.loads(r.get_data())
+    fig = make_subplots(rows=2, cols=1, specs=[[{"type": "xy"}],[{"type": "bar"}]],)
+
+    keys = list(data.keys())
+    keys.remove('status')
+    keys.remove('Deaths')
+    keys.remove('Negatives')
+    keys.remove('Positive')
+    keys.remove('Resolved')
+    keys.remove('Positive pct')
+    keys.remove('Negative pct')
+    keys.remove('Investigation pct')
+
+    for key in ['Positive pct','Negative pct','Investigation pct']:
+        fig.add_trace(go.Bar(name=key, x=list(data[key].keys()), y=list(data[key].values())),row=2, col=1)
+
+    for key in keys:
+        fig.add_trace(go.Scatter(x=list(data[key].keys()), y=list(data[key].values()),
+                        mode='lines+markers',
+                        name=key),row=1, col=1)
+
+    fig.update_layout(
+                    autosize=True,
+                    width=1200,
+                    height=1000,
+                    plot_bgcolor="#333333", barmode='stack')
 
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
