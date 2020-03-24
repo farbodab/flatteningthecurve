@@ -120,7 +120,6 @@ def new_covid():
 
 
 @bp.route('/covid/results', methods=['GET'])
-@as_json
 def get_results():
     items = request.get_json()
     c = Covid.query.filter_by(province="Ontario")
@@ -129,7 +128,7 @@ def get_results():
     case_count = case_count.loc[case_count.case_id > 100]
     df = df.groupby("date").case_id.count().reset_index()
     df['case_id'] = df['case_id']*0.05
-    df['case_id'] = df['case_id'].rolling(min_periods=1, window=7).sum()
+    df['case_id'] = df['case_id'].rolling(min_periods=1, window=8).sum()
     df = df.loc[df.date.isin(case_count.date.values)].reset_index()
     provines_dict = {}
     province_dict = df['case_id'].to_dict()
@@ -142,11 +141,11 @@ def get_results():
         df['case_count'] = case_count
         df = df.loc[df['case_count'] > 100].reset_index()
         df['count'] = df['count']*0.05
-        df['count'] = df['count'].rolling(min_periods=1, window=7).sum()
+        df['count'] = df['count'].rolling(min_periods=1, window=8).sum()
         df = df.reset_index()
         province_dict = df['count'].to_dict()
         provines_dict[province] = province_dict
-    return provines_dict
+    return jsonify(provines_dict)
 
 @bp.route('/covid/phu', methods=['GET'])
 @as_json
