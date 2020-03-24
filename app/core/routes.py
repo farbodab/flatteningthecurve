@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, g, render_template
 import json
 import requests
 import plotly.graph_objects as go
-from plotly.plotly import image
 from app import db
 from app.core import bp
 from app.api.routes import get_results
