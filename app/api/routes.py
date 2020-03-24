@@ -86,6 +86,13 @@ def cases():
                 db.session.commit()
     return 'success',200
 
+@bp.route('/covid/update', methods=['GET'])
+@as_json
+def update():
+    tests()
+    cases()
+    return 'success',200
+
 @bp.route('/covid/capacity', methods=['GET', 'POST'])
 @as_json
 def capacity():
