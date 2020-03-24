@@ -157,10 +157,9 @@ def get_phus():
     provines_dict = {}
     for region in regions:
         df = dfs.loc[dfs.region == region]
-        case_count = df.groupby("date").case_id.count().cumsum().reset_index()
-        df = df.groupby("date").case_id.count().reset_index()
-        df['case_id'] = df['case_id']*0.05
-        df['case_id'] = df['case_id'].rolling(min_periods=1, window=7).sum()
+        df = df.groupby("date").case_id.count().cumsum().reset_index()
+        date = datetime.strptime("2020-02-28","%Y-%m-%d")
+        df = df.loc[df.date > date]
         df['date_str'] = df['date'].astype(str)
         province_dict = df.set_index('date_str')['case_id'].to_dict()
         provines_dict[region] = province_dict

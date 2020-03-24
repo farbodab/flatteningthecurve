@@ -91,9 +91,9 @@ def phus():
                     autosize=True,
                     width=1200,
                     height=1000,
-                   xaxis_title='Days after 100 confirmed cases',
-                   yaxis_title='ICU beds',
-                   yaxis_range=[0,10],plot_bgcolor="#333333")
+                   xaxis_title='Date',
+                   yaxis_title='Case Count',
+                   yaxis_range=[0,200],plot_bgcolor="#333333")
 
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
