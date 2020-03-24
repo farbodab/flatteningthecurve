@@ -86,6 +86,21 @@ def cases():
                 db.session.commit()
     return 'success',200
 
+@bp.route('/covid/capacity', methods=['GET', 'POST'])
+@as_json
+def capacity():
+    url = "https://docs.google.com/spreadsheets/d/1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8/export?format=csv&id=1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8&gid=1666640270"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    for index, row in df.iterrows():
+        name = row['PHU']
+        icu = row['Intensive Care']
+        acute = row['Other Acute']
+        c = PHUCapacity(name=name, icu=icu, acute=acute)
+        db.session.add(c)
+        db.session.commit()
+    return 'success',200
+
 
 @bp.route('/covid/comparison', methods=['POST'])
 @as_json
@@ -131,4 +146,40 @@ def get_results():
         df = df.reset_index()
         province_dict = df['count'].to_dict()
         provines_dict[province] = province_dict
+    return provines_dict
+
+@bp.route('/covid/phu', methods=['GET'])
+@as_json
+def get_phus():
+    c = Covid.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    regions = dfs.region.unique()
+    provines_dict = {}
+    for region in regions:
+        df = dfs.loc[dfs.region == region]
+        case_count = df.groupby("date").case_id.count().cumsum().reset_index()
+        df = df.groupby("date").case_id.count().reset_index()
+        df['case_id'] = df['case_id']*0.05
+        df['case_id'] = df['case_id'].rolling(min_periods=1, window=7).sum()
+        df['date_str'] = df['date'].astype(str)
+        province_dict = df.set_index('date_str')['case_id'].to_dict()
+        provines_dict[region] = province_dict
+    return provines_dict
+
+@bp.route('/covid/phuc', methods=['GET'])
+@as_json
+def get_phuc():
+    c = PHUCapacity.query.filter_by()
+    dfs = pd.read_sql(c.statement, db.engine)
+    regions = dfs.region.unique()
+    provines_dict = {}
+    for region in regions:
+        df = dfs.loc[dfs.region == region]
+        case_count = df.groupby("date").case_id.count().cumsum().reset_index()
+        df = df.groupby("date").case_id.count().reset_index()
+        df['case_id'] = df['case_id']*0.05
+        df['case_id'] = df['case_id'].rolling(min_periods=1, window=7).sum()
+        df['date_str'] = df['date'].astype(str)
+        province_dict = df.set_index('date_str')['case_id'].to_dict()
+        provines_dict[region] = province_dict
     return provines_dict

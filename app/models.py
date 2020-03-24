@@ -30,4 +30,10 @@ class Comparison(db.Model):
     date = db.Column(db.DateTime, index=True)
     province = db.Column(db.String, index=True)
     count = db.Column(db.Integer)
-    hundred = db.Column(db.Integer)
+
+class PHUCapacity(db.Model):
+    __tablename__ = 'phucapacity'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String, index=True)
+    icu = db.Column(db.Integer)
+    acute = db.Column(db.Integer)

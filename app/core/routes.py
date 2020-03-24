@@ -4,7 +4,7 @@ import requests
 import plotly.graph_objects as go
 from app import db
 from app.core import bp
-from app.api.routes import get_results
+from app.api.routes import get_results, get_phus
 
 @bp.route('/')
 def index():
@@ -45,7 +45,6 @@ def index():
                 dash="dashdot",
             ),
     )
-
     fig.add_shape(
         # Line Horizontal
             type="line",
@@ -59,7 +58,6 @@ def index():
                 dash="dash",
             ),
     )
-
     fig.add_trace(go.Scatter(
     x=[3, 3],
     y=[175, 380],
@@ -75,6 +73,31 @@ def index():
         ))
     div = fig.to_html(full_html=True)
     return render_template('index.html', plot=div)
+
+@bp.route('/phus')
+def phus():
+    r = get_phus()
+    data = json.loads(r.get_data())
+    fig = go.Figure()
+
+    keys = list(data.keys())
+    keys.remove('status')
+    for key in keys:
+        fig.add_trace(go.Scatter(x=list(data[key].keys()), y=list(data[key].values()),
+                        mode='lines+markers',
+                        name=key))
+
+    fig.update_layout(
+                    autosize=True,
+                    width=1200,
+                    height=1000,
+                   xaxis_title='Days after 100 confirmed cases',
+                   yaxis_title='ICU beds',
+                   yaxis_range=[0,10],plot_bgcolor="#333333")
+
+    div = fig.to_html(full_html=True)
+    return render_template('index.html', plot=div)
+
 
 @bp.route('/about')
 def about():
