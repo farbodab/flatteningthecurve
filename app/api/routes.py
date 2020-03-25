@@ -176,7 +176,30 @@ def get_phus():
     df['date_str'] = df['date'].astype(str)
     province_dict = df.set_index('date_str')['case_id'].to_dict()
     provines_dict["Ontario"] = province_dict
+    return provines_dict
 
+@bp.route('/covid/phunew', methods=['GET'])
+@as_json
+def get_phunew():
+    c = Covid.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    regions = dfs.region.unique()
+    provines_dict = {}
+    for region in regions:
+        df = dfs.loc[dfs.region == region]
+        df = df.groupby("date").case_id.count().reset_index()
+        date = datetime.strptime("2020-02-28","%Y-%m-%d")
+        df = df.loc[df.date > date]
+        df['date_str'] = df['date'].astype(str)
+        province_dict = df.set_index('date_str')['case_id'].to_dict()
+        provines_dict[region] = province_dict
+
+    df = dfs.groupby("date").case_id.count().reset_index()
+    date = datetime.strptime("2020-02-28","%Y-%m-%d")
+    df = df.loc[df.date > date]
+    df['date_str'] = df['date'].astype(str)
+    province_dict = df.set_index('date_str')['case_id'].to_dict()
+    provines_dict["Ontario"] = province_dict
     return provines_dict
 
 @bp.route('/covid/testresults', methods=['GET'])

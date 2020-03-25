@@ -20,9 +20,6 @@ def create_app(config_name):
     migrate.init_app(app, db)
     flaskjson.init_app(app)
 
-    from app.core import bp as core
-    app.register_blueprint(core)
-
     from app.api import bp as api
     app.register_blueprint(api)
 
