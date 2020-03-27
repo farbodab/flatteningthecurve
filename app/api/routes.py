@@ -216,9 +216,12 @@ def get_testresults():
     positives = {}
     resolveds = {}
     totals = {}
+    news = {}
     investigations_pct = {}
     negatives_pct = {}
     positives_pct = {}
+
+    df['new'] = df.total.diff()
 
     for index, row in df.iterrows():
         date = str(row['date'].date())
@@ -228,6 +231,8 @@ def get_testresults():
         resolved = row['resolved']
         death = row['deaths']
         total = row['total']
+        new = row['new']
+
 
         deaths[date] = death
         investigations[date] = investigation
@@ -235,6 +240,8 @@ def get_testresults():
         positives[date] = positive
         resolveds[date] = resolved
         totals[date] = total
+        if row['new']==row['new']:
+            news[date] = new
         positives_pct[date] = negative/total
         negatives_pct[date] = positive/total
         investigations_pct[date] = investigation/total
@@ -244,6 +251,7 @@ def get_testresults():
     tests['Positive'] = positives
     tests['Negatives'] = negatives
     tests['Total tested'] = totals
+    tests['New tests'] = news
     tests['Resolved'] = resolveds
     tests['Positive pct'] = positives_pct
     tests['Negative pct'] = negatives_pct
