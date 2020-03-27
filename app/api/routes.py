@@ -229,6 +229,18 @@ def get_growth():
     df = df.loc[df.case_id > 100].reset_index()
     province_dict = df['case_id'].to_dict()
     provines_dict["Canada"] = province_dict
+
+    dfs = pd.read_sql_table('comparison', db.engine)
+    regions = dfs.province.unique()
+    for region in regions:
+        df = dfs.loc[dfs.province == region]
+        df = df.groupby("date")['count'].cumsum().reset_index()
+        df = df.loc[df['count'] > 100].reset_index()
+        province_dict = df['count'].to_dict()
+        provines_dict[region] = province_dict
+
+
+
     return provines_dict
 
 @bp.route('/covid/testresults', methods=['GET'])
