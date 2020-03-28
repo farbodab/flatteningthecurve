@@ -20,7 +20,6 @@ def covidtests():
     return resp
 
 @bp.route('/data/covid', methods=['GET'])
-@as_json
 def covid():
     df = pd.read_sql_table('covid', db.engine)
     resp = make_response(df.to_csv(index=False))
@@ -31,7 +30,6 @@ def covid():
 
 
 @bp.route('/data/internationaldata', methods=['GET'])
-@as_json
 def internationaldata():
     df = pd.read_sql_table('internationaldata', db.engine)
     resp = make_response(df.to_csv(index=False))
@@ -41,7 +39,6 @@ def internationaldata():
 
 
 @bp.route('/data/phucapacity', methods=['GET'])
-@as_json
 def phucapacity():
     df = pd.read_sql_table('phucapacity', db.engine)
     resp = make_response(df.to_csv(index=False))
