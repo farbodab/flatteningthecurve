@@ -278,7 +278,7 @@ def get_growth():
     regions = dfs.country.unique()
     for region in regions:
         df = dfs.loc[dfs.country == region]
-        df = df.groupby("date")['cases'].cumsum().reset_index()
+        df = df['cases'].cumsum().reset_index()
         df = df.loc[df['cases'] > 100].reset_index()
         province_dict = df['cases'].to_dict()
         provines_dict[region] = province_dict
