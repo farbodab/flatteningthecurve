@@ -45,3 +45,10 @@ class PHUCapacity(db.Model):
     name = db.Column(db.String, index=True)
     icu = db.Column(db.Integer)
     acute = db.Column(db.Integer)
+
+class Source(db.Model):
+    __tablename__ = 'source'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String, index=True)
+    source = db.Column(db.String)
+    description = db.Column(db.String)
