@@ -31,6 +31,14 @@ class Comparison(db.Model):
     province = db.Column(db.String, index=True)
     count = db.Column(db.Integer)
 
+class InternationalData(db.Model):
+    __tablename__ = 'internationaldata'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    country = db.Column(db.String, index=True)
+    cases = db.Column(db.Integer)
+
+
 class PHUCapacity(db.Model):
     __tablename__ = 'phucapacity'
     id = db.Column(db.Integer(), primary_key=True)

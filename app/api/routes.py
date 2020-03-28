@@ -86,12 +86,6 @@ def cases():
                 db.session.commit()
     return 'success',200
 
-@bp.route('/covid/update', methods=['GET'])
-@as_json
-def update():
-    tests()
-    cases()
-    return 'success',200
 
 @bp.route('/covid/capacity', methods=['GET', 'POST'])
 @as_json
@@ -107,6 +101,32 @@ def capacity():
         db.session.add(c)
         db.session.commit()
     return 'success',200
+
+@bp.route('/covid/international', methods=['GET', 'POST'])
+@as_json
+def international():
+    url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    countries = ["Italy", "Korea, South", "Spain", "United Kingdom", "France", "US"]
+    df = df.loc[df["Country/Region"].isin(countries)]
+    df = df.drop(['Lat', 'Long', 'Province/State'], axis=1).groupby("Country/Region").sum().T
+    df = df.diff().reset_index()
+    df['Date']= pd.to_datetime(df['index'])
+    for index, row in df.iterrows():
+        date = row['Date']
+        for country in countries:
+            cases = row[country]
+            if cases != cases:
+                cases = 0
+            c = InternationalData.query.filter_by(country=country, date=date).first()
+            if not c:
+                c = InternationalData(country=country, date=date, cases=cases)
+                db.session.add(c)
+                db.session.commit()
+
+    return 'success',200
+
 
 
 @bp.route('/covid/comparison', methods=['POST'])
@@ -124,6 +144,30 @@ def new_covid():
         return 'success',200
     else:
         return 'must use json', 400
+
+
+
+@bp.route('/covid/update', methods=['GET'])
+@as_json
+def update():
+    tests()
+    cases()
+    international()
+    return 'success',200
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @bp.route('/covid/results', methods=['GET'])
@@ -230,13 +274,13 @@ def get_growth():
     province_dict = df['case_id'].to_dict()
     provines_dict["Canada"] = province_dict
 
-    dfs = pd.read_sql_table('comparison', db.engine)
-    regions = dfs.province.unique()
+    dfs = pd.read_sql_table('internationaldata', db.engine)
+    regions = dfs.country.unique()
     for region in regions:
-        df = dfs.loc[dfs.province == region]
-        df = df.groupby("date")['count'].cumsum().reset_index()
-        df = df.loc[df['count'] > 100].reset_index()
-        province_dict = df['count'].to_dict()
+        df = dfs.loc[dfs.country == region]
+        df = df.groupby("date")['cases'].cumsum().reset_index()
+        df = df.loc[df['cases'] > 100].reset_index()
+        province_dict = df['cases'].to_dict()
         provines_dict[region] = province_dict
 
 
