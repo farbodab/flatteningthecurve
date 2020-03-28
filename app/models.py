@@ -51,4 +51,5 @@ class Source(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String, index=True)
     source = db.Column(db.String)
+    compiled = db.Column(db.String)
     description = db.Column(db.String)

@@ -149,6 +149,24 @@ def new_covid():
         return 'must use json', 400
 
 
+@bp.route('/covid/source', methods=['POST'])
+@as_json
+def new_source():
+    if request.is_json:
+        items = request.get_json()
+        for item in items:
+            name = item['name']
+            source = item['source']
+            compiled = item['compiled']
+            description = item['description']
+            c = Source(source=source, name=name, description=description, compiled=compiled)
+            db.session.add(c)
+            db.session.commit()
+        return 'success',200
+    else:
+        return 'must use json', 400
+
+
 
 @bp.route('/covid/update', methods=['GET'])
 @as_json

@@ -27,8 +27,6 @@ def covid():
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
-
-
 @bp.route('/data/internationaldata', methods=['GET'])
 def internationaldata():
     df = pd.read_sql_table('internationaldata', db.engine)
@@ -43,5 +41,13 @@ def phucapacity():
     df = pd.read_sql_table('phucapacity', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=phucapacity.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@bp.route('/data/source', methods=['GET'])
+def source():
+    df = pd.read_sql_table('source', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=source.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
