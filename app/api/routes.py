@@ -37,6 +37,21 @@ def get_results():
         provines_dict[province] = province_dict
     return jsonify(provines_dict)
 
+@bp.route('/covid/results/date', methods=['GET'])
+def get_date():
+    c = Covid.query.filter_by(province="Ontario")
+    df = pd.read_sql(c.statement, db.engine)
+    case_count = df.groupby("date").case_id.count().cumsum().reset_index()
+    case_count = case_count.loc[case_count.case_id > 100]
+    df = df.groupby("date").case_id.count().reset_index()
+    df['case_id'] = df['case_id']*0.05
+    df['case_id'] = df['case_id'].rolling(min_periods=1, window=8).sum()
+    df = df.loc[df.date.isin(case_count.date.values)].reset_index()
+    provines_dict = {}
+    province_dict = df['date'].to_dict()
+    provines_dict["Ontario"] = province_dict
+    return jsonify(provines_dict)
+
 @bp.route('/covid/phu', methods=['GET'])
 @as_json
 def get_phus():

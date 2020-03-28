@@ -12,6 +12,7 @@ import requests
 @bp.route('/covid/tests', methods=['GET', 'POST'])
 @as_json
 def tests():
+    # Data source David Madras
     url = "https://docs.google.com/spreadsheets/d/152uZD6ApMM87PisTK1QYU4TdPMkzbJDjpjwl1gaaQKI/export?format=csv&id=152uZD6ApMM87PisTK1QYU4TdPMkzbJDjpjwl1gaaQKI&gid=0"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
@@ -47,6 +48,7 @@ def tests():
 @bp.route('/covid/cases', methods=['GET', 'POST'])
 @as_json
 def cases():
+    # Data source Open Data Collab
     url = "https://docs.google.com/spreadsheets/d/1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo/export?format=csv&id=1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
@@ -90,6 +92,7 @@ def cases():
 @bp.route('/covid/capacity', methods=['GET', 'POST'])
 @as_json
 def capacity():
+    # data source Petr Smirnov
     url = "https://docs.google.com/spreadsheets/d/1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8/export?format=csv&id=1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8&gid=1666640270"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
