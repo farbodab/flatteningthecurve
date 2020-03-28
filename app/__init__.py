@@ -20,8 +20,15 @@ def create_app(config_name):
     migrate.init_app(app, db)
     flaskjson.init_app(app)
 
+    from app.data import bp as data
+    app.register_blueprint(data)
+
+    from app.dataout import bp as dataout
+    app.register_blueprint(dataout)
+
     from app.api import bp as api
     app.register_blueprint(api)
+
 
     if not app.debug and not app.testing:
         pass
