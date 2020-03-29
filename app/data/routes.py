@@ -217,6 +217,7 @@ def new_source():
 @bp.route('/covid/update', methods=['GET'])
 @as_json
 def update():
+    testsnew()
     tests()
     cases()
     international()
