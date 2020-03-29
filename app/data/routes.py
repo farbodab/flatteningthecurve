@@ -52,14 +52,11 @@ def tests():
 @bp.route('/covid/testsnew', methods=['GET', 'POST'])
 @as_json
 def testsnew():
-    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
-    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
     options = Options()
     options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    options.binary_location = GOOGLE_CHROME_PATH
-    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,options=options)
+    driver = webdriver.Chrome(options=options)
     urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus#section-0"
     driver.implicitly_wait(30)
     driver.get(urlpage)
@@ -91,6 +88,7 @@ def testsnew():
             c.total = tests_dict['total']
             db.session.add(c)
             db.session.commit()
+    driver.quit()
     return 'success',200
 
 @bp.route('/covid/cases', methods=['GET', 'POST'])
