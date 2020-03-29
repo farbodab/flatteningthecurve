@@ -59,7 +59,7 @@ def testsnew():
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.binary_location = GOOGLE_CHROME_PATH
-    driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH,options=options)
+    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,options=options)
     urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus#section-0"
     driver.implicitly_wait(30)
     driver.get(urlpage)
