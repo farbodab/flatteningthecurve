@@ -8,6 +8,10 @@ from app.api import bp
 import pandas as pd
 import io
 import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from datetime import date
 
 @bp.route('/covid/tests', methods=['GET', 'POST'])
 @as_json
@@ -43,6 +47,45 @@ def tests():
                 c.total = total
                 db.session.add(c)
                 db.session.commit()
+    return 'success',200
+
+@bp.route('/covid/testsnew', methods=['GET', 'POST'])
+@as_json
+def testsnew():
+    options = Options()
+    options.headless = True
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus#section-0"
+    driver.implicitly_wait(30)
+    driver.get(urlpage)
+    text = driver.find_element_by_tag_name("table").text
+    items = text.split("\n")
+    labels = ["negative", "investigation", "positive", "resolved", "deaths", "total"]
+    today = date.today()
+    tests_dict = {}
+    for i, row in enumerate(items):
+        thing = row.split()
+        number = thing[-1]
+        number = number.replace(",","")
+        number = number.replace("*","")
+        tests_dict[labels[i]] = int(number)
+    c = CovidTests.query.filter_by(date=today).first()
+    if not c:
+        c = CovidTests(date=today, negative=tests_dict['negative'], investigation=tests_dict['investigation'], positive=tests_dict['positive'], resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], total=tests_dict['total'])
+        db.session.add(c)
+        db.session.commit()
+    else:
+        if (c.negative == tests_dict['negative'] and (c.positive == tests_dict['positive']) and (c.investigation == tests_dict['investigation']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total'])):
+            pass
+        else:
+            c.negative = tests_dict['negative']
+            c.positive = tests_dict['positive']
+            c.investigation = tests_dict['investigation']
+            c.resolved = tests_dict['resolved']
+            c.deaths = tests_dict['deaths']
+            c.total = tests_dict['total']
+            db.session.add(c)
+            db.session.commit()
     return 'success',200
 
 @bp.route('/covid/cases', methods=['GET', 'POST'])
