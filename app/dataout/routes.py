@@ -15,7 +15,7 @@ from io import StringIO
 def covidtests():
     df = pd.read_sql_table('covidtests', db.engine)
     resp = make_response(df.to_csv(index=False))
-    resp.headers["Content-Disposition"] = "attachment; filename=covidtests.csv"
+    resp.headers["Content-Disposition"] = "attachment; filename=test_data_on.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
@@ -23,7 +23,7 @@ def covidtests():
 def covid():
     df = pd.read_sql_table('covid', db.engine)
     resp = make_response(df.to_csv(index=False))
-    resp.headers["Content-Disposition"] = "attachment; filename=covidcases.csv"
+    resp.headers["Content-Disposition"] = "attachment; filename=test_data_canada.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
@@ -31,7 +31,7 @@ def covid():
 def internationaldata():
     df = pd.read_sql_table('internationaldata', db.engine)
     resp = make_response(df.to_csv(index=False))
-    resp.headers["Content-Disposition"] = "attachment; filename=internationaldata.csv"
+    resp.headers["Content-Disposition"] = "attachment; filename=test_data_intl.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
@@ -40,7 +40,7 @@ def internationaldata():
 def phucapacity():
     df = pd.read_sql_table('phucapacity', db.engine)
     resp = make_response(df.to_csv(index=False))
-    resp.headers["Content-Disposition"] = "attachment; filename=phucapacity.csv"
+    resp.headers["Content-Disposition"] = "attachment; filename=icu_capacity_on.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
