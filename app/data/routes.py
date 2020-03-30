@@ -62,27 +62,31 @@ def testsnew():
     driver.get(urlpage)
     text = driver.find_element_by_tag_name("table").text
     items = text.split("\n")
-    labels = ["negative", "investigation", "positive", "resolved", "deaths", "total"]
+    new = []
+    new.append(items[2])
+    new.append(items[4])
+    new.append(items[5])
+    new.append(items[-1])
+    labels = ["positive","resolved", "deaths", "total"]
     today = date.today()
     tests_dict = {}
-    for i, row in enumerate(items):
+
+    for i, row in enumerate(new):
         thing = row.split()
-        number = thing[-1]
+        number = thing[-2]
         number = number.replace(",","")
         number = number.replace("*","")
         tests_dict[labels[i]] = int(number)
     c = CovidTests.query.filter_by(date=today).first()
     if not c:
-        c = CovidTests(date=today, negative=tests_dict['negative'], investigation=tests_dict['investigation'], positive=tests_dict['positive'], resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], total=tests_dict['total'])
+        c = CovidTests(date=today, positive=tests_dict['positive'], resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], total=tests_dict['total'])
         db.session.add(c)
         db.session.commit()
     else:
-        if (c.negative == tests_dict['negative'] and (c.positive == tests_dict['positive']) and (c.investigation == tests_dict['investigation']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total'])):
+        if ((c.positive == tests_dict['positive']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total'])):
             pass
         else:
-            c.negative = tests_dict['negative']
             c.positive = tests_dict['positive']
-            c.investigation = tests_dict['investigation']
             c.resolved = tests_dict['resolved']
             c.deaths = tests_dict['deaths']
             c.total = tests_dict['total']
