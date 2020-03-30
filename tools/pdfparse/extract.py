@@ -3,25 +3,25 @@ import csv
 #from PyPDF2 import PdfFileWriter, PdfFileReader
 import tabula
 import os
+import math
 
 def extract(input, output, pages, area):
     print("Reading {} page {} with area {}".format(input, pages, area))
     df = tabula.read_pdf(input, pages=pages, stream=True, guess=False, encoding='utf-8', area=area)[0]
     df.to_csv(output, encoding='utf-8', index=False)
 
-if __name__ == '__main__':
-    if(len(sys.argv) <= 1):
-        print("Usage: python extract.py pdf_path pages top left bottom right")
-
-    path = sys.argv[1]
-    pages = sys.argv[2]
-    area = (int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]), int(sys.argv[6]))
+def extractCCSO(argv):
+    path = argv[1]
+    pages = argv[2]
+    area = (int(argv[3]), int(argv[4]), int(argv[5]), int(argv[6]))
+    date = ' '.join('.'.join(path.split('.')[:-1]).split(' ')[1:])
     output = '{}.csv'.format('.'.join(path.split('.')[:-1]))
 
     extract(path, 'temp.csv', pages, area)
 
     # The table is weirdly formatted so some manual tweaking is required
-    header = ["ICU Level", 
+    header = ["Date", 
+            "ICU Level", 
             "Region", 
             "LHIN",
             "# Critical Care Beds", 
@@ -61,8 +61,20 @@ if __name__ == '__main__':
             'Level 2, East',
             'Level 2, East',
             'Level 2, North',
-            'Level 2, North',
-            ', Grand Total']
+            'Level 2, North']
+
+    def parsenum(value):
+        if value == '':
+            return 0
+        try:
+            val = float(value)
+            return int(val)
+        except ValueError:
+            try:
+                val = int(value)
+                return val
+            except ValueError:
+                return value
 
     # Open up csv and add our header/prepent
     with open('temp.csv', "r") as infile:
@@ -72,18 +84,19 @@ if __name__ == '__main__':
             writeCSV.writerow(header)
             i = 0
             for row in readCSV:
-                combinedRow = prepend[i].split(',') + row
-
-                # Edge case row rules
-                if i == len(prepend)-1:
-                    combinedRow[2] = ''
-
-
+                combinedRow = [date] + prepend[i].split(',') + row
+                combinedRow = [parsenum(x) for x in combinedRow]
                 writeCSV.writerow(combinedRow)
                 i = i + 1
 
     os.remove('temp.csv')
     print("Done, see {}".format(output))
+
+if __name__ == '__main__':
+    if(len(sys.argv) <= 1):
+        print("Usage: python extract.py pdf_path pages top left bottom right")
+
+    extractCCSO(sys.argv)
 
 # If we need to crop for whatever reason 
 '''def crop(path, num=0, ll=(0,0), ur=(100, 100)):
