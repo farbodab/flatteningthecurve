@@ -155,6 +155,30 @@ def capacity():
         db.session.commit()
     return 'success',200
 
+@bp.route('/covid/icu', methods=['GET'])
+@as_json
+def capacityicu():
+    df = pd.read_csv('CCSO.csv')
+    date = "29-03-2020"
+    date = datetime.strptime(date,"%d-%m-%Y")
+    for index, row in df.iterrows():
+        icu_level = row['ICU Level']
+        region = row['Region']
+        lhin = row['LHIN']
+        critical_care_beds = row['# Critical Care Beds']
+        critical_care_patients = row['# Critical Care Patients']
+        vented_beds = row['# Vented Beds']
+        vented_patients = row['# Vented Patients']
+        suspected_covid = row['# Suspected COVID-19']
+        suspected_covid_ventilator = row['# Suspected COVID-19 Patients with Invasive Ventilation']
+        confirmed_positive = row['# Confirmed Positive COVID-19']
+        confirmed_positive_ventilator = row['# Confirmed Positive COVID-19 Patients with Invasive Ventilation']
+        confirmed_negative = row['# Confirmed Negative COVID-19']
+        c = ICUCapacity(date=date, icu_level=icu_level, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, suspected_covid_ventilator=suspected_covid_ventilator, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator, confirmed_negative=confirmed_negative)
+        db.session.add(c)
+        db.session.commit()
+    return 'success',200
+
 @bp.route('/covid/international', methods=['GET', 'POST'])
 @as_json
 def international():
