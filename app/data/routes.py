@@ -66,8 +66,9 @@ def testsnew():
     new.append(items[2])
     new.append(items[4])
     new.append(items[5])
+    new.append(items[-2])
     new.append(items[-1])
-    labels = ["positive","resolved", "deaths", "total"]
+    labels = ["positive","resolved", "deaths", "investigation", "total"]
     today = date.today()
     tests_dict = {}
 
@@ -79,15 +80,16 @@ def testsnew():
         tests_dict[labels[i]] = int(number)
     c = CovidTests.query.filter_by(date=today).first()
     if not c:
-        c = CovidTests(date=today, positive=tests_dict['positive'], resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], total=tests_dict['total'])
+        c = CovidTests(date=today, positive=tests_dict['positive'], resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], investigation=tests_dict['investigation'], total=tests_dict['total'])
         db.session.add(c)
         db.session.commit()
     else:
-        if ((c.positive == tests_dict['positive']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total'])):
+        if ((c.positive == tests_dict['positive']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total']) and (c.investigation == tests_dict['investigation'])):
             pass
         else:
             c.positive = tests_dict['positive']
             c.resolved = tests_dict['resolved']
+            c.investigation = tests_dict['investigation']
             c.deaths = tests_dict['deaths']
             c.total = tests_dict['total']
             db.session.add(c)
