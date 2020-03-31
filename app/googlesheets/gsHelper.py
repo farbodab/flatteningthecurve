@@ -7,39 +7,48 @@ import sys
 from itertools import islice
 from datetime import datetime
 from gspread_dataframe import get_as_dataframe, set_with_dataframe
+from app import api
+from flask import current_app as app
+import json
 
 scopes = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
 collections = [
     {
-        'name':'Covid Tests',
-        'table': 'covidtests',
-        'endpoint':'/data/covidtests'
+        'name':'Results',
+        'data':api.routes.get_results,
+        'region': 'region',
+        'endpoint':'/covid/results'
     },
     {
-        'name':'Covid',
-        'table': 'covid',
-        'endpoint':'/data/covid'
+        'name':'Results Date',
+        'data':api.routes.get_date,
+        'region': 'province',
+        'endpoint':'/covid/results/date'
     },
     {
-        'name':'International Data',
-        'table': 'internationaldata',
-        'endpoint':'/data/internationaldata'
+        'name':'PHU',
+        'region':'region',
+        'data':api.routes.get_phus,
+        'endpoint':'/covid/phu'
     },
     {
-        'name':'ICU Capacity',
-        'table': 'icucapacity',
-        'endpoint':'/data/icucapacity'
+        'name':'PHU New',
+        'region':'region',
+        'data':api.routes.get_phunew,
+        'endpoint':'/covid/phunew'
     },
     {
-        'name':'PHU Capacity',
-        'table': 'phucapacity',
-        'endpoint':'/data/phucapacity'
+        'name':'Growth',
+        'region':'country',
+        'data':api.routes.get_growth,
+        'endpoint':'/covid/growth'
     },
     {
-        'name':'Source',
-        'table': 'source',
-        'endpoint':'/data/source'
+        'name':'Test Results',
+        'region':'type',
+        'data':api.routes.get_testresults,
+        'endpoint':'/covid/testresults'
     }
 ]
 
@@ -57,30 +66,44 @@ def getSheet(sheetName, sh, rows, cols):
         worksheet = sh.add_worksheet(title=sheetName, rows=rows, cols=cols)
         return worksheet
 
-def updateSheet(dataSource, sh):
+def updateCollection(dataSource, sh):
     try:
-        df = pd.read_sql_table(dataSource['table'], db.engine)
-        sheet = getSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
-        # Update only when row count exceeds sheet row count
-        # Not this doesn't account for potentially empty rows at end of sheet
-        if df.shape[0] >= sheet.row_count:
-            print("Updating google sheet", dataSource['name'])
-            set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)
+        with app.test_request_context(dataSource['endpoint']):
+            res = dataSource['data']()
+            json_data = json.loads(res.data.decode('utf-8'))
+            #print("RESULTS", json_data)
+            keys = []
+            values = []
+            region = []
+            for key in json_data:
+                #print("KEY", key)
+                if key == 'status':
+                    continue
 
-        # Row by row, slower but less data
-        #max_rows = len(sheet.get_all_values())
-        # Add header if not exists
-        #if max_rows <= 0:
-        #    print("Inserting header")
-        #    sheet.insert_row(df.columns.values.tolist(), index=1)
+                temp_keys = []
+                temp_values = []
+                for x in json_data[key]:
+                    try:
+                        val = int(x)
+                        temp_keys.append(val)
+                    except:
+                        temp_keys.append(x)
+                    temp_values.append(json_data[key][x])
+                zipped = sorted(zip(temp_keys, temp_values))
+                keys += [x for x, y in zipped]
+                values += [y for x, y in zipped]
+                region += [key]*len(zipped)
 
+            data = {}
+            data[dataSource['region']] = region
+            data['date'] = keys
+            data['value'] = values
+            df = pd.DataFrame(data, columns=[dataSource['region'], 'date', 'value'])
+            sheet = getSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
 
-        # Start at rows after sheet length
-        #for index, row in islice(df.iterrows(), max_rows-1, None): 
-        #for index, row in df.iterrows():
-            #values = [parseVal(x) for x in row.values.tolist()]
-            #sheet.insert_row(values, index+2)
-            #print("Insert row index ", index+2)
+            if df.shape[0] >= sheet.row_count:
+                print("Update collection", dataSource['name'])
+                set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)
  
     except:
         print("Failed to update google sheet", dataSource['name'], sys.exc_info())
@@ -90,5 +113,5 @@ def dumpTablesToSheets():
     client = gspread.authorize(creds)
     sh = client.open("COVID-19 Data")
 
-    for x in collections:
-        updateSheet(x, sh)
+    for index, x in enumerate(collections):
+        updateCollection(x, sh)
