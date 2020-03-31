@@ -78,11 +78,11 @@ def get_phus():
         province_dict = df.set_index('date_str')['case_id'].to_dict()
         provines_dict[region] = province_dict
 
-    df = dfs.groupby("date").case_id.count().cumsum().reset_index()
+    df = pd.read_sql_table('covidtests', db.engine)
     date = datetime.strptime("2020-02-28","%Y-%m-%d")
     df = df.loc[df.date > date]
     df['date_str'] = df['date'].astype(str)
-    province_dict = df.set_index('date_str')['case_id'].to_dict()
+    province_dict = df.set_index('date_str')['positive'].to_dict()
     provines_dict["Ontario"] = province_dict
     return provines_dict
 
@@ -147,6 +147,7 @@ def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
     date = datetime.strptime("2020-02-28","%Y-%m-%d")
     df = df.loc[df.date > date]
+    df = df.sort_values('date')
     tests ={}
 
     deaths = {}
@@ -181,8 +182,8 @@ def get_testresults():
         totals[date] = total
         if row['new']==row['new']:
             news[date] = new
-        positives_pct[date] = negative/total
-        negatives_pct[date] = positive/total
+        positives_pct[date] = positive/total
+        negatives_pct[date] = negative/total
         investigations_pct[date] = investigation/total
 
     tests['Deaths'] = deaths

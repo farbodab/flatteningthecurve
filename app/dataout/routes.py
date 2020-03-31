@@ -36,6 +36,14 @@ def internationaldata():
     return resp
 
 
+@bp.route('/data/icucapacity', methods=['GET'])
+def icucapacity():
+    df = pd.read_sql_table('icucapacity', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=icucapacity.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
 @bp.route('/data/phucapacity', methods=['GET'])
 def phucapacity():
     df = pd.read_sql_table('phucapacity', db.engine)

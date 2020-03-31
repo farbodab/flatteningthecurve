@@ -62,28 +62,37 @@ def testsnew():
     driver.get(urlpage)
     text = driver.find_element_by_tag_name("table").text
     items = text.split("\n")
-    labels = ["negative", "investigation", "positive", "resolved", "deaths", "total"]
+    new = []
+    new.append(items[2])
+    new.append(items[4])
+    new.append(items[5])
+    new.append(items[-2])
+    new.append(items[-1])
+    labels = ["positive","resolved", "deaths", "total", "investigation"]
     today = date.today()
     tests_dict = {}
-    for i, row in enumerate(items):
+
+    for i, row in enumerate(new):
         thing = row.split()
-        number = thing[-1]
+        number = thing[-2]
         number = number.replace(",","")
         number = number.replace("*","")
         tests_dict[labels[i]] = int(number)
+
+    tests_dict["negative"] = tests_dict["total"] - tests_dict["positive"] - tests_dict["investigation"]
     c = CovidTests.query.filter_by(date=today).first()
     if not c:
-        c = CovidTests(date=today, negative=tests_dict['negative'], investigation=tests_dict['investigation'], positive=tests_dict['positive'], resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], total=tests_dict['total'])
+        c = CovidTests(date=today, positive=tests_dict['positive'], negative=tests_dict['negative'],resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], investigation=tests_dict['investigation'], total=tests_dict['total'])
         db.session.add(c)
         db.session.commit()
     else:
-        if (c.negative == tests_dict['negative'] and (c.positive == tests_dict['positive']) and (c.investigation == tests_dict['investigation']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total'])):
+        if ((c.positive == tests_dict['positive']) and (c.negative == tests_dict['negative']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total']) and (c.investigation == tests_dict['investigation'])):
             pass
         else:
-            c.negative = tests_dict['negative']
             c.positive = tests_dict['positive']
-            c.investigation = tests_dict['investigation']
+            c.negative = tests_dict['negative']
             c.resolved = tests_dict['resolved']
+            c.investigation = tests_dict['investigation']
             c.deaths = tests_dict['deaths']
             c.total = tests_dict['total']
             db.session.add(c)
@@ -95,7 +104,7 @@ def testsnew():
 @as_json
 def cases():
     # Data source Open Data Collab
-    url = "https://docs.google.com/spreadsheets/d/1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo/export?format=csv&id=1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo"
+    url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df = df.iloc[3:]
@@ -147,6 +156,30 @@ def capacity():
         icu = row['Intensive Care']
         acute = row['Other Acute']
         c = PHUCapacity(name=name, icu=icu, acute=acute)
+        db.session.add(c)
+        db.session.commit()
+    return 'success',200
+
+@bp.route('/covid/icu', methods=['GET'])
+@as_json
+def capacityicu():
+    df = pd.read_csv('CCSO.csv')
+    date = "29-03-2020"
+    date = datetime.strptime(date,"%d-%m-%Y")
+    for index, row in df.iterrows():
+        icu_level = row['ICU Level']
+        region = row['Region']
+        lhin = row['LHIN']
+        critical_care_beds = row['# Critical Care Beds']
+        critical_care_patients = row['# Critical Care Patients']
+        vented_beds = row['# Vented Beds']
+        vented_patients = row['# Vented Patients']
+        suspected_covid = row['# Suspected COVID-19']
+        suspected_covid_ventilator = row['# Suspected COVID-19 Patients with Invasive Ventilation']
+        confirmed_positive = row['# Confirmed Positive COVID-19']
+        confirmed_positive_ventilator = row['# Confirmed Positive COVID-19 Patients with Invasive Ventilation']
+        confirmed_negative = row['# Confirmed Negative COVID-19']
+        c = ICUCapacity(date=date, icu_level=icu_level, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, suspected_covid_ventilator=suspected_covid_ventilator, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator, confirmed_negative=confirmed_negative)
         db.session.add(c)
         db.session.commit()
     return 'success',200
@@ -218,7 +251,6 @@ def new_source():
 @as_json
 def update():
     testsnew()
-    tests()
     cases()
     international()
     return 'success',200

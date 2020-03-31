@@ -46,6 +46,24 @@ class PHUCapacity(db.Model):
     icu = db.Column(db.Integer)
     acute = db.Column(db.Integer)
 
+class ICUCapacity(db.Model):
+    __tablename__ = 'icucapacity'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    icu_level = db.Column(db.String)
+    region = db.Column(db.String)
+    lhin = db.Column(db.String)
+    critical_care_beds = db.Column(db.Integer)
+    critical_care_patients = db.Column(db.Integer)
+    vented_beds = db.Column(db.Integer)
+    vented_patients = db.Column(db.Integer)
+    suspected_covid = db.Column(db.Integer)
+    suspected_covid_ventilator = db.Column(db.Integer)
+    confirmed_positive = db.Column(db.Integer)
+    confirmed_positive_ventilator = db.Column(db.Integer)
+    confirmed_negative = db.Column(db.Integer)
+
+
 class Source(db.Model):
     __tablename__ = 'source'
     id = db.Column(db.Integer(), primary_key=True)
