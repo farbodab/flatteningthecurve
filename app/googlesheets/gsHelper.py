@@ -13,41 +13,41 @@ import json
 
 scopes = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
+'''{
+    'name':'Results Date',
+    'data':api.routes.get_date,
+    'region': 'province',
+    'endpoint':'/covid/results/date'
+},'''
 collections = [
     {
         'name':'Results',
-        'data':api.routes.get_results,
+        'data':api.vis.get_results,
         'region': 'region',
         'endpoint':'/covid/results'
     },
     {
-        'name':'Results Date',
-        'data':api.routes.get_date,
-        'region': 'province',
-        'endpoint':'/covid/results/date'
-    },
-    {
         'name':'PHU',
         'region':'region',
-        'data':api.routes.get_phus,
+        'data':api.vis.get_phus,
         'endpoint':'/covid/phu'
     },
     {
         'name':'PHU New',
         'region':'region',
-        'data':api.routes.get_phunew,
+        'data':api.vis.get_phunew,
         'endpoint':'/covid/phunew'
     },
     {
         'name':'Growth',
         'region':'country',
-        'data':api.routes.get_growth,
+        'data':api.vis.get_growth,
         'endpoint':'/covid/growth'
     },
     {
         'name':'Test Results',
         'region':'type',
-        'data':api.routes.get_testresults,
+        'data':api.vis.get_testresults,
         'endpoint':'/covid/testresults'
     }
 ]
@@ -68,6 +68,9 @@ def getSheet(sheetName, sh, rows, cols):
 
 def updateCollection(dataSource, sh):
     try:
+        df = None
+        '''
+        # With the api
         with app.test_request_context(dataSource['endpoint']):
             res = dataSource['data']()
             json_data = json.loads(res.data.decode('utf-8'))
@@ -98,12 +101,13 @@ def updateCollection(dataSource, sh):
             data[dataSource['region']] = region
             data['date'] = keys
             data['value'] = values
-            df = pd.DataFrame(data, columns=[dataSource['region'], 'date', 'value'])
-            sheet = getSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
+            df = pd.DataFrame(data, columns=[dataSource['region'], 'date', 'value'])'''
+        df = dataSource['data']()
 
-            if df.shape[0] >= sheet.row_count:
-                print("Update collection", dataSource['name'])
-                set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)
+        sheet = getSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
+        if df.shape[0] >= sheet.row_count:
+            print("Update collection", dataSource['name'])
+            set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)
  
     except:
         print("Failed to update google sheet", dataSource['name'], sys.exc_info())
