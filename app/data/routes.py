@@ -101,7 +101,7 @@ def testsnew():
 @as_json
 def cases():
     # Data source Open Data Collab
-    url = "https://docs.google.com/spreadsheets/d/1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo/export?format=csv&id=1D6okqtBS3S2NRC7GFVHzaZ67DuTw7LX49-fqSLwJyeo"
+    url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df = df.iloc[3:]
