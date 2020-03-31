@@ -147,6 +147,7 @@ def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
     date = datetime.strptime("2020-02-28","%Y-%m-%d")
     df = df.loc[df.date > date]
+    df = df.sort_values('date')
     tests ={}
 
     deaths = {}
