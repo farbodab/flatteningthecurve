@@ -181,8 +181,8 @@ def get_testresults():
         totals[date] = total
         if row['new']==row['new']:
             news[date] = new
-        positives_pct[date] = negative/total
-        negatives_pct[date] = positive/total
+        positives_pct[date] = positive/total
+        negatives_pct[date] = negative/total
         investigations_pct[date] = investigation/total
 
     tests['Deaths'] = deaths
