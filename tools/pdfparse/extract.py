@@ -20,18 +20,18 @@ def extractCCSO(argv):
     extract(path, 'temp.csv', pages, area)
 
     # The table is weirdly formatted so some manual tweaking is required
-    header = ["Date", 
-            "ICU Level", 
-            "Region", 
+    header = ["ICU Level",
+            "Region",
             "LHIN",
-            "# Critical Care Beds", 
-            "# Critical Care Patients", 
-            "# Vented Beds", 
-            "# Vented Patients", 
+            "# Critical Care Beds",
+            "# Critical Care Patients",
+            "# Vented Beds",
+            "# Vented Patients",
+            "% Ventilator Capacity Remaining",
             "# Suspected COVID-19",
-            "# Suspected COVID-19 Patients with Invasive Ventilation", 
-            "# Confirmed Positive COVID-19", 
-            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation", 
+            "# Suspected COVID-19 Patients with Invasive Ventilation",
+            "# Confirmed Positive COVID-19",
+            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation",
             "# Confirmed Negative COVID-19"]
 
     prepend = ['Level 3, West',
@@ -47,21 +47,7 @@ def extractCCSO(argv):
             'Level 3, East',
             'Level 3, East',
             'Level 3, North',
-            'Level 3, North',
-            'Level 3, West',
-            'Level 3, West',
-            'Level 3, West',
-            'Level 3, West',
-            'Level 2, Central',
-            'Level 2, Central',
-            'Level 2, Central',
-            'Level 2, Central',
-            'Level 2, Toronto',
-            'Level 2, East',
-            'Level 2, East',
-            'Level 2, East',
-            'Level 2, North',
-            'Level 2, North']
+            'Level 3, North']
 
     def parsenum(value):
         if value == '':
@@ -84,7 +70,7 @@ def extractCCSO(argv):
             writeCSV.writerow(header)
             i = 0
             for row in readCSV:
-                combinedRow = [date] + prepend[i].split(',') + row
+                combinedRow = prepend[i].split(',') + row
                 combinedRow = [parsenum(x) for x in combinedRow]
                 writeCSV.writerow(combinedRow)
                 i = i + 1
@@ -98,7 +84,7 @@ if __name__ == '__main__':
 
     extractCCSO(sys.argv)
 
-# If we need to crop for whatever reason 
+# If we need to crop for whatever reason
 '''def crop(path, num=0, ll=(0,0), ur=(100, 100)):
     print("Cropping {} page {} at ll:{} ur:{}".format(path, num, ll, ur))
     print("Width {} height {}".format(ur[0] - ll[0], ur[1] - ll[1]))
@@ -114,4 +100,3 @@ if __name__ == '__main__':
     output.addPage(page)
     with open("cropped.pdf", "wb") as out_f:
         output.write(out_f)'''
-
