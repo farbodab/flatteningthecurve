@@ -220,6 +220,6 @@ def get_testresults():
         'Negative pct': negatives_pct,
         'Investigation pct': investigations_pct,
     }
-    df = pd.DataFrame(data, columns=['Date', 'Deaths', 'Under Investigation', 'Positives', 'Negatives', 'Total Tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct'])
+    df = pd.DataFrame(data, columns=['Date', 'Deaths', 'Under Investigation', 'Positives', 'Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct'])
 
     return  df
