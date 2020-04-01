@@ -19,7 +19,7 @@ def get_results():
     df['case_id'] = df['case_id'].rolling(min_periods=1, window=8).sum()
 
     data = {'date':[], 'region':[], 'value':[]}
-    data['date'] += df['date'].tolist()
+    data['date'] += df.index.tolist()
     data['region'] += ['Ontario']*len(df['date'].tolist())
     data['value'] += df['case_id'].tolist()
 
@@ -35,7 +35,7 @@ def get_results():
         df['count'] = df['count'].rolling(min_periods=1, window=8).sum()
         df = df.reset_index()
 
-        data['date'] += df['date'].tolist()
+        data['date'] += df.index.tolist()
         data['region'] += df['province'].tolist()
         data['value'] += df['count'].tolist()
 
