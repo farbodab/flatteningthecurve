@@ -174,12 +174,16 @@ def get_testresults():
     positives = []
     resolveds = []
     totals = []
-    news = []
+    new_deaths = []
+    new_tests = []
+    new_positives = []
     investigations_pct = []
     negatives_pct = []
     positives_pct = []
 
-    df['new'] = df.total.diff()
+    df['new_tests'] = df.total.diff()
+    df['new_deaths'] = df.deaths.diff()
+    df['new_positives'] = df.positive.diff()
 
     for index, row in df.iterrows():
         date = str(row['date'].date())
@@ -189,7 +193,11 @@ def get_testresults():
         resolved = row['resolved']
         death = row['deaths']
         total = row['total']
-        new = row['new']
+
+        new_t = row['new_tests']
+        new_d = row['new_deaths']
+        new_p = row['new_positives']
+
 
 
         dates += [date]
@@ -199,10 +207,22 @@ def get_testresults():
         positives += [positive]
         resolveds += [resolved]
         totals += [total]
-        if row['new']==row['new']:
-            news += [new]
+        if row['new_tests']==row['new_tests']:
+            new_tests += [new_t]
         else:
-            news += [0]
+            new_tests += [0]
+
+        if row['new_deaths']==row['new_deaths']:
+            new_deaths += [new_d]
+        else:
+            new_deaths += [0]
+
+        if row['new_positives']==row['new_positives']:
+            new_positives += [new_p]
+        else:
+            new_positives += [0]
+
+
         positives_pct += [positive/total]
         negatives_pct += [negative/total]
         investigations_pct += [investigation/total]
@@ -210,16 +230,18 @@ def get_testresults():
     data = {
         'Date': dates,
         'Deaths': deaths,
+        'New deaths': new_deaths,
         'Under Investigation': investigations,
         'Positives': positives,
+        'New positives': new_positives,
         'Negatives': negatives,
         'Total tested': totals,
-        'New tests': news,
+        'New tests': new_tests,
         'Resolved': resolveds,
         'Positive pct': positives_pct,
         'Negative pct': negatives_pct,
         'Investigation pct': investigations_pct,
     }
-    df = pd.DataFrame(data, columns=['Date', 'Deaths', 'Under Investigation', 'Positives', 'Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct'])
+    df = pd.DataFrame(data, columns=['Date', 'Deaths', 'New deaths','Under Investigation', 'Positives', 'New positives','Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct'])
 
     return  df
