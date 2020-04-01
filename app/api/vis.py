@@ -14,12 +14,13 @@ def get_results():
     df = pd.read_sql(c.statement, db.engine)
     case_count = df.groupby("date").case_id.count().cumsum().reset_index()
     case_count = case_count.loc[case_count.case_id > 100]
+    df = df.loc[df.date.isin(case_count.date)]
     df = df.groupby("date").case_id.count().reset_index()
     df['case_id'] = df['case_id']*0.05
     df['case_id'] = df['case_id'].rolling(min_periods=1, window=8).sum()
 
     data = {'date':[], 'region':[], 'value':[]}
-    data['date'] += df.index.tolist()
+    data['date'] += list(range(len(df['date'].tolist())))
     data['region'] += ['Ontario']*len(df['date'].tolist())
     data['value'] += df['case_id'].tolist()
 
@@ -35,7 +36,7 @@ def get_results():
         df['count'] = df['count'].rolling(min_periods=1, window=8).sum()
         df = df.reset_index()
 
-        data['date'] += df.index.tolist()
+        data['date'] += list(range(len(df['date'].tolist())))
         data['region'] += df['province'].tolist()
         data['value'] += df['count'].tolist()
 
