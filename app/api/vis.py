@@ -163,13 +163,14 @@ def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
     date = datetime.strptime("2020-02-28","%Y-%m-%d")
     df = df.loc[df.date > date]
+    df = df.sort_values('date')
     tests ={}
 
     dates = []
     deaths = []
     investigations = []
     negatives = []
-    positives = [] 
+    positives = []
     resolveds = []
     totals = []
     news = []
@@ -201,8 +202,8 @@ def get_testresults():
             news += [new]
         else:
             news += [0]
-        positives_pct += [negative/total]
-        negatives_pct += [positive/total]
+        positives_pct += [positive/total]
+        negatives_pct += [negative/total]
         investigations_pct += [investigation/total]
 
     data = {

@@ -33,12 +33,6 @@ collections = [
         'endpoint':'/covid/phu'
     },
     {
-        'name':'PHU New',
-        'region':'region',
-        'data':api.vis.get_phunew,
-        'endpoint':'/covid/phunew'
-    },
-    {
         'name':'Growth',
         'region':'country',
         'data':api.vis.get_growth,
@@ -105,10 +99,10 @@ def updateCollection(dataSource, sh):
         df = dataSource['data']()
 
         sheet = getSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
-        if df.shape[0] >= sheet.row_count:
+        if True:
             print("Update collection", dataSource['name'])
             set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)
- 
+
     except:
         print("Failed to update google sheet", dataSource['name'], sys.exc_info())
 
