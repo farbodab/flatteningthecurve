@@ -49,6 +49,11 @@ collections = [
         'region':'type',
         'data':api.vis.get_testresults,
         'endpoint':'/covid/testresults'
+    },
+    {
+        'name':'ICU Capacity',
+        'data':api.vis.get_icu_capacity,
+        'endpoint':'/covid/get_icu_capacity'
     }
 ]
 

@@ -97,6 +97,7 @@ def testsnew():
             c.total = tests_dict['total']
             db.session.add(c)
             db.session.commit()
+    driver.close()
     driver.quit()
     return 'success',200
 

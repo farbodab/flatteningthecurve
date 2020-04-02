@@ -283,6 +283,19 @@ def get_testresults():
 
 def get_icu_capacity():
     df = pd.read_sql_table('icucapacity', db.engine)
-    data = {'date':[], 'region':[], 'value':[]}
+
+    replace = {"1. ESC":"Erie St. Clair", "2. SW": "South West", "3. WW": "Waterloo Wellington", "4. HNHB": "Hamilton Niagara Haldimand Brant", "5. CW": "Central West", "6. MH": "Mississauga Halton", "7. TC": "Toronto Central", "8. Central": "Central", "9. CE": "Central East", "10. SE": "South East", "11. Champlain": "Champlain", "12. NSM": "North Simcoe Muskoka", "13. NE": "North East", "14. NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+
+    df['non_covid'] = df['critical_care_patients'] - df['confirmed_negative'] - df['confirmed_positive'] - df['suspected_covid']
+    df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
+    df['vented_pct'] = df['vented_patients'] / df['vented_beds']
+    df['confirmed_positive_pct'] = df['confirmed_positive'] / df['critical_care_beds']
+    df['confirmed_negative_pct'] = df['confirmed_negative'] / df['critical_care_beds']
+    df['suspected_covid_pct'] = df['suspected_covid'] / df['critical_care_beds']
+    df['non_covid_pct'] = df['non_covid'] / df['critical_care_beds']
+    df['residual_beds'] = df['critical_care_beds'] - df['critical_care_patients']
+    df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
 
     return df
