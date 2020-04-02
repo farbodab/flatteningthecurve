@@ -280,3 +280,9 @@ def get_testresults():
     df = pd.DataFrame(data, columns=['Date', 'Deaths', 'New deaths','Under Investigation', 'Positives', 'New positives','Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct'])
 
     return  df
+
+def get_icu_capacity():
+    df = pd.read_sql_table('icucapacity', db.engine)
+    data = {'date':[], 'region':[], 'value':[]}
+
+    return df

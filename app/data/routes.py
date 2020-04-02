@@ -66,8 +66,8 @@ def testsnew():
     new.append(items[2])
     new.append(items[4])
     new.append(items[5])
-    new.append(items[-2])
-    new.append(items[-1])
+    new.append(items[15])
+    new.append(items[16])
     labels = ["positive","resolved", "deaths", "total", "investigation"]
     today = date.today()
     tests_dict = {}
