@@ -163,31 +163,35 @@ def get_growth():
 def get_growth_recent():
     dfs = pd.read_sql_table('covid', db.engine)
     regions = dfs.province.unique()
-    data = {'region':[], 'value':[]}
+    data = {'region':[], 'value':[], 'cumulative':[]}
     for region in regions:
         df = dfs.loc[dfs.province == region]
+        df_two = df.groupby("date").case_id.count().cumsum().reset_index()
         df = df.groupby("date").case_id.count().reset_index()
         df = df.tail(7)
         data['region'] += [region]
         data['value'] += [df['case_id'].sum()]
+        data['cumulative'] += [*df_two['case_id'].tail(1).values]
 
+    df_two = dfs.groupby("date").case_id.count().cumsum().reset_index()
     df = dfs.groupby("date").case_id.count().reset_index()
     df = df.tail(7)
-    df = df.loc[df.case_id > 100].reset_index()
     data['region'] += ['Canada']
     data['value'] += [df['case_id'].sum()]
+    data['cumulative'] += [*df_two['case_id'].tail(1).values]
 
     dfs = pd.read_sql_table('internationaldata', db.engine)
     regions = dfs.country.unique()
     for region in regions:
         df = dfs.loc[dfs.country == region]
+        df_two = df['cases'].cumsum().reset_index()
         df = df['cases'].reset_index()
-        df = df.loc[df['cases'] > 100].reset_index()
         df = df.tail(7)
         data['region'] += [region]
         data['value'] += [df['cases'].sum()]
+        data['cumulative'] += [*df_two['cases'].tail(1).values]
 
-    df_final = pd.DataFrame(data, columns=['region', 'value'])
+    df_final = pd.DataFrame(data, columns=['region', 'value', 'cumulative'])
 
     return df_final
 
