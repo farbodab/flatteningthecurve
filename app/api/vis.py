@@ -87,14 +87,17 @@ def get_phus():
         data['region'] += [region]*len(df['date'].tolist())
         data['value'] += df['case_id'].tolist()
 
-    df = dfs.groupby("date").case_id.count().cumsum().reset_index()
+
+
+    df = pd.read_sql_table('covidtests', db.engine)
     date = datetime.strptime("2020-02-28","%Y-%m-%d")
     df = df.loc[df.date > date]
+    df = df.sort_values('date')
     df['date_str'] = df['date'].astype(str)
 
     data['date'] += df['date'].tolist()
     data['region'] += ['Ontario']*len(df['date'].tolist())
-    data['value'] += df['case_id'].tolist()
+    data['value'] += df['positive'].tolist()
     df_final = pd.DataFrame(data, columns=['region', 'date', 'value'])
 
     return df_final

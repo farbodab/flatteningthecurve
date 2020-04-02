@@ -108,8 +108,6 @@ def cases():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df = df.iloc[3:]
-    df.columns = ['case_id','provincial_case_id','age','sex','health_region','province','country','date_report','report_week','travel_yn','travel_history_country','locally_acquired','case_source','additional_info','additional_source']
     for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
