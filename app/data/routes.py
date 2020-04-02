@@ -165,7 +165,7 @@ def capacity():
 @as_json
 def capacityicu():
     df = pd.read_csv('CCSO.csv')
-    date = "30-03-2020"
+    date = "01-04-2020"
     date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']

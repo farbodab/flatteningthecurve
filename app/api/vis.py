@@ -286,7 +286,8 @@ def get_icu_capacity():
 
     replace = {"1. ESC":"Erie St. Clair", "2. SW": "South West", "3. WW": "Waterloo Wellington", "4. HNHB": "Hamilton Niagara Haldimand Brant", "5. CW": "Central West", "6. MH": "Mississauga Halton", "7. TC": "Toronto Central", "8. Central": "Central", "9. CE": "Central East", "10. SE": "South East", "11. Champlain": "Champlain", "12. NSM": "North Simcoe Muskoka", "13. NE": "North East", "14. NW": "North West"}
     df.lhin = df.lhin.replace(replace)
-
+    df = df.groupby(['date', 'lhin']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
 
     df['non_covid'] = df['critical_care_patients'] - df['confirmed_negative'] - df['confirmed_positive'] - df['suspected_covid']
     df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
