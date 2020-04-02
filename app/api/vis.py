@@ -160,6 +160,37 @@ def get_growth():
 
     return df_final
 
+def get_growth_recent():
+    dfs = pd.read_sql_table('covid', db.engine)
+    regions = dfs.province.unique()
+    data = {'region':[], 'value':[]}
+    for region in regions:
+        df = dfs.loc[dfs.province == region]
+        df = df.groupby("date").case_id.count().reset_index()
+        df = df.tail(7)
+        data['region'] += [region]
+        data['value'] += [df['case_id'].sum()]
+
+    df = dfs.groupby("date").case_id.count().reset_index()
+    df = df.tail(7)
+    df = df.loc[df.case_id > 100].reset_index()
+    data['region'] += ['Canada']
+    data['value'] += [df['case_id'].sum()]
+
+    dfs = pd.read_sql_table('internationaldata', db.engine)
+    regions = dfs.country.unique()
+    for region in regions:
+        df = dfs.loc[dfs.country == region]
+        df = df['cases'].reset_index()
+        df = df.loc[df['cases'] > 100].reset_index()
+        df = df.tail(7)
+        data['region'] += [region]
+        data['value'] += [df['cases'].sum()]
+
+    df_final = pd.DataFrame(data, columns=['region', 'value'])
+
+    return df_final
+
 def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
     date = datetime.strptime("2020-02-28","%Y-%m-%d")

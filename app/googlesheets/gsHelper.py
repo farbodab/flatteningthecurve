@@ -39,6 +39,12 @@ collections = [
         'endpoint':'/covid/growth'
     },
     {
+        'name':'Growth_Recent',
+        'region':'country',
+        'data':api.vis.get_growth_recent,
+        'endpoint':'/covid/growth_recent'
+    },
+    {
         'name':'Test Results',
         'region':'type',
         'data':api.vis.get_testresults,

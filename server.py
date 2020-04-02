@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.data.routes import update
 from app.googlesheets import gsHelper
+from app.api.vis import *
 from datetime import datetime
 
 def sensor():
@@ -16,6 +17,7 @@ def sensor():
 
 def sheets():
     with app.app_context():
+        # get_growth_recent()
     	gsHelper.dumpTablesToSheets()
     	print('google sheets updated')
 
