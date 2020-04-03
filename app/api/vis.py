@@ -75,16 +75,20 @@ def get_phus():
     regions = dfs.region.unique()
 
     data = {'date':[], 'region':[], 'value':[]}
+    min = dfs['date'].min()
+    max = dfs['date'].max()
+    idx = pd.date_range(min, max)
 
     for region in regions:
         df = dfs.loc[dfs.region == region]
-        df = df.groupby("date").case_id.count().cumsum().reset_index()
+        df = df.groupby("date").case_id.count()
+        df = df.reindex(idx, fill_value=0).reset_index()
         date = datetime.strptime("2020-02-28","%Y-%m-%d")
-        df = df.loc[df.date > date]
-        df['date_str'] = df['date'].astype(str)
+        df = df.loc[df['index'] > date]
+        df['date_str'] = df['index'].astype(str)
 
-        data['date'] += df['date'].tolist()
-        data['region'] += [region]*len(df['date'].tolist())
+        data['date'] += df['index'].tolist()
+        data['region'] += [region]*len(df['index'].tolist())
         data['value'] += df['case_id'].tolist()
 
 

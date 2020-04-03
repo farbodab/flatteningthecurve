@@ -17,7 +17,7 @@ def sensor():
 
 def sheets():
     with app.app_context():
-        # get_growth_recent()
+        # get_phus()
     	gsHelper.dumpTablesToSheets()
     	print('google sheets updated')
 
