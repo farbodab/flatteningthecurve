@@ -307,3 +307,21 @@ def get_icu_capacity():
     df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
 
     return df
+
+def get_icu_capacity_province():
+    df = pd.read_sql_table('icucapacity', db.engine)
+
+    df = df.groupby(['date']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
+
+    df['non_covid'] = df['critical_care_patients'] - df['confirmed_negative'] - df['confirmed_positive'] - df['suspected_covid']
+    df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
+    df['vented_pct'] = df['vented_patients'] / df['vented_beds']
+    df['confirmed_positive_pct'] = df['confirmed_positive'] / df['critical_care_beds']
+    df['confirmed_negative_pct'] = df['confirmed_negative'] / df['critical_care_beds']
+    df['suspected_covid_pct'] = df['suspected_covid'] / df['critical_care_beds']
+    df['non_covid_pct'] = df['non_covid'] / df['critical_care_beds']
+    df['residual_beds'] = df['critical_care_beds'] - df['critical_care_patients']
+    df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
+
+    return df
