@@ -17,9 +17,10 @@ def sensor():
 
 def sheets():
     with app.app_context():
+    	print('Updating google sheets')
         # get_phus()
     	gsHelper.dumpTablesToSheets()
-    	print('google sheets updated')
+    	print('Google sheets updated')
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
