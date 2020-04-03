@@ -167,7 +167,7 @@ def get_growth():
 
     return df_final
 
-def get_growth_recent():
+def get_growth_recent_old():
     dfs = pd.read_sql_table('covid', db.engine)
     regions = dfs.province.unique()
     data = {'region':[], 'value':[], 'cumulative':[]}
@@ -201,6 +201,73 @@ def get_growth_recent():
     df_final = pd.DataFrame(data, columns=['region', 'value', 'cumulative'])
 
     return df_final
+
+def get_growth_recent():
+    dfs = pd.read_sql_table('covid', db.engine)
+    regions = dfs.province.unique()
+    data = {'region':[], 'date':[], 'recent':[], 'cumulative':[]}
+
+    for region in regions:
+        df = dfs.loc[dfs.province == region]
+        dates = df.groupby("date").case_id.count().reset_index().sort_values("date").reset_index()
+
+        # Iterate all dates
+        for index, row in dates.iterrows():
+            date = row['date']
+            # Get subset of days before this time
+            mask = (dates['date'] <= date)
+            before_date = dates.loc[mask]
+
+            cumulative = before_date.case_id.cumsum().reset_index()
+            recent = before_date.tail(7)
+
+            data['region'] += [region]
+            data['date'] += [date]
+            data['recent'] += [recent.case_id.sum()]
+            data['cumulative'] += [*cumulative.case_id.tail(1).values]
+
+
+    dates = dfs.groupby("date").case_id.count().reset_index().sort_values("date").reset_index()
+
+    # Iterate all dates
+    for index, row in dates.iterrows():
+        date = row['date']
+        # Get subset of days before this time
+        mask = (dates['date'] <= date)
+        before_date = dates.loc[mask]
+
+        cumulative = before_date.case_id.cumsum().reset_index()
+        recent = before_date.tail(7)
+
+        data['region'] += [region]
+        data['date'] += [date]
+        data['recent'] += [recent.case_id.sum()]
+        data['cumulative'] += [*cumulative.case_id.tail(1).values]  
+
+    dfs = pd.read_sql_table('internationaldata', db.engine)
+    regions = dfs.country.unique()
+    for region in regions:
+        df = dfs.loc[dfs.country == region]
+        dates = df.groupby("date").cases.sum().reset_index().sort_values("date").reset_index()
+
+        # Iterate all dates
+        for index, row in dates.iterrows():
+            date = row['date']
+            # Get subset of days before this time
+            mask = (dates['date'] <= date)
+            before_date = dates.loc[mask]
+
+            cumulative = before_date.cases.cumsum().reset_index()
+            recent = before_date.tail(7)
+
+            data['region'] += [region]
+            data['date'] += [date]
+            data['recent'] += [recent.cases.sum()]
+            data['cumulative'] += [*cumulative.cases.tail(1).values]
+
+    df_final = pd.DataFrame(data, columns=['region', 'date', 'recent', 'cumulative'])
+
+    return df_final 
 
 def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
