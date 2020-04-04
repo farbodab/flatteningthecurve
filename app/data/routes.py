@@ -249,6 +249,5 @@ def new_source():
 @as_json
 def update():
     testsnew()
-    cases()
     international()
     return 'success',200
