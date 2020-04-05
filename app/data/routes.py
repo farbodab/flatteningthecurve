@@ -52,53 +52,46 @@ def tests():
 @bp.route('/covid/testsnew', methods=['GET', 'POST'])
 @as_json
 def testsnew():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
-    urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus#section-0"
-    driver.implicitly_wait(30)
-    driver.get(urlpage)
-    text = driver.find_element_by_tag_name("table").text
-    items = text.split("\n")
-    new = []
-    new.append(items[2])
-    new.append(items[4])
-    new.append(items[5])
-    new.append(items[15])
-    new.append(items[16])
-    labels = ["positive","resolved", "deaths", "total", "investigation"]
-    today = date.today()
-    tests_dict = {}
+    url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Reported Date'] = pd.to_datetime(df['Reported Date'])
+    date_include = datetime.strptime("2020-02-04","%Y-%m-%d")
+    df = df.loc[df['Reported Date'] > date_include]
 
-    for i, row in enumerate(new):
-        thing = row.split()
-        number = thing[-2]
-        number = number.replace(",","")
-        number = number.replace("*","")
-        tests_dict[labels[i]] = int(number)
+    for index, row in df.iterrows():
+        date = row['Reported Date']
+        negative = row['Confirmed Negative']
+        investigation = row['Under Investigation']
+        positive = row['Confirmed Positive']
+        resolved = row['Resolved']
+        if resolved != resolved:
+            resolved = 0
+        deaths = row['Deaths']
+        if deaths != deaths:
+            deaths = 0
+        total = row['Total patients approved for testing as of Reporting Date']
 
-    tests_dict["negative"] = tests_dict["total"] - tests_dict["positive"] - tests_dict["investigation"]
-    c = CovidTests.query.filter_by(date=today).first()
-    if not c:
-        c = CovidTests(date=today, positive=tests_dict['positive'], negative=tests_dict['negative'],resolved=tests_dict['resolved'], deaths=tests_dict['deaths'], investigation=tests_dict['investigation'], total=tests_dict['total'])
-        db.session.add(c)
-        db.session.commit()
-    else:
-        if ((c.positive == tests_dict['positive']) and (c.negative == tests_dict['negative']) and (c.resolved == tests_dict['resolved']) and (c.deaths == tests_dict['deaths']) and (c.total == tests_dict['total']) and (c.investigation == tests_dict['investigation'])):
-            pass
-        else:
-            c.positive = tests_dict['positive']
-            c.negative = tests_dict['negative']
-            c.resolved = tests_dict['resolved']
-            c.investigation = tests_dict['investigation']
-            c.deaths = tests_dict['deaths']
-            c.total = tests_dict['total']
+        if negative != negative:
+            negative = total - positive - investigation
+
+        c = CovidTests.query.filter_by(date=date).first()
+        if not c:
+            c = CovidTests(date=date, negative=negative, investigation=investigation, positive=positive, resolved=resolved, deaths=deaths, total=total)
             db.session.add(c)
             db.session.commit()
-    driver.close()
-    driver.quit()
+        else:
+            if (c.negative == negative and (c.positive == positive) and (c.investigation == investigation) and (c.resolved == resolved) and (c.deaths == deaths) and (c.total == total)):
+                pass
+            else:
+                c.negative = negative
+                c.positive = positive
+                c.investigation = investigation
+                c.resolved = resolved
+                c.deaths = deaths
+                c.total = total
+                db.session.add(c)
+                db.session.commit()
     return 'success',200
 
 @bp.route('/covid/cases', methods=['GET', 'POST'])
