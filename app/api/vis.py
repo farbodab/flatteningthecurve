@@ -242,7 +242,7 @@ def get_growth_recent():
         data['region'] += [region]
         data['date'] += [date]
         data['recent'] += [recent.case_id.sum()]
-        data['cumulative'] += [*cumulative.case_id.tail(1).values]  
+        data['cumulative'] += [*cumulative.case_id.tail(1).values]
 
     dfs = pd.read_sql_table('internationaldata', db.engine)
     regions = dfs.country.unique()
@@ -267,7 +267,7 @@ def get_growth_recent():
 
     df_final = pd.DataFrame(data, columns=['region', 'date', 'recent', 'cumulative'])
 
-    return df_final 
+    return df_final
 
 def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
@@ -359,6 +359,8 @@ def get_icu_capacity():
     df = pd.read_sql_table('icucapacity', db.engine)
 
     replace = {"1. ESC":"Erie St. Clair", "2. SW": "South West", "3. WW": "Waterloo Wellington", "4. HNHB": "Hamilton Niagara Haldimand Brant", "5. CW": "Central West", "6. MH": "Mississauga Halton", "7. TC": "Toronto Central", "8. Central": "Central", "9. CE": "Central East", "10. SE": "South East", "11. Champlain": "Champlain", "12. NSM": "North Simcoe Muskoka", "13. NE": "North East", "14. NW": "North West"}
+    replace = {"L1: ESC":"Erie St. Clair", "L2: SW": "South West", "L3: WW": "Waterloo Wellington", "L4: HNHB": "Hamilton Niagara Haldimand Brant", "L5: CW": "Central West", "L6: MH": "Mississauga Halton", "L7: TC": "Toronto Central", "L8: Central": "Central", "L9: CE": "Central East", "L10: SE": "South East", "L11: Champlain": "Champlain", "L12: NSM": "North Simcoe Muskoka", "L13: NE": "North East", "L14: NW": "North West"}
+    
     df.lhin = df.lhin.replace(replace)
     df = df.groupby(['date', 'lhin']).sum().reset_index()
     df = df.drop(['id'],axis=1)

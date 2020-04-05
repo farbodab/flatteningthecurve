@@ -155,7 +155,7 @@ def getnpis():
 @as_json
 def capacityicu():
     df = pd.read_csv('CCSO.csv')
-    date = "01-04-2020"
+    date = "04-04-2020"
     date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']
@@ -165,11 +165,9 @@ def capacityicu():
         vented_beds = row['# Vented Beds']
         vented_patients = row['# Vented Patients']
         suspected_covid = row['# Suspected COVID-19']
-        suspected_covid_ventilator = row['# Suspected COVID-19 Patients with Invasive Ventilation']
         confirmed_positive = row['# Confirmed Positive COVID-19']
         confirmed_positive_ventilator = row['# Confirmed Positive COVID-19 Patients with Invasive Ventilation']
-        confirmed_negative = row['# Confirmed Negative COVID-19']
-        c = ICUCapacity(date=date, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, suspected_covid_ventilator=suspected_covid_ventilator, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator, confirmed_negative=confirmed_negative)
+        c = ICUCapacity(date=date, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator)
         db.session.add(c)
         db.session.commit()
     return 'success',200

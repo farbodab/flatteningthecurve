@@ -20,8 +20,7 @@ def extractCCSO(argv):
     extract(path, 'temp.csv', pages, area)
 
     # The table is weirdly formatted so some manual tweaking is required
-    header = ["ICU Level",
-            "Region",
+    header = ["Region",
             "LHIN",
             "# Critical Care Beds",
             "# Critical Care Patients",
@@ -29,25 +28,12 @@ def extractCCSO(argv):
             "# Vented Patients",
             "% Ventilator Capacity Remaining",
             "# Suspected COVID-19",
-            "# Suspected COVID-19 Patients with Invasive Ventilation",
             "# Confirmed Positive COVID-19",
-            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation",
-            "# Confirmed Negative COVID-19"]
+            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation"]
 
-    prepend = ['Level 3, West',
-            'Level 3, West',
-            'Level 3, West',
-            'Level 3, West',
-            'Level 3, Central',
-            'Level 3, Central',
-            'Level 3, Central',
-            'Level 3, Central',
-            'Level 3, Toronto',
-            'Level 3, East',
-            'Level 3, East',
-            'Level 3, East',
-            'Level 3, North',
-            'Level 3, North']
+    prepend = ['Central','Central','Central','Central','East', 'East', 'East',
+    'North', 'North', 'Toronto', 'West', 'West','West','West']
+
 
     def parsenum(value):
         if value == '':
