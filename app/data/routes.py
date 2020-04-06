@@ -33,7 +33,7 @@ def testsnew():
         date = row['Reported Date']
         negative = row['Confirmed Negative']
         investigation = row['Under Investigation']
-        positive = row['Confirmed Positive']
+        positive = row['Total Cases']
         resolved = row['Resolved']
         deaths = row['Deaths']
         hospitalized = row['Number of patients hospitalized with COVID-19']
