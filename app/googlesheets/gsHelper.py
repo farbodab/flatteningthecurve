@@ -53,6 +53,11 @@ collections = [
         'name':'ICU Capacity Province',
         'data':api.vis.get_icu_capacity_province,
         'endpoint':'/covid/get_icu_capacity_province'
+    },
+    {
+        'name':'ICU Case Status Province',
+        'data':api.vis.get_icu_case_status_province,
+        'endpoint':'/covid/get_icu_case_status_province'
     }
 ]
 

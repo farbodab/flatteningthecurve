@@ -29,7 +29,9 @@ def extractCCSO(argv):
             "% Ventilator Capacity Remaining",
             "# Suspected COVID-19",
             "# Confirmed Positive COVID-19",
-            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation"]
+            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation",
+            "# Patients in Expanded ICU",
+            "# COVID Positive Patients in Expanded ICU"]
 
     prepend = ['Central','Central','Central','Central','East', 'East', 'East',
     'North', 'North', 'Toronto', 'West', 'West','West','West']

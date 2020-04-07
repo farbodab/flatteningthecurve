@@ -395,3 +395,22 @@ def get_icu_capacity_province():
     df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
 
     return df
+
+def get_icu_case_status_province():
+    df = pd.read_sql_table('icucapacity', db.engine)
+
+    df = df.groupby(['date']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
+    df = df[['date','suspected_covid','confirmed_positive']]
+    data = {'date':[], 'case_status':[], 'number':[]}
+
+    for index, row in df.iterrows():
+        date = row['date']
+
+        for item in ['suspected_covid', 'confirmed_positive']:
+            data['date'] += [date]
+            data['case_status'] += [item]
+            data['number'] += [row[item]]
+
+    df_final = pd.DataFrame(data, columns=['date', 'case_status', 'number'])
+    return df_final
