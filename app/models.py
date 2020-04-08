@@ -126,6 +126,17 @@ class NPIInterventions(db.Model):
     source_title= db.Column(db.String)
     source_full_text = db.Column(db.String)
 
+class Viz(db.Model):
+    __tablename__ = 'viz'
+    id = db.Column(db.Integer(), primary_key=True)
+    header = db.Column(db.String, index=True)
+    category = db.Column(db.String)
+    content = db.Column(db.String)
+    viz = db.Column(db.String)
+    thumbnail = db.Column(db.String)
+    text = db.Column(db.String)
+
+
 class Source(db.Model):
     __tablename__ = 'source'
     id = db.Column(db.Integer(), primary_key=True)
