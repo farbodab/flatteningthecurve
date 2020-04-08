@@ -10,6 +10,9 @@ class CovidTests(db.Model):
     resolved = db.Column(db.Integer)
     deaths = db.Column(db.Integer)
     total = db.Column(db.Integer)
+    hospitalized = db.Column(db.Integer)
+    icu = db.Column(db.Integer)
+    ventilator = db.Column(db.Integer)
 
 class Covid(db.Model):
     __tablename__ = 'covid'
@@ -45,6 +48,83 @@ class PHUCapacity(db.Model):
     name = db.Column(db.String, index=True)
     icu = db.Column(db.Integer)
     acute = db.Column(db.Integer)
+
+
+class ICUCapacity(db.Model):
+    __tablename__ = 'icucapacity'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    icu_level = db.Column(db.String)
+    region = db.Column(db.String)
+    lhin = db.Column(db.String)
+    critical_care_beds = db.Column(db.Integer)
+    critical_care_patients = db.Column(db.Integer)
+    vented_beds = db.Column(db.Integer)
+    vented_patients = db.Column(db.Integer)
+    suspected_covid = db.Column(db.Integer)
+    suspected_covid_ventilator = db.Column(db.Integer)
+    confirmed_positive = db.Column(db.Integer)
+    confirmed_positive_ventilator = db.Column(db.Integer)
+    confirmed_negative = db.Column(db.Integer)
+
+class CanadaMortality(db.Model):
+    __tablename__ = 'canadamortality'
+    id = db.Column(db.Integer(), primary_key=True)
+    death_id = db.Column(db.Integer(), index=True)
+    province_death_id = db.Column(db.Integer(), index=True)
+    age = db.Column(db.String())
+    sex = db.Column(db.String())
+    region = db.Column(db.String())
+    province = db.Column(db.String())
+    country = db.Column(db.String())
+    date = db.Column(db.DateTime, index=True)
+    death_source = db.Column(db.String())
+
+class CanadaRecovered(db.Model):
+    __tablename__ = 'canadarecovered'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    province = db.Column(db.String(), index=True)
+    cumulative_recovered = db.Column(db.Integer())
+
+class InternationalMortality(db.Model):
+    __tablename__ = 'internationalmortality'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    country = db.Column(db.String, index=True)
+    deaths = db.Column(db.Integer)
+
+class InternationalRecovered(db.Model):
+    __tablename__ = 'internationalrecovered'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    country = db.Column(db.String, index=True)
+    recovered = db.Column(db.Integer)
+
+class NPIInterventions(db.Model):
+    __tablename__ = 'npiinterventions'
+    id = db.Column(db.Integer(), primary_key=True)
+    start_date = db.Column(db.DateTime, index=True)
+    end_date = db.Column(db.DateTime, index=True)
+    country = db.Column(db.String, index=True)
+    region = db.Column(db.String, index=True)
+    intervention_summary = db.Column(db.String, index=True)
+    intervention_category = db.Column(db.String)
+    target_population_category = db.Column(db.String)
+    enforcement_category = db.Column(db.String)
+    oxford_government_response_category	= db.Column(db.String)
+    oxford_closure_code	= db.Column(db.String)
+    oxford_public_info_code	= db.Column(db.String)
+    oxford_travel_code	= db.Column(db.String)
+    oxford_geographic_target_code	= db.Column(db.String)
+    oxford_fiscal_measure_cad = db.Column(db.String)
+    oxford_monetary_measure	= db.Column(db.String)
+    source_url = db.Column(db.String)
+    source_organization	 = db.Column(db.String)
+    source_organization_two = db.Column(db.String)
+    source_category= db.Column(db.String)
+    source_title= db.Column(db.String)
+    source_full_text = db.Column(db.String)
 
 class Source(db.Model):
     __tablename__ = 'source'

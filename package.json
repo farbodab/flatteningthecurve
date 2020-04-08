@@ -1,9 +1,0 @@
-{
-  "name": "myapp",
-  "description": "a really cool app",
-  "version": "1.0.0",
-  "scripts": {
-  "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
-  "heroku-postbuild": "npm install -g electron@6.1.4 orca"
-  }
-}
