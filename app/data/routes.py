@@ -8,6 +8,7 @@ from app.api import bp
 import pandas as pd
 import numpy as np
 import io
+import os
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -393,6 +394,37 @@ def new_covid():
 ###########SOURCE DATA###########
 ########################################
 
+@bp.route('/covid/viz', methods=['GET'])
+@as_json
+def new_viz():
+    if os.environ['FLASK_CONFIG'] == 'development':
+        url = "https://docs.google.com/spreadsheets/u/0/d/1ttbFlC3_EKCpMkF3U2FpK0y9Ta4q4kG1tMOYmn3QlHE/export?format=csv&id=1ttbFlC3_EKCpMkF3U2FpK0y9Ta4q4kG1tMOYmn3QlHE&gid=0"
+    elif os.environ['FLASK_CONFIG'] == 'production':
+        url = "https://docs.google.com/spreadsheets/u/0/d/1ttbFlC3_EKCpMkF3U2FpK0y9Ta4q4kG1tMOYmn3QlHE/export?format=csv&id=1ttbFlC3_EKCpMkF3U2FpK0y9Ta4q4kG1tMOYmn3QlHE&gid=803348886"
+    s=requests.get(url).content
+    data = io.StringIO(s.decode('utf-8'))
+    df = pd.read_csv(data)
+    for index, row in df.iterrows():
+        header = row['header']
+        category = row['category']
+        content = row['content']
+        viz = row['viz']
+        thumbnail = row['thumbnail']
+        text = row['text']
+
+        c = Viz.query.filter_by(header=header).first()
+        if not c:
+            c = Viz(header=header, category=category, content=content,
+            viz=viz, thumbnail=thumbnail, text=text)
+            db.session.add(c)
+            db.session.commit()
+        else:
+            c.category = category
+            c.content = content
+            c.viz = viz
+            c.thumbnail = thumbnail
+            c.text=text
+    return 'success',200
 
 
 

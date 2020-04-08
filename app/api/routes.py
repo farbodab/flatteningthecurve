@@ -141,6 +141,17 @@ def get_growth():
 
     return provines_dict
 
+@bp.route('/api/viz', methods=['GET'])
+@as_json
+def get_api_viz():
+    df = pd.read_sql_table('viz', db.engine)
+    data = []
+    for index, row in df.iterrows():
+        data.append({"header": row["header"], "category": row["category"],
+        "content": row["content"], "text": row["text"],
+        "viz": row["viz"], "thumbnail": row["thumbnail"]})
+    return data
+
 @bp.route('/covid/testresults', methods=['GET'])
 @as_json
 def get_testresults():
