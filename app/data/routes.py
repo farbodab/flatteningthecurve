@@ -302,15 +302,6 @@ def getcanadarecovered():
 @bp.route('/covid/mobility', methods=['GET', 'POST'])
 @as_json
 def getcanadamobility():
-    '''
-    TODO: Potentially scrape dates, for now just going to try hitting the formatted urls
-    url = 'https://www.google.com/covid19/mobility/'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    soup.findAll('a')
-    CA_tag = soup.findAll('a')[26]
-    link = CA_tag['href']'''
-
     start_date = None
     end_date = datetime.today()
 
@@ -326,24 +317,9 @@ def getcanadamobility():
     for dt in datesToTry:
         try:
             datetag = dt.strftime('%Y-%m-%d')
-            filename = datetag +  '_CA_Mobility_Report_en.pdf' 
-            '''
-            TODO: Uncomment when enough pdfs to scrape
-            download_url = 'https://www.gstatic.com/covid19/mobility/'+ filename 
-            try:
-                urllib.request.urlretrieve(download_url,filename)#'./’',datetag,link[link.find(:,'_CA_Mobility_')])
-            except urllib.error.HTTPError as err:
-                if err.code == 404:
-                    continue
-            '''
-
-            # For now assume filename exists
-            output = filename.split('.')[0] + '.csv'
-
-            # TODO: Uncomment when we're guna scrape
-            #covidpdftocsv.pdftocsv(filename, output)
-            if os.path.exists(output):
-                df = pd.read_csv(output)
+            filename = datetag +  '_CA_Mobility_Report_en.csv' 
+            if os.path.exists(filename):
+                df = pd.read_csv(filename)
 
                 # Get all date columns (i.e. not kind, name, category) and insert record for each
                 date_columns = [x for x in list(df.columns) if x not in ['Kind', 'Name', 'Category']]
