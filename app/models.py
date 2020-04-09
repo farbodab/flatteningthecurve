@@ -144,3 +144,11 @@ class Source(db.Model):
     source = db.Column(db.String)
     compiled = db.Column(db.String)
     description = db.Column(db.String)
+
+class Mobility(db.Model):
+    __tablename__ = 'mobility'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    region = db.Column(db.String)
+    category = db.Column(db.String)
+    value = db.Column(db.Float)

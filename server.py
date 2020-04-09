@@ -21,6 +21,7 @@ def getcanada():
         cases()
         getcanadamortality()
         getcanadarecovered()
+        getcanadamobility()
         print('Canada data refreshed')
 
 def getinternational():
@@ -29,6 +30,7 @@ def getinternational():
         getinternationalmortality()
         getinternationalrecovered()
         print('International data refreshed')
+
 
 def sheets():
     with app.app_context():
@@ -41,5 +43,6 @@ sched = BackgroundScheduler(daemon=True)
 sched.add_job(getontario,'interval',minutes=15)
 sched.add_job(getcanada,'interval',minutes=120)
 sched.add_job(getinternational,'interval',minutes=120)
-sched.add_job(sheets, 'interval', minutes=15)
+sched.add_job(sheets, 'interval', next_run_time=datetime.now(),minutes=15)
+
 sched.start()

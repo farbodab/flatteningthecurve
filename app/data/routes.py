@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
-from datetime import datetime
+from datetime import datetime, timedelta
+from datetime import date
 import requests
 from app import db
 from app.models import *
@@ -9,12 +10,14 @@ import pandas as pd
 import numpy as np
 import io
 import os
-import requests
+from bs4 import BeautifulSoup
+import urllib.request
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from datetime import date
-
+from app.tools.covidpdftocsv import covidpdftocsv
+import math
+from sqlalchemy import text
 
 ########################################
 ############ONTARIO DATA################
@@ -294,6 +297,47 @@ def getcanadarecovered():
 
         db.session.add(c)
         db.session.commit()
+    return 'success',200
+
+@bp.route('/covid/mobility', methods=['GET', 'POST'])
+@as_json
+def getcanadamobility():
+    start_date = None
+    end_date = datetime.today()
+
+    max_date = Mobility.query.order_by(text('date desc')).limit(1).first()
+    if not max_date:
+        start_date = end_date + timedelta(-30)
+    else:
+        start_date = max_date.date + timedelta(1)
+
+    datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
+
+    #EXAMPLE: https://www.gstatic.com/covid19/mobility/2020-03-29_CA_Mobility_Report_en.pdf 
+    for dt in datesToTry:
+        try:
+            datetag = dt.strftime('%Y-%m-%d')
+            filename = datetag +  '_CA_Mobility_Report_en.csv' 
+            if os.path.exists(filename):
+                df = pd.read_csv(filename)
+
+                # Get all date columns (i.e. not kind, name, category) and insert record for each
+                date_columns = [x for x in list(df.columns) if x not in ['Kind', 'Name', 'Category']]
+
+                for index, row in df.iterrows():
+                    for col in date_columns:
+                        region = row['Name']
+                        category = row['Category']
+                        value = row[col]
+                        if math.isnan(value):
+                            continue
+
+                        m = Mobility(date=col, region=region, category=category, value=value)
+                        db.session.add(m)
+                        db.session.commit()
+        except Exception as err:
+            print("failed to get data for {}".format(dt), err)
+
     return 'success',200
 
 ########################################
