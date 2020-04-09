@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_json import FlaskJSON
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flasgger import Swagger
 from config import config
 
 
@@ -23,6 +24,7 @@ def create_app(config_name):
     migrate.init_app(app, db)
     flaskjson.init_app(app)
     limiter.init_app(app)
+    swagger = Swagger(app)
 
     from app.data import bp as data
     app.register_blueprint(data)

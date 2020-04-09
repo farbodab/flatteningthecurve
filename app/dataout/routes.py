@@ -13,6 +13,20 @@ from io import StringIO
 
 @bp.route('/data/covidtests', methods=['GET'])
 def sendcovidtests():
+    """
+    Time series testing data for the province of ontario which reports postives, negatives, under investigation, resolved, deaths and total tested
+    Source: Government of Ontario (https://www.ontario.ca/page/2019-novel-coronavirus)
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('covidtests', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=test_data_on.csv"
@@ -22,6 +36,23 @@ def sendcovidtests():
 
 @bp.route('/data/covid', methods=['GET'])
 def sendcovid():
+    """
+    Patient level data of covid cases in canada
+    Compiled from publicly available information on confirmed and presumptive postive cases during the ongoing COVID-19 outbreak in Canada. Data are entered with each line representing a unique case, including age, sex, health region location, and history of travel where available
+    Source: Government of Canada and News Media
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('covidtests', db.engine)
+    resp = make_response(df.to_csv(index=False))
     df = pd.read_sql_table('covid', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=test_data_canada.csv"
@@ -30,6 +61,19 @@ def sendcovid():
 
 @bp.route('/data/npi', methods=['GET'])
 def sendnpi():
+    """
+    NPI data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('npiinterventions', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=npi_canada.csv"
@@ -38,6 +82,19 @@ def sendnpi():
 
 @bp.route('/data/canadamortality', methods=['GET'])
 def sendcanadamortality():
+    """
+    Canadian mortality data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('canadamortality', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=canada_mortality.csv"
@@ -46,6 +103,19 @@ def sendcanadamortality():
 
 @bp.route('/data/canadarecovered', methods=['GET'])
 def sendcanadarecovered():
+    """
+    Canadian recovered data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('canadarecovered', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=canada_recovered.csv"
@@ -54,6 +124,20 @@ def sendcanadarecovered():
 
 @bp.route('/data/internationaldata', methods=['GET'])
 def sendinternationaldata():
+    """
+    Time series data on covid cases in international jurisdictions
+    Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('internationaldata', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=test_data_intl.csv"
@@ -62,6 +146,19 @@ def sendinternationaldata():
 
 @bp.route('/data/internationalmortality', methods=['GET'])
 def sendinternationalmortality():
+    """
+    Retrieve International mortality data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('internationalmortality', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=international_mortality.csv"
@@ -70,6 +167,19 @@ def sendinternationalmortality():
 
 @bp.route('/data/internationalrecovered', methods=['GET'])
 def sendinternationalrecovered():
+    """
+    International recovered data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('internationalrecovered', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=international_recovered.csv"
@@ -79,6 +189,19 @@ def sendinternationalrecovered():
 
 @bp.route('/data/icucapacity', methods=['GET'])
 def icucapacity():
+    """
+    Ontario ICU data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('icucapacity', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=icucapacity.csv"
@@ -87,6 +210,19 @@ def icucapacity():
 
 @bp.route('/data/phucapacity', methods=['GET'])
 def phucapacity():
+    """
+    ICU Bed and Acute Bed Capacity of Public Health Units of The Province of Ontario 
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('phucapacity', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=icu_capacity_on.csv"
@@ -95,6 +231,19 @@ def phucapacity():
 
 @bp.route('/data/source', methods=['GET'])
 def source():
+    """
+    List of sources for data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content: 
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('source', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=source.csv"
