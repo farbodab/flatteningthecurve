@@ -43,6 +43,6 @@ sched = BackgroundScheduler(daemon=True)
 sched.add_job(getontario,'interval',minutes=15)
 sched.add_job(getcanada,'interval',minutes=120)
 sched.add_job(getinternational,'interval',minutes=120)
-sched.add_job(sheets, 'interval', minutes=15)
+sched.add_job(sheets, 'interval', next_run_time=datetime.now(),minutes=15)
 
 sched.start()

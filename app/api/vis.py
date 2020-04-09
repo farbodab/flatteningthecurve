@@ -414,3 +414,8 @@ def get_icu_case_status_province():
 
     df_final = pd.DataFrame(data, columns=['date', 'case_status', 'number'])
     return df_final
+
+def get_mobility():
+    df = pd.read_sql_table('mobility', db.engine)
+
+    return df
