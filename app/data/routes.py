@@ -23,7 +23,7 @@ from sqlalchemy import text
 ############ONTARIO DATA################
 ########################################
 
-@bp.route('/covid/testsnew', methods=['GET', 'POST'])
+
 @as_json
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
@@ -84,7 +84,7 @@ def testsnew():
                 db.session.commit()
     return 'success',200
 
-@bp.route('/covid/npi', methods=['GET', 'POST'])
+
 @as_json
 def getnpis():
     url = "https://docs.google.com/spreadsheets/d/16jZ8tdPS9x8kRHAi5CRh8iKfDshg0AMbfFLJ9ysgV9U/export?format=csv&id=16jZ8tdPS9x8kRHAi5CRh8iKfDshg0AMbfFLJ9ysgV9U&gid=1137367827"
@@ -177,7 +177,7 @@ def capacityicu():
     return 'success',200
 
 
-@bp.route('/covid/capacity', methods=['GET', 'POST'])
+
 @as_json
 def capacity():
     # data source Petr Smirnov
@@ -197,7 +197,7 @@ def capacity():
 ############CANADA DATA################
 ########################################
 
-@bp.route('/covid/cases', methods=['GET', 'POST'])
+
 @as_json
 def cases():
     # Data source Open Data Collab
@@ -236,7 +236,7 @@ def cases():
                 db.session.commit()
     return 'success',200
 
-@bp.route('/covid/canadamortality', methods=['GET', 'POST'])
+
 @as_json
 def getcanadamortality():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/mortality.csv"
@@ -277,7 +277,7 @@ def getcanadamortality():
         db.session.commit()
     return 'success',200
 
-@bp.route('/covid/canadarecovered', methods=['GET', 'POST'])
+
 @as_json
 def getcanadarecovered():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/recovered_cumulative.csv"
@@ -342,7 +342,7 @@ def getcanadamobility():
 ###########INTERNATIONAL DATA###########
 ########################################
 
-@bp.route('/covid/international', methods=['GET', 'POST'])
+
 @as_json
 def international():
     url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
@@ -367,7 +367,7 @@ def international():
 
     return 'success',200
 
-@bp.route('/covid/internationalmortality', methods=['GET', 'POST'])
+
 @as_json
 def getinternationalmortality():
     url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
@@ -391,7 +391,7 @@ def getinternationalmortality():
                 db.session.commit()
     return 'success',200
 
-@bp.route('/covid/internationalrecovered', methods=['GET', 'POST'])
+
 @as_json
 def getinternationalrecovered():
     url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
@@ -416,7 +416,7 @@ def getinternationalrecovered():
     return 'success',200
 
 
-@bp.route('/covid/comparison', methods=['POST'])
+
 @as_json
 def new_covid():
     if request.is_json:
