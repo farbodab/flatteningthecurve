@@ -149,7 +149,8 @@ def get_api_viz():
     for index, row in df.iterrows():
         data.append({"header": row["header"], "category": row["category"],
         "content": row["content"], "text": row["text"],
-        "viz": row["viz"], "thumbnail": row["thumbnail"]})
+        "viz": row["viz"], "thumbnail": row["thumbnail"],
+        "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"]})
     return data
 
 @bp.route('/covid/testresults', methods=['GET'])
