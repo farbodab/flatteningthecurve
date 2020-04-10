@@ -135,6 +135,8 @@ class Viz(db.Model):
     viz = db.Column(db.String)
     thumbnail = db.Column(db.String)
     text = db.Column(db.String)
+    mobileHeight = db.Column(db.Integer)
+    desktopHeight = db.Column(db.Integer)
 
 
 class Source(db.Model):
