@@ -453,19 +453,27 @@ def new_viz():
         viz = row['viz']
         thumbnail = row['thumbnail']
         text = row['text']
+        mobileHeight = row['mobileHeight']
+        desktopHeight = row['desktopHeight']
+
 
         c = Viz.query.filter_by(header=header).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
-            viz=viz, thumbnail=thumbnail, text=text)
+            viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
+            desktopHeight=desktopHeight)
             db.session.add(c)
             db.session.commit()
         else:
             c.category = category
             c.content = content
             c.viz = viz
+            c.mobileHeight = mobileHeight
+            c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
             c.text=text
+            db.session.add(c)
+            db.session.commit()
     return 'success',200
 
 
