@@ -267,6 +267,20 @@ def get_growth_recent():
 
     df_final = pd.DataFrame(data, columns=['region', 'date', 'recent', 'cumulative'])
 
+    df_final = df_final.drop(df_final.loc[df_final.cumulative<100].index)
+
+    df_final['date_shifted'] = -999
+    prev_region = 'NA'
+    for index, row in df_final.iterrows():
+        if row['region'] == prev_region:
+            df_final.at[index,'date_shifted'] = i
+            i += 1
+        else:
+            i = 0
+            prev_region = row['region']
+            df_final.at[index,'date_shifted'] = i
+            i += 1
+
     return df_final
 
 def get_testresults():

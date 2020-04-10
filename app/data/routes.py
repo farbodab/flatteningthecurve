@@ -214,8 +214,6 @@ def cases():
         date = row['date_report']
         date = datetime.strptime(date,"%d-%m-%Y")
         travel = row['travel_yn']
-        if travel == 'Not Reported':
-            travel = -1
         travelh = row['travel_history_country']
         c = Covid.query.filter_by(case_id=case_id).first()
         if not c:
@@ -313,11 +311,11 @@ def getcanadamobility():
 
     datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
 
-    #EXAMPLE: https://www.gstatic.com/covid19/mobility/2020-03-29_CA_Mobility_Report_en.pdf 
+    #EXAMPLE: https://www.gstatic.com/covid19/mobility/2020-03-29_CA_Mobility_Report_en.pdf
     for dt in datesToTry:
         try:
             datetag = dt.strftime('%Y-%m-%d')
-            filename = datetag +  '_CA_Mobility_Report_en.csv' 
+            filename = datetag +  '_CA_Mobility_Report_en.csv'
             if os.path.exists(filename):
                 df = pd.read_csv(filename)
 

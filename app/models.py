@@ -24,7 +24,7 @@ class Covid(db.Model):
     province = db.Column(db.String(120))
     country = db.Column(db.String(120))
     date = db.Column(db.DateTime, index=True)
-    travel = db.Column(db.Integer())
+    travel = db.Column(db.String())
     travelh = db.Column(db.String(120))
 
 class Comparison(db.Model):
