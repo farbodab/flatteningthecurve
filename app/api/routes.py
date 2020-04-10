@@ -9,7 +9,7 @@ import pandas as pd
 import io
 import requests
 
-@bp.route('/covid/results', methods=['GET'])
+
 def get_results():
     items = request.get_json()
     c = Covid.query.filter_by(province="Ontario")
@@ -37,7 +37,7 @@ def get_results():
         provines_dict[province] = province_dict
     return jsonify(provines_dict)
 
-@bp.route('/covid/results/date', methods=['GET'])
+
 def get_date():
     c = Covid.query.filter_by(province="Ontario")
     df = pd.read_sql(c.statement, db.engine)
@@ -52,7 +52,7 @@ def get_date():
     provines_dict["Ontario"] = province_dict
     return jsonify(provines_dict)
 
-@bp.route('/covid/phu', methods=['GET'])
+
 @as_json
 def get_phus():
     c = Covid.query.filter_by(province="Ontario")
@@ -86,7 +86,7 @@ def get_phus():
     provines_dict["Ontario"] = province_dict
     return provines_dict
 
-@bp.route('/covid/phunew', methods=['GET'])
+
 @as_json
 def get_phunew():
     c = Covid.query.filter_by(province="Ontario")
@@ -110,7 +110,7 @@ def get_phunew():
     provines_dict["Ontario"] = province_dict
     return provines_dict
 
-@bp.route('/covid/growth', methods=['GET'])
+
 @as_json
 def get_growth():
     dfs = pd.read_sql_table('covid', db.engine)
@@ -145,6 +145,7 @@ def get_growth():
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
+    df = df.sort_values(by=['category', 'header'])
     data = []
     for index, row in df.iterrows():
         data.append({"header": row["header"], "category": row["category"],
@@ -153,7 +154,6 @@ def get_api_viz():
         "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"]})
     return data
 
-@bp.route('/covid/testresults', methods=['GET'])
 @as_json
 def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)
