@@ -87,6 +87,13 @@ class CanadaRecovered(db.Model):
     province = db.Column(db.String(), index=True)
     cumulative_recovered = db.Column(db.Integer())
 
+class CanadaTesting(db.Model):
+    __tablename__ = 'canadatesting'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    province = db.Column(db.String(), index=True)
+    cumulative_testing = db.Column(db.Integer())
+
 class InternationalMortality(db.Model):
     __tablename__ = 'internationalmortality'
     id = db.Column(db.Integer(), primary_key=True)

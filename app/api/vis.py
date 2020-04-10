@@ -433,3 +433,15 @@ def get_mobility():
     df = pd.read_sql_table('mobility', db.engine)
 
     return df
+
+def get_tested():
+    df = pd.read_sql_table('canadatesting', db.engine)
+    provinces = ['Ontario', 'Quebec', 'BC', 'Alberta']
+    df = df.loc[df.province.isin(provinces)]
+    df.loc[df.province == 'Ontario', 'testing_adjusted'] = df['cumulative_testing'] / 13448494 * 1000
+    df.loc[df.province == 'Quebec', 'testing_adjusted'] = df['cumulative_testing'] / 8164361 * 1000
+    df.loc[df.province == 'BC', 'testing_adjusted'] = df['cumulative_testing'] / 4648055 * 1000
+    df.loc[df.province == 'Alberta', 'testing_adjusted'] = df['cumulative_testing'] / 4067175 * 1000
+
+
+    return df

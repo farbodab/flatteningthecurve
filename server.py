@@ -22,6 +22,7 @@ def getcanada():
         getcanadamortality()
         getcanadarecovered()
         getcanadamobility()
+        getcanadatested()
         print('Canada data refreshed')
 
 def getinternational():
