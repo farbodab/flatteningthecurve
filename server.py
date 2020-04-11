@@ -22,6 +22,7 @@ def getcanada():
         getcanadamortality()
         getcanadarecovered()
         getcanadamobility()
+        getcanadatested()
         print('Canada data refreshed')
 
 def getinternational():
@@ -34,6 +35,8 @@ def getinternational():
 
 def sheets():
     with app.app_context():
+        # get_deaths()
+        # print('done')
     	gsHelper.dumpTablesToSheets()
     	print('Google sheets updated')
 

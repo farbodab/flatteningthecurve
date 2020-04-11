@@ -431,5 +431,51 @@ def get_icu_case_status_province():
 
 def get_mobility():
     df = pd.read_sql_table('mobility', db.engine)
+    return df
+
+def get_tested():
+    df = pd.read_sql_table('canadatesting', db.engine)
+    provinces = ['Ontario', 'Quebec', 'BC', 'Alberta']
+    df = df.loc[df.province.isin(provinces)]
+    df.loc[df.province == 'Ontario', 'testing_adjusted'] = df['cumulative_testing'] / 13448494 * 1000
+    df.loc[df.province == 'Quebec', 'testing_adjusted'] = df['cumulative_testing'] / 8164361 * 1000
+    df.loc[df.province == 'BC', 'testing_adjusted'] = df['cumulative_testing'] / 4648055 * 1000
+    df.loc[df.province == 'Alberta', 'testing_adjusted'] = df['cumulative_testing'] / 4067175 * 1000
 
     return df
+
+def get_deaths():
+    data = {'date':[], 'date_shifted':[], 'province':[], 'deaths':[], 'deaths_cumulative': []}
+    df = pd.read_sql_table('canadamortality', db.engine)
+    df = df.groupby(['date','province']).death_id.count().reset_index()
+    df = df.rename(columns={"death_id": "deaths"})
+    df_tw = pd.read_sql_table('internationalmortality', db.engine)
+    df_tw = df_tw.rename(columns={"country": "province"})
+    df_tw = df_tw[['date', 'province', 'deaths']]
+    df = pd.concat([df,df_tw])
+
+    provinces = df.province.unique()
+
+    for province in provinces:
+        temp = df.loc[df.province == province]
+        min = temp['date'].min()
+        max = temp['date'].max()
+        idx = pd.date_range(min, max)
+        temp = temp.set_index('date')
+        temp = temp.reindex(idx, fill_value=0).reset_index()
+        temp['province'] = temp.province.replace(0, province)
+        temp['deaths_cumulative'] = temp.deaths.cumsum()
+        temp = temp.loc[temp.deaths_cumulative > 10]
+        temp = temp.reset_index()
+        for index, row in temp.iterrows():
+            data['date'] += [row['index']]
+            data['date_shifted'] += [index]
+            data['province'] += [row['province']]
+            data['deaths'] += [row['deaths']]
+            data['deaths_cumulative'] += [row['deaths_cumulative']]
+
+
+    df_final = pd.DataFrame(data, columns=['date', 'date_shifted', 'province', 'deaths', 'deaths_cumulative'])
+
+
+    return df_final
