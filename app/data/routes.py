@@ -434,6 +434,25 @@ def getinternationalrecovered():
                 db.session.commit()
     return 'success',200
 
+@as_json
+def getinternationaltested():
+    url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+    df = df.fillna(-1)
+    for index, row in df.iterrows():
+        date = row['Date']
+        region = row['Entity'].split('-')[0]
+        cumulative_testing = row['Cumulative total']
+        c = InternationalTesting.query.filter_by(date=date, region=region).first()
+        if not c:
+            c = InternationalTesting(date=date, region=region, cumulative_testing=cumulative_testing)
+
+        db.session.add(c)
+        db.session.commit()
+    return 'success',200
+
 
 
 @as_json

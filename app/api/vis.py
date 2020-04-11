@@ -303,6 +303,10 @@ def get_testresults():
     investigations_pct = []
     negatives_pct = []
     positives_pct = []
+    new_positives_pct = []
+    hospitalizeds = []
+    icus = []
+    ventilators = []
 
     df['new_tests'] = df.total.diff()
     df['new_deaths'] = df.deaths.diff()
@@ -316,6 +320,9 @@ def get_testresults():
         resolved = row['resolved']
         death = row['deaths']
         total = row['total']
+        hospitalized = row['hospitalized']
+        icu = row['icu']
+        ventilator = row['ventilator']
 
         new_t = row['new_tests']
         new_d = row['new_deaths']
@@ -330,6 +337,10 @@ def get_testresults():
         positives += [positive]
         resolveds += [resolved]
         totals += [total]
+        hospitalizeds += [hospitalized-icu]
+        icus += [icu]
+        ventilators += [icu-ventilator]
+
         if row['new_tests']==row['new_tests']:
             new_tests += [new_t]
         else:
@@ -347,6 +358,7 @@ def get_testresults():
 
 
         positives_pct += [positive/total]
+        new_positives_pct += [new_p/new_t]
         negatives_pct += [negative/total]
         investigations_pct += [investigation/total]
 
@@ -364,9 +376,12 @@ def get_testresults():
         'Positive pct': positives_pct,
         'Negative pct': negatives_pct,
         'Investigation pct': investigations_pct,
+        'New Positive pct': new_positives_pct,
+        'Hospitalized': hospitalizeds,
+        'ICU': icus,
+        'Ventilator': ventilators
     }
-    df = pd.DataFrame(data, columns=['Date', 'Deaths', 'New deaths','Under Investigation', 'Positives', 'New positives','Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct'])
-
+    df = pd.DataFrame(data, columns=['Date', 'Deaths', 'New deaths','Under Investigation', 'Positives', 'New positives','Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct', 'New Positive pct', 'Hospitalized','ICU', 'Ventilator'])
     return  df
 
 def get_icu_capacity():
@@ -442,10 +457,20 @@ def get_tested():
     df.loc[df.province == 'BC', 'testing_adjusted'] = df['cumulative_testing'] / 4648055 * 1000
     df.loc[df.province == 'Alberta', 'testing_adjusted'] = df['cumulative_testing'] / 4067175 * 1000
 
+    dft = pd.read_sql_table('internationaltesting', db.engine)
+    regions = ['United States ', 'Italy ', 'South Korea ']
+    dft = dft.loc[dft.region.isin(regions)]
+    dft = dft.rename(columns={"region": "province"})
+    dft = dft[['date', 'province', 'cumulative_testing']]
+    df = pd.concat([df,dft])
+
+    df.loc[df.province == 'United States ', 'testing_adjusted'] = df['cumulative_testing'] / 330571851 * 1000
+    df.loc[df.province == 'Italy ', 'testing_adjusted'] = df['cumulative_testing'] / 60480998 * 1000
+    df.loc[df.province == 'South Korea ', 'testing_adjusted'] = df['cumulative_testing'] / 51259644 * 1000
     return df
 
 def get_deaths():
-    data = {'date':[], 'date_shifted':[], 'province':[], 'deaths':[], 'deaths_cumulative': []}
+    data = {'date':[], 'date_shifted':[], 'province':[], 'deaths':[], 'deaths_cumulative': [], 'deaths_cumulative_recent': []}
     df = pd.read_sql_table('canadamortality', db.engine)
     df = df.groupby(['date','province']).death_id.count().reset_index()
     df = df.rename(columns={"death_id": "deaths"})
@@ -465,6 +490,7 @@ def get_deaths():
         temp = temp.reindex(idx, fill_value=0).reset_index()
         temp['province'] = temp.province.replace(0, province)
         temp['deaths_cumulative'] = temp.deaths.cumsum()
+        temp['deaths_cumulative_recent'] = temp['deaths'].rolling(min_periods=1, window=8).sum()
         temp = temp.loc[temp.deaths_cumulative > 10]
         temp = temp.reset_index()
         for index, row in temp.iterrows():
@@ -473,9 +499,10 @@ def get_deaths():
             data['province'] += [row['province']]
             data['deaths'] += [row['deaths']]
             data['deaths_cumulative'] += [row['deaths_cumulative']]
+            data['deaths_cumulative_recent'] += [row['deaths_cumulative_recent']]
 
 
-    df_final = pd.DataFrame(data, columns=['date', 'date_shifted', 'province', 'deaths', 'deaths_cumulative'])
+    df_final = pd.DataFrame(data, columns=['date', 'date_shifted', 'province', 'deaths', 'deaths_cumulative', 'deaths_cumulative_recent'])
 
 
     return df_final

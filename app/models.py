@@ -108,6 +108,13 @@ class InternationalRecovered(db.Model):
     country = db.Column(db.String, index=True)
     recovered = db.Column(db.Integer)
 
+class InternationalTesting(db.Model):
+    __tablename__ = 'internationaltesting'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    region = db.Column(db.String(), index=True)
+    cumulative_testing = db.Column(db.Integer())
+
 class NPIInterventions(db.Model):
     __tablename__ = 'npiinterventions'
     id = db.Column(db.Integer(), primary_key=True)
