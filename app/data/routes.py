@@ -159,14 +159,14 @@ def getnpis():
 @as_json
 def capacityicu():
     df = pd.read_csv('CCSO.csv')
-    date = "05-04-2020"
+    date = "10-04-2020"
     date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']
         lhin = row['LHIN']
         critical_care_beds = row['# Critical Care Beds']
         critical_care_patients = row['# Critical Care Patients']
-        vented_beds = row['# Vented Beds']
+        vented_beds = row['# Baseline Vented Beds'] + row['# Expanded Vented Beds']
         vented_patients = row['# Vented Patients']
         suspected_covid = row['# Suspected COVID-19']
         confirmed_positive = row['# Confirmed Positive COVID-19']

@@ -24,7 +24,8 @@ def extractCCSO(argv):
             "LHIN",
             "# Critical Care Beds",
             "# Critical Care Patients",
-            "# Vented Beds",
+            "# Baseline Vented Beds",
+            "# Expanded Vented Beds",
             "# Vented Patients",
             "% Ventilator Capacity Remaining",
             "# Suspected COVID-19",
@@ -33,8 +34,10 @@ def extractCCSO(argv):
             "# Patients in Expanded ICU",
             "# COVID Positive Patients in Expanded ICU"]
 
-    prepend = ['Central','Central','Central','Central','East', 'East', 'East',
-    'North', 'North', 'Toronto', 'West', 'West','West','West']
+    prepend = ['Central,L5: CW','Central,L6: MH','Central,L8: Central',
+    'Central,L12: NSM','East,L9: CE', 'East,L10: SE', 'East,L11: Champlain',
+    'North,L13: NE', 'North,L14: NW', 'Toronto,L7: Toronto', 'West,L1: ESC',
+    'West,L2: SW','West,L3: WW','West,L4: HNHB']
 
 
     def parsenum(value):

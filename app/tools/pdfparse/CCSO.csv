@@ -1,15 +1,15 @@
-Region,LHIN,# Critical Care Beds,# Critical Care Patients,# Vented Beds,# Vented Patients,% Ventilator Capacity Remaining,# Suspected COVID-19,# Confirmed Positive COVID-19,# Confirmed Positive COVID-19 Patients with Invasive Ventilation,# Patients in Expanded ICU,# COVID Positive Patients in Expanded ICU
-Central,Unnamed: 0,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5,ICU,Unnamed: 6,Unnamed: 7,Unnamed: 8,Unnamed: 9,Unnamed: 10
-Central,0,0,0,0,0,0,Capacity,0,0,0,0,0
-Central,L5: CW 68,0,49,26,79,36,65.7%,12,14,12,3,2
-Central,L6: MH 130,0,107,116,91,69,66.7%,21,25,20,3,3
-East,L8: Central 153,0,119,130,117,88,64.4%,12,47,39,19,0
-East,L12: NSM 48,0,22,26,45,8,88.7%,5,2,2,0,0
-East,L9: CE 163,0,121,109,77,80,57.0%,37,34,30,0,0
-North,L10: SE 103,0,64,57,37,33,64.9%,11,8,8,0,0
-North,L11:,0,0,0,0,0,0,0,0,0,0,0
-Toronto,199,0,132,119,185,48,84.2%,23,21,18,3,1
-West,Champlain,0,0,0,0,0,0,0,0,0,0,0
-West,L13: NE 102,0,49,53,69,11,91.0%,15,4,1,0,0
-West,L14: NW 30,0,13,16,24,0,100.0%,2,1,0,0,0
-West,L7: 373,0,257,266,208,121,74.5%,52,48,44,1,1
+Region,LHIN,# Critical Care Beds,# Critical Care Patients,# Baseline Vented Beds,# Expanded Vented Beds,# Vented Patients,% Ventilator Capacity Remaining,# Suspected COVID-19,# Confirmed Positive COVID-19,# Confirmed Positive COVID-19 Patients with Invasive Ventilation,# Patients in Expanded ICU,# COVID Positive Patients in Expanded ICU
+Central,L5: CW,68,51,26,79,36,65.70%,10,17,14,3,2
+Central,L6: MH,130,108,116,91,63,69.60%,20,26,20,2,2
+Central,L8: Central,153,120,130,117,90,63.60%,12,45,41,21,0
+Central,L12: NSM,48,23,26,45,9,87.30%,5,2,2,0,0
+East,L9: CE,163,123,109,77,78,58.10%,39,33,27,0,0
+East,L10: SE,103,72,57,37,35,62.80%,14,8,8,0,0
+East,L11: Champlain,199,128,119,185,44,85.50%,25,21,19,4,1
+North,L13: NE,102,54,53,69,13,89.30%,13,3,2,0,0
+North,L14: NW,30,10,16,24,1,97.50%,0,1,0,0,0
+Toronto,L7: Toronto,373,256,266,208,120,74.70%,56,48,39,1,1
+West,L1: ESC,87,56,73,63,29,78.70%,18,12,11,0,0
+West,L2: SW,187,110,98,207,24,92.10%,36,10,4,0,0
+West,L3: WW,98,54,58,77,29,78.50%,10,17,17,0,0
+West,L4: HNHB,271,143,172,213,48,87.50%,23,14,11,0,0
