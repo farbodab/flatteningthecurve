@@ -35,7 +35,7 @@ def getinternational():
 
 def sheets():
     with app.app_context():
-        # get_deaths()
+        # getinternationaltested()
         # print('done')
     	gsHelper.dumpTablesToSheets()
     	print('Google sheets updated')
