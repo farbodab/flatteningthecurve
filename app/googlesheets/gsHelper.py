@@ -68,6 +68,11 @@ collections = [
         'name':'Canada Testing',
         'data':api.vis.get_tested,
         'endpoint':'/covid/testing'
+    },
+    {
+        'name':'Canada Deaths',
+        'data':api.vis.get_deaths,
+        'endpoint':'/covid/deaths'
     }
 ]
 

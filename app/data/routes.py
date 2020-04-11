@@ -242,7 +242,7 @@ def getcanadamortality():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/mortality.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['date'] = pd.to_datetime(df['date_death_report'])
+    df['date'] = pd.to_datetime(df['date_death_report'],dayfirst=True)
     df = df.fillna("NULL")
     df = df.replace("NA", "NULL")
     for index, row in df.iterrows():
@@ -283,7 +283,7 @@ def getcanadarecovered():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/recovered_cumulative.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['date_recovered'] = pd.to_datetime(df['date_recovered'])
+    df['date_recovered'] = pd.to_datetime(df['date_recovered'],dayfirst=True)
     df = df.fillna(-1)
     for index, row in df.iterrows():
         date = row['date_recovered']
