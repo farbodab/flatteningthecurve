@@ -158,8 +158,14 @@ class Source(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String, index=True)
     source = db.Column(db.String)
-    compiled = db.Column(db.String)
     description = db.Column(db.String)
+    data_feed_type = db.Column(db.String)
+    link = db.Column(db.String)
+    refresh = db.Column(db.String)
+    contributor = db.Column(db.String)
+    contact = db.Column(db.String)
+    download = db.Column(db.String)
+
 
 class Mobility(db.Model):
     __tablename__ = 'mobility'

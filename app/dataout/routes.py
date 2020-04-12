@@ -22,7 +22,7 @@ def sendcovidtests():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -46,7 +46,7 @@ def sendcovid():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -69,7 +69,7 @@ def sendnpi():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -90,7 +90,7 @@ def sendcanadamortality():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -111,7 +111,7 @@ def sendcanadarecovered():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -133,7 +133,7 @@ def sendinternationaldata():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -154,7 +154,7 @@ def sendinternationalmortality():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -175,7 +175,7 @@ def sendinternationalrecovered():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -197,7 +197,7 @@ def icucapacity():
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -211,14 +211,14 @@ def icucapacity():
 @bp.route('/data/phucapacity', methods=['GET'])
 def phucapacity():
     """
-    ICU Bed and Acute Bed Capacity of Public Health Units of The Province of Ontario 
+    ICU Bed and Acute Bed Capacity of Public Health Units of The Province of Ontario
     ---
     tags:
         - Data
     responses:
         200:
             description: '.csv'
-            content: 
+            content:
                 text/plain:
                     schema:
                         type: string
@@ -229,23 +229,18 @@ def phucapacity():
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
-@bp.route('/data/source', methods=['GET'])
-def source():
-    """
-    List of sources for data
-    ---
-    tags:
-        - Data
-    responses:
-        200:
-            description: '.csv'
-            content: 
-                text/plain:
-                    schema:
-                        type: string
-    """
-    df = pd.read_sql_table('source', db.engine)
+@bp.route('/data/canadatesting', methods=['GET'])
+def canadatesting():
+    df = pd.read_sql_table('canadatesting', db.engine)
     resp = make_response(df.to_csv(index=False))
-    resp.headers["Content-Disposition"] = "attachment; filename=source.csv"
+    resp.headers["Content-Disposition"] = "attachment; filename=canada_testing.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@bp.route('/data/internationaltesting', methods=['GET'])
+def internationaltesting():
+    df = pd.read_sql_table('internationaltesting', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=international_testing.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp

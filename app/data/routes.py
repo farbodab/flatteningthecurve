@@ -356,7 +356,7 @@ def getcanadamobility():
         except Exception as err:
             print("failed to get data for {}".format(dt), err)
 
-    return 
+    return
 
 ########################################
 ###########INTERNATIONAL DATA###########
@@ -517,22 +517,46 @@ def new_viz():
 
 
 
-@bp.route('/covid/source', methods=['POST'])
+@bp.route('/covid/source', methods=['GET'])
 @as_json
 def new_source():
-    if request.is_json:
-        items = request.get_json()
-        for item in items:
-            name = item['name']
-            source = item['source']
-            compiled = item['compiled']
-            description = item['description']
-            c = Source(source=source, name=name, description=description, compiled=compiled)
+    if os.environ['FLASK_CONFIG'] == 'development':
+        url = "https://docs.google.com/spreadsheets/d/1UHDUYuqXCVkdPZTH-Z8TM_9CIDChYV77aGa_2-_2EFc/export?format=csv&id=1UHDUYuqXCVkdPZTH-Z8TM_9CIDChYV77aGa_2-_2EFc&gid=0"
+    elif os.environ['FLASK_CONFIG'] == 'production':
+        url = "https://docs.google.com/spreadsheets/d/1UHDUYuqXCVkdPZTH-Z8TM_9CIDChYV77aGa_2-_2EFc/export?format=csv&id=1UHDUYuqXCVkdPZTH-Z8TM_9CIDChYV77aGa_2-_2EFc&gid=1130875452"
+    s=requests.get(url).content
+    data = io.StringIO(s.decode('utf-8'))
+    df = pd.read_csv(data)
+    for index, row in df.iterrows():
+        name = row['Name']
+        source = row['Source']
+        description = row['Description']
+        data_feed_type = row['Data feed type']
+        link = row['Link of source']
+        refresh = row['Refresh']
+        contributor = row['Contributor']
+        contact = row['Contributor contact']
+        download = row['Download Link']
+
+        c = Source.query.filter_by(name=name).first()
+        if not c:
+            c = Source(name=name, source=source, description=description,
+            data_feed_type=data_feed_type, link=link, refresh=refresh,
+            contributor=contributor, contact=contact, download=download)
             db.session.add(c)
             db.session.commit()
-        return 'success',200
-    else:
-        return 'must use json', 400
+        else:
+            c.source = source
+            c.description = description
+            c.data_feed_type = data_feed_type
+            c.link = link
+            c.refresh = refresh
+            c.contributor = contributor
+            c.contact = contact
+            c.download = download
+            db.session.add(c)
+            db.session.commit()
+    return 'success',200
 
 
 ########################################
