@@ -13,7 +13,7 @@ import sys
 #parser.add_argument('--days_per_plot', type=int, default=43)
 #args = parser.parse_args()
 
-start_date = date(2020, 2, 16)
+start_date = date(2020, 2, 23)
 days_per_plot = 43#args.days_per_plot
 
 def points_inside(plot, box):
@@ -237,3 +237,9 @@ def pdftocsv(infile, outfile):
         print_header(f)
         for result in process_pdf(infile):#args):
             print_csv(*result, f)
+
+if __name__ == '__main__':
+    infile = sys.argv[1]
+    outfile = '{}.csv'.format(infile.split('.')[0])
+    print('infile {}\noutfile {}\n'.format(infile, outfile))
+    pdftocsv(infile, outfile)
