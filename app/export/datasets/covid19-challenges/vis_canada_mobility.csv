@@ -1,0 +1,3047 @@
+id,date,region,category,value
+1,2020-02-16,Canada,Retail & recreation,12.84
+2,2020-02-17,Canada,Retail & recreation,-12.04
+3,2020-02-18,Canada,Retail & recreation,-1.33
+4,2020-02-19,Canada,Retail & recreation,0.82
+5,2020-02-20,Canada,Retail & recreation,5.69
+6,2020-02-21,Canada,Retail & recreation,1.6
+7,2020-02-22,Canada,Retail & recreation,7.71
+8,2020-02-23,Canada,Retail & recreation,9.65
+9,2020-02-24,Canada,Retail & recreation,2.54
+10,2020-02-25,Canada,Retail & recreation,1.88
+11,2020-02-26,Canada,Retail & recreation,-1.68
+12,2020-02-27,Canada,Retail & recreation,-7.99
+13,2020-02-28,Canada,Retail & recreation,-0.61
+14,2020-02-29,Canada,Retail & recreation,6.82
+15,2020-03-01,Canada,Retail & recreation,10.26
+16,2020-03-02,Canada,Retail & recreation,3.49
+17,2020-03-03,Canada,Retail & recreation,4.2
+18,2020-03-04,Canada,Retail & recreation,4.75
+19,2020-03-05,Canada,Retail & recreation,7.41
+20,2020-03-06,Canada,Retail & recreation,1.29
+21,2020-03-07,Canada,Retail & recreation,6.5
+22,2020-03-08,Canada,Retail & recreation,9.19
+23,2020-03-09,Canada,Retail & recreation,3.88
+24,2020-03-10,Canada,Retail & recreation,-0.61
+25,2020-03-11,Canada,Retail & recreation,3.46
+26,2020-03-12,Canada,Retail & recreation,7.25
+27,2020-03-13,Canada,Retail & recreation,-4.73
+28,2020-03-14,Canada,Retail & recreation,-10.89
+29,2020-03-15,Canada,Retail & recreation,-11.55
+30,2020-03-16,Canada,Retail & recreation,-11.57
+31,2020-03-17,Canada,Retail & recreation,-26.65
+32,2020-03-18,Canada,Retail & recreation,-32.81
+33,2020-03-19,Canada,Retail & recreation,-35.76
+34,2020-03-20,Canada,Retail & recreation,-43.6
+35,2020-03-21,Canada,Retail & recreation,-48.91
+36,2020-03-22,Canada,Retail & recreation,-51.27
+37,2020-03-23,Canada,Retail & recreation,-45.48
+38,2020-03-24,Canada,Retail & recreation,-49.46
+39,2020-03-25,Canada,Retail & recreation,-53.39
+40,2020-03-26,Canada,Retail & recreation,-54.03
+41,2020-03-27,Canada,Retail & recreation,-54.69
+42,2020-03-28,Canada,Retail & recreation,-59.4
+43,2020-03-29,Canada,Retail & recreation,-59.05
+44,2020-02-16,Canada,Grocery & pharmacy,7.59
+45,2020-02-17,Canada,Grocery & pharmacy,-15.12
+46,2020-02-18,Canada,Grocery & pharmacy,4.28
+47,2020-02-19,Canada,Grocery & pharmacy,1.4
+48,2020-02-20,Canada,Grocery & pharmacy,3.69
+49,2020-02-21,Canada,Grocery & pharmacy,-0.73
+50,2020-02-22,Canada,Grocery & pharmacy,4.97
+51,2020-02-23,Canada,Grocery & pharmacy,6.12
+52,2020-02-24,Canada,Grocery & pharmacy,2.22
+53,2020-02-25,Canada,Grocery & pharmacy,5.29
+54,2020-02-26,Canada,Grocery & pharmacy,1.54
+55,2020-02-27,Canada,Grocery & pharmacy,-8.86
+56,2020-02-28,Canada,Grocery & pharmacy,0.7
+57,2020-02-29,Canada,Grocery & pharmacy,6.65
+58,2020-03-01,Canada,Grocery & pharmacy,9.37
+59,2020-03-02,Canada,Grocery & pharmacy,3.28
+60,2020-03-03,Canada,Grocery & pharmacy,5.53
+61,2020-03-04,Canada,Grocery & pharmacy,3.52
+62,2020-03-05,Canada,Grocery & pharmacy,4.97
+63,2020-03-06,Canada,Grocery & pharmacy,-0.67
+64,2020-03-07,Canada,Grocery & pharmacy,4.94
+65,2020-03-08,Canada,Grocery & pharmacy,7.35
+66,2020-03-09,Canada,Grocery & pharmacy,4.16
+67,2020-03-10,Canada,Grocery & pharmacy,0.9
+68,2020-03-11,Canada,Grocery & pharmacy,6.7
+69,2020-03-12,Canada,Grocery & pharmacy,27.4
+70,2020-03-13,Canada,Grocery & pharmacy,34.64
+71,2020-03-14,Canada,Grocery & pharmacy,19.19
+72,2020-03-15,Canada,Grocery & pharmacy,11.31
+73,2020-03-16,Canada,Grocery & pharmacy,22.54
+74,2020-03-17,Canada,Grocery & pharmacy,12.57
+75,2020-03-18,Canada,Grocery & pharmacy,6.6
+76,2020-03-19,Canada,Grocery & pharmacy,3.51
+77,2020-03-20,Canada,Grocery & pharmacy,-5.27
+78,2020-03-21,Canada,Grocery & pharmacy,-12.11
+79,2020-03-22,Canada,Grocery & pharmacy,-20.97
+80,2020-03-23,Canada,Grocery & pharmacy,-13.11
+81,2020-03-24,Canada,Grocery & pharmacy,-15.27
+82,2020-03-25,Canada,Grocery & pharmacy,-20.85
+83,2020-03-26,Canada,Grocery & pharmacy,-20.87
+84,2020-03-27,Canada,Grocery & pharmacy,-20.53
+85,2020-03-28,Canada,Grocery & pharmacy,-27.08
+86,2020-03-29,Canada,Grocery & pharmacy,-34.65
+87,2020-02-16,Canada,Parks,40.65
+88,2020-02-17,Canada,Parks,62.82
+89,2020-02-18,Canada,Parks,6.02
+90,2020-02-19,Canada,Parks,9.32
+91,2020-02-20,Canada,Parks,13.54
+92,2020-02-21,Canada,Parks,10.23
+93,2020-02-22,Canada,Parks,27.85
+94,2020-02-23,Canada,Parks,36.0
+95,2020-02-24,Canada,Parks,18.65
+96,2020-02-25,Canada,Parks,8.96
+97,2020-02-26,Canada,Parks,0.64
+98,2020-02-27,Canada,Parks,-5.99
+99,2020-02-28,Canada,Parks,-5.1
+100,2020-02-29,Canada,Parks,10.5
+102,2020-03-02,Canada,Parks,1.02
+104,2020-03-04,Canada,Parks,10.9
+112,2020-03-12,Canada,Parks,11.47
+114,2020-03-14,Canada,Parks,-8.16
+116,2020-03-16,Canada,Parks,14.77
+118,2020-03-18,Canada,Parks,14.21
+120,2020-03-20,Canada,Parks,-7.85
+122,2020-03-22,Canada,Parks,3.98
+124,2020-03-24,Canada,Parks,-9.86
+126,2020-03-26,Canada,Parks,-17.96
+128,2020-03-28,Canada,Parks,-30.06
+130,2020-02-16,Canada,Transit stations,4.32
+132,2020-02-18,Canada,Transit stations,-1.29
+134,2020-02-20,Canada,Transit stations,-0.91
+136,2020-02-22,Canada,Transit stations,6.07
+138,2020-02-24,Canada,Transit stations,-0.67
+140,2020-02-26,Canada,Transit stations,-1.56
+142,2020-02-28,Canada,Transit stations,1.02
+144,2020-03-01,Canada,Transit stations,5.55
+146,2020-03-03,Canada,Transit stations,-2.35
+148,2020-03-05,Canada,Transit stations,-0.98
+150,2020-03-07,Canada,Transit stations,2.82
+152,2020-03-09,Canada,Transit stations,-2.78
+154,2020-03-11,Canada,Transit stations,-2.77
+156,2020-03-13,Canada,Transit stations,-17.26
+158,2020-03-15,Canada,Transit stations,-21.82
+160,2020-03-17,Canada,Transit stations,-45.12
+162,2020-03-19,Canada,Transit stations,-52.04
+164,2020-03-21,Canada,Transit stations,-49.07
+166,2020-03-23,Canada,Transit stations,-63.17
+168,2020-03-25,Canada,Transit stations,-65.41
+170,2020-03-27,Canada,Transit stations,-66.42
+172,2020-03-29,Canada,Transit stations,-65.61
+174,2020-02-17,Canada,Workplace,-52.26
+176,2020-02-19,Canada,Workplace,0.32
+178,2020-02-21,Canada,Workplace,-2.59
+180,2020-02-23,Canada,Workplace,4.9
+182,2020-02-25,Canada,Workplace,3.19
+184,2020-02-27,Canada,Workplace,-5.24
+186,2020-02-29,Canada,Workplace,6.68
+188,2020-03-02,Canada,Workplace,-0.98
+190,2020-03-04,Canada,Workplace,-0.85
+192,2020-03-06,Canada,Workplace,-1.07
+194,2020-03-08,Canada,Workplace,4.03
+196,2020-03-10,Canada,Workplace,1.27
+198,2020-03-12,Canada,Workplace,1.96
+200,2020-03-14,Canada,Workplace,-0.81
+202,2020-03-16,Canada,Workplace,-26.79
+204,2020-03-18,Canada,Workplace,-39.89
+206,2020-03-20,Canada,Workplace,-45.45
+208,2020-03-22,Canada,Workplace,-35.1
+210,2020-03-24,Canada,Workplace,-54.51
+212,2020-03-26,Canada,Workplace,-59.23
+214,2020-03-28,Canada,Workplace,-44.05
+216,2020-02-16,Canada,Residential,-1.62
+218,2020-02-18,Canada,Residential,0.86
+220,2020-02-20,Canada,Residential,-0.17
+222,2020-02-22,Canada,Residential,-0.71
+224,2020-02-24,Canada,Residential,-0.02
+226,2020-02-26,Canada,Residential,0.85
+228,2020-02-28,Canada,Residential,1.23
+230,2020-03-01,Canada,Residential,-0.77
+232,2020-03-03,Canada,Residential,0.34
+234,2020-03-05,Canada,Residential,0.56
+236,2020-03-07,Canada,Residential,0.06
+238,2020-03-09,Canada,Residential,0.59
+240,2020-03-11,Canada,Residential,0.49
+242,2020-03-13,Canada,Residential,4.83
+244,2020-03-15,Canada,Residential,4.09
+246,2020-03-17,Canada,Residential,13.55
+248,2020-03-19,Canada,Residential,17.4
+250,2020-03-21,Canada,Residential,13.37
+252,2020-03-23,Canada,Residential,19.96
+254,2020-03-25,Canada,Residential,23.33
+256,2020-03-27,Canada,Residential,25.49
+258,2020-03-29,Canada,Residential,13.7
+260,2020-02-17,Alberta,Retail & recreation,-7.41
+262,2020-02-19,Alberta,Retail & recreation,3.12
+264,2020-02-21,Alberta,Retail & recreation,2.43
+266,2020-02-23,Alberta,Retail & recreation,3.62
+268,2020-02-25,Alberta,Retail & recreation,1.95
+270,2020-02-27,Alberta,Retail & recreation,7.26
+272,2020-02-29,Alberta,Retail & recreation,5.32
+274,2020-03-02,Alberta,Retail & recreation,4.33
+276,2020-03-04,Alberta,Retail & recreation,4.38
+278,2020-03-06,Alberta,Retail & recreation,4.09
+280,2020-03-08,Alberta,Retail & recreation,-0.94
+282,2020-03-10,Alberta,Retail & recreation,2.31
+284,2020-03-12,Alberta,Retail & recreation,4.36
+286,2020-03-14,Alberta,Retail & recreation,-18.71
+288,2020-03-16,Alberta,Retail & recreation,-11.01
+290,2020-03-18,Alberta,Retail & recreation,-31.02
+292,2020-03-20,Alberta,Retail & recreation,-38.2
+294,2020-03-22,Alberta,Retail & recreation,-48.93
+296,2020-03-24,Alberta,Retail & recreation,-48.08
+298,2020-03-26,Alberta,Retail & recreation,-47.31
+300,2020-03-28,Alberta,Retail & recreation,-54.91
+302,2020-02-16,Alberta,Grocery & pharmacy,-1.69
+304,2020-02-18,Alberta,Grocery & pharmacy,0.63
+306,2020-02-20,Alberta,Grocery & pharmacy,8.72
+308,2020-02-22,Alberta,Grocery & pharmacy,6.54
+310,2020-02-24,Alberta,Grocery & pharmacy,1.13
+312,2020-02-26,Alberta,Grocery & pharmacy,7.42
+314,2020-02-28,Alberta,Grocery & pharmacy,10.82
+101,2020-03-01,Canada,Parks,22.94
+103,2020-03-03,Canada,Parks,8.4
+105,2020-03-05,Canada,Parks,17.52
+106,2020-03-06,Canada,Parks,5.6
+107,2020-03-07,Canada,Parks,17.21
+108,2020-03-08,Canada,Parks,49.76
+109,2020-03-09,Canada,Parks,30.74
+110,2020-03-10,Canada,Parks,-2.06
+111,2020-03-11,Canada,Parks,11.65
+113,2020-03-13,Canada,Parks,-16.26
+115,2020-03-15,Canada,Parks,27.69
+117,2020-03-17,Canada,Parks,6.76
+119,2020-03-19,Canada,Parks,17.91
+121,2020-03-21,Canada,Parks,11.45
+123,2020-03-23,Canada,Parks,-26.69
+125,2020-03-25,Canada,Parks,1.33
+127,2020-03-27,Canada,Parks,-9.6
+129,2020-03-29,Canada,Parks,-16.35
+131,2020-02-17,Canada,Transit stations,-27.55
+133,2020-02-19,Canada,Transit stations,-0.05
+135,2020-02-21,Canada,Transit stations,-0.83
+137,2020-02-23,Canada,Transit stations,4.96
+139,2020-02-25,Canada,Transit stations,-0.17
+141,2020-02-27,Canada,Transit stations,-4.53
+143,2020-02-29,Canada,Transit stations,6.28
+145,2020-03-02,Canada,Transit stations,-2.38
+147,2020-03-04,Canada,Transit stations,-0.47
+149,2020-03-06,Canada,Transit stations,-2.74
+151,2020-03-08,Canada,Transit stations,3.28
+153,2020-03-10,Canada,Transit stations,-5.61
+155,2020-03-12,Canada,Transit stations,-5.66
+157,2020-03-14,Canada,Transit stations,-19.18
+159,2020-03-16,Canada,Transit stations,-37.1
+161,2020-03-18,Canada,Transit stations,-48.3
+163,2020-03-20,Canada,Transit stations,-54.4
+165,2020-03-22,Canada,Transit stations,-54.14
+167,2020-03-24,Canada,Transit stations,-64.26
+169,2020-03-26,Canada,Transit stations,-67.93
+171,2020-03-28,Canada,Transit stations,-63.98
+173,2020-02-16,Canada,Workplace,0.27
+175,2020-02-18,Canada,Workplace,-0.77
+177,2020-02-20,Canada,Workplace,1.1
+179,2020-02-22,Canada,Workplace,5.96
+181,2020-02-24,Canada,Workplace,2.58
+183,2020-02-26,Canada,Workplace,0.77
+185,2020-02-28,Canada,Workplace,0.35
+187,2020-03-01,Canada,Workplace,5.47
+189,2020-03-03,Canada,Workplace,-0.12
+191,2020-03-05,Canada,Workplace,-2.05
+193,2020-03-07,Canada,Workplace,5.68
+195,2020-03-09,Canada,Workplace,1.98
+197,2020-03-11,Canada,Workplace,2.3
+199,2020-03-13,Canada,Workplace,-6.17
+201,2020-03-15,Canada,Workplace,-5.0
+203,2020-03-17,Canada,Workplace,-34.57
+205,2020-03-19,Canada,Workplace,-43.04
+207,2020-03-21,Canada,Workplace,-32.08
+209,2020-03-23,Canada,Workplace,-51.15
+211,2020-03-25,Canada,Workplace,-58.59
+213,2020-03-27,Canada,Workplace,-58.52
+215,2020-03-29,Canada,Workplace,-43.62
+217,2020-02-17,Canada,Residential,11.21
+219,2020-02-19,Canada,Residential,0.33
+221,2020-02-21,Canada,Residential,0.91
+223,2020-02-23,Canada,Residential,-0.97
+225,2020-02-25,Canada,Residential,-0.25
+227,2020-02-27,Canada,Residential,3.96
+229,2020-02-29,Canada,Residential,-0.33
+231,2020-03-02,Canada,Residential,0.93
+233,2020-03-04,Canada,Residential,0.49
+235,2020-03-06,Canada,Residential,1.25
+237,2020-03-08,Canada,Residential,-0.36
+239,2020-03-10,Canada,Residential,1.44
+241,2020-03-12,Canada,Residential,0.63
+243,2020-03-14,Canada,Residential,4.67
+245,2020-03-16,Canada,Residential,9.75
+247,2020-03-18,Canada,Residential,15.58
+249,2020-03-20,Canada,Residential,20.22
+251,2020-03-22,Canada,Residential,11.29
+253,2020-03-24,Canada,Residential,21.73
+255,2020-03-26,Canada,Residential,24.64
+257,2020-03-28,Canada,Residential,16.59
+259,2020-02-16,Alberta,Retail & recreation,9.74
+261,2020-02-18,Alberta,Retail & recreation,-0.62
+263,2020-02-20,Alberta,Retail & recreation,7.31
+265,2020-02-22,Alberta,Retail & recreation,8.17
+267,2020-02-24,Alberta,Retail & recreation,-0.78
+269,2020-02-26,Alberta,Retail & recreation,5.12
+271,2020-02-28,Alberta,Retail & recreation,8.27
+273,2020-03-01,Alberta,Retail & recreation,7.93
+275,2020-03-03,Alberta,Retail & recreation,5.18
+277,2020-03-05,Alberta,Retail & recreation,5.6
+279,2020-03-07,Alberta,Retail & recreation,-2.41
+281,2020-03-09,Alberta,Retail & recreation,2.22
+283,2020-03-11,Alberta,Retail & recreation,3.37
+285,2020-03-13,Alberta,Retail & recreation,-8.46
+287,2020-03-15,Alberta,Retail & recreation,-17.67
+289,2020-03-17,Alberta,Retail & recreation,-21.36
+291,2020-03-19,Alberta,Retail & recreation,-35.48
+293,2020-03-21,Alberta,Retail & recreation,-46.24
+295,2020-03-23,Alberta,Retail & recreation,-43.37
+297,2020-03-25,Alberta,Retail & recreation,-46.81
+299,2020-03-27,Alberta,Retail & recreation,-47.67
+301,2020-03-29,Alberta,Retail & recreation,-54.7
+303,2020-02-17,Alberta,Grocery & pharmacy,-2.19
+305,2020-02-19,Alberta,Grocery & pharmacy,4.48
+307,2020-02-21,Alberta,Grocery & pharmacy,3.08
+309,2020-02-23,Alberta,Grocery & pharmacy,2.58
+311,2020-02-25,Alberta,Grocery & pharmacy,2.63
+313,2020-02-27,Alberta,Grocery & pharmacy,9.62
+315,2020-02-29,Alberta,Grocery & pharmacy,6.58
+317,2020-03-02,Alberta,Grocery & pharmacy,6.76
+319,2020-03-04,Alberta,Grocery & pharmacy,7.19
+321,2020-03-06,Alberta,Grocery & pharmacy,8.8
+323,2020-03-08,Alberta,Grocery & pharmacy,3.38
+325,2020-03-10,Alberta,Grocery & pharmacy,4.69
+327,2020-03-12,Alberta,Grocery & pharmacy,28.57
+329,2020-03-14,Alberta,Grocery & pharmacy,12.25
+331,2020-03-16,Alberta,Grocery & pharmacy,31.48
+333,2020-03-18,Alberta,Grocery & pharmacy,11.32
+335,2020-03-20,Alberta,Grocery & pharmacy,3.54
+337,2020-03-22,Alberta,Grocery & pharmacy,-20.7
+339,2020-03-24,Alberta,Grocery & pharmacy,-16.27
+341,2020-03-26,Alberta,Grocery & pharmacy,-11.57
+343,2020-03-28,Alberta,Grocery & pharmacy,-21.17
+345,2020-02-16,Alberta,Parks,27.51
+347,2020-02-18,Alberta,Parks,-1.96
+349,2020-02-20,Alberta,Parks,11.13
+351,2020-02-22,Alberta,Parks,18.92
+353,2020-02-24,Alberta,Parks,0.59
+355,2020-02-26,Alberta,Parks,7.92
+357,2020-02-28,Alberta,Parks,12.71
+359,2020-03-01,Alberta,Parks,13.35
+361,2020-03-03,Alberta,Parks,13.44
+363,2020-03-05,Alberta,Parks,2.47
+365,2020-03-07,Alberta,Parks,-10.75
+367,2020-03-09,Alberta,Parks,16.1
+369,2020-03-11,Alberta,Parks,15.53
+371,2020-03-13,Alberta,Parks,-28.35
+373,2020-03-15,Alberta,Parks,-28.24
+375,2020-03-17,Alberta,Parks,-11.66
+377,2020-03-19,Alberta,Parks,-27.77
+379,2020-03-21,Alberta,Parks,8.38
+381,2020-03-23,Alberta,Parks,-22.2
+383,2020-03-25,Alberta,Parks,-24.67
+385,2020-03-27,Alberta,Parks,-16.06
+387,2020-03-29,Alberta,Parks,-23.35
+389,2020-02-17,Alberta,Transit stations,-40.37
+391,2020-02-19,Alberta,Transit stations,-6.73
+393,2020-02-21,Alberta,Transit stations,-1.02
+395,2020-02-23,Alberta,Transit stations,-0.11
+397,2020-02-25,Alberta,Transit stations,1.95
+399,2020-02-27,Alberta,Transit stations,0.97
+401,2020-02-29,Alberta,Transit stations,3.52
+403,2020-03-02,Alberta,Transit stations,1.16
+405,2020-03-04,Alberta,Transit stations,-0.04
+407,2020-03-06,Alberta,Transit stations,2.58
+409,2020-03-08,Alberta,Transit stations,-4.37
+411,2020-03-10,Alberta,Transit stations,-3.77
+413,2020-03-12,Alberta,Transit stations,-7.73
+415,2020-03-14,Alberta,Transit stations,-26.38
+417,2020-03-16,Alberta,Transit stations,-39.23
+419,2020-03-18,Alberta,Transit stations,-51.58
+421,2020-03-20,Alberta,Transit stations,-53.25
+423,2020-03-22,Alberta,Transit stations,-50.9
+425,2020-03-24,Alberta,Transit stations,-65.78
+427,2020-03-26,Alberta,Transit stations,-67.75
+429,2020-03-28,Alberta,Transit stations,-62.54
+431,2020-02-16,Alberta,Workplace,-2.78
+433,2020-02-18,Alberta,Workplace,-5.28
+435,2020-02-20,Alberta,Workplace,-1.25
+437,2020-02-22,Alberta,Workplace,4.57
+439,2020-02-24,Alberta,Workplace,4.4
+441,2020-02-26,Alberta,Workplace,4.99
+443,2020-02-28,Alberta,Workplace,3.96
+445,2020-03-01,Alberta,Workplace,4.03
+447,2020-03-03,Alberta,Workplace,5.45
+449,2020-03-05,Alberta,Workplace,4.45
+451,2020-03-07,Alberta,Workplace,2.72
+453,2020-03-09,Alberta,Workplace,3.89
+455,2020-03-11,Alberta,Workplace,4.02
+457,2020-03-13,Alberta,Workplace,-2.9
+459,2020-03-15,Alberta,Workplace,-7.04
+461,2020-03-17,Alberta,Workplace,-29.01
+463,2020-03-19,Alberta,Workplace,-39.02
+465,2020-03-21,Alberta,Workplace,-29.86
+467,2020-03-23,Alberta,Workplace,-46.5
+469,2020-03-25,Alberta,Workplace,-50.25
+471,2020-03-27,Alberta,Workplace,-49.88
+473,2020-03-29,Alberta,Workplace,-41.02
+475,2020-02-17,Alberta,Residential,15.11
+477,2020-02-19,Alberta,Residential,0.75
+479,2020-02-21,Alberta,Residential,-0.05
+481,2020-02-23,Alberta,Residential,-0.17
+483,2020-02-25,Alberta,Residential,-0.14
+485,2020-02-27,Alberta,Residential,-0.26
+487,2020-02-29,Alberta,Residential,-0.25
+489,2020-03-02,Alberta,Residential,-0.4
+491,2020-03-04,Alberta,Residential,-0.08
+493,2020-03-06,Alberta,Residential,-0.44
+495,2020-03-08,Alberta,Residential,1.1
+497,2020-03-10,Alberta,Residential,0.67
+499,2020-03-12,Alberta,Residential,1.27
+501,2020-03-14,Alberta,Residential,6.61
+503,2020-03-16,Alberta,Residential,9.38
+505,2020-03-18,Alberta,Residential,16.02
+507,2020-03-20,Alberta,Residential,18.72
+509,2020-03-22,Alberta,Residential,10.77
+511,2020-03-24,Alberta,Residential,21.74
+513,2020-03-26,Alberta,Residential,22.4
+515,2020-03-28,Alberta,Residential,15.57
+316,2020-03-01,Alberta,Grocery & pharmacy,10.18
+318,2020-03-03,Alberta,Grocery & pharmacy,9.22
+320,2020-03-05,Alberta,Grocery & pharmacy,9.46
+322,2020-03-07,Alberta,Grocery & pharmacy,2.43
+324,2020-03-09,Alberta,Grocery & pharmacy,7.01
+326,2020-03-11,Alberta,Grocery & pharmacy,11.21
+328,2020-03-13,Alberta,Grocery & pharmacy,30.12
+330,2020-03-15,Alberta,Grocery & pharmacy,8.55
+332,2020-03-17,Alberta,Grocery & pharmacy,17.27
+334,2020-03-19,Alberta,Grocery & pharmacy,3.45
+336,2020-03-21,Alberta,Grocery & pharmacy,-9.14
+338,2020-03-23,Alberta,Grocery & pharmacy,-10.77
+340,2020-03-25,Alberta,Grocery & pharmacy,-11.12
+342,2020-03-27,Alberta,Grocery & pharmacy,-11.19
+344,2020-03-29,Alberta,Grocery & pharmacy,-29.43
+346,2020-02-17,Alberta,Parks,10.0
+348,2020-02-19,Alberta,Parks,20.79
+350,2020-02-21,Alberta,Parks,18.09
+352,2020-02-23,Alberta,Parks,7.82
+354,2020-02-25,Alberta,Parks,13.35
+356,2020-02-27,Alberta,Parks,12.92
+358,2020-02-29,Alberta,Parks,7.98
+360,2020-03-02,Alberta,Parks,2.54
+362,2020-03-04,Alberta,Parks,4.29
+364,2020-03-06,Alberta,Parks,9.44
+366,2020-03-08,Alberta,Parks,-9.99
+368,2020-03-10,Alberta,Parks,8.54
+370,2020-03-12,Alberta,Parks,-6.19
+372,2020-03-14,Alberta,Parks,-44.6
+374,2020-03-16,Alberta,Parks,-13.14
+376,2020-03-18,Alberta,Parks,-24.36
+378,2020-03-20,Alberta,Parks,-8.66
+380,2020-03-22,Alberta,Parks,15.51
+382,2020-03-24,Alberta,Parks,-31.08
+384,2020-03-26,Alberta,Parks,-23.74
+386,2020-03-28,Alberta,Parks,-39.6
+388,2020-02-16,Alberta,Transit stations,3.19
+390,2020-02-18,Alberta,Transit stations,-8.81
+392,2020-02-20,Alberta,Transit stations,-5.91
+394,2020-02-22,Alberta,Transit stations,4.03
+396,2020-02-24,Alberta,Transit stations,2.7
+398,2020-02-26,Alberta,Transit stations,0.64
+400,2020-02-28,Alberta,Transit stations,5.82
+402,2020-03-01,Alberta,Transit stations,3.64
+404,2020-03-03,Alberta,Transit stations,0.05
+406,2020-03-05,Alberta,Transit stations,-0.36
+408,2020-03-07,Alberta,Transit stations,-5.63
+410,2020-03-09,Alberta,Transit stations,-1.35
+412,2020-03-11,Alberta,Transit stations,-4.69
+414,2020-03-13,Alberta,Transit stations,-17.36
+416,2020-03-15,Alberta,Transit stations,-24.67
+418,2020-03-17,Alberta,Transit stations,-45.43
+420,2020-03-19,Alberta,Transit stations,-55.86
+422,2020-03-21,Alberta,Transit stations,-46.72
+424,2020-03-23,Alberta,Transit stations,-62.77
+426,2020-03-25,Alberta,Transit stations,-66.12
+428,2020-03-27,Alberta,Transit stations,-65.36
+430,2020-03-29,Alberta,Transit stations,-62.66
+432,2020-02-17,Alberta,Workplace,-67.28
+434,2020-02-19,Alberta,Workplace,-1.07
+436,2020-02-21,Alberta,Workplace,1.88
+438,2020-02-23,Alberta,Workplace,2.5
+440,2020-02-25,Alberta,Workplace,4.67
+442,2020-02-27,Alberta,Workplace,1.65
+444,2020-02-29,Alberta,Workplace,5.06
+446,2020-03-02,Alberta,Workplace,5.23
+448,2020-03-04,Alberta,Workplace,5.33
+450,2020-03-06,Alberta,Workplace,5.92
+452,2020-03-08,Alberta,Workplace,1.51
+454,2020-03-10,Alberta,Workplace,3.86
+456,2020-03-12,Alberta,Workplace,2.43
+458,2020-03-14,Alberta,Workplace,-4.88
+460,2020-03-16,Alberta,Workplace,-21.9
+462,2020-03-18,Alberta,Workplace,-34.97
+464,2020-03-20,Alberta,Workplace,-39.81
+466,2020-03-22,Alberta,Workplace,-33.51
+468,2020-03-24,Alberta,Workplace,-49.5
+470,2020-03-26,Alberta,Workplace,-51.3
+472,2020-03-28,Alberta,Workplace,-40.1
+474,2020-02-16,Alberta,Residential,-1.63
+476,2020-02-18,Alberta,Residential,1.96
+478,2020-02-20,Alberta,Residential,0.33
+480,2020-02-22,Alberta,Residential,-1.01
+482,2020-02-24,Alberta,Residential,-0.18
+484,2020-02-26,Alberta,Residential,-0.55
+486,2020-02-28,Alberta,Residential,-1.17
+488,2020-03-01,Alberta,Residential,-0.63
+490,2020-03-03,Alberta,Residential,-0.31
+492,2020-03-05,Alberta,Residential,-0.17
+494,2020-03-07,Alberta,Residential,1.65
+496,2020-03-09,Alberta,Residential,0.23
+498,2020-03-11,Alberta,Residential,0.59
+500,2020-03-13,Alberta,Residential,5.3
+502,2020-03-15,Alberta,Residential,5.3
+504,2020-03-17,Alberta,Residential,13.16
+506,2020-03-19,Alberta,Residential,17.86
+508,2020-03-21,Alberta,Residential,12.57
+510,2020-03-23,Alberta,Residential,18.73
+512,2020-03-25,Alberta,Residential,21.81
+514,2020-03-27,Alberta,Residential,22.91
+516,2020-03-29,Alberta,Residential,12.86
+518,2020-02-17,British Columbia,Retail & recreation,5.26
+520,2020-02-20,British Columbia,Retail & recreation,6.17
+522,2020-02-22,British Columbia,Retail & recreation,5.05
+3039,2020-03-20,Yukon,Workplace,-29.78
+517,2020-02-16,British Columbia,Retail & recreation,12.04
+519,2020-02-19,British Columbia,Retail & recreation,6.33
+521,2020-02-21,British Columbia,Retail & recreation,5.82
+523,2020-02-23,British Columbia,Retail & recreation,2.63
+525,2020-02-25,British Columbia,Retail & recreation,2.29
+527,2020-02-27,British Columbia,Retail & recreation,1.62
+529,2020-02-29,British Columbia,Retail & recreation,7.48
+531,2020-03-02,British Columbia,Retail & recreation,-1.37
+533,2020-03-04,British Columbia,Retail & recreation,5.0
+535,2020-03-06,British Columbia,Retail & recreation,6.97
+537,2020-03-08,British Columbia,Retail & recreation,6.54
+539,2020-03-10,British Columbia,Retail & recreation,0.0
+541,2020-03-12,British Columbia,Retail & recreation,1.82
+543,2020-03-14,British Columbia,Retail & recreation,-6.68
+545,2020-03-16,British Columbia,Retail & recreation,-5.73
+547,2020-03-18,British Columbia,Retail & recreation,-27.04
+549,2020-03-20,British Columbia,Retail & recreation,-37.84
+551,2020-03-22,British Columbia,Retail & recreation,-52.71
+553,2020-03-24,British Columbia,Retail & recreation,-49.91
+555,2020-03-26,British Columbia,Retail & recreation,-54.13
+557,2020-03-28,British Columbia,Retail & recreation,-59.59
+559,2020-02-16,British Columbia,Grocery & pharmacy,1.51
+561,2020-02-18,British Columbia,Grocery & pharmacy,8.01
+563,2020-02-20,British Columbia,Grocery & pharmacy,7.55
+565,2020-02-22,British Columbia,Grocery & pharmacy,2.69
+567,2020-02-24,British Columbia,Grocery & pharmacy,3.54
+569,2020-02-26,British Columbia,Grocery & pharmacy,4.17
+571,2020-02-28,British Columbia,Grocery & pharmacy,3.49
+573,2020-03-01,British Columbia,Grocery & pharmacy,6.9
+575,2020-03-03,British Columbia,Grocery & pharmacy,7.17
+577,2020-03-05,British Columbia,Grocery & pharmacy,2.89
+579,2020-03-07,British Columbia,Grocery & pharmacy,4.36
+581,2020-03-09,British Columbia,Grocery & pharmacy,6.2
+583,2020-03-11,British Columbia,Grocery & pharmacy,8.09
+585,2020-03-13,British Columbia,Grocery & pharmacy,26.89
+587,2020-03-15,British Columbia,Grocery & pharmacy,14.54
+589,2020-03-17,British Columbia,Grocery & pharmacy,27.49
+591,2020-03-19,British Columbia,Grocery & pharmacy,6.25
+593,2020-03-21,British Columbia,Grocery & pharmacy,-9.32
+595,2020-03-23,British Columbia,Grocery & pharmacy,-15.6
+597,2020-03-25,British Columbia,Grocery & pharmacy,-15.98
+599,2020-03-27,British Columbia,Grocery & pharmacy,-22.02
+601,2020-03-29,British Columbia,Grocery & pharmacy,-28.45
+603,2020-02-17,British Columbia,Parks,114.31
+605,2020-02-19,British Columbia,Parks,53.5
+607,2020-02-21,British Columbia,Parks,43.66
+609,2020-02-23,British Columbia,Parks,-2.28
+611,2020-02-25,British Columbia,Parks,22.77
+613,2020-02-27,British Columbia,Parks,22.95
+615,2020-02-29,British Columbia,Parks,39.11
+617,2020-03-02,British Columbia,Parks,-7.72
+619,2020-03-04,British Columbia,Parks,56.21
+621,2020-03-06,British Columbia,Parks,53.85
+623,2020-03-08,British Columbia,Parks,60.4
+625,2020-03-10,British Columbia,Parks,13.94
+627,2020-03-12,British Columbia,Parks,36.87
+629,2020-03-14,British Columbia,Parks,8.99
+631,2020-03-16,British Columbia,Parks,55.41
+633,2020-03-18,British Columbia,Parks,86.71
+635,2020-03-20,British Columbia,Parks,77.43
+637,2020-03-22,British Columbia,Parks,8.45
+639,2020-03-24,British Columbia,Parks,16.05
+641,2020-03-26,British Columbia,Parks,-17.66
+643,2020-03-28,British Columbia,Parks,-36.99
+645,2020-02-16,British Columbia,Transit stations,9.73
+647,2020-02-18,British Columbia,Transit stations,0.84
+649,2020-02-20,British Columbia,Transit stations,0.3
+651,2020-02-22,British Columbia,Transit stations,3.76
+653,2020-02-24,British Columbia,Transit stations,-0.47
+655,2020-02-26,British Columbia,Transit stations,2.77
+657,2020-02-28,British Columbia,Transit stations,2.45
+659,2020-03-01,British Columbia,Transit stations,6.19
+661,2020-03-03,British Columbia,Transit stations,-1.86
+663,2020-03-05,British Columbia,Transit stations,-3.8
+665,2020-03-07,British Columbia,Transit stations,0.11
+667,2020-03-09,British Columbia,Transit stations,-2.52
+669,2020-03-11,British Columbia,Transit stations,-2.84
+671,2020-03-13,British Columbia,Transit stations,-13.68
+673,2020-03-15,British Columbia,Transit stations,-15.2
+675,2020-03-17,British Columbia,Transit stations,-34.38
+677,2020-03-19,British Columbia,Transit stations,-45.07
+679,2020-03-21,British Columbia,Transit stations,-45.61
+681,2020-03-23,British Columbia,Transit stations,-57.86
+683,2020-03-25,British Columbia,Transit stations,-57.79
+685,2020-03-27,British Columbia,Transit stations,-64.15
+687,2020-03-29,British Columbia,Transit stations,-59.26
+689,2020-02-17,British Columbia,Workplace,-67.03
+691,2020-02-19,British Columbia,Workplace,-0.49
+693,2020-02-21,British Columbia,Workplace,0.75
+695,2020-02-23,British Columbia,Workplace,0.36
+697,2020-02-25,British Columbia,Workplace,4.29
+699,2020-02-27,British Columbia,Workplace,2.65
+701,2020-02-29,British Columbia,Workplace,3.19
+524,2020-02-24,British Columbia,Retail & recreation,1.17
+526,2020-02-26,British Columbia,Retail & recreation,2.45
+528,2020-02-28,British Columbia,Retail & recreation,4.99
+530,2020-03-01,British Columbia,Retail & recreation,7.36
+532,2020-03-03,British Columbia,Retail & recreation,3.12
+534,2020-03-05,British Columbia,Retail & recreation,0.65
+536,2020-03-07,British Columbia,Retail & recreation,3.25
+538,2020-03-09,British Columbia,Retail & recreation,1.4
+540,2020-03-11,British Columbia,Retail & recreation,2.55
+542,2020-03-13,British Columbia,Retail & recreation,0.37
+544,2020-03-15,British Columbia,Retail & recreation,-5.79
+546,2020-03-17,British Columbia,Retail & recreation,-15.97
+548,2020-03-19,British Columbia,Retail & recreation,-33.95
+550,2020-03-21,British Columbia,Retail & recreation,-47.8
+552,2020-03-23,British Columbia,Retail & recreation,-48.25
+554,2020-03-25,British Columbia,Retail & recreation,-48.99
+556,2020-03-27,British Columbia,Retail & recreation,-53.48
+558,2020-03-29,British Columbia,Retail & recreation,-54.33
+560,2020-02-17,British Columbia,Grocery & pharmacy,9.49
+562,2020-02-19,British Columbia,Grocery & pharmacy,6.28
+564,2020-02-21,British Columbia,Grocery & pharmacy,2.66
+566,2020-02-23,British Columbia,Grocery & pharmacy,-0.16
+568,2020-02-25,British Columbia,Grocery & pharmacy,3.29
+570,2020-02-27,British Columbia,Grocery & pharmacy,4.4
+572,2020-02-29,British Columbia,Grocery & pharmacy,7.96
+574,2020-03-02,British Columbia,Grocery & pharmacy,3.88
+576,2020-03-04,British Columbia,Grocery & pharmacy,5.95
+578,2020-03-06,British Columbia,Grocery & pharmacy,5.55
+580,2020-03-08,British Columbia,Grocery & pharmacy,5.88
+582,2020-03-10,British Columbia,Grocery & pharmacy,2.09
+584,2020-03-12,British Columbia,Grocery & pharmacy,17.95
+586,2020-03-14,British Columbia,Grocery & pharmacy,20.66
+588,2020-03-16,British Columbia,Grocery & pharmacy,34.49
+590,2020-03-18,British Columbia,Grocery & pharmacy,16.79
+592,2020-03-20,British Columbia,Grocery & pharmacy,1.19
+594,2020-03-22,British Columbia,Grocery & pharmacy,-21.44
+596,2020-03-24,British Columbia,Grocery & pharmacy,-16.77
+598,2020-03-26,British Columbia,Grocery & pharmacy,-22.39
+600,2020-03-28,British Columbia,Grocery & pharmacy,-28.32
+602,2020-02-16,British Columbia,Parks,41.42
+604,2020-02-18,British Columbia,Parks,60.32
+606,2020-02-20,British Columbia,Parks,56.46
+608,2020-02-22,British Columbia,Parks,21.2
+610,2020-02-24,British Columbia,Parks,21.89
+612,2020-02-26,British Columbia,Parks,32.21
+614,2020-02-28,British Columbia,Parks,18.09
+616,2020-03-01,British Columbia,Parks,31.35
+618,2020-03-03,British Columbia,Parks,27.26
+620,2020-03-05,British Columbia,Parks,12.51
+622,2020-03-07,British Columbia,Parks,10.59
+624,2020-03-09,British Columbia,Parks,47.85
+626,2020-03-11,British Columbia,Parks,53.26
+628,2020-03-13,British Columbia,Parks,10.48
+630,2020-03-15,British Columbia,Parks,58.16
+632,2020-03-17,British Columbia,Parks,80.47
+634,2020-03-19,British Columbia,Parks,81.32
+636,2020-03-21,British Columbia,Parks,50.48
+638,2020-03-23,British Columbia,Parks,-3.92
+640,2020-03-25,British Columbia,Parks,39.7
+642,2020-03-27,British Columbia,Parks,-21.2
+644,2020-03-29,British Columbia,Parks,26.53
+646,2020-02-17,British Columbia,Transit stations,-20.94
+648,2020-02-19,British Columbia,Transit stations,4.9
+650,2020-02-21,British Columbia,Transit stations,3.27
+652,2020-02-23,British Columbia,Transit stations,1.4
+654,2020-02-25,British Columbia,Transit stations,0.84
+656,2020-02-27,British Columbia,Transit stations,-0.44
+658,2020-02-29,British Columbia,Transit stations,7.35
+660,2020-03-02,British Columbia,Transit stations,-3.8
+662,2020-03-04,British Columbia,Transit stations,4.43
+664,2020-03-06,British Columbia,Transit stations,3.82
+666,2020-03-08,British Columbia,Transit stations,6.38
+668,2020-03-10,British Columbia,Transit stations,-6.83
+670,2020-03-12,British Columbia,Transit stations,-8.43
+672,2020-03-14,British Columbia,Transit stations,-16.7
+674,2020-03-16,British Columbia,Transit stations,-26.74
+676,2020-03-18,British Columbia,Transit stations,-38.62
+678,2020-03-20,British Columbia,Transit stations,-44.94
+680,2020-03-22,British Columbia,Transit stations,-52.96
+682,2020-03-24,British Columbia,Transit stations,-60.74
+684,2020-03-26,British Columbia,Transit stations,-64.47
+686,2020-03-28,British Columbia,Transit stations,-65.02
+688,2020-02-16,British Columbia,Workplace,-2.34
+690,2020-02-18,British Columbia,Workplace,0.64
+692,2020-02-20,British Columbia,Workplace,0.34
+694,2020-02-22,British Columbia,Workplace,2.44
+696,2020-02-24,British Columbia,Workplace,2.04
+698,2020-02-26,British Columbia,Workplace,1.94
+700,2020-02-28,British Columbia,Workplace,3.39
+702,2020-03-01,British Columbia,Workplace,1.54
+704,2020-03-03,British Columbia,Workplace,4.67
+706,2020-03-05,British Columbia,Workplace,2.34
+708,2020-03-07,British Columbia,Workplace,1.94
+703,2020-03-02,British Columbia,Workplace,2.28
+705,2020-03-04,British Columbia,Workplace,2.29
+707,2020-03-06,British Columbia,Workplace,4.36
+709,2020-03-08,British Columbia,Workplace,0.33
+711,2020-03-10,British Columbia,Workplace,2.65
+713,2020-03-12,British Columbia,Workplace,0.0
+715,2020-03-14,British Columbia,Workplace,-3.73
+717,2020-03-16,British Columbia,Workplace,-23.81
+719,2020-03-18,British Columbia,Workplace,-38.81
+721,2020-03-20,British Columbia,Workplace,-43.62
+723,2020-03-22,British Columbia,Workplace,-41.45
+725,2020-03-24,British Columbia,Workplace,-53.85
+727,2020-03-26,British Columbia,Workplace,-56.69
+729,2020-03-28,British Columbia,Workplace,-47.74
+731,2020-02-16,British Columbia,Residential,-1.75
+733,2020-02-18,British Columbia,Residential,0.26
+735,2020-02-20,British Columbia,Residential,-0.3
+737,2020-02-22,British Columbia,Residential,-0.27
+739,2020-02-24,British Columbia,Residential,0.1
+741,2020-02-26,British Columbia,Residential,-0.3
+743,2020-02-28,British Columbia,Residential,-1.54
+745,2020-03-01,British Columbia,Residential,-0.79
+747,2020-03-03,British Columbia,Residential,0.55
+749,2020-03-05,British Columbia,Residential,0.79
+751,2020-03-07,British Columbia,Residential,0.46
+753,2020-03-09,British Columbia,Residential,0.58
+755,2020-03-11,British Columbia,Residential,0.66
+757,2020-03-13,British Columbia,Residential,1.85
+759,2020-03-15,British Columbia,Residential,2.93
+761,2020-03-17,British Columbia,Residential,11.56
+763,2020-03-19,British Columbia,Residential,16.12
+765,2020-03-21,British Columbia,Residential,12.29
+767,2020-03-23,British Columbia,Residential,19.67
+769,2020-03-25,British Columbia,Residential,21.15
+771,2020-03-27,British Columbia,Residential,22.7
+773,2020-03-29,British Columbia,Residential,13.07
+775,2020-02-17,Manitoba,Retail & recreation,-18.91
+777,2020-02-19,Manitoba,Retail & recreation,-0.13
+779,2020-02-21,Manitoba,Retail & recreation,4.6
+781,2020-02-23,Manitoba,Retail & recreation,5.3
+783,2020-02-25,Manitoba,Retail & recreation,0.86
+785,2020-02-27,Manitoba,Retail & recreation,11.0
+787,2020-02-29,Manitoba,Retail & recreation,10.5
+789,2020-03-02,Manitoba,Retail & recreation,0.85
+791,2020-03-04,Manitoba,Retail & recreation,1.82
+793,2020-03-06,Manitoba,Retail & recreation,6.79
+795,2020-03-08,Manitoba,Retail & recreation,3.85
+797,2020-03-10,Manitoba,Retail & recreation,4.5
+799,2020-03-12,Manitoba,Retail & recreation,11.69
+801,2020-03-14,Manitoba,Retail & recreation,-6.78
+803,2020-03-16,Manitoba,Retail & recreation,-11.17
+805,2020-03-18,Manitoba,Retail & recreation,-25.24
+807,2020-03-20,Manitoba,Retail & recreation,-31.46
+809,2020-03-22,Manitoba,Retail & recreation,-51.08
+811,2020-03-24,Manitoba,Retail & recreation,-45.02
+813,2020-03-26,Manitoba,Retail & recreation,-43.1
+815,2020-03-28,Manitoba,Retail & recreation,-46.02
+817,2020-02-16,Manitoba,Grocery & pharmacy,0.11
+819,2020-02-18,Manitoba,Grocery & pharmacy,6.44
+821,2020-02-20,Manitoba,Grocery & pharmacy,11.64
+823,2020-02-22,Manitoba,Grocery & pharmacy,3.49
+825,2020-02-24,Manitoba,Grocery & pharmacy,0.51
+827,2020-02-26,Manitoba,Grocery & pharmacy,4.6
+829,2020-02-28,Manitoba,Grocery & pharmacy,5.35
+831,2020-03-01,Manitoba,Grocery & pharmacy,4.77
+833,2020-03-03,Manitoba,Grocery & pharmacy,6.5
+835,2020-03-05,Manitoba,Grocery & pharmacy,8.31
+837,2020-03-07,Manitoba,Grocery & pharmacy,6.93
+839,2020-03-09,Manitoba,Grocery & pharmacy,2.42
+841,2020-03-11,Manitoba,Grocery & pharmacy,7.85
+843,2020-03-13,Manitoba,Grocery & pharmacy,41.0
+845,2020-03-15,Manitoba,Grocery & pharmacy,3.25
+847,2020-03-17,Manitoba,Grocery & pharmacy,18.65
+849,2020-03-19,Manitoba,Grocery & pharmacy,12.01
+851,2020-03-21,Manitoba,Grocery & pharmacy,-8.56
+853,2020-03-23,Manitoba,Grocery & pharmacy,-11.17
+855,2020-03-25,Manitoba,Grocery & pharmacy,-13.85
+857,2020-03-27,Manitoba,Grocery & pharmacy,-5.31
+859,2020-03-29,Manitoba,Grocery & pharmacy,-21.36
+861,2020-02-17,Manitoba,Parks,59.92
+863,2020-02-19,Manitoba,Parks,-0.34
+865,2020-02-21,Manitoba,Parks,28.33
+867,2020-02-23,Manitoba,Parks,45.07
+869,2020-02-25,Manitoba,Parks,9.85
+871,2020-02-27,Manitoba,Parks,12.49
+873,2020-02-29,Manitoba,Parks,16.09
+875,2020-03-02,Manitoba,Parks,0.35
+877,2020-03-04,Manitoba,Parks,3.01
+879,2020-03-06,Manitoba,Parks,-1.64
+881,2020-03-08,Manitoba,Parks,-2.34
+883,2020-03-10,Manitoba,Parks,13.49
+885,2020-03-12,Manitoba,Parks,4.86
+887,2020-03-14,Manitoba,Parks,-23.27
+889,2020-03-16,Manitoba,Parks,-19.5
+891,2020-03-18,Manitoba,Parks,-27.76
+893,2020-03-20,Manitoba,Parks,-30.52
+895,2020-03-22,Manitoba,Parks,-15.81
+897,2020-03-24,Manitoba,Parks,-32.12
+899,2020-03-26,Manitoba,Parks,-18.41
+901,2020-03-28,Manitoba,Parks,-9.14
+903,2020-02-16,Manitoba,Transit stations,-4.27
+710,2020-03-09,British Columbia,Workplace,1.31
+712,2020-03-11,British Columbia,Workplace,0.2
+714,2020-03-13,British Columbia,Workplace,-2.26
+716,2020-03-15,British Columbia,Workplace,-7.66
+718,2020-03-17,British Columbia,Workplace,-30.69
+720,2020-03-19,British Columbia,Workplace,-42.51
+722,2020-03-21,British Columbia,Workplace,-36.58
+724,2020-03-23,British Columbia,Workplace,-51.75
+726,2020-03-25,British Columbia,Workplace,-55.82
+728,2020-03-27,British Columbia,Workplace,-55.65
+730,2020-03-29,British Columbia,Workplace,-46.81
+732,2020-02-17,British Columbia,Residential,12.19
+734,2020-02-19,British Columbia,Residential,-0.44
+736,2020-02-21,British Columbia,Residential,-1.47
+738,2020-02-23,British Columbia,Residential,0.26
+740,2020-02-25,British Columbia,Residential,0.43
+742,2020-02-27,British Columbia,Residential,0.19
+744,2020-02-29,British Columbia,Residential,-1.11
+746,2020-03-02,British Columbia,Residential,0.88
+748,2020-03-04,British Columbia,Residential,-0.61
+750,2020-03-06,British Columbia,Residential,-1.84
+752,2020-03-08,British Columbia,Residential,-0.47
+754,2020-03-10,British Columbia,Residential,1.81
+756,2020-03-12,British Columbia,Residential,1.63
+758,2020-03-14,British Columbia,Residential,3.71
+760,2020-03-16,British Columbia,Residential,7.64
+762,2020-03-18,British Columbia,Residential,13.76
+764,2020-03-20,British Columbia,Residential,15.8
+766,2020-03-22,British Columbia,Residential,11.7
+768,2020-03-24,British Columbia,Residential,21.85
+770,2020-03-26,British Columbia,Residential,23.49
+772,2020-03-28,British Columbia,Residential,17.4
+774,2020-02-16,Manitoba,Retail & recreation,9.77
+776,2020-02-18,Manitoba,Retail & recreation,2.58
+778,2020-02-20,Manitoba,Retail & recreation,9.24
+780,2020-02-22,Manitoba,Retail & recreation,7.85
+782,2020-02-24,Manitoba,Retail & recreation,4.97
+784,2020-02-26,Manitoba,Retail & recreation,7.64
+786,2020-02-28,Manitoba,Retail & recreation,6.5
+788,2020-03-01,Manitoba,Retail & recreation,5.01
+790,2020-03-03,Manitoba,Retail & recreation,6.55
+792,2020-03-05,Manitoba,Retail & recreation,3.81
+794,2020-03-07,Manitoba,Retail & recreation,10.14
+796,2020-03-09,Manitoba,Retail & recreation,4.36
+798,2020-03-11,Manitoba,Retail & recreation,7.19
+800,2020-03-13,Manitoba,Retail & recreation,3.81
+802,2020-03-15,Manitoba,Retail & recreation,-17.85
+804,2020-03-17,Manitoba,Retail & recreation,-18.64
+806,2020-03-19,Manitoba,Retail & recreation,-28.98
+808,2020-03-21,Manitoba,Retail & recreation,-44.98
+810,2020-03-23,Manitoba,Retail & recreation,-40.63
+812,2020-03-25,Manitoba,Retail & recreation,-44.62
+814,2020-03-27,Manitoba,Retail & recreation,-39.61
+816,2020-03-29,Manitoba,Retail & recreation,-48.52
+818,2020-02-17,Manitoba,Grocery & pharmacy,-24.25
+820,2020-02-19,Manitoba,Grocery & pharmacy,-1.23
+822,2020-02-21,Manitoba,Grocery & pharmacy,2.92
+824,2020-02-23,Manitoba,Grocery & pharmacy,3.9
+826,2020-02-25,Manitoba,Grocery & pharmacy,2.63
+828,2020-02-27,Manitoba,Grocery & pharmacy,9.62
+830,2020-02-29,Manitoba,Grocery & pharmacy,7.11
+832,2020-03-02,Manitoba,Grocery & pharmacy,1.38
+834,2020-03-04,Manitoba,Grocery & pharmacy,1.44
+836,2020-03-06,Manitoba,Grocery & pharmacy,1.88
+838,2020-03-08,Manitoba,Grocery & pharmacy,1.8
+840,2020-03-10,Manitoba,Grocery & pharmacy,7.03
+842,2020-03-12,Manitoba,Grocery & pharmacy,33.49
+844,2020-03-14,Manitoba,Grocery & pharmacy,23.2
+846,2020-03-16,Manitoba,Grocery & pharmacy,18.47
+848,2020-03-18,Manitoba,Grocery & pharmacy,13.41
+850,2020-03-20,Manitoba,Grocery & pharmacy,8.22
+852,2020-03-22,Manitoba,Grocery & pharmacy,-21.13
+854,2020-03-24,Manitoba,Grocery & pharmacy,-10.92
+856,2020-03-26,Manitoba,Grocery & pharmacy,-7.07
+858,2020-03-28,Manitoba,Grocery & pharmacy,-12.66
+860,2020-02-16,Manitoba,Parks,25.64
+862,2020-02-18,Manitoba,Parks,4.01
+864,2020-02-20,Manitoba,Parks,28.46
+866,2020-02-22,Manitoba,Parks,63.04
+868,2020-02-24,Manitoba,Parks,11.91
+870,2020-02-26,Manitoba,Parks,2.67
+872,2020-02-28,Manitoba,Parks,4.36
+874,2020-03-01,Manitoba,Parks,3.89
+876,2020-03-03,Manitoba,Parks,14.59
+878,2020-03-05,Manitoba,Parks,10.06
+880,2020-03-07,Manitoba,Parks,15.65
+882,2020-03-09,Manitoba,Parks,2.88
+884,2020-03-11,Manitoba,Parks,9.02
+886,2020-03-13,Manitoba,Parks,-13.91
+888,2020-03-15,Manitoba,Parks,-20.47
+890,2020-03-17,Manitoba,Parks,-16.06
+892,2020-03-19,Manitoba,Parks,-26.74
+894,2020-03-21,Manitoba,Parks,-25.44
+896,2020-03-23,Manitoba,Parks,-3.25
+898,2020-03-25,Manitoba,Parks,-19.41
+900,2020-03-27,Manitoba,Parks,-14.44
+902,2020-03-29,Manitoba,Parks,-9.33
+904,2020-02-17,Manitoba,Transit stations,-36.96
+906,2020-02-19,Manitoba,Transit stations,-8.96
+908,2020-02-21,Manitoba,Transit stations,-2.3
+910,2020-02-23,Manitoba,Transit stations,0.99
+905,2020-02-18,Manitoba,Transit stations,-5.08
+907,2020-02-20,Manitoba,Transit stations,-6.72
+909,2020-02-22,Manitoba,Transit stations,11.46
+911,2020-02-24,Manitoba,Transit stations,1.78
+913,2020-02-26,Manitoba,Transit stations,3.72
+915,2020-02-28,Manitoba,Transit stations,1.0
+917,2020-03-01,Manitoba,Transit stations,3.25
+919,2020-03-03,Manitoba,Transit stations,2.14
+921,2020-03-05,Manitoba,Transit stations,1.74
+923,2020-03-07,Manitoba,Transit stations,6.18
+925,2020-03-09,Manitoba,Transit stations,-4.63
+927,2020-03-11,Manitoba,Transit stations,-3.15
+929,2020-03-13,Manitoba,Transit stations,-12.47
+931,2020-03-15,Manitoba,Transit stations,-22.06
+933,2020-03-17,Manitoba,Transit stations,-31.19
+935,2020-03-19,Manitoba,Transit stations,-47.75
+937,2020-03-21,Manitoba,Transit stations,-41.29
+939,2020-03-23,Manitoba,Transit stations,-54.25
+941,2020-03-25,Manitoba,Transit stations,-57.02
+943,2020-03-27,Manitoba,Transit stations,-57.45
+945,2020-03-29,Manitoba,Transit stations,-56.4
+947,2020-02-17,Manitoba,Workplace,-68.89
+949,2020-02-19,Manitoba,Workplace,-0.27
+951,2020-02-21,Manitoba,Workplace,-0.46
+953,2020-02-23,Manitoba,Workplace,2.22
+955,2020-02-25,Manitoba,Workplace,3.98
+957,2020-02-27,Manitoba,Workplace,5.5
+959,2020-02-29,Manitoba,Workplace,7.48
+961,2020-03-02,Manitoba,Workplace,3.42
+963,2020-03-04,Manitoba,Workplace,3.32
+965,2020-03-06,Manitoba,Workplace,2.49
+967,2020-03-08,Manitoba,Workplace,1.5
+969,2020-03-10,Manitoba,Workplace,3.98
+971,2020-03-12,Manitoba,Workplace,5.12
+973,2020-03-14,Manitoba,Workplace,1.0
+975,2020-03-16,Manitoba,Workplace,-10.78
+977,2020-03-18,Manitoba,Workplace,-23.41
+979,2020-03-20,Manitoba,Workplace,-30.97
+981,2020-03-22,Manitoba,Workplace,-32.1
+983,2020-03-24,Manitoba,Workplace,-42.31
+985,2020-03-26,Manitoba,Workplace,-43.21
+987,2020-03-28,Manitoba,Workplace,-32.86
+989,2020-02-16,Manitoba,Residential,-1.57
+991,2020-02-18,Manitoba,Residential,1.28
+993,2020-02-20,Manitoba,Residential,0.05
+995,2020-02-22,Manitoba,Residential,-0.76
+997,2020-02-24,Manitoba,Residential,0.56
+999,2020-02-26,Manitoba,Residential,-0.35
+1001,2020-02-28,Manitoba,Residential,-0.3
+1003,2020-03-01,Manitoba,Residential,-0.15
+1005,2020-03-03,Manitoba,Residential,0.28
+1007,2020-03-05,Manitoba,Residential,0.89
+1009,2020-03-07,Manitoba,Residential,-0.24
+1011,2020-03-09,Manitoba,Residential,0.93
+1013,2020-03-11,Manitoba,Residential,0.09
+1015,2020-03-13,Manitoba,Residential,2.89
+1017,2020-03-15,Manitoba,Residential,4.2
+1019,2020-03-17,Manitoba,Residential,9.82
+1021,2020-03-19,Manitoba,Residential,13.86
+1023,2020-03-21,Manitoba,Residential,12.02
+1025,2020-03-23,Manitoba,Residential,16.85
+1027,2020-03-25,Manitoba,Residential,18.97
+1029,2020-03-27,Manitoba,Residential,19.77
+1031,2020-03-29,Manitoba,Residential,10.61
+1033,2020-02-17,New Brunswick,Retail & recreation,-34.69
+1035,2020-02-19,New Brunswick,Retail & recreation,-4.23
+1037,2020-02-21,New Brunswick,Retail & recreation,0.93
+1039,2020-02-23,New Brunswick,Retail & recreation,27.99
+1041,2020-02-25,New Brunswick,Retail & recreation,2.81
+1043,2020-02-27,New Brunswick,Retail & recreation,-24.12
+1045,2020-02-29,New Brunswick,Retail & recreation,0.29
+1047,2020-03-02,New Brunswick,Retail & recreation,6.34
+1049,2020-03-04,New Brunswick,Retail & recreation,0.49
+1051,2020-03-06,New Brunswick,Retail & recreation,2.92
+1053,2020-03-08,New Brunswick,Retail & recreation,24.97
+1055,2020-03-10,New Brunswick,Retail & recreation,-11.67
+1057,2020-03-12,New Brunswick,Retail & recreation,10.54
+1059,2020-03-14,New Brunswick,Retail & recreation,-13.78
+1061,2020-03-16,New Brunswick,Retail & recreation,-6.03
+1063,2020-03-18,New Brunswick,Retail & recreation,-32.42
+1065,2020-03-20,New Brunswick,Retail & recreation,-48.45
+1067,2020-03-22,New Brunswick,Retail & recreation,-47.11
+1069,2020-03-24,New Brunswick,Retail & recreation,-54.49
+1071,2020-03-26,New Brunswick,Retail & recreation,-48.85
+1073,2020-03-28,New Brunswick,Retail & recreation,-53.79
+1075,2020-02-16,New Brunswick,Grocery & pharmacy,22.01
+1077,2020-02-18,New Brunswick,Grocery & pharmacy,11.61
+1079,2020-02-20,New Brunswick,Grocery & pharmacy,1.07
+1081,2020-02-22,New Brunswick,Grocery & pharmacy,-0.45
+1083,2020-02-24,New Brunswick,Grocery & pharmacy,-2.26
+1085,2020-02-26,New Brunswick,Grocery & pharmacy,10.12
+1087,2020-02-28,New Brunswick,Grocery & pharmacy,-5.47
+1089,2020-03-01,New Brunswick,Grocery & pharmacy,8.62
+1091,2020-03-03,New Brunswick,Grocery & pharmacy,-0.81
+1093,2020-03-05,New Brunswick,Grocery & pharmacy,-0.16
+1095,2020-03-07,New Brunswick,Grocery & pharmacy,-6.75
+1097,2020-03-09,New Brunswick,Grocery & pharmacy,-0.41
+1099,2020-03-11,New Brunswick,Grocery & pharmacy,3.42
+912,2020-02-25,Manitoba,Transit stations,-0.93
+914,2020-02-27,Manitoba,Transit stations,-4.1
+916,2020-02-29,Manitoba,Transit stations,7.79
+918,2020-03-02,Manitoba,Transit stations,-2.25
+920,2020-03-04,Manitoba,Transit stations,-1.65
+922,2020-03-06,Manitoba,Transit stations,-1.3
+924,2020-03-08,Manitoba,Transit stations,-4.02
+926,2020-03-10,Manitoba,Transit stations,-0.93
+928,2020-03-12,Manitoba,Transit stations,-6.44
+930,2020-03-14,Manitoba,Transit stations,-12.17
+932,2020-03-16,Manitoba,Transit stations,-29.22
+934,2020-03-18,Manitoba,Transit stations,-41.35
+936,2020-03-20,Manitoba,Transit stations,-46.28
+938,2020-03-22,Manitoba,Transit stations,-49.88
+940,2020-03-24,Manitoba,Transit stations,-57.3
+942,2020-03-26,Manitoba,Transit stations,-59.86
+944,2020-03-28,Manitoba,Transit stations,-49.78
+946,2020-02-16,Manitoba,Workplace,-3.59
+948,2020-02-18,Manitoba,Workplace,-0.82
+950,2020-02-20,Manitoba,Workplace,1.84
+952,2020-02-22,Manitoba,Workplace,7.21
+954,2020-02-24,Manitoba,Workplace,2.03
+956,2020-02-26,Manitoba,Workplace,3.87
+958,2020-02-28,Manitoba,Workplace,2.77
+960,2020-03-01,Manitoba,Workplace,3.34
+962,2020-03-03,Manitoba,Workplace,3.69
+964,2020-03-05,Manitoba,Workplace,3.25
+966,2020-03-07,Manitoba,Workplace,6.4
+968,2020-03-09,Manitoba,Workplace,2.78
+970,2020-03-11,Manitoba,Workplace,4.3
+972,2020-03-13,Manitoba,Workplace,-4.57
+974,2020-03-15,Manitoba,Workplace,-7.09
+976,2020-03-17,Manitoba,Workplace,-17.5
+978,2020-03-19,Manitoba,Workplace,-26.62
+980,2020-03-21,Manitoba,Workplace,-24.44
+982,2020-03-23,Manitoba,Workplace,-39.81
+984,2020-03-25,Manitoba,Workplace,-43.25
+986,2020-03-27,Manitoba,Workplace,-44.28
+988,2020-03-29,Manitoba,Workplace,-35.91
+990,2020-02-17,Manitoba,Residential,17.1
+992,2020-02-19,Manitoba,Residential,1.25
+994,2020-02-21,Manitoba,Residential,-0.12
+996,2020-02-23,Manitoba,Residential,-0.77
+998,2020-02-25,Manitoba,Residential,0.62
+1000,2020-02-27,Manitoba,Residential,-0.35
+1002,2020-02-29,Manitoba,Residential,-0.5
+1004,2020-03-02,Manitoba,Residential,0.89
+1006,2020-03-04,Manitoba,Residential,0.51
+1008,2020-03-06,Manitoba,Residential,-0.32
+1010,2020-03-08,Manitoba,Residential,0.5
+1012,2020-03-10,Manitoba,Residential,0.63
+1014,2020-03-12,Manitoba,Residential,0.1
+1016,2020-03-14,Manitoba,Residential,4.04
+1018,2020-03-16,Manitoba,Residential,7.1
+1020,2020-03-18,Manitoba,Residential,12.04
+1022,2020-03-20,Manitoba,Residential,15.11
+1024,2020-03-22,Manitoba,Residential,9.82
+1026,2020-03-24,Manitoba,Residential,19.1
+1028,2020-03-26,Manitoba,Residential,19.63
+1030,2020-03-28,Manitoba,Residential,13.04
+1032,2020-02-16,New Brunswick,Retail & recreation,29.04
+1034,2020-02-18,New Brunswick,Retail & recreation,2.01
+1036,2020-02-20,New Brunswick,Retail & recreation,4.41
+1038,2020-02-22,New Brunswick,Retail & recreation,2.92
+1040,2020-02-24,New Brunswick,Retail & recreation,3.15
+1042,2020-02-26,New Brunswick,Retail & recreation,7.87
+1044,2020-02-28,New Brunswick,Retail & recreation,-3.07
+1046,2020-03-01,New Brunswick,Retail & recreation,14.35
+1048,2020-03-03,New Brunswick,Retail & recreation,6.92
+1050,2020-03-05,New Brunswick,Retail & recreation,8.29
+1052,2020-03-07,New Brunswick,Retail & recreation,0.32
+1054,2020-03-09,New Brunswick,Retail & recreation,1.93
+1056,2020-03-11,New Brunswick,Retail & recreation,4.12
+1058,2020-03-13,New Brunswick,Retail & recreation,-7.69
+1060,2020-03-15,New Brunswick,Retail & recreation,2.21
+1062,2020-03-17,New Brunswick,Retail & recreation,-26.78
+1064,2020-03-19,New Brunswick,Retail & recreation,-30.93
+1066,2020-03-21,New Brunswick,Retail & recreation,-54.76
+1068,2020-03-23,New Brunswick,Retail & recreation,-47.28
+1070,2020-03-25,New Brunswick,Retail & recreation,-48.45
+1072,2020-03-27,New Brunswick,Retail & recreation,-51.99
+1074,2020-03-29,New Brunswick,Retail & recreation,-42.48
+1076,2020-02-17,New Brunswick,Grocery & pharmacy,-49.8
+1078,2020-02-19,New Brunswick,Grocery & pharmacy,-5.23
+1080,2020-02-21,New Brunswick,Grocery & pharmacy,-4.39
+1082,2020-02-23,New Brunswick,Grocery & pharmacy,13.09
+1084,2020-02-25,New Brunswick,Grocery & pharmacy,1.75
+1086,2020-02-27,New Brunswick,Grocery & pharmacy,-10.07
+1088,2020-02-29,New Brunswick,Grocery & pharmacy,-0.87
+1090,2020-03-02,New Brunswick,Grocery & pharmacy,-2.02
+1092,2020-03-04,New Brunswick,Grocery & pharmacy,-5.73
+1094,2020-03-06,New Brunswick,Grocery & pharmacy,-4.26
+1096,2020-03-08,New Brunswick,Grocery & pharmacy,14.17
+1098,2020-03-10,New Brunswick,Grocery & pharmacy,-8.5
+1100,2020-03-12,New Brunswick,Grocery & pharmacy,19.73
+1102,2020-03-14,New Brunswick,Grocery & pharmacy,11.97
+1104,2020-03-16,New Brunswick,Grocery & pharmacy,16.57
+3041,2020-03-23,Yukon,Workplace,-37.88
+1101,2020-03-13,New Brunswick,Grocery & pharmacy,27.67
+1103,2020-03-15,New Brunswick,Grocery & pharmacy,18.45
+1105,2020-03-17,New Brunswick,Grocery & pharmacy,6.0
+1107,2020-03-19,New Brunswick,Grocery & pharmacy,5.17
+1109,2020-03-21,New Brunswick,Grocery & pharmacy,-27.31
+1111,2020-03-23,New Brunswick,Grocery & pharmacy,-25.84
+1113,2020-03-25,New Brunswick,Grocery & pharmacy,-20.6
+1115,2020-03-27,New Brunswick,Grocery & pharmacy,-22.36
+1117,2020-03-29,New Brunswick,Grocery & pharmacy,-20.15
+1119,2020-02-17,New Brunswick,Parks,82.66
+1121,2020-02-19,New Brunswick,Parks,-8.03
+1123,2020-02-21,New Brunswick,Parks,-17.35
+1125,2020-02-23,New Brunswick,Parks,139.2
+1127,2020-02-25,New Brunswick,Parks,3.77
+1129,2020-02-27,New Brunswick,Parks,-37.69
+1131,2020-02-29,New Brunswick,Parks,6.37
+1133,2020-03-02,New Brunswick,Parks,14.95
+1135,2020-03-04,New Brunswick,Parks,-20.44
+1137,2020-03-06,New Brunswick,Parks,5.77
+1139,2020-03-08,New Brunswick,Parks,92.14
+1141,2020-03-10,New Brunswick,Parks,-14.4
+1143,2020-03-12,New Brunswick,Parks,15.93
+1145,2020-03-14,New Brunswick,Parks,-20.6
+1147,2020-03-16,New Brunswick,Parks,-1.58
+1149,2020-03-18,New Brunswick,Parks,13.13
+1151,2020-03-20,New Brunswick,Parks,-36.42
+1153,2020-03-22,New Brunswick,Parks,48.02
+1155,2020-03-24,New Brunswick,Parks,-34.86
+1157,2020-03-26,New Brunswick,Parks,-12.33
+1159,2020-03-28,New Brunswick,Parks,21.07
+1161,2020-02-16,New Brunswick,Transit stations,14.85
+1163,2020-02-18,New Brunswick,Transit stations,-1.19
+1165,2020-02-20,New Brunswick,Transit stations,2.41
+1167,2020-02-22,New Brunswick,Transit stations,11.71
+1169,2020-02-24,New Brunswick,Transit stations,2.9
+1171,2020-02-26,New Brunswick,Transit stations,12.12
+1173,2020-02-28,New Brunswick,Transit stations,8.28
+1175,2020-03-01,New Brunswick,Transit stations,16.83
+1177,2020-03-03,New Brunswick,Transit stations,0.0
+1179,2020-03-05,New Brunswick,Transit stations,-1.21
+1181,2020-03-07,New Brunswick,Transit stations,7.81
+1183,2020-03-09,New Brunswick,Transit stations,0.0
+1185,2020-03-11,New Brunswick,Transit stations,0.0
+1187,2020-03-13,New Brunswick,Transit stations,-11.6
+1189,2020-03-15,New Brunswick,Transit stations,0.0
+1191,2020-03-17,New Brunswick,Transit stations,-25.59
+1193,2020-03-19,New Brunswick,Transit stations,-33.74
+1195,2020-03-21,New Brunswick,Transit stations,-38.28
+1197,2020-03-23,New Brunswick,Transit stations,-52.33
+1199,2020-03-25,New Brunswick,Transit stations,-50.3
+1201,2020-03-27,New Brunswick,Transit stations,-60.22
+1203,2020-03-29,New Brunswick,Transit stations,-46.53
+1205,2020-02-17,New Brunswick,Workplace,-64.36
+1207,2020-02-19,New Brunswick,Workplace,-0.56
+1209,2020-02-21,New Brunswick,Workplace,0.27
+1211,2020-02-23,New Brunswick,Workplace,8.74
+1213,2020-02-25,New Brunswick,Workplace,1.69
+1215,2020-02-27,New Brunswick,Workplace,-16.3
+1217,2020-02-29,New Brunswick,Workplace,1.2
+1219,2020-03-02,New Brunswick,Workplace,-16.72
+1221,2020-03-04,New Brunswick,Workplace,-17.97
+1223,2020-03-06,New Brunswick,Workplace,-17.32
+1225,2020-03-08,New Brunswick,Workplace,5.55
+1227,2020-03-10,New Brunswick,Workplace,-10.14
+1229,2020-03-12,New Brunswick,Workplace,0.08
+1231,2020-03-14,New Brunswick,Workplace,-2.98
+1233,2020-03-16,New Brunswick,Workplace,-20.89
+1235,2020-03-18,New Brunswick,Workplace,-39.81
+1237,2020-03-20,New Brunswick,Workplace,-48.22
+1239,2020-03-22,New Brunswick,Workplace,-30.93
+1241,2020-03-24,New Brunswick,Workplace,-54.94
+1243,2020-03-26,New Brunswick,Workplace,-54.91
+1245,2020-03-28,New Brunswick,Workplace,-39.8
+1247,2020-02-16,New Brunswick,Residential,-4.42
+1249,2020-02-18,New Brunswick,Residential,0.15
+1251,2020-02-20,New Brunswick,Residential,0.66
+1253,2020-02-22,New Brunswick,Residential,-0.41
+1255,2020-02-24,New Brunswick,Residential,0.27
+1257,2020-02-26,New Brunswick,Residential,-1.37
+1259,2020-02-28,New Brunswick,Residential,2.89
+1261,2020-03-01,New Brunswick,Residential,-2.26
+1263,2020-03-03,New Brunswick,Residential,1.89
+1265,2020-03-05,New Brunswick,Residential,2.65
+1267,2020-03-07,New Brunswick,Residential,0.27
+1269,2020-03-09,New Brunswick,Residential,0.82
+1271,2020-03-11,New Brunswick,Residential,0.8
+1273,2020-03-13,New Brunswick,Residential,5.8
+1275,2020-03-15,New Brunswick,Residential,0.94
+1277,2020-03-17,New Brunswick,Residential,12.32
+1279,2020-03-19,New Brunswick,Residential,15.67
+1281,2020-03-21,New Brunswick,Residential,12.89
+1283,2020-03-23,New Brunswick,Residential,18.27
+1285,2020-03-25,New Brunswick,Residential,19.38
+1287,2020-03-27,New Brunswick,Residential,23.83
+1289,2020-03-29,New Brunswick,Residential,7.62
+1291,2020-02-17,Newfoundland and Labrador,Retail & recreation,4.88
+1293,2020-02-19,Newfoundland and Labrador,Retail & recreation,-21.7
+1295,2020-02-21,Newfoundland and Labrador,Retail & recreation,0.39
+1297,2020-02-23,Newfoundland and Labrador,Retail & recreation,24.39
+1106,2020-03-18,New Brunswick,Grocery & pharmacy,-1.07
+1108,2020-03-20,New Brunswick,Grocery & pharmacy,-14.32
+1110,2020-03-22,New Brunswick,Grocery & pharmacy,-21.73
+1112,2020-03-24,New Brunswick,Grocery & pharmacy,-28.8
+1114,2020-03-26,New Brunswick,Grocery & pharmacy,-19.97
+1116,2020-03-28,New Brunswick,Grocery & pharmacy,-29.53
+1118,2020-02-16,New Brunswick,Parks,120.57
+1120,2020-02-18,New Brunswick,Parks,-12.13
+1122,2020-02-20,New Brunswick,Parks,-11.6
+1124,2020-02-22,New Brunswick,Parks,14.21
+1126,2020-02-24,New Brunswick,Parks,8.65
+1128,2020-02-26,New Brunswick,Parks,10.94
+1130,2020-02-28,New Brunswick,Parks,-17.35
+1132,2020-03-01,New Brunswick,Parks,54.89
+1134,2020-03-03,New Brunswick,Parks,12.12
+1136,2020-03-05,New Brunswick,Parks,3.61
+1138,2020-03-07,New Brunswick,Parks,-19.12
+1140,2020-03-09,New Brunswick,Parks,-7.88
+1142,2020-03-11,New Brunswick,Parks,-2.2
+1144,2020-03-13,New Brunswick,Parks,-30.65
+1146,2020-03-15,New Brunswick,Parks,92.14
+1148,2020-03-17,New Brunswick,Parks,-14.4
+1150,2020-03-19,New Brunswick,Parks,13.04
+1152,2020-03-21,New Brunswick,Parks,0.48
+1154,2020-03-23,New Brunswick,Parks,-3.95
+1156,2020-03-25,New Brunswick,Parks,10.21
+1158,2020-03-27,New Brunswick,Parks,-37.58
+1160,2020-03-29,New Brunswick,Parks,100.97
+1162,2020-02-17,New Brunswick,Transit stations,-24.42
+1164,2020-02-19,New Brunswick,Transit stations,6.06
+1166,2020-02-21,New Brunswick,Transit stations,1.65
+1168,2020-02-23,New Brunswick,Transit stations,21.78
+1170,2020-02-25,New Brunswick,Transit stations,6.54
+1172,2020-02-27,New Brunswick,Transit stations,-20.49
+1174,2020-02-29,New Brunswick,Transit stations,21.87
+1176,2020-03-02,New Brunswick,Transit stations,0.58
+1178,2020-03-04,New Brunswick,Transit stations,-2.42
+1180,2020-03-06,New Brunswick,Transit stations,1.11
+1182,2020-03-08,New Brunswick,Transit stations,16.83
+1184,2020-03-10,New Brunswick,Transit stations,-8.93
+1186,2020-03-12,New Brunswick,Transit stations,1.2
+1188,2020-03-14,New Brunswick,Transit stations,-4.69
+1190,2020-03-16,New Brunswick,Transit stations,-18.03
+1192,2020-03-18,New Brunswick,Transit stations,-29.69
+1194,2020-03-20,New Brunswick,Transit stations,-44.2
+1196,2020-03-22,New Brunswick,Transit stations,-38.62
+1198,2020-03-24,New Brunswick,Transit stations,-54.16
+1200,2020-03-26,New Brunswick,Transit stations,-54.22
+1202,2020-03-28,New Brunswick,Transit stations,-41.4
+1204,2020-02-16,New Brunswick,Workplace,4.86
+1206,2020-02-18,New Brunswick,Workplace,1.0
+1208,2020-02-20,New Brunswick,Workplace,-0.27
+1210,2020-02-22,New Brunswick,Workplace,0.11
+1212,2020-02-24,New Brunswick,Workplace,2.2
+1214,2020-02-26,New Brunswick,Workplace,0.79
+1216,2020-02-28,New Brunswick,Workplace,-4.61
+1218,2020-03-01,New Brunswick,Workplace,5.69
+1220,2020-03-03,New Brunswick,Workplace,-15.78
+1222,2020-03-05,New Brunswick,Workplace,-17.32
+1224,2020-03-07,New Brunswick,Workplace,-1.77
+1226,2020-03-09,New Brunswick,Workplace,0.62
+1228,2020-03-11,New Brunswick,Workplace,-0.41
+1230,2020-03-13,New Brunswick,Workplace,-5.32
+1232,2020-03-15,New Brunswick,Workplace,1.11
+1234,2020-03-17,New Brunswick,Workplace,-34.0
+1236,2020-03-19,New Brunswick,Workplace,-42.78
+1238,2020-03-21,New Brunswick,Workplace,-35.83
+1240,2020-03-23,New Brunswick,Workplace,-51.25
+1242,2020-03-25,New Brunswick,Workplace,-53.97
+1244,2020-03-27,New Brunswick,Workplace,-54.77
+1246,2020-03-29,New Brunswick,Workplace,-34.95
+1248,2020-02-17,New Brunswick,Residential,13.92
+1250,2020-02-19,New Brunswick,Residential,1.12
+1252,2020-02-21,New Brunswick,Residential,1.16
+1254,2020-02-23,New Brunswick,Residential,-3.87
+1256,2020-02-25,New Brunswick,Residential,-0.2
+1258,2020-02-27,New Brunswick,Residential,10.53
+1260,2020-02-29,New Brunswick,Residential,-0.6
+1262,2020-03-02,New Brunswick,Residential,2.31
+1264,2020-03-04,New Brunswick,Residential,3.53
+1266,2020-03-06,New Brunswick,Residential,3.07
+1268,2020-03-08,New Brunswick,Residential,-3.44
+1270,2020-03-10,New Brunswick,Residential,5.55
+1272,2020-03-12,New Brunswick,Residential,0.14
+1274,2020-03-14,New Brunswick,Residential,4.43
+1276,2020-03-16,New Brunswick,Residential,7.57
+1278,2020-03-18,New Brunswick,Residential,14.1
+1280,2020-03-20,New Brunswick,Residential,21.15
+1282,2020-03-22,New Brunswick,Residential,7.44
+1284,2020-03-24,New Brunswick,Residential,20.59
+1286,2020-03-26,New Brunswick,Residential,21.15
+1288,2020-03-28,New Brunswick,Residential,13.0
+1290,2020-02-16,Newfoundland and Labrador,Retail & recreation,14.66
+1292,2020-02-18,Newfoundland and Labrador,Retail & recreation,-1.58
+1294,2020-02-20,Newfoundland and Labrador,Retail & recreation,1.9
+1296,2020-02-22,Newfoundland and Labrador,Retail & recreation,2.42
+1298,2020-02-24,Newfoundland and Labrador,Retail & recreation,4.42
+1300,2020-02-26,Newfoundland and Labrador,Retail & recreation,3.93
+1302,2020-02-28,Newfoundland and Labrador,Retail & recreation,-15.51
+1299,2020-02-25,Newfoundland and Labrador,Retail & recreation,0.34
+1301,2020-02-27,Newfoundland and Labrador,Retail & recreation,6.37
+1303,2020-02-29,Newfoundland and Labrador,Retail & recreation,6.85
+1305,2020-03-02,Newfoundland and Labrador,Retail & recreation,-17.15
+1307,2020-03-04,Newfoundland and Labrador,Retail & recreation,-0.65
+1309,2020-03-06,Newfoundland and Labrador,Retail & recreation,8.11
+1311,2020-03-08,Newfoundland and Labrador,Retail & recreation,-15.64
+1313,2020-03-10,Newfoundland and Labrador,Retail & recreation,2.04
+1315,2020-03-12,Newfoundland and Labrador,Retail & recreation,8.2
+1317,2020-03-14,Newfoundland and Labrador,Retail & recreation,-7.72
+1319,2020-03-16,Newfoundland and Labrador,Retail & recreation,8.45
+1321,2020-03-18,Newfoundland and Labrador,Retail & recreation,-23.16
+1323,2020-03-20,Newfoundland and Labrador,Retail & recreation,-32.72
+1325,2020-03-22,Newfoundland and Labrador,Retail & recreation,-37.93
+1327,2020-03-24,Newfoundland and Labrador,Retail & recreation,-50.87
+1329,2020-03-26,Newfoundland and Labrador,Retail & recreation,-50.95
+1331,2020-03-28,Newfoundland and Labrador,Retail & recreation,-55.12
+1333,2020-02-16,Newfoundland and Labrador,Grocery & pharmacy,-0.43
+1335,2020-02-18,Newfoundland and Labrador,Grocery & pharmacy,-2.92
+1337,2020-02-20,Newfoundland and Labrador,Grocery & pharmacy,-1.67
+1339,2020-02-22,Newfoundland and Labrador,Grocery & pharmacy,2.45
+1341,2020-02-24,Newfoundland and Labrador,Grocery & pharmacy,4.83
+1343,2020-02-26,Newfoundland and Labrador,Grocery & pharmacy,0.33
+1345,2020-02-28,Newfoundland and Labrador,Grocery & pharmacy,-13.16
+1347,2020-03-01,Newfoundland and Labrador,Grocery & pharmacy,9.29
+1349,2020-03-03,Newfoundland and Labrador,Grocery & pharmacy,0.8
+1351,2020-03-05,Newfoundland and Labrador,Grocery & pharmacy,0.91
+1353,2020-03-07,Newfoundland and Labrador,Grocery & pharmacy,10.46
+1355,2020-03-09,Newfoundland and Labrador,Grocery & pharmacy,6.7
+1357,2020-03-11,Newfoundland and Labrador,Grocery & pharmacy,-5.11
+1359,2020-03-13,Newfoundland and Labrador,Grocery & pharmacy,28.85
+1361,2020-03-15,Newfoundland and Labrador,Grocery & pharmacy,25.48
+1363,2020-03-17,Newfoundland and Labrador,Grocery & pharmacy,22.84
+1365,2020-03-19,Newfoundland and Labrador,Grocery & pharmacy,14.41
+1367,2020-03-21,Newfoundland and Labrador,Grocery & pharmacy,-17.08
+1369,2020-03-23,Newfoundland and Labrador,Grocery & pharmacy,-10.06
+1371,2020-03-25,Newfoundland and Labrador,Grocery & pharmacy,-48.11
+1373,2020-03-27,Newfoundland and Labrador,Grocery & pharmacy,-38.33
+1375,2020-03-29,Newfoundland and Labrador,Grocery & pharmacy,-38.23
+1377,2020-02-17,Newfoundland and Labrador,Parks,34.84
+1379,2020-02-19,Newfoundland and Labrador,Parks,-28.58
+1381,2020-02-21,Newfoundland and Labrador,Parks,-1.91
+1383,2020-02-23,Newfoundland and Labrador,Parks,54.63
+1385,2020-02-25,Newfoundland and Labrador,Parks,22.82
+1387,2020-02-27,Newfoundland and Labrador,Parks,-0.01
+1389,2020-02-29,Newfoundland and Labrador,Parks,18.24
+1391,2020-03-02,Newfoundland and Labrador,Parks,-0.01
+1393,2020-03-04,Newfoundland and Labrador,Parks,-3.57
+1395,2020-03-06,Newfoundland and Labrador,Parks,7.61
+1397,2020-03-08,Newfoundland and Labrador,Parks,-16.5
+1399,2020-03-10,Newfoundland and Labrador,Parks,-0.01
+1401,2020-03-12,Newfoundland and Labrador,Parks,-2.06
+1403,2020-03-14,Newfoundland and Labrador,Parks,-25.68
+1405,2020-03-16,Newfoundland and Labrador,Parks,62.12
+1407,2020-03-18,Newfoundland and Labrador,Parks,-5.96
+1409,2020-03-20,Newfoundland and Labrador,Parks,-0.01
+1411,2020-03-22,Newfoundland and Labrador,Parks,17.52
+1413,2020-03-24,Newfoundland and Labrador,Parks,-14.13
+1415,2020-03-26,Newfoundland and Labrador,Parks,6.18
+1417,2020-03-28,Newfoundland and Labrador,Parks,-26.36
+1419,2020-02-16,Newfoundland and Labrador,Transit stations,12.89
+1421,2020-02-18,Newfoundland and Labrador,Transit stations,-2.92
+1423,2020-02-20,Newfoundland and Labrador,Transit stations,2.85
+1425,2020-02-22,Newfoundland and Labrador,Transit stations,2.46
+1427,2020-02-24,Newfoundland and Labrador,Transit stations,12.75
+1429,2020-02-26,Newfoundland and Labrador,Transit stations,7.61
+1431,2020-02-28,Newfoundland and Labrador,Transit stations,-11.54
+1433,2020-03-01,Newfoundland and Labrador,Transit stations,17.73
+1435,2020-03-03,Newfoundland and Labrador,Transit stations,4.85
+1437,2020-03-05,Newfoundland and Labrador,Transit stations,-0.01
+1439,2020-03-07,Newfoundland and Labrador,Transit stations,-12.35
+1441,2020-03-09,Newfoundland and Labrador,Transit stations,21.27
+1443,2020-03-11,Newfoundland and Labrador,Transit stations,0.94
+1445,2020-03-13,Newfoundland and Labrador,Transit stations,3.84
+1447,2020-03-15,Newfoundland and Labrador,Transit stations,11.28
+1449,2020-03-17,Newfoundland and Labrador,Transit stations,-14.57
+1451,2020-03-19,Newfoundland and Labrador,Transit stations,-23.82
+1453,2020-03-21,Newfoundland and Labrador,Transit stations,-37.04
+1455,2020-03-23,Newfoundland and Labrador,Transit stations,-39.37
+1457,2020-03-25,Newfoundland and Labrador,Transit stations,-66.67
+1459,2020-03-27,Newfoundland and Labrador,Transit stations,-70.19
+1461,2020-03-29,Newfoundland and Labrador,Transit stations,-59.68
+1463,2020-02-17,Newfoundland and Labrador,Workplace,-10.24
+1465,2020-02-19,Newfoundland and Labrador,Workplace,-9.73
+1467,2020-02-21,Newfoundland and Labrador,Workplace,31.46
+1304,2020-03-01,Newfoundland and Labrador,Retail & recreation,15.64
+1306,2020-03-03,Newfoundland and Labrador,Retail & recreation,-0.88
+1308,2020-03-05,Newfoundland and Labrador,Retail & recreation,1.9
+1310,2020-03-07,Newfoundland and Labrador,Retail & recreation,-3.74
+1312,2020-03-09,Newfoundland and Labrador,Retail & recreation,7.71
+1314,2020-03-11,Newfoundland and Labrador,Retail & recreation,-1.12
+1316,2020-03-13,Newfoundland and Labrador,Retail & recreation,8.07
+1318,2020-03-15,Newfoundland and Labrador,Retail & recreation,13.12
+1320,2020-03-17,Newfoundland and Labrador,Retail & recreation,-11.46
+1322,2020-03-19,Newfoundland and Labrador,Retail & recreation,-18.72
+1324,2020-03-21,Newfoundland and Labrador,Retail & recreation,-46.35
+1326,2020-03-23,Newfoundland and Labrador,Retail & recreation,-39.32
+1328,2020-03-25,Newfoundland and Labrador,Retail & recreation,-66.16
+1330,2020-03-27,Newfoundland and Labrador,Retail & recreation,-61.1
+1332,2020-03-29,Newfoundland and Labrador,Retail & recreation,-53.97
+1334,2020-02-17,Newfoundland and Labrador,Grocery & pharmacy,2.79
+1336,2020-02-19,Newfoundland and Labrador,Grocery & pharmacy,-20.6
+1338,2020-02-21,Newfoundland and Labrador,Grocery & pharmacy,-1.56
+1340,2020-02-23,Newfoundland and Labrador,Grocery & pharmacy,3.89
+1342,2020-02-25,Newfoundland and Labrador,Grocery & pharmacy,3.72
+1344,2020-02-27,Newfoundland and Labrador,Grocery & pharmacy,6.21
+1346,2020-02-29,Newfoundland and Labrador,Grocery & pharmacy,10.15
+1348,2020-03-02,Newfoundland and Labrador,Grocery & pharmacy,-12.11
+1350,2020-03-04,Newfoundland and Labrador,Grocery & pharmacy,-5.93
+1352,2020-03-06,Newfoundland and Labrador,Grocery & pharmacy,7.07
+1354,2020-03-08,Newfoundland and Labrador,Grocery & pharmacy,-25.49
+1356,2020-03-10,Newfoundland and Labrador,Grocery & pharmacy,-0.32
+1358,2020-03-12,Newfoundland and Labrador,Grocery & pharmacy,13.95
+1360,2020-03-14,Newfoundland and Labrador,Grocery & pharmacy,14.61
+1362,2020-03-16,Newfoundland and Labrador,Grocery & pharmacy,45.8
+1364,2020-03-18,Newfoundland and Labrador,Grocery & pharmacy,12.69
+1366,2020-03-20,Newfoundland and Labrador,Grocery & pharmacy,-1.28
+1368,2020-03-22,Newfoundland and Labrador,Grocery & pharmacy,-17.07
+1370,2020-03-24,Newfoundland and Labrador,Grocery & pharmacy,-22.37
+1372,2020-03-26,Newfoundland and Labrador,Grocery & pharmacy,-25.96
+1374,2020-03-28,Newfoundland and Labrador,Grocery & pharmacy,-25.84
+1376,2020-02-16,Newfoundland and Labrador,Parks,25.76
+1378,2020-02-18,Newfoundland and Labrador,Parks,-1.09
+1380,2020-02-20,Newfoundland and Labrador,Parks,-16.5
+1382,2020-02-22,Newfoundland and Labrador,Parks,9.45
+1384,2020-02-24,Newfoundland and Labrador,Parks,77.26
+1386,2020-02-26,Newfoundland and Labrador,Parks,16.67
+1388,2020-02-28,Newfoundland and Labrador,Parks,-18.09
+1390,2020-03-01,Newfoundland and Labrador,Parks,26.8
+1392,2020-03-03,Newfoundland and Labrador,Parks,-10.88
+1394,2020-03-05,Newfoundland and Labrador,Parks,-17.52
+1396,2020-03-07,Newfoundland and Labrador,Parks,-19.6
+1398,2020-03-09,Newfoundland and Labrador,Parks,34.84
+1400,2020-03-11,Newfoundland and Labrador,Parks,-4.76
+1402,2020-03-13,Newfoundland and Labrador,Parks,22.85
+1404,2020-03-15,Newfoundland and Labrador,Parks,17.52
+1406,2020-03-17,Newfoundland and Labrador,Parks,25.0
+1408,2020-03-19,Newfoundland and Labrador,Parks,36.07
+1410,2020-03-21,Newfoundland and Labrador,Parks,-27.02
+1412,2020-03-23,Newfoundland and Labrador,Parks,54.54
+1414,2020-03-25,Newfoundland and Labrador,Parks,-38.1
+1416,2020-03-27,Newfoundland and Labrador,Parks,-53.33
+1418,2020-03-29,Newfoundland and Labrador,Parks,-17.52
+1420,2020-02-17,Newfoundland and Labrador,Transit stations,6.38
+1422,2020-02-19,Newfoundland and Labrador,Transit stations,-19.06
+1424,2020-02-21,Newfoundland and Labrador,Transit stations,3.84
+1426,2020-02-23,Newfoundland and Labrador,Transit stations,17.73
+1428,2020-02-25,Newfoundland and Labrador,Transit stations,8.73
+1430,2020-02-27,Newfoundland and Labrador,Transit stations,-0.01
+1432,2020-02-29,Newfoundland and Labrador,Transit stations,16.04
+1434,2020-03-02,Newfoundland and Labrador,Transit stations,-9.59
+1436,2020-03-04,Newfoundland and Labrador,Transit stations,-2.86
+1438,2020-03-06,Newfoundland and Labrador,Transit stations,7.68
+1440,2020-03-08,Newfoundland and Labrador,Transit stations,14.5
+1442,2020-03-10,Newfoundland and Labrador,Transit stations,6.78
+1444,2020-03-12,Newfoundland and Labrador,Transit stations,3.8
+1446,2020-03-14,Newfoundland and Labrador,Transit stations,-11.12
+1448,2020-03-16,Newfoundland and Labrador,Transit stations,-8.51
+1450,2020-03-18,Newfoundland and Labrador,Transit stations,-24.77
+1452,2020-03-20,Newfoundland and Labrador,Transit stations,-31.74
+1454,2020-03-22,Newfoundland and Labrador,Transit stations,-19.36
+1456,2020-03-24,Newfoundland and Labrador,Transit stations,-49.52
+1458,2020-03-26,Newfoundland and Labrador,Transit stations,-56.2
+1460,2020-03-28,Newfoundland and Labrador,Transit stations,-49.39
+1462,2020-02-16,Newfoundland and Labrador,Workplace,13.92
+1464,2020-02-18,Newfoundland and Labrador,Workplace,-3.21
+1466,2020-02-20,Newfoundland and Labrador,Workplace,-4.48
+1468,2020-02-22,Newfoundland and Labrador,Workplace,4.68
+1470,2020-02-24,Newfoundland and Labrador,Workplace,3.85
+1472,2020-02-26,Newfoundland and Labrador,Workplace,1.23
+3043,2020-03-25,Yukon,Workplace,-45.66
+1469,2020-02-23,Newfoundland and Labrador,Workplace,19.94
+1471,2020-02-25,Newfoundland and Labrador,Workplace,1.79
+1473,2020-02-27,Newfoundland and Labrador,Workplace,1.76
+1475,2020-02-29,Newfoundland and Labrador,Workplace,7.34
+1477,2020-03-02,Newfoundland and Labrador,Workplace,-25.09
+1479,2020-03-04,Newfoundland and Labrador,Workplace,0.07
+1481,2020-03-06,Newfoundland and Labrador,Workplace,35.97
+1483,2020-03-08,Newfoundland and Labrador,Workplace,6.28
+1485,2020-03-10,Newfoundland and Labrador,Workplace,1.71
+1487,2020-03-12,Newfoundland and Labrador,Workplace,0.07
+1489,2020-03-14,Newfoundland and Labrador,Workplace,-1.64
+1491,2020-03-16,Newfoundland and Labrador,Workplace,-19.64
+1493,2020-03-18,Newfoundland and Labrador,Workplace,-33.18
+1495,2020-03-20,Newfoundland and Labrador,Workplace,-17.09
+1497,2020-03-22,Newfoundland and Labrador,Workplace,-18.04
+1499,2020-03-24,Newfoundland and Labrador,Workplace,-54.11
+1501,2020-03-26,Newfoundland and Labrador,Workplace,-57.67
+1503,2020-03-28,Newfoundland and Labrador,Workplace,-42.45
+1505,2020-02-16,Newfoundland and Labrador,Residential,-2.51
+1507,2020-02-18,Newfoundland and Labrador,Residential,0.66
+1509,2020-02-20,Newfoundland and Labrador,Residential,1.3
+1511,2020-02-22,Newfoundland and Labrador,Residential,0.35
+1513,2020-02-24,Newfoundland and Labrador,Residential,-1.67
+1515,2020-02-26,Newfoundland and Labrador,Residential,-0.5
+1517,2020-02-28,Newfoundland and Labrador,Residential,7.96
+1519,2020-03-01,Newfoundland and Labrador,Residential,-1.75
+1521,2020-03-03,Newfoundland and Labrador,Residential,0.77
+1523,2020-03-05,Newfoundland and Labrador,Residential,1.43
+1525,2020-03-07,Newfoundland and Labrador,Residential,3.5
+1527,2020-03-09,Newfoundland and Labrador,Residential,-1.42
+1529,2020-03-11,Newfoundland and Labrador,Residential,1.78
+1531,2020-03-13,Newfoundland and Labrador,Residential,0.81
+1533,2020-03-15,Newfoundland and Labrador,Residential,-0.79
+1535,2020-03-17,Newfoundland and Labrador,Residential,7.05
+1537,2020-03-19,Newfoundland and Labrador,Residential,10.32
+1539,2020-03-21,Newfoundland and Labrador,Residential,11.84
+1541,2020-03-23,Newfoundland and Labrador,Residential,12.08
+1543,2020-03-25,Newfoundland and Labrador,Residential,21.3
+1545,2020-03-27,Newfoundland and Labrador,Residential,24.02
+1547,2020-03-29,Newfoundland and Labrador,Residential,8.52
+1549,2020-02-17,Northwest Territories,Retail & recreation,6.14
+1551,2020-02-19,Northwest Territories,Retail & recreation,5.59
+1553,2020-02-21,Northwest Territories,Retail & recreation,13.78
+1555,2020-02-23,Northwest Territories,Retail & recreation,11.61
+1557,2020-02-25,Northwest Territories,Retail & recreation,13.14
+1559,2020-02-27,Northwest Territories,Retail & recreation,12.89
+1561,2020-02-29,Northwest Territories,Retail & recreation,13.13
+1563,2020-03-02,Northwest Territories,Retail & recreation,8.76
+1565,2020-03-04,Northwest Territories,Retail & recreation,13.59
+1567,2020-03-06,Northwest Territories,Retail & recreation,11.71
+1569,2020-03-08,Northwest Territories,Retail & recreation,11.61
+1571,2020-03-10,Northwest Territories,Retail & recreation,15.78
+1573,2020-03-12,Northwest Territories,Retail & recreation,8.86
+1575,2020-03-14,Northwest Territories,Retail & recreation,-0.01
+1577,2020-03-16,Northwest Territories,Retail & recreation,-0.01
+1579,2020-03-18,Northwest Territories,Retail & recreation,-15.21
+1581,2020-03-20,Northwest Territories,Retail & recreation,-24.84
+1583,2020-03-22,Northwest Territories,Retail & recreation,-44.19
+1585,2020-03-24,Northwest Territories,Retail & recreation,-50.01
+1587,2020-03-26,Northwest Territories,Retail & recreation,-50.81
+1589,2020-03-28,Northwest Territories,Retail & recreation,-58.4
+1591,2020-02-16,Northwest Territories,Grocery & pharmacy,14.81
+1593,2020-02-18,Northwest Territories,Grocery & pharmacy,6.77
+1595,2020-02-20,Northwest Territories,Grocery & pharmacy,11.1
+1597,2020-02-22,Northwest Territories,Grocery & pharmacy,3.94
+1599,2020-02-24,Northwest Territories,Grocery & pharmacy,-4.84
+1601,2020-02-26,Northwest Territories,Grocery & pharmacy,10.0
+1603,2020-02-28,Northwest Territories,Grocery & pharmacy,5.55
+1605,2020-03-01,Northwest Territories,Grocery & pharmacy,11.1
+1607,2020-03-03,Northwest Territories,Grocery & pharmacy,13.55
+1609,2020-03-05,Northwest Territories,Grocery & pharmacy,7.93
+1611,2020-03-07,Northwest Territories,Grocery & pharmacy,6.57
+1613,2020-03-09,Northwest Territories,Grocery & pharmacy,8.06
+1615,2020-03-11,Northwest Territories,Grocery & pharmacy,-1.67
+1617,2020-03-13,Northwest Territories,Grocery & pharmacy,5.55
+1619,2020-03-15,Northwest Territories,Grocery & pharmacy,-1.86
+1621,2020-03-17,Northwest Territories,Grocery & pharmacy,13.55
+1623,2020-03-19,Northwest Territories,Grocery & pharmacy,-3.18
+1625,2020-03-21,Northwest Territories,Grocery & pharmacy,-28.95
+1627,2020-03-23,Northwest Territories,Grocery & pharmacy,-32.26
+1629,2020-03-25,Northwest Territories,Grocery & pharmacy,-27.92
+1631,2020-03-27,Northwest Territories,Grocery & pharmacy,-26.05
+1633,2020-03-29,Northwest Territories,Grocery & pharmacy,-44.45
+1635,2020-03-19,Northwest Territories,Transit stations,-20.0
+1637,2020-03-24,Northwest Territories,Transit stations,-50.0
+1474,2020-02-28,Newfoundland and Labrador,Workplace,18.57
+1476,2020-03-01,Newfoundland and Labrador,Workplace,16.93
+1478,2020-03-03,Newfoundland and Labrador,Workplace,0.85
+1480,2020-03-05,Newfoundland and Labrador,Workplace,-1.17
+1482,2020-03-07,Newfoundland and Labrador,Workplace,2.04
+1484,2020-03-09,Newfoundland and Labrador,Workplace,4.44
+1486,2020-03-11,Newfoundland and Labrador,Workplace,0.3
+1488,2020-03-13,Newfoundland and Labrador,Workplace,29.32
+1490,2020-03-15,Newfoundland and Labrador,Workplace,11.46
+1492,2020-03-17,Newfoundland and Labrador,Workplace,-22.96
+1494,2020-03-19,Newfoundland and Labrador,Workplace,-36.55
+1496,2020-03-21,Newfoundland and Labrador,Workplace,-26.13
+1498,2020-03-23,Newfoundland and Labrador,Workplace,-45.9
+1500,2020-03-25,Newfoundland and Labrador,Workplace,-61.89
+1502,2020-03-27,Newfoundland and Labrador,Workplace,-45.23
+1504,2020-03-29,Newfoundland and Labrador,Workplace,-34.97
+1506,2020-02-17,Newfoundland and Labrador,Residential,0.23
+1508,2020-02-19,Newfoundland and Labrador,Residential,4.72
+1510,2020-02-21,Newfoundland and Labrador,Residential,1.56
+1512,2020-02-23,Newfoundland and Labrador,Residential,-3.62
+1514,2020-02-25,Newfoundland and Labrador,Residential,-0.29
+1516,2020-02-27,Newfoundland and Labrador,Residential,-0.58
+1518,2020-02-29,Newfoundland and Labrador,Residential,-0.47
+1520,2020-03-02,Newfoundland and Labrador,Residential,7.46
+1522,2020-03-04,Newfoundland and Labrador,Residential,1.3
+1524,2020-03-06,Newfoundland and Labrador,Residential,0.32
+1526,2020-03-08,Newfoundland and Labrador,Residential,1.97
+1528,2020-03-10,Newfoundland and Labrador,Residential,0.21
+1530,2020-03-12,Newfoundland and Labrador,Residential,0.11
+1532,2020-03-14,Newfoundland and Labrador,Residential,3.89
+1534,2020-03-16,Newfoundland and Labrador,Residential,3.04
+1536,2020-03-18,Newfoundland and Labrador,Residential,11.03
+1538,2020-03-20,Newfoundland and Labrador,Residential,14.39
+1540,2020-03-22,Newfoundland and Labrador,Residential,5.35
+1542,2020-03-24,Newfoundland and Labrador,Residential,17.37
+1544,2020-03-26,Newfoundland and Labrador,Residential,18.0
+1546,2020-03-28,Newfoundland and Labrador,Residential,13.55
+1548,2020-02-16,Northwest Territories,Retail & recreation,8.13
+1550,2020-02-18,Northwest Territories,Retail & recreation,10.52
+1552,2020-02-20,Northwest Territories,Retail & recreation,19.34
+1554,2020-02-22,Northwest Territories,Retail & recreation,11.67
+1556,2020-02-24,Northwest Territories,Retail & recreation,8.76
+1558,2020-02-26,Northwest Territories,Retail & recreation,12.8
+1560,2020-02-28,Northwest Territories,Retail & recreation,16.55
+1562,2020-03-01,Northwest Territories,Retail & recreation,15.11
+1564,2020-03-03,Northwest Territories,Retail & recreation,12.27
+1566,2020-03-05,Northwest Territories,Retail & recreation,15.31
+1568,2020-03-07,Northwest Territories,Retail & recreation,8.02
+1570,2020-03-09,Northwest Territories,Retail & recreation,12.27
+1572,2020-03-11,Northwest Territories,Retail & recreation,6.39
+1574,2020-03-13,Northwest Territories,Retail & recreation,8.27
+1576,2020-03-15,Northwest Territories,Retail & recreation,4.64
+1578,2020-03-17,Northwest Territories,Retail & recreation,-5.27
+1580,2020-03-19,Northwest Territories,Retail & recreation,-22.59
+1582,2020-03-21,Northwest Territories,Retail & recreation,-42.34
+1584,2020-03-23,Northwest Territories,Retail & recreation,-50.01
+1586,2020-03-25,Northwest Territories,Retail & recreation,-52.01
+1588,2020-03-27,Northwest Territories,Retail & recreation,-51.73
+1590,2020-03-29,Northwest Territories,Retail & recreation,-59.3
+1592,2020-02-17,Northwest Territories,Grocery & pharmacy,-0.01
+1594,2020-02-19,Northwest Territories,Grocery & pharmacy,1.65
+1596,2020-02-21,Northwest Territories,Grocery & pharmacy,4.16
+1598,2020-02-23,Northwest Territories,Grocery & pharmacy,18.51
+1600,2020-02-25,Northwest Territories,Grocery & pharmacy,13.55
+1602,2020-02-27,Northwest Territories,Grocery & pharmacy,11.1
+1604,2020-02-29,Northwest Territories,Grocery & pharmacy,5.25
+1606,2020-03-02,Northwest Territories,Grocery & pharmacy,6.44
+1608,2020-03-04,Northwest Territories,Grocery & pharmacy,11.66
+1610,2020-03-06,Northwest Territories,Grocery & pharmacy,6.93
+1612,2020-03-08,Northwest Territories,Grocery & pharmacy,3.7
+1614,2020-03-10,Northwest Territories,Grocery & pharmacy,11.85
+1616,2020-03-12,Northwest Territories,Grocery & pharmacy,3.16
+1618,2020-03-14,Northwest Territories,Grocery & pharmacy,-0.01
+1620,2020-03-16,Northwest Territories,Grocery & pharmacy,11.29
+1622,2020-03-18,Northwest Territories,Grocery & pharmacy,4.99
+1624,2020-03-20,Northwest Territories,Grocery & pharmacy,-5.56
+1626,2020-03-22,Northwest Territories,Grocery & pharmacy,-40.75
+1628,2020-03-24,Northwest Territories,Grocery & pharmacy,-40.68
+1630,2020-03-26,Northwest Territories,Grocery & pharmacy,-23.42
+1632,2020-03-28,Northwest Territories,Grocery & pharmacy,-31.59
+1634,2020-03-16,Northwest Territories,Transit stations,-17.08
+1636,2020-03-23,Northwest Territories,Transit stations,-51.22
+1638,2020-03-25,Northwest Territories,Transit stations,-52.63
+1640,2020-03-27,Northwest Territories,Transit stations,-47.49
+1642,2020-03-29,Northwest Territories,Transit stations,-58.82
+1639,2020-03-26,Northwest Territories,Transit stations,-55.0
+1641,2020-03-28,Northwest Territories,Transit stations,-48.65
+1643,2020-02-17,Northwest Territories,Workplace,1.59
+1645,2020-02-19,Northwest Territories,Workplace,1.54
+1647,2020-02-21,Northwest Territories,Workplace,-2.35
+1649,2020-02-24,Northwest Territories,Workplace,0.0
+1651,2020-02-26,Northwest Territories,Workplace,0.77
+1653,2020-02-28,Northwest Territories,Workplace,-0.79
+1655,2020-03-02,Northwest Territories,Workplace,2.37
+1657,2020-03-04,Northwest Territories,Workplace,1.54
+1659,2020-03-06,Northwest Territories,Workplace,0.0
+1661,2020-03-09,Northwest Territories,Workplace,-0.79
+1663,2020-03-11,Northwest Territories,Workplace,0.77
+1665,2020-03-13,Northwest Territories,Workplace,-7.03
+1667,2020-03-16,Northwest Territories,Workplace,-11.12
+1669,2020-03-18,Northwest Territories,Workplace,-18.61
+1671,2020-03-20,Northwest Territories,Workplace,-36.71
+1673,2020-03-22,Northwest Territories,Workplace,-25.0
+1675,2020-03-24,Northwest Territories,Workplace,-48.43
+1677,2020-03-26,Northwest Territories,Workplace,-48.49
+1679,2020-03-28,Northwest Territories,Workplace,-34.55
+1681,2020-02-16,Nova Scotia,Retail & recreation,56.76
+1683,2020-02-18,Nova Scotia,Retail & recreation,6.19
+1685,2020-02-20,Nova Scotia,Retail & recreation,8.92
+1687,2020-02-22,Nova Scotia,Retail & recreation,-0.24
+1689,2020-02-24,Nova Scotia,Retail & recreation,1.01
+1691,2020-02-26,Nova Scotia,Retail & recreation,6.77
+1693,2020-02-28,Nova Scotia,Retail & recreation,1.14
+1695,2020-03-01,Nova Scotia,Retail & recreation,38.4
+1697,2020-03-03,Nova Scotia,Retail & recreation,2.99
+1699,2020-03-05,Nova Scotia,Retail & recreation,8.49
+1701,2020-03-07,Nova Scotia,Retail & recreation,-12.95
+1703,2020-03-09,Nova Scotia,Retail & recreation,2.04
+1705,2020-03-11,Nova Scotia,Retail & recreation,2.39
+1707,2020-03-13,Nova Scotia,Retail & recreation,0.74
+1709,2020-03-15,Nova Scotia,Retail & recreation,38.29
+1711,2020-03-17,Nova Scotia,Retail & recreation,-21.53
+1713,2020-03-19,Nova Scotia,Retail & recreation,-29.71
+1715,2020-03-21,Nova Scotia,Retail & recreation,-48.63
+1717,2020-03-23,Nova Scotia,Retail & recreation,-50.39
+1719,2020-03-25,Nova Scotia,Retail & recreation,-50.83
+1721,2020-03-27,Nova Scotia,Retail & recreation,-54.65
+1723,2020-03-29,Nova Scotia,Retail & recreation,-33.12
+1725,2020-02-17,Nova Scotia,Grocery & pharmacy,-50.0
+1727,2020-02-19,Nova Scotia,Grocery & pharmacy,-4.67
+1729,2020-02-21,Nova Scotia,Grocery & pharmacy,-2.36
+1731,2020-02-23,Nova Scotia,Grocery & pharmacy,38.92
+1733,2020-02-25,Nova Scotia,Grocery & pharmacy,1.71
+1735,2020-02-27,Nova Scotia,Grocery & pharmacy,-7.26
+1737,2020-02-29,Nova Scotia,Grocery & pharmacy,-0.54
+1739,2020-03-02,Nova Scotia,Grocery & pharmacy,4.06
+1741,2020-03-04,Nova Scotia,Grocery & pharmacy,-2.56
+1743,2020-03-06,Nova Scotia,Grocery & pharmacy,8.52
+1745,2020-03-08,Nova Scotia,Grocery & pharmacy,40.65
+1747,2020-03-10,Nova Scotia,Grocery & pharmacy,1.2
+1749,2020-03-12,Nova Scotia,Grocery & pharmacy,20.1
+1751,2020-03-14,Nova Scotia,Grocery & pharmacy,17.32
+1753,2020-03-16,Nova Scotia,Grocery & pharmacy,34.18
+1755,2020-03-18,Nova Scotia,Grocery & pharmacy,-0.06
+1757,2020-03-20,Nova Scotia,Grocery & pharmacy,-8.37
+1759,2020-03-22,Nova Scotia,Grocery & pharmacy,3.94
+1761,2020-03-24,Nova Scotia,Grocery & pharmacy,-39.49
+1763,2020-03-26,Nova Scotia,Grocery & pharmacy,-30.41
+1765,2020-03-28,Nova Scotia,Grocery & pharmacy,-28.75
+1767,2020-02-16,Nova Scotia,Parks,84.49
+1769,2020-02-18,Nova Scotia,Parks,-2.26
+1771,2020-02-20,Nova Scotia,Parks,4.24
+1773,2020-02-22,Nova Scotia,Parks,1.85
+1775,2020-02-24,Nova Scotia,Parks,25.6
+1777,2020-02-26,Nova Scotia,Parks,17.57
+1779,2020-02-28,Nova Scotia,Parks,-17.68
+1781,2020-03-01,Nova Scotia,Parks,70.54
+1783,2020-03-03,Nova Scotia,Parks,5.08
+1785,2020-03-05,Nova Scotia,Parks,15.15
+1787,2020-03-07,Nova Scotia,Parks,-22.23
+1789,2020-03-09,Nova Scotia,Parks,9.15
+1791,2020-03-11,Nova Scotia,Parks,3.84
+1793,2020-03-13,Nova Scotia,Parks,-13.8
+1795,2020-03-15,Nova Scotia,Parks,182.16
+1797,2020-03-17,Nova Scotia,Parks,20.9
+1799,2020-03-19,Nova Scotia,Parks,86.05
+1801,2020-03-21,Nova Scotia,Parks,87.77
+1803,2020-03-23,Nova Scotia,Parks,-16.46
+1805,2020-03-25,Nova Scotia,Parks,-6.6
+1807,2020-03-27,Nova Scotia,Parks,-41.81
+1809,2020-03-29,Nova Scotia,Parks,94.56
+1811,2020-02-17,Nova Scotia,Transit stations,-33.88
+1813,2020-02-19,Nova Scotia,Transit stations,-1.24
+1815,2020-02-21,Nova Scotia,Transit stations,0.19
+1817,2020-02-23,Nova Scotia,Transit stations,35.21
+1819,2020-02-25,Nova Scotia,Transit stations,4.43
+1821,2020-02-27,Nova Scotia,Transit stations,-8.1
+1823,2020-02-29,Nova Scotia,Transit stations,12.63
+1825,2020-03-02,Nova Scotia,Transit stations,4.05
+1827,2020-03-04,Nova Scotia,Transit stations,1.85
+1829,2020-03-06,Nova Scotia,Transit stations,6.14
+1831,2020-03-08,Nova Scotia,Transit stations,32.38
+1833,2020-03-10,Nova Scotia,Transit stations,-0.01
+1835,2020-03-12,Nova Scotia,Transit stations,1.96
+1644,2020-02-18,Northwest Territories,Workplace,2.34
+1646,2020-02-20,Northwest Territories,Workplace,-2.27
+1648,2020-02-22,Northwest Territories,Workplace,5.45
+1650,2020-02-25,Northwest Territories,Workplace,1.55
+1652,2020-02-27,Northwest Territories,Workplace,-1.52
+1654,2020-02-29,Northwest Territories,Workplace,7.27
+1656,2020-03-03,Northwest Territories,Workplace,1.55
+1658,2020-03-05,Northwest Territories,Workplace,-0.76
+1660,2020-03-07,Northwest Territories,Workplace,3.63
+1662,2020-03-10,Northwest Territories,Workplace,3.12
+1664,2020-03-12,Northwest Territories,Workplace,-3.04
+1666,2020-03-14,Northwest Territories,Workplace,-1.82
+1668,2020-03-17,Northwest Territories,Workplace,-14.85
+1670,2020-03-19,Northwest Territories,Workplace,-34.09
+1672,2020-03-21,Northwest Territories,Workplace,-27.28
+1674,2020-03-23,Northwest Territories,Workplace,-45.24
+1676,2020-03-25,Northwest Territories,Workplace,-48.06
+1678,2020-03-27,Northwest Territories,Workplace,-49.22
+1680,2020-03-29,Northwest Territories,Workplace,-31.81
+1682,2020-02-17,Nova Scotia,Retail & recreation,-34.64
+1684,2020-02-19,Nova Scotia,Retail & recreation,-0.74
+1686,2020-02-21,Nova Scotia,Retail & recreation,0.38
+1688,2020-02-23,Nova Scotia,Retail & recreation,53.38
+1690,2020-02-25,Nova Scotia,Retail & recreation,-0.52
+1692,2020-02-27,Nova Scotia,Retail & recreation,-5.87
+1694,2020-02-29,Nova Scotia,Retail & recreation,1.67
+1696,2020-03-02,Nova Scotia,Retail & recreation,4.99
+1698,2020-03-04,Nova Scotia,Retail & recreation,1.51
+1700,2020-03-06,Nova Scotia,Retail & recreation,7.0
+1702,2020-03-08,Nova Scotia,Retail & recreation,54.22
+1704,2020-03-10,Nova Scotia,Retail & recreation,-1.33
+1706,2020-03-12,Nova Scotia,Retail & recreation,12.9
+1708,2020-03-14,Nova Scotia,Retail & recreation,-6.14
+1710,2020-03-16,Nova Scotia,Retail & recreation,-4.82
+1712,2020-03-18,Nova Scotia,Retail & recreation,-29.76
+1714,2020-03-20,Nova Scotia,Retail & recreation,-43.36
+1716,2020-03-22,Nova Scotia,Retail & recreation,-33.82
+1718,2020-03-24,Nova Scotia,Retail & recreation,-64.91
+1720,2020-03-26,Nova Scotia,Retail & recreation,-58.04
+1722,2020-03-28,Nova Scotia,Retail & recreation,-55.67
+1724,2020-02-16,Nova Scotia,Grocery & pharmacy,51.46
+1726,2020-02-18,Nova Scotia,Grocery & pharmacy,16.51
+1728,2020-02-20,Nova Scotia,Grocery & pharmacy,2.55
+1730,2020-02-22,Nova Scotia,Grocery & pharmacy,-2.78
+1732,2020-02-24,Nova Scotia,Grocery & pharmacy,1.96
+1734,2020-02-26,Nova Scotia,Grocery & pharmacy,4.16
+1736,2020-02-28,Nova Scotia,Grocery & pharmacy,1.98
+1738,2020-03-01,Nova Scotia,Grocery & pharmacy,32.23
+1740,2020-03-03,Nova Scotia,Grocery & pharmacy,5.0
+1742,2020-03-05,Nova Scotia,Grocery & pharmacy,4.63
+1744,2020-03-07,Nova Scotia,Grocery & pharmacy,-13.28
+1746,2020-03-09,Nova Scotia,Grocery & pharmacy,3.27
+1748,2020-03-11,Nova Scotia,Grocery & pharmacy,1.36
+1750,2020-03-13,Nova Scotia,Grocery & pharmacy,27.31
+1752,2020-03-15,Nova Scotia,Grocery & pharmacy,63.55
+1754,2020-03-17,Nova Scotia,Grocery & pharmacy,14.99
+1756,2020-03-19,Nova Scotia,Grocery & pharmacy,4.32
+1758,2020-03-21,Nova Scotia,Grocery & pharmacy,-21.38
+1760,2020-03-23,Nova Scotia,Grocery & pharmacy,-20.74
+1762,2020-03-25,Nova Scotia,Grocery & pharmacy,-20.94
+1764,2020-03-27,Nova Scotia,Grocery & pharmacy,-23.66
+1766,2020-03-29,Nova Scotia,Grocery & pharmacy,-7.24
+1768,2020-02-17,Nova Scotia,Parks,104.87
+1770,2020-02-19,Nova Scotia,Parks,-3.85
+1772,2020-02-21,Nova Scotia,Parks,-15.52
+1774,2020-02-23,Nova Scotia,Parks,201.54
+1776,2020-02-25,Nova Scotia,Parks,6.21
+1778,2020-02-27,Nova Scotia,Parks,-17.58
+1780,2020-02-29,Nova Scotia,Parks,2.22
+1782,2020-03-02,Nova Scotia,Parks,15.85
+1784,2020-03-04,Nova Scotia,Parks,-8.24
+1786,2020-03-06,Nova Scotia,Parks,15.51
+1788,2020-03-08,Nova Scotia,Parks,141.07
+1790,2020-03-10,Nova Scotia,Parks,-9.04
+1792,2020-03-12,Nova Scotia,Parks,40.6
+1794,2020-03-14,Nova Scotia,Parks,21.11
+1796,2020-03-16,Nova Scotia,Parks,20.12
+1798,2020-03-18,Nova Scotia,Parks,70.88
+1800,2020-03-20,Nova Scotia,Parks,-22.41
+1802,2020-03-22,Nova Scotia,Parks,82.94
+1804,2020-03-24,Nova Scotia,Parks,-53.67
+1806,2020-03-26,Nova Scotia,Parks,-47.28
+1808,2020-03-28,Nova Scotia,Parks,-3.7
+1810,2020-02-16,Nova Scotia,Transit stations,27.12
+1812,2020-02-18,Nova Scotia,Transit stations,-0.41
+1814,2020-02-20,Nova Scotia,Transit stations,-3.17
+1816,2020-02-22,Nova Scotia,Transit stations,4.1
+1818,2020-02-24,Nova Scotia,Transit stations,3.03
+1820,2020-02-26,Nova Scotia,Transit stations,9.29
+1822,2020-02-28,Nova Scotia,Transit stations,6.14
+1824,2020-03-01,Nova Scotia,Transit stations,28.33
+1826,2020-03-03,Nova Scotia,Transit stations,2.41
+1828,2020-03-05,Nova Scotia,Transit stations,-0.01
+1830,2020-03-07,Nova Scotia,Transit stations,-8.24
+1832,2020-03-09,Nova Scotia,Transit stations,2.84
+1834,2020-03-11,Nova Scotia,Transit stations,2.68
+1836,2020-03-13,Nova Scotia,Transit stations,-7.36
+1838,2020-03-15,Nova Scotia,Transit stations,12.54
+1840,2020-03-17,Nova Scotia,Transit stations,-33.07
+1837,2020-03-14,Nova Scotia,Transit stations,-2.06
+1839,2020-03-16,Nova Scotia,Transit stations,-26.78
+1841,2020-03-18,Nova Scotia,Transit stations,-36.17
+1843,2020-03-20,Nova Scotia,Transit stations,-48.62
+1845,2020-03-22,Nova Scotia,Transit stations,-38.47
+1847,2020-03-24,Nova Scotia,Transit stations,-66.14
+1849,2020-03-26,Nova Scotia,Transit stations,-68.64
+1851,2020-03-28,Nova Scotia,Transit stations,-52.36
+1853,2020-02-16,Nova Scotia,Workplace,13.84
+1855,2020-02-18,Nova Scotia,Workplace,-2.24
+1857,2020-02-20,Nova Scotia,Workplace,-0.11
+1859,2020-02-22,Nova Scotia,Workplace,0.71
+1861,2020-02-24,Nova Scotia,Workplace,2.04
+1863,2020-02-26,Nova Scotia,Workplace,2.21
+1865,2020-02-28,Nova Scotia,Workplace,4.78
+1867,2020-03-01,Nova Scotia,Workplace,17.48
+1869,2020-03-03,Nova Scotia,Workplace,2.84
+1871,2020-03-05,Nova Scotia,Workplace,4.95
+1873,2020-03-07,Nova Scotia,Workplace,-1.9
+1875,2020-03-09,Nova Scotia,Workplace,2.14
+1877,2020-03-11,Nova Scotia,Workplace,0.57
+1879,2020-03-13,Nova Scotia,Workplace,0.93
+1881,2020-03-15,Nova Scotia,Workplace,13.07
+1883,2020-03-17,Nova Scotia,Workplace,-37.36
+1885,2020-03-19,Nova Scotia,Workplace,-44.43
+1887,2020-03-21,Nova Scotia,Workplace,-34.42
+1889,2020-03-23,Nova Scotia,Workplace,-54.9
+1891,2020-03-25,Nova Scotia,Workplace,-58.03
+1893,2020-03-27,Nova Scotia,Workplace,-56.71
+1895,2020-03-29,Nova Scotia,Workplace,-31.62
+1897,2020-02-17,Nova Scotia,Residential,14.71
+1899,2020-02-19,Nova Scotia,Residential,1.8
+1901,2020-02-21,Nova Scotia,Residential,1.01
+1903,2020-02-23,Nova Scotia,Residential,-6.61
+1905,2020-02-25,Nova Scotia,Residential,0.44
+1907,2020-02-27,Nova Scotia,Residential,2.26
+1909,2020-02-29,Nova Scotia,Residential,0.09
+1911,2020-03-02,Nova Scotia,Residential,0.67
+1913,2020-03-04,Nova Scotia,Residential,1.34
+1915,2020-03-06,Nova Scotia,Residential,-0.11
+1917,2020-03-08,Nova Scotia,Residential,-5.61
+1919,2020-03-10,Nova Scotia,Residential,1.63
+1921,2020-03-12,Nova Scotia,Residential,-0.84
+1923,2020-03-14,Nova Scotia,Residential,2.44
+1925,2020-03-16,Nova Scotia,Residential,8.54
+1927,2020-03-18,Nova Scotia,Residential,13.81
+1929,2020-03-20,Nova Scotia,Residential,18.94
+1931,2020-03-22,Nova Scotia,Residential,3.7
+1933,2020-03-24,Nova Scotia,Residential,23.49
+1935,2020-03-26,Nova Scotia,Residential,22.29
+1937,2020-03-28,Nova Scotia,Residential,13.83
+1939,2020-02-19,Nunavut,Retail & recreation,-4.39
+1941,2020-02-22,Nunavut,Retail & recreation,-1.7
+1943,2020-02-28,Nunavut,Retail & recreation,4.76
+1945,2020-03-04,Nunavut,Retail & recreation,1.46
+1947,2020-03-07,Nunavut,Retail & recreation,-3.4
+1949,2020-03-11,Nunavut,Retail & recreation,1.46
+1951,2020-03-14,Nunavut,Retail & recreation,-6.36
+1953,2020-03-19,Nunavut,Retail & recreation,-9.09
+1955,2020-03-21,Nunavut,Retail & recreation,-35.6
+1957,2020-03-24,Nunavut,Retail & recreation,-27.91
+1959,2020-03-26,Nunavut,Retail & recreation,-18.19
+1961,2020-03-28,Nunavut,Retail & recreation,-44.07
+1963,2020-02-17,Nunavut,Workplace,-7.32
+1965,2020-02-19,Nunavut,Workplace,-2.47
+1967,2020-02-21,Nunavut,Workplace,-3.66
+1969,2020-02-25,Nunavut,Workplace,3.75
+1971,2020-02-27,Nunavut,Workplace,6.32
+1973,2020-03-02,Nunavut,Workplace,4.88
+1975,2020-03-04,Nunavut,Workplace,4.93
+1977,2020-03-06,Nunavut,Workplace,9.76
+1979,2020-03-10,Nunavut,Workplace,5.0
+1981,2020-03-12,Nunavut,Workplace,8.86
+1983,2020-03-16,Nunavut,Workplace,-6.1
+1985,2020-03-18,Nunavut,Workplace,-18.52
+1987,2020-03-20,Nunavut,Workplace,-23.17
+1989,2020-03-23,Nunavut,Workplace,-39.02
+1991,2020-03-25,Nunavut,Workplace,-38.27
+1993,2020-03-27,Nunavut,Workplace,-40.24
+1995,2020-03-29,Nunavut,Workplace,-31.58
+1997,2020-02-17,Ontario,Retail & recreation,-25.73
+1999,2020-02-19,Ontario,Retail & recreation,0.46
+2001,2020-02-21,Ontario,Retail & recreation,0.88
+2003,2020-02-23,Ontario,Retail & recreation,12.08
+2005,2020-02-25,Ontario,Retail & recreation,1.12
+2007,2020-02-27,Ontario,Retail & recreation,-12.59
+2009,2020-02-29,Ontario,Retail & recreation,5.37
+2011,2020-03-02,Ontario,Retail & recreation,2.04
+2013,2020-03-04,Ontario,Retail & recreation,3.9
+2015,2020-03-06,Ontario,Retail & recreation,-2.52
+2017,2020-03-08,Ontario,Retail & recreation,12.92
+2019,2020-03-10,Ontario,Retail & recreation,0.54
+2021,2020-03-12,Ontario,Retail & recreation,5.8
+2023,2020-03-14,Ontario,Retail & recreation,-10.07
+2025,2020-03-16,Ontario,Retail & recreation,-12.43
+2027,2020-03-18,Ontario,Retail & recreation,-35.77
+2029,2020-03-20,Ontario,Retail & recreation,-44.68
+2031,2020-03-22,Ontario,Retail & recreation,-50.63
+2033,2020-03-24,Ontario,Retail & recreation,-48.16
+2035,2020-03-26,Ontario,Retail & recreation,-54.76
+2037,2020-03-28,Ontario,Retail & recreation,-60.25
+2039,2020-02-16,Ontario,Grocery & pharmacy,12.98
+3045,2020-03-27,Yukon,Workplace,-45.81
+1842,2020-03-19,Nova Scotia,Transit stations,-42.41
+1844,2020-03-21,Nova Scotia,Transit stations,-37.65
+1846,2020-03-23,Nova Scotia,Transit stations,-57.81
+1848,2020-03-25,Nova Scotia,Transit stations,-57.24
+1850,2020-03-27,Nova Scotia,Transit stations,-65.28
+1852,2020-03-29,Nova Scotia,Transit stations,-44.54
+1854,2020-02-17,Nova Scotia,Workplace,-66.53
+1856,2020-02-19,Nova Scotia,Workplace,-4.76
+1858,2020-02-21,Nova Scotia,Workplace,2.44
+1860,2020-02-23,Nova Scotia,Workplace,19.55
+1862,2020-02-25,Nova Scotia,Workplace,1.51
+1864,2020-02-27,Nova Scotia,Workplace,1.37
+1866,2020-02-29,Nova Scotia,Workplace,3.59
+1868,2020-03-02,Nova Scotia,Workplace,3.4
+1870,2020-03-04,Nova Scotia,Workplace,1.18
+1872,2020-03-06,Nova Scotia,Workplace,7.22
+1874,2020-03-08,Nova Scotia,Workplace,18.9
+1876,2020-03-10,Nova Scotia,Workplace,0.93
+1878,2020-03-12,Nova Scotia,Workplace,3.25
+1880,2020-03-14,Nova Scotia,Workplace,-1.18
+1882,2020-03-16,Nova Scotia,Workplace,-28.73
+1884,2020-03-18,Nova Scotia,Workplace,-42.3
+1886,2020-03-20,Nova Scotia,Workplace,-47.14
+1888,2020-03-22,Nova Scotia,Workplace,-24.88
+1890,2020-03-24,Nova Scotia,Workplace,-61.07
+1892,2020-03-26,Nova Scotia,Workplace,-59.13
+1894,2020-03-28,Nova Scotia,Workplace,-42.41
+1896,2020-02-16,Nova Scotia,Residential,-6.48
+1898,2020-02-18,Nova Scotia,Residential,0.43
+1900,2020-02-20,Nova Scotia,Residential,-0.58
+1902,2020-02-22,Nova Scotia,Residential,0.43
+1904,2020-02-24,Nova Scotia,Residential,0.7
+1906,2020-02-26,Nova Scotia,Residential,-0.63
+1908,2020-02-28,Nova Scotia,Residential,1.09
+1910,2020-03-01,Nova Scotia,Residential,-4.41
+1912,2020-03-03,Nova Scotia,Residential,0.62
+1914,2020-03-05,Nova Scotia,Residential,-0.38
+1916,2020-03-07,Nova Scotia,Residential,4.27
+1918,2020-03-09,Nova Scotia,Residential,1.44
+1920,2020-03-11,Nova Scotia,Residential,1.28
+1922,2020-03-13,Nova Scotia,Residential,2.57
+1924,2020-03-15,Nova Scotia,Residential,-3.82
+1926,2020-03-17,Nova Scotia,Residential,11.87
+1928,2020-03-19,Nova Scotia,Residential,13.78
+1930,2020-03-21,Nova Scotia,Residential,11.2
+1932,2020-03-23,Nova Scotia,Residential,19.19
+1934,2020-03-25,Nova Scotia,Residential,20.37
+1936,2020-03-27,Nova Scotia,Residential,23.65
+1938,2020-03-29,Nova Scotia,Residential,4.55
+1940,2020-02-21,Nunavut,Retail & recreation,-7.95
+1942,2020-02-26,Nunavut,Retail & recreation,9.26
+1944,2020-02-29,Nunavut,Retail & recreation,13.55
+1946,2020-03-06,Nunavut,Retail & recreation,-1.6
+1948,2020-03-08,Nunavut,Retail & recreation,-47.23
+1950,2020-03-13,Nunavut,Retail & recreation,-0.01
+1952,2020-03-18,Nunavut,Retail & recreation,-14.16
+1954,2020-03-20,Nunavut,Retail & recreation,-17.47
+1956,2020-03-23,Nunavut,Retail & recreation,-30.01
+1958,2020-03-25,Nunavut,Retail & recreation,-31.72
+1960,2020-03-27,Nunavut,Retail & recreation,-34.93
+1962,2020-03-29,Nunavut,Retail & recreation,-47.23
+1964,2020-02-18,Nunavut,Workplace,-3.75
+1966,2020-02-20,Nunavut,Workplace,1.26
+1968,2020-02-24,Nunavut,Workplace,3.65
+1970,2020-02-26,Nunavut,Workplace,4.93
+1972,2020-02-28,Nunavut,Workplace,3.65
+1974,2020-03-03,Nunavut,Workplace,6.25
+1976,2020-03-05,Nunavut,Workplace,7.59
+1978,2020-03-09,Nunavut,Workplace,-13.41
+1980,2020-03-11,Nunavut,Workplace,7.4
+1982,2020-03-13,Nunavut,Workplace,2.44
+1984,2020-03-17,Nunavut,Workplace,-10.0
+1986,2020-03-19,Nunavut,Workplace,-20.26
+1988,2020-03-21,Nunavut,Workplace,-18.61
+1990,2020-03-24,Nunavut,Workplace,-35.0
+1992,2020-03-26,Nunavut,Workplace,-37.97
+1994,2020-03-28,Nunavut,Workplace,-34.89
+1996,2020-02-16,Ontario,Retail & recreation,15.56
+1998,2020-02-18,Ontario,Retail & recreation,-1.31
+2000,2020-02-20,Ontario,Retail & recreation,3.56
+2002,2020-02-22,Ontario,Retail & recreation,8.42
+2004,2020-02-24,Ontario,Retail & recreation,2.16
+2006,2020-02-26,Ontario,Retail & recreation,-8.37
+2008,2020-02-28,Ontario,Retail & recreation,-5.5
+2010,2020-03-01,Ontario,Retail & recreation,11.3
+2012,2020-03-03,Ontario,Retail & recreation,0.54
+2014,2020-03-05,Ontario,Retail & recreation,5.7
+2016,2020-03-07,Ontario,Retail & recreation,9.69
+2018,2020-03-09,Ontario,Retail & recreation,3.96
+2020,2020-03-11,Ontario,Retail & recreation,2.87
+2022,2020-03-13,Ontario,Retail & recreation,-2.59
+2024,2020-03-15,Ontario,Retail & recreation,-10.25
+2026,2020-03-17,Ontario,Retail & recreation,-29.31
+2028,2020-03-19,Ontario,Retail & recreation,-37.84
+2030,2020-03-21,Ontario,Retail & recreation,-48.47
+2032,2020-03-23,Ontario,Retail & recreation,-46.69
+2034,2020-03-25,Ontario,Retail & recreation,-54.45
+2036,2020-03-27,Ontario,Retail & recreation,-54.33
+2038,2020-03-29,Ontario,Retail & recreation,-58.68
+2040,2020-02-17,Ontario,Grocery & pharmacy,-37.16
+2042,2020-02-19,Ontario,Grocery & pharmacy,3.69
+2044,2020-02-21,Ontario,Grocery & pharmacy,-2.82
+3046,2020-03-28,Yukon,Workplace,-31.11
+2041,2020-02-18,Ontario,Grocery & pharmacy,12.17
+2043,2020-02-20,Ontario,Grocery & pharmacy,3.8
+2045,2020-02-22,Ontario,Grocery & pharmacy,6.11
+2047,2020-02-24,Ontario,Grocery & pharmacy,2.1
+2049,2020-02-26,Ontario,Grocery & pharmacy,-5.14
+2051,2020-02-28,Ontario,Grocery & pharmacy,-4.22
+2053,2020-03-01,Ontario,Grocery & pharmacy,9.84
+2055,2020-03-03,Ontario,Grocery & pharmacy,3.1
+2057,2020-03-05,Ontario,Grocery & pharmacy,6.0
+2059,2020-03-07,Ontario,Grocery & pharmacy,8.54
+2061,2020-03-09,Ontario,Grocery & pharmacy,5.12
+2063,2020-03-11,Ontario,Grocery & pharmacy,7.43
+2065,2020-03-13,Ontario,Grocery & pharmacy,40.91
+2067,2020-03-15,Ontario,Grocery & pharmacy,14.05
+2069,2020-03-17,Ontario,Grocery & pharmacy,14.91
+2071,2020-03-19,Ontario,Grocery & pharmacy,2.05
+2073,2020-03-21,Ontario,Grocery & pharmacy,-12.24
+2075,2020-03-23,Ontario,Grocery & pharmacy,-12.88
+2077,2020-03-25,Ontario,Grocery & pharmacy,-22.9
+2079,2020-03-27,Ontario,Grocery & pharmacy,-20.56
+2081,2020-03-29,Ontario,Grocery & pharmacy,-33.3
+2083,2020-02-17,Ontario,Parks,69.5
+2085,2020-02-19,Ontario,Parks,-4.28
+2087,2020-02-21,Ontario,Parks,10.83
+2089,2020-02-23,Ontario,Parks,53.19
+2091,2020-02-25,Ontario,Parks,2.37
+2093,2020-02-27,Ontario,Parks,-16.8
+2095,2020-02-29,Ontario,Parks,8.94
+2097,2020-03-02,Ontario,Parks,0.19
+2099,2020-03-04,Ontario,Parks,1.45
+2101,2020-03-06,Ontario,Parks,-3.65
+2103,2020-03-08,Ontario,Parks,85.67
+2105,2020-03-10,Ontario,Parks,-1.94
+2107,2020-03-12,Ontario,Parks,9.32
+2109,2020-03-14,Ontario,Parks,4.72
+2111,2020-03-16,Ontario,Parks,10.49
+2113,2020-03-18,Ontario,Parks,0.79
+2115,2020-03-20,Ontario,Parks,-15.4
+2117,2020-03-22,Ontario,Parks,6.15
+2119,2020-03-24,Ontario,Parks,-6.03
+2121,2020-03-26,Ontario,Parks,-10.15
+2123,2020-03-28,Ontario,Parks,-31.4
+2125,2020-02-16,Ontario,Transit stations,4.88
+2127,2020-02-18,Ontario,Transit stations,1.8
+2129,2020-02-20,Ontario,Transit stations,-0.19
+2131,2020-02-22,Ontario,Transit stations,10.54
+2133,2020-02-24,Ontario,Transit stations,-1.72
+2135,2020-02-26,Ontario,Transit stations,-6.05
+2137,2020-02-28,Ontario,Transit stations,-1.13
+2139,2020-03-01,Ontario,Transit stations,4.33
+2141,2020-03-03,Ontario,Transit stations,0.45
+2143,2020-03-05,Ontario,Transit stations,2.05
+2145,2020-03-07,Ontario,Transit stations,7.59
+2147,2020-03-09,Ontario,Transit stations,-3.34
+2149,2020-03-11,Ontario,Transit stations,-4.97
+2151,2020-03-13,Ontario,Transit stations,-15.65
+2153,2020-03-15,Ontario,Transit stations,-21.56
+2155,2020-03-17,Ontario,Transit stations,-46.29
+2157,2020-03-19,Ontario,Transit stations,-53.68
+2159,2020-03-21,Ontario,Transit stations,-49.16
+2161,2020-03-23,Ontario,Transit stations,-65.57
+2163,2020-03-25,Ontario,Transit stations,-67.09
+2165,2020-03-27,Ontario,Transit stations,-66.87
+2167,2020-03-29,Ontario,Transit stations,-66.34
+2169,2020-02-17,Ontario,Workplace,-72.37
+2171,2020-02-19,Ontario,Workplace,1.0
+2173,2020-02-21,Ontario,Workplace,-6.68
+2175,2020-02-23,Ontario,Workplace,4.72
+2177,2020-02-25,Ontario,Workplace,3.2
+2179,2020-02-27,Ontario,Workplace,-7.83
+2181,2020-02-29,Ontario,Workplace,7.9
+2183,2020-03-02,Ontario,Workplace,3.8
+2185,2020-03-04,Ontario,Workplace,3.52
+2187,2020-03-06,Ontario,Workplace,3.08
+2189,2020-03-08,Ontario,Workplace,4.74
+2191,2020-03-10,Ontario,Workplace,2.81
+2193,2020-03-12,Ontario,Workplace,1.22
+2195,2020-03-14,Ontario,Workplace,0.42
+2197,2020-03-16,Ontario,Workplace,-30.56
+2199,2020-03-18,Ontario,Workplace,-44.28
+2201,2020-03-20,Ontario,Workplace,-49.35
+2203,2020-03-22,Ontario,Workplace,-37.52
+2205,2020-03-24,Ontario,Workplace,-56.87
+2207,2020-03-26,Ontario,Workplace,-61.48
+2209,2020-03-28,Ontario,Workplace,-46.04
+2211,2020-02-16,Ontario,Residential,-2.31
+2213,2020-02-18,Ontario,Residential,0.66
+2215,2020-02-20,Ontario,Residential,-0.03
+2217,2020-02-22,Ontario,Residential,-1.82
+2219,2020-02-24,Ontario,Residential,0.19
+2221,2020-02-26,Ontario,Residential,2.86
+2223,2020-02-28,Ontario,Residential,2.19
+2225,2020-03-01,Ontario,Residential,-0.72
+2227,2020-03-03,Ontario,Residential,-0.11
+2229,2020-03-05,Ontario,Residential,0.42
+2231,2020-03-07,Ontario,Residential,-1.46
+2233,2020-03-09,Ontario,Residential,0.57
+2235,2020-03-11,Ontario,Residential,0.93
+2237,2020-03-13,Ontario,Residential,3.47
+2239,2020-03-15,Ontario,Residential,3.97
+2241,2020-03-17,Ontario,Residential,14.57
+2243,2020-03-19,Ontario,Residential,19.0
+2245,2020-03-21,Ontario,Residential,12.75
+2247,2020-03-23,Ontario,Residential,22.13
+2249,2020-03-25,Ontario,Residential,24.67
+2046,2020-02-23,Ontario,Grocery & pharmacy,6.04
+2048,2020-02-25,Ontario,Grocery & pharmacy,6.96
+2050,2020-02-27,Ontario,Grocery & pharmacy,-12.1
+2052,2020-02-29,Ontario,Grocery & pharmacy,6.29
+2054,2020-03-02,Ontario,Grocery & pharmacy,3.54
+2056,2020-03-04,Ontario,Grocery & pharmacy,4.06
+2058,2020-03-06,Ontario,Grocery & pharmacy,-4.03
+2060,2020-03-08,Ontario,Grocery & pharmacy,9.82
+2062,2020-03-10,Ontario,Grocery & pharmacy,3.9
+2064,2020-03-12,Ontario,Grocery & pharmacy,32.11
+2066,2020-03-14,Ontario,Grocery & pharmacy,25.76
+2068,2020-03-16,Ontario,Grocery & pharmacy,26.65
+2070,2020-03-18,Ontario,Grocery & pharmacy,1.22
+2072,2020-03-20,Ontario,Grocery & pharmacy,-7.89
+2074,2020-03-22,Ontario,Grocery & pharmacy,-21.91
+2076,2020-03-24,Ontario,Grocery & pharmacy,-11.53
+2078,2020-03-26,Ontario,Grocery & pharmacy,-22.06
+2080,2020-03-28,Ontario,Grocery & pharmacy,-28.53
+2082,2020-02-16,Ontario,Parks,44.22
+2084,2020-02-18,Ontario,Parks,-5.37
+2086,2020-02-20,Ontario,Parks,2.51
+2088,2020-02-22,Ontario,Parks,44.31
+2090,2020-02-24,Ontario,Parks,18.11
+2092,2020-02-26,Ontario,Parks,-15.21
+2094,2020-02-28,Ontario,Parks,-10.03
+2096,2020-03-01,Ontario,Parks,23.35
+2098,2020-03-03,Ontario,Parks,-5.92
+2100,2020-03-05,Ontario,Parks,21.47
+2102,2020-03-07,Ontario,Parks,40.81
+2104,2020-03-09,Ontario,Parks,40.49
+2106,2020-03-11,Ontario,Parks,0.62
+2108,2020-03-13,Ontario,Parks,-6.91
+2110,2020-03-15,Ontario,Parks,43.51
+2112,2020-03-17,Ontario,Parks,1.84
+2114,2020-03-19,Ontario,Parks,10.6
+2116,2020-03-21,Ontario,Parks,16.49
+2118,2020-03-23,Ontario,Parks,-39.14
+2120,2020-03-25,Ontario,Parks,4.94
+2122,2020-03-27,Ontario,Parks,10.02
+2124,2020-03-29,Ontario,Parks,-13.72
+2126,2020-02-17,Ontario,Transit stations,-39.64
+2128,2020-02-19,Ontario,Transit stations,-2.06
+2130,2020-02-21,Ontario,Transit stations,-1.42
+2132,2020-02-23,Ontario,Transit stations,9.32
+2134,2020-02-25,Ontario,Transit stations,1.14
+2136,2020-02-27,Ontario,Transit stations,-5.43
+2138,2020-02-29,Ontario,Transit stations,6.43
+2140,2020-03-02,Ontario,Transit stations,-1.57
+2142,2020-03-04,Ontario,Transit stations,-0.36
+2144,2020-03-06,Ontario,Transit stations,-3.04
+2146,2020-03-08,Ontario,Transit stations,5.97
+2148,2020-03-10,Ontario,Transit stations,-4.41
+2150,2020-03-12,Ontario,Transit stations,-5.76
+2152,2020-03-14,Ontario,Transit stations,-16.63
+2154,2020-03-16,Ontario,Transit stations,-39.41
+2156,2020-03-18,Ontario,Transit stations,-51.26
+2158,2020-03-20,Ontario,Transit stations,-56.4
+2160,2020-03-22,Ontario,Transit stations,-55.26
+2162,2020-03-24,Ontario,Transit stations,-64.23
+2164,2020-03-26,Ontario,Transit stations,-68.24
+2166,2020-03-28,Ontario,Transit stations,-64.8
+2168,2020-02-16,Ontario,Workplace,-1.9
+2170,2020-02-18,Ontario,Workplace,-0.19
+2172,2020-02-20,Ontario,Workplace,1.65
+2174,2020-02-22,Ontario,Workplace,7.24
+2176,2020-02-24,Ontario,Workplace,2.42
+2178,2020-02-26,Ontario,Workplace,-2.14
+2180,2020-02-28,Ontario,Workplace,-1.46
+2182,2020-03-01,Ontario,Workplace,6.0
+2184,2020-03-03,Ontario,Workplace,4.42
+2186,2020-03-05,Ontario,Workplace,0.38
+2188,2020-03-07,Ontario,Workplace,8.52
+2190,2020-03-09,Ontario,Workplace,2.96
+2192,2020-03-11,Ontario,Workplace,2.09
+2194,2020-03-13,Ontario,Workplace,-4.22
+2196,2020-03-15,Ontario,Workplace,-5.72
+2198,2020-03-17,Ontario,Workplace,-38.74
+2200,2020-03-19,Ontario,Workplace,-47.17
+2202,2020-03-21,Ontario,Workplace,-33.6
+2204,2020-03-23,Ontario,Workplace,-55.08
+2206,2020-03-25,Ontario,Workplace,-60.87
+2208,2020-03-27,Ontario,Workplace,-60.61
+2210,2020-03-29,Ontario,Workplace,-45.91
+2212,2020-02-17,Ontario,Residential,16.1
+2214,2020-02-19,Ontario,Residential,0.44
+2216,2020-02-21,Ontario,Residential,1.37
+2218,2020-02-23,Ontario,Residential,-1.34
+2220,2020-02-25,Ontario,Residential,-0.37
+2222,2020-02-27,Ontario,Residential,5.23
+2224,2020-02-29,Ontario,Residential,-0.91
+2226,2020-03-02,Ontario,Residential,0.46
+2228,2020-03-04,Ontario,Residential,0.11
+2230,2020-03-06,Ontario,Residential,1.0
+2232,2020-03-08,Ontario,Residential,-0.81
+2234,2020-03-10,Ontario,Residential,0.85
+2236,2020-03-12,Ontario,Residential,1.2
+2238,2020-03-14,Ontario,Residential,3.43
+2240,2020-03-16,Ontario,Residential,10.94
+2242,2020-03-18,Ontario,Residential,17.3
+2244,2020-03-20,Ontario,Residential,21.28
+2246,2020-03-22,Ontario,Residential,11.64
+2248,2020-03-24,Ontario,Residential,22.34
+2250,2020-03-26,Ontario,Residential,25.84
+2252,2020-03-28,Ontario,Residential,16.16
+2254,2020-02-16,Prince Edward Island,Retail & recreation,29.17
+2251,2020-03-27,Ontario,Residential,25.67
+2253,2020-03-29,Ontario,Residential,14.09
+2255,2020-02-17,Prince Edward Island,Retail & recreation,-35.32
+2257,2020-02-19,Prince Edward Island,Retail & recreation,-4.32
+2259,2020-02-21,Prince Edward Island,Retail & recreation,-3.59
+2261,2020-02-23,Prince Edward Island,Retail & recreation,28.05
+2263,2020-02-25,Prince Edward Island,Retail & recreation,-1.41
+2265,2020-02-27,Prince Edward Island,Retail & recreation,-9.85
+2267,2020-02-29,Prince Edward Island,Retail & recreation,4.7
+2269,2020-03-02,Prince Edward Island,Retail & recreation,1.17
+2271,2020-03-04,Prince Edward Island,Retail & recreation,1.75
+2273,2020-03-06,Prince Edward Island,Retail & recreation,6.25
+2275,2020-03-08,Prince Edward Island,Retail & recreation,26.23
+2277,2020-03-10,Prince Edward Island,Retail & recreation,-8.59
+2279,2020-03-12,Prince Edward Island,Retail & recreation,7.81
+2281,2020-03-14,Prince Edward Island,Retail & recreation,-16.86
+2283,2020-03-16,Prince Edward Island,Retail & recreation,-18.25
+2285,2020-03-18,Prince Edward Island,Retail & recreation,-30.95
+2287,2020-03-20,Prince Edward Island,Retail & recreation,-56.77
+2289,2020-03-22,Prince Edward Island,Retail & recreation,-52.27
+2291,2020-03-24,Prince Edward Island,Retail & recreation,-64.13
+2293,2020-03-26,Prince Edward Island,Retail & recreation,-57.35
+2295,2020-03-28,Prince Edward Island,Retail & recreation,-58.0
+2297,2020-02-16,Prince Edward Island,Grocery & pharmacy,25.79
+2299,2020-02-18,Prince Edward Island,Grocery & pharmacy,16.98
+2301,2020-02-20,Prince Edward Island,Grocery & pharmacy,-0.77
+2303,2020-02-22,Prince Edward Island,Grocery & pharmacy,-3.3
+2305,2020-02-24,Prince Edward Island,Grocery & pharmacy,-5.23
+2307,2020-02-26,Prince Edward Island,Grocery & pharmacy,4.41
+2309,2020-02-28,Prince Edward Island,Grocery & pharmacy,-9.56
+2311,2020-03-01,Prince Edward Island,Grocery & pharmacy,-6.46
+2313,2020-03-03,Prince Edward Island,Grocery & pharmacy,3.15
+2315,2020-03-05,Prince Edward Island,Grocery & pharmacy,-0.39
+2317,2020-03-07,Prince Edward Island,Grocery & pharmacy,-10.48
+2319,2020-03-09,Prince Edward Island,Grocery & pharmacy,-2.02
+2321,2020-03-11,Prince Edward Island,Grocery & pharmacy,-0.41
+2323,2020-03-13,Prince Edward Island,Grocery & pharmacy,35.48
+2325,2020-03-15,Prince Edward Island,Grocery & pharmacy,18.27
+2327,2020-03-17,Prince Edward Island,Grocery & pharmacy,7.5
+2329,2020-03-19,Prince Edward Island,Grocery & pharmacy,-9.59
+2331,2020-03-21,Prince Edward Island,Grocery & pharmacy,-29.05
+2333,2020-03-23,Prince Edward Island,Grocery & pharmacy,-24.91
+2335,2020-03-25,Prince Edward Island,Grocery & pharmacy,-20.49
+2337,2020-03-27,Prince Edward Island,Grocery & pharmacy,-26.97
+2339,2020-03-29,Prince Edward Island,Grocery & pharmacy,-19.36
+2341,2020-02-17,Prince Edward Island,Workplace,-62.53
+2343,2020-02-19,Prince Edward Island,Workplace,-3.12
+2345,2020-02-21,Prince Edward Island,Workplace,-2.22
+2347,2020-02-23,Prince Edward Island,Workplace,11.02
+2349,2020-02-25,Prince Edward Island,Workplace,-1.77
+2351,2020-02-27,Prince Edward Island,Workplace,-4.71
+2353,2020-02-29,Prince Edward Island,Workplace,1.03
+2355,2020-03-02,Prince Edward Island,Workplace,2.65
+2357,2020-03-04,Prince Edward Island,Workplace,0.0
+2359,2020-03-06,Prince Edward Island,Workplace,-5.25
+2361,2020-03-08,Prince Edward Island,Workplace,13.39
+2363,2020-03-10,Prince Edward Island,Workplace,-0.79
+2365,2020-03-12,Prince Edward Island,Workplace,-0.39
+2367,2020-03-14,Prince Edward Island,Workplace,-3.63
+2369,2020-03-16,Prince Edward Island,Workplace,-24.03
+2371,2020-03-18,Prince Edward Island,Workplace,-42.19
+2373,2020-03-20,Prince Edward Island,Workplace,-51.21
+2375,2020-03-22,Prince Edward Island,Workplace,-29.92
+2377,2020-03-24,Prince Edward Island,Workplace,-56.38
+2379,2020-03-26,Prince Edward Island,Workplace,-56.28
+2381,2020-03-28,Prince Edward Island,Workplace,-45.59
+2383,2020-02-17,Prince Edward Island,Residential,14.23
+2385,2020-02-19,Prince Edward Island,Residential,1.78
+2387,2020-02-21,Prince Edward Island,Residential,1.78
+2389,2020-02-25,Prince Edward Island,Residential,0.27
+2391,2020-02-27,Prince Edward Island,Residential,5.32
+2393,2020-03-02,Prince Edward Island,Residential,0.83
+2395,2020-03-04,Prince Edward Island,Residential,1.31
+2397,2020-03-06,Prince Edward Island,Residential,1.5
+2399,2020-03-10,Prince Edward Island,Residential,2.17
+2401,2020-03-12,Prince Edward Island,Residential,0.14
+2403,2020-03-16,Prince Edward Island,Residential,8.76
+2405,2020-03-18,Prince Edward Island,Residential,14.0
+2407,2020-03-20,Prince Edward Island,Residential,21.74
+2409,2020-03-24,Prince Edward Island,Residential,21.94
+2411,2020-03-26,Prince Edward Island,Residential,22.45
+2413,2020-02-16,Quebec,Retail & recreation,9.68
+2415,2020-02-18,Quebec,Retail & recreation,-10.32
+2417,2020-02-20,Quebec,Retail & recreation,1.48
+2419,2020-02-22,Quebec,Retail & recreation,5.95
+2421,2020-02-24,Quebec,Retail & recreation,1.62
+2423,2020-02-26,Quebec,Retail & recreation,-0.23
+2425,2020-02-28,Quebec,Retail & recreation,-1.23
+2427,2020-03-01,Quebec,Retail & recreation,14.39
+2256,2020-02-18,Prince Edward Island,Retail & recreation,3.42
+2258,2020-02-20,Prince Edward Island,Retail & recreation,7.17
+2260,2020-02-22,Prince Edward Island,Retail & recreation,-1.0
+2262,2020-02-24,Prince Edward Island,Retail & recreation,-2.55
+2264,2020-02-26,Prince Edward Island,Retail & recreation,6.69
+2266,2020-02-28,Prince Edward Island,Retail & recreation,0.89
+2268,2020-03-01,Prince Edward Island,Retail & recreation,-11.54
+2270,2020-03-03,Prince Edward Island,Retail & recreation,0.46
+2272,2020-03-05,Prince Edward Island,Retail & recreation,4.83
+2274,2020-03-07,Prince Edward Island,Retail & recreation,-6.58
+2276,2020-03-09,Prince Edward Island,Retail & recreation,-6.26
+2278,2020-03-11,Prince Edward Island,Retail & recreation,-1.12
+2280,2020-03-13,Prince Edward Island,Retail & recreation,-4.6
+2282,2020-03-15,Prince Edward Island,Retail & recreation,-3.18
+2284,2020-03-17,Prince Edward Island,Retail & recreation,-31.2
+2286,2020-03-19,Prince Edward Island,Retail & recreation,-42.98
+2288,2020-03-21,Prince Edward Island,Retail & recreation,-60.1
+2290,2020-03-23,Prince Edward Island,Retail & recreation,-56.59
+2292,2020-03-25,Prince Edward Island,Retail & recreation,-53.11
+2294,2020-03-27,Prince Edward Island,Retail & recreation,-60.85
+2296,2020-03-29,Prince Edward Island,Retail & recreation,-42.54
+2298,2020-02-17,Prince Edward Island,Grocery & pharmacy,-59.84
+2300,2020-02-19,Prince Edward Island,Grocery & pharmacy,-4.83
+2302,2020-02-21,Prince Edward Island,Grocery & pharmacy,-5.47
+2304,2020-02-23,Prince Edward Island,Grocery & pharmacy,10.74
+2306,2020-02-25,Prince Edward Island,Grocery & pharmacy,0.38
+2308,2020-02-27,Prince Edward Island,Grocery & pharmacy,5.74
+2310,2020-02-29,Prince Edward Island,Grocery & pharmacy,-0.3
+2312,2020-03-02,Prince Edward Island,Grocery & pharmacy,2.0
+2314,2020-03-04,Prince Edward Island,Grocery & pharmacy,-4.02
+2316,2020-03-06,Prince Edward Island,Grocery & pharmacy,0.67
+2318,2020-03-08,Prince Edward Island,Grocery & pharmacy,14.51
+2320,2020-03-10,Prince Edward Island,Grocery & pharmacy,-1.6
+2322,2020-03-12,Prince Edward Island,Grocery & pharmacy,16.47
+2324,2020-03-14,Prince Edward Island,Grocery & pharmacy,11.37
+2326,2020-03-16,Prince Edward Island,Grocery & pharmacy,13.65
+2328,2020-03-18,Prince Edward Island,Grocery & pharmacy,7.22
+2330,2020-03-20,Prince Edward Island,Grocery & pharmacy,-21.17
+2332,2020-03-22,Prince Edward Island,Grocery & pharmacy,-21.52
+2334,2020-03-24,Prince Edward Island,Grocery & pharmacy,-30.83
+2336,2020-03-26,Prince Edward Island,Grocery & pharmacy,-26.45
+2338,2020-03-28,Prince Edward Island,Grocery & pharmacy,-26.35
+2340,2020-02-16,Prince Edward Island,Workplace,11.81
+2342,2020-02-18,Prince Edward Island,Workplace,0.2
+2344,2020-02-20,Prince Edward Island,Workplace,-2.16
+2346,2020-02-22,Prince Edward Island,Workplace,-2.59
+2348,2020-02-24,Prince Edward Island,Workplace,-3.25
+2350,2020-02-26,Prince Edward Island,Workplace,-1.56
+2352,2020-02-28,Prince Edward Island,Workplace,-13.51
+2354,2020-03-01,Prince Edward Island,Workplace,-1.57
+2356,2020-03-03,Prince Edward Island,Workplace,0.58
+2358,2020-03-05,Prince Edward Island,Workplace,-2.36
+2360,2020-03-07,Prince Edward Island,Workplace,-2.08
+2362,2020-03-09,Prince Edward Island,Workplace,1.42
+2364,2020-03-11,Prince Edward Island,Workplace,-0.2
+2366,2020-03-13,Prince Edward Island,Workplace,-3.22
+2368,2020-03-15,Prince Edward Island,Workplace,2.36
+2370,2020-03-17,Prince Edward Island,Workplace,-34.58
+2372,2020-03-19,Prince Edward Island,Workplace,-47.65
+2374,2020-03-21,Prince Edward Island,Workplace,-38.34
+2376,2020-03-23,Prince Edward Island,Workplace,-52.75
+2378,2020-03-25,Prince Edward Island,Workplace,-56.25
+2380,2020-03-27,Prince Edward Island,Workplace,-55.64
+2382,2020-03-29,Prince Edward Island,Workplace,-33.86
+2384,2020-02-18,Prince Edward Island,Residential,-0.13
+2386,2020-02-20,Prince Edward Island,Residential,1.04
+2388,2020-02-24,Prince Edward Island,Residential,1.46
+2390,2020-02-26,Prince Edward Island,Residential,0.0
+2392,2020-02-28,Prince Edward Island,Residential,3.83
+2394,2020-03-03,Prince Edward Island,Residential,0.71
+2396,2020-03-05,Prince Edward Island,Residential,1.97
+2398,2020-03-09,Prince Edward Island,Residential,1.59
+2400,2020-03-11,Prince Edward Island,Residential,0.95
+2402,2020-03-13,Prince Edward Island,Residential,3.48
+2404,2020-03-17,Prince Edward Island,Residential,12.14
+2406,2020-03-19,Prince Edward Island,Residential,16.49
+2408,2020-03-23,Prince Edward Island,Residential,19.07
+2410,2020-03-25,Prince Edward Island,Residential,19.73
+2412,2020-03-27,Prince Edward Island,Residential,25.1
+2414,2020-02-17,Quebec,Retail & recreation,3.27
+2416,2020-02-19,Quebec,Retail & recreation,-3.2
+2418,2020-02-21,Quebec,Retail & recreation,-0.89
+2420,2020-02-23,Quebec,Retail & recreation,12.35
+2422,2020-02-25,Quebec,Retail & recreation,2.3
+2424,2020-02-27,Quebec,Retail & recreation,-22.97
+2426,2020-02-29,Quebec,Retail & recreation,6.2
+2428,2020-03-02,Quebec,Retail & recreation,6.0
+2430,2020-03-04,Quebec,Retail & recreation,6.76
+2432,2020-03-06,Quebec,Retail & recreation,0.67
+2429,2020-03-03,Quebec,Retail & recreation,11.02
+2431,2020-03-05,Quebec,Retail & recreation,11.21
+2433,2020-03-07,Quebec,Retail & recreation,6.27
+2435,2020-03-09,Quebec,Retail & recreation,1.61
+2437,2020-03-11,Quebec,Retail & recreation,3.28
+2439,2020-03-13,Quebec,Retail & recreation,-13.01
+2441,2020-03-15,Quebec,Retail & recreation,-16.74
+2443,2020-03-17,Quebec,Retail & recreation,-36.51
+2445,2020-03-19,Quebec,Retail & recreation,-39.7
+2447,2020-03-21,Quebec,Retail & recreation,-53.85
+2449,2020-03-23,Quebec,Retail & recreation,-44.4
+2451,2020-03-25,Quebec,Retail & recreation,-60.45
+2453,2020-03-27,Quebec,Retail & recreation,-62.6
+2455,2020-03-29,Quebec,Retail & recreation,-70.39
+2457,2020-02-17,Quebec,Grocery & pharmacy,0.83
+2459,2020-02-19,Quebec,Grocery & pharmacy,-3.74
+2461,2020-02-21,Quebec,Grocery & pharmacy,-3.45
+2463,2020-02-23,Quebec,Grocery & pharmacy,10.05
+2465,2020-02-25,Quebec,Grocery & pharmacy,3.01
+2467,2020-02-27,Quebec,Grocery & pharmacy,-20.2
+2469,2020-02-29,Quebec,Grocery & pharmacy,3.95
+2471,2020-03-02,Quebec,Grocery & pharmacy,-0.01
+2473,2020-03-04,Quebec,Grocery & pharmacy,0.42
+2475,2020-03-06,Quebec,Grocery & pharmacy,-6.6
+2477,2020-03-08,Quebec,Grocery & pharmacy,7.75
+2479,2020-03-10,Quebec,Grocery & pharmacy,-8.35
+2481,2020-03-12,Quebec,Grocery & pharmacy,27.62
+2483,2020-03-14,Quebec,Grocery & pharmacy,9.67
+2485,2020-03-16,Quebec,Grocery & pharmacy,5.15
+2487,2020-03-18,Quebec,Grocery & pharmacy,4.3
+2489,2020-03-20,Quebec,Grocery & pharmacy,-11.32
+2491,2020-03-22,Quebec,Grocery & pharmacy,-19.89
+2493,2020-03-24,Quebec,Grocery & pharmacy,-17.58
+2495,2020-03-26,Quebec,Grocery & pharmacy,-22.29
+2497,2020-03-28,Quebec,Grocery & pharmacy,-31.3
+2499,2020-02-16,Quebec,Parks,46.69
+2501,2020-02-18,Quebec,Parks,-7.36
+2503,2020-02-20,Quebec,Parks,-3.89
+2505,2020-02-22,Quebec,Parks,30.7
+2507,2020-02-24,Quebec,Parks,26.36
+2509,2020-02-26,Quebec,Parks,-3.54
+2511,2020-02-28,Quebec,Parks,-13.0
+2513,2020-03-01,Quebec,Parks,26.07
+2515,2020-03-03,Quebec,Parks,18.9
+2517,2020-03-05,Quebec,Parks,25.21
+2519,2020-03-07,Quebec,Parks,25.34
+2521,2020-03-09,Quebec,Parks,12.65
+2523,2020-03-11,Quebec,Parks,-2.84
+2525,2020-03-13,Quebec,Parks,-38.4
+2527,2020-03-15,Quebec,Parks,3.78
+2529,2020-03-17,Quebec,Parks,-30.03
+2531,2020-03-19,Quebec,Parks,-1.16
+2533,2020-03-21,Quebec,Parks,-14.29
+2535,2020-03-23,Quebec,Parks,-41.12
+2537,2020-03-25,Quebec,Parks,-19.45
+2539,2020-03-27,Quebec,Parks,-14.24
+2541,2020-03-29,Quebec,Parks,-67.5
+2543,2020-02-17,Quebec,Transit stations,-1.01
+2545,2020-02-19,Quebec,Transit stations,0.46
+2547,2020-02-21,Quebec,Transit stations,0.4
+2549,2020-02-23,Quebec,Transit stations,3.62
+2551,2020-02-25,Quebec,Transit stations,-2.03
+2553,2020-02-27,Quebec,Transit stations,-9.63
+2555,2020-02-29,Quebec,Transit stations,12.61
+2557,2020-03-02,Quebec,Transit stations,-7.72
+2559,2020-03-04,Quebec,Transit stations,-8.68
+2561,2020-03-06,Quebec,Transit stations,-7.63
+2563,2020-03-08,Quebec,Transit stations,1.58
+2565,2020-03-10,Quebec,Transit stations,-6.95
+2567,2020-03-12,Quebec,Transit stations,-5.54
+2569,2020-03-14,Quebec,Transit stations,-20.87
+2571,2020-03-16,Quebec,Transit stations,-43.04
+2573,2020-03-18,Quebec,Transit stations,-52.5
+2575,2020-03-20,Quebec,Transit stations,-58.89
+2577,2020-03-22,Quebec,Transit stations,-56.46
+2579,2020-03-24,Quebec,Transit stations,-67.31
+2581,2020-03-26,Quebec,Transit stations,-72.67
+2583,2020-03-28,Quebec,Transit stations,-64.35
+2585,2020-02-16,Quebec,Workplace,4.17
+2587,2020-02-18,Quebec,Workplace,0.81
+2589,2020-02-20,Quebec,Workplace,1.46
+2591,2020-02-22,Quebec,Workplace,3.09
+2593,2020-02-24,Quebec,Workplace,1.74
+2595,2020-02-26,Quebec,Workplace,0.52
+2597,2020-02-28,Quebec,Workplace,-0.07
+2599,2020-03-01,Quebec,Workplace,4.99
+2601,2020-03-03,Quebec,Workplace,-13.46
+2603,2020-03-05,Quebec,Workplace,-14.3
+2605,2020-03-07,Quebec,Workplace,1.62
+2607,2020-03-09,Quebec,Workplace,-0.88
+2609,2020-03-11,Quebec,Workplace,1.32
+2611,2020-03-13,Quebec,Workplace,-14.89
+2613,2020-03-15,Quebec,Workplace,-5.84
+2615,2020-03-17,Quebec,Workplace,-37.2
+2617,2020-03-19,Quebec,Workplace,-43.53
+2619,2020-03-21,Quebec,Workplace,-32.5
+2621,2020-03-23,Quebec,Workplace,-49.09
+2623,2020-03-25,Quebec,Workplace,-64.47
+2625,2020-03-27,Quebec,Workplace,-64.26
+2627,2020-03-29,Quebec,Workplace,-44.95
+2629,2020-02-17,Quebec,Residential,0.47
+2631,2020-02-19,Quebec,Residential,0.91
+2633,2020-02-21,Quebec,Residential,0.8
+2635,2020-02-23,Quebec,Residential,-1.48
+2637,2020-02-25,Quebec,Residential,0.16
+2639,2020-02-27,Quebec,Residential,7.91
+2434,2020-03-08,Quebec,Retail & recreation,10.49
+2436,2020-03-10,Quebec,Retail & recreation,-7.36
+2438,2020-03-12,Quebec,Retail & recreation,8.1
+2440,2020-03-14,Quebec,Retail & recreation,-15.88
+2442,2020-03-16,Quebec,Retail & recreation,-21.43
+2444,2020-03-18,Quebec,Retail & recreation,-35.6
+2446,2020-03-20,Quebec,Retail & recreation,-50.56
+2448,2020-03-22,Quebec,Retail & recreation,-53.36
+2450,2020-03-24,Quebec,Retail & recreation,-51.11
+2452,2020-03-26,Quebec,Retail & recreation,-60.66
+2454,2020-03-28,Quebec,Retail & recreation,-65.16
+2456,2020-02-16,Quebec,Grocery & pharmacy,7.12
+2458,2020-02-18,Quebec,Grocery & pharmacy,-10.23
+2460,2020-02-20,Quebec,Grocery & pharmacy,0.2
+2462,2020-02-22,Quebec,Grocery & pharmacy,2.09
+2464,2020-02-24,Quebec,Grocery & pharmacy,0.79
+2466,2020-02-26,Quebec,Grocery & pharmacy,2.95
+2468,2020-02-28,Quebec,Grocery & pharmacy,-0.71
+2470,2020-03-01,Quebec,Grocery & pharmacy,11.08
+2472,2020-03-03,Quebec,Grocery & pharmacy,3.68
+2474,2020-03-05,Quebec,Grocery & pharmacy,4.05
+2476,2020-03-07,Quebec,Grocery & pharmacy,0.78
+2478,2020-03-09,Quebec,Grocery & pharmacy,-0.53
+2480,2020-03-11,Quebec,Grocery & pharmacy,2.65
+2482,2020-03-13,Quebec,Grocery & pharmacy,29.74
+2484,2020-03-15,Quebec,Grocery & pharmacy,6.63
+2486,2020-03-17,Quebec,Grocery & pharmacy,-3.33
+2488,2020-03-19,Quebec,Grocery & pharmacy,3.13
+2490,2020-03-21,Quebec,Grocery & pharmacy,-15.1
+2492,2020-03-23,Quebec,Grocery & pharmacy,-13.49
+2494,2020-03-25,Quebec,Grocery & pharmacy,-25.4
+2496,2020-03-27,Quebec,Grocery & pharmacy,-26.13
+2498,2020-03-29,Quebec,Grocery & pharmacy,-44.41
+2500,2020-02-17,Quebec,Parks,29.14
+2502,2020-02-19,Quebec,Parks,-2.53
+2504,2020-02-21,Quebec,Parks,-5.66
+2506,2020-02-23,Quebec,Parks,50.63
+2508,2020-02-25,Quebec,Parks,9.65
+2510,2020-02-27,Quebec,Parks,-25.17
+2512,2020-02-29,Quebec,Parks,1.84
+2514,2020-03-02,Quebec,Parks,9.01
+2516,2020-03-04,Quebec,Parks,-1.06
+2518,2020-03-06,Quebec,Parks,-7.26
+2520,2020-03-08,Quebec,Parks,21.65
+2522,2020-03-10,Quebec,Parks,-19.97
+2524,2020-03-12,Quebec,Parks,0.71
+2526,2020-03-14,Quebec,Parks,-13.09
+2528,2020-03-16,Quebec,Parks,2.64
+2530,2020-03-18,Quebec,Parks,-0.31
+2532,2020-03-20,Quebec,Parks,-45.32
+2534,2020-03-22,Quebec,Parks,-8.1
+2536,2020-03-24,Quebec,Parks,-17.22
+2538,2020-03-26,Quebec,Parks,-31.63
+2540,2020-03-28,Quebec,Parks,-19.15
+2542,2020-02-16,Quebec,Transit stations,1.95
+2544,2020-02-18,Quebec,Transit stations,-1.89
+2546,2020-02-20,Quebec,Transit stations,-1.91
+2548,2020-02-22,Quebec,Transit stations,6.82
+2550,2020-02-24,Quebec,Transit stations,-2.73
+2552,2020-02-26,Quebec,Transit stations,-2.39
+2554,2020-02-28,Quebec,Transit stations,4.75
+2556,2020-03-01,Quebec,Transit stations,11.25
+2558,2020-03-03,Quebec,Transit stations,-7.81
+2560,2020-03-05,Quebec,Transit stations,-7.28
+2562,2020-03-07,Quebec,Transit stations,6.21
+2564,2020-03-09,Quebec,Transit stations,-5.05
+2566,2020-03-11,Quebec,Transit stations,-2.87
+2568,2020-03-13,Quebec,Transit stations,-22.83
+2570,2020-03-15,Quebec,Transit stations,-27.69
+2572,2020-03-17,Quebec,Transit stations,-51.88
+2574,2020-03-19,Quebec,Transit stations,-55.47
+2576,2020-03-21,Quebec,Transit stations,-52.28
+2578,2020-03-23,Quebec,Transit stations,-65.97
+2580,2020-03-25,Quebec,Transit stations,-71.11
+2582,2020-03-27,Quebec,Transit stations,-69.66
+2584,2020-03-29,Quebec,Transit stations,-74.54
+2586,2020-02-17,Quebec,Workplace,-0.02
+2588,2020-02-19,Quebec,Workplace,1.14
+2590,2020-02-21,Quebec,Workplace,0.73
+2592,2020-02-23,Quebec,Workplace,5.68
+2594,2020-02-25,Quebec,Workplace,1.58
+2596,2020-02-27,Quebec,Workplace,-12.72
+2598,2020-02-29,Quebec,Workplace,3.4
+2600,2020-03-02,Quebec,Workplace,-13.96
+2602,2020-03-04,Quebec,Workplace,-14.31
+2604,2020-03-06,Quebec,Workplace,-14.8
+2606,2020-03-08,Quebec,Workplace,3.5
+2608,2020-03-10,Quebec,Workplace,-3.59
+2610,2020-03-12,Quebec,Workplace,1.43
+2612,2020-03-14,Quebec,Workplace,-3.73
+2614,2020-03-16,Quebec,Workplace,-29.74
+2616,2020-03-18,Quebec,Workplace,-40.61
+2618,2020-03-20,Quebec,Workplace,-45.53
+2620,2020-03-22,Quebec,Workplace,-32.13
+2622,2020-03-24,Quebec,Workplace,-55.5
+2624,2020-03-26,Quebec,Workplace,-65.18
+2626,2020-03-28,Quebec,Workplace,-46.57
+2628,2020-02-16,Quebec,Residential,-0.77
+2630,2020-02-18,Quebec,Residential,1.68
+2632,2020-02-20,Quebec,Residential,0.11
+2634,2020-02-22,Quebec,Residential,-0.14
+2636,2020-02-24,Quebec,Residential,0.11
+2638,2020-02-26,Quebec,Residential,0.82
+2640,2020-02-28,Quebec,Residential,1.27
+2642,2020-03-01,Quebec,Residential,-1.71
+2644,2020-03-03,Quebec,Residential,2.08
+2641,2020-02-29,Quebec,Residential,0.12
+2643,2020-03-02,Quebec,Residential,2.77
+2645,2020-03-04,Quebec,Residential,3.13
+2647,2020-03-06,Quebec,Residential,3.62
+2649,2020-03-08,Quebec,Residential,-0.82
+2651,2020-03-10,Quebec,Residential,3.49
+2653,2020-03-12,Quebec,Residential,0.12
+2655,2020-03-14,Quebec,Residential,5.8
+2657,2020-03-16,Quebec,Residential,11.26
+2659,2020-03-18,Quebec,Residential,16.63
+2661,2020-03-20,Quebec,Residential,21.84
+2663,2020-03-22,Quebec,Residential,11.29
+2665,2020-03-24,Quebec,Residential,22.41
+2667,2020-03-26,Quebec,Residential,27.58
+2669,2020-03-28,Quebec,Residential,17.7
+2671,2020-02-16,Saskatchewan,Retail & recreation,4.92
+2673,2020-02-18,Saskatchewan,Retail & recreation,-1.94
+2675,2020-02-20,Saskatchewan,Retail & recreation,12.86
+2677,2020-02-22,Saskatchewan,Retail & recreation,2.48
+2679,2020-02-24,Saskatchewan,Retail & recreation,0.89
+2681,2020-02-26,Saskatchewan,Retail & recreation,5.67
+2683,2020-02-28,Saskatchewan,Retail & recreation,7.69
+2685,2020-03-01,Saskatchewan,Retail & recreation,0.76
+2687,2020-03-03,Saskatchewan,Retail & recreation,3.88
+2689,2020-03-05,Saskatchewan,Retail & recreation,6.61
+2691,2020-03-07,Saskatchewan,Retail & recreation,2.61
+2693,2020-03-09,Saskatchewan,Retail & recreation,7.01
+2695,2020-03-11,Saskatchewan,Retail & recreation,8.01
+2697,2020-03-13,Saskatchewan,Retail & recreation,1.08
+2699,2020-03-15,Saskatchewan,Retail & recreation,-14.16
+2701,2020-03-17,Saskatchewan,Retail & recreation,-17.23
+2703,2020-03-19,Saskatchewan,Retail & recreation,-29.42
+2705,2020-03-21,Saskatchewan,Retail & recreation,-50.65
+2707,2020-03-23,Saskatchewan,Retail & recreation,-46.67
+2709,2020-03-25,Saskatchewan,Retail & recreation,-51.98
+2711,2020-03-27,Saskatchewan,Retail & recreation,-49.87
+2713,2020-03-29,Saskatchewan,Retail & recreation,-52.52
+2715,2020-02-17,Saskatchewan,Grocery & pharmacy,-13.47
+2717,2020-02-19,Saskatchewan,Grocery & pharmacy,-2.07
+2719,2020-02-21,Saskatchewan,Grocery & pharmacy,2.74
+2721,2020-02-23,Saskatchewan,Grocery & pharmacy,4.47
+2723,2020-02-25,Saskatchewan,Grocery & pharmacy,3.24
+2725,2020-02-27,Saskatchewan,Grocery & pharmacy,11.73
+2727,2020-02-29,Saskatchewan,Grocery & pharmacy,10.0
+2729,2020-03-02,Saskatchewan,Grocery & pharmacy,7.62
+2731,2020-03-04,Saskatchewan,Grocery & pharmacy,5.72
+2733,2020-03-06,Saskatchewan,Grocery & pharmacy,8.48
+2735,2020-03-08,Saskatchewan,Grocery & pharmacy,1.38
+2737,2020-03-10,Saskatchewan,Grocery & pharmacy,6.04
+2739,2020-03-12,Saskatchewan,Grocery & pharmacy,29.86
+2741,2020-03-14,Saskatchewan,Grocery & pharmacy,23.86
+2743,2020-03-16,Saskatchewan,Grocery & pharmacy,34.17
+2745,2020-03-18,Saskatchewan,Grocery & pharmacy,20.37
+2747,2020-03-20,Saskatchewan,Grocery & pharmacy,6.54
+2749,2020-03-22,Saskatchewan,Grocery & pharmacy,-22.28
+2751,2020-03-24,Saskatchewan,Grocery & pharmacy,-21.75
+2753,2020-03-26,Saskatchewan,Grocery & pharmacy,-12.8
+2755,2020-03-28,Saskatchewan,Grocery & pharmacy,-18.07
+2757,2020-02-16,Saskatchewan,Parks,39.99
+2759,2020-02-18,Saskatchewan,Parks,-12.09
+2761,2020-02-20,Saskatchewan,Parks,24.59
+2763,2020-02-22,Saskatchewan,Parks,14.82
+2765,2020-02-24,Saskatchewan,Parks,11.79
+2767,2020-02-26,Saskatchewan,Parks,10.41
+2769,2020-02-28,Saskatchewan,Parks,10.35
+2771,2020-03-01,Saskatchewan,Parks,0.94
+2773,2020-03-03,Saskatchewan,Parks,9.89
+2775,2020-03-05,Saskatchewan,Parks,7.84
+2777,2020-03-07,Saskatchewan,Parks,-17.25
+2779,2020-03-09,Saskatchewan,Parks,12.35
+2781,2020-03-11,Saskatchewan,Parks,16.65
+2783,2020-03-13,Saskatchewan,Parks,-18.33
+2785,2020-03-15,Saskatchewan,Parks,-8.1
+2787,2020-03-17,Saskatchewan,Parks,3.84
+2789,2020-03-19,Saskatchewan,Parks,6.8
+2791,2020-03-21,Saskatchewan,Parks,-0.01
+2793,2020-03-23,Saskatchewan,Parks,25.27
+2795,2020-03-25,Saskatchewan,Parks,-8.86
+2797,2020-03-27,Saskatchewan,Parks,6.37
+2799,2020-03-29,Saskatchewan,Parks,45.23
+2801,2020-02-17,Saskatchewan,Transit stations,-29.38
+2803,2020-02-19,Saskatchewan,Transit stations,-6.28
+2805,2020-02-21,Saskatchewan,Transit stations,-2.7
+2807,2020-02-23,Saskatchewan,Transit stations,-1.22
+2809,2020-02-25,Saskatchewan,Transit stations,0.27
+2811,2020-02-27,Saskatchewan,Transit stations,0.26
+2813,2020-02-29,Saskatchewan,Transit stations,2.58
+2815,2020-03-02,Saskatchewan,Transit stations,0.54
+2817,2020-03-04,Saskatchewan,Transit stations,-1.09
+2819,2020-03-06,Saskatchewan,Transit stations,1.61
+2821,2020-03-08,Saskatchewan,Transit stations,-2.03
+2823,2020-03-10,Saskatchewan,Transit stations,2.75
+2825,2020-03-12,Saskatchewan,Transit stations,-2.94
+2827,2020-03-14,Saskatchewan,Transit stations,-13.28
+2829,2020-03-16,Saskatchewan,Transit stations,-22.64
+2831,2020-03-18,Saskatchewan,Transit stations,-30.52
+2833,2020-03-20,Saskatchewan,Transit stations,-39.09
+2835,2020-03-22,Saskatchewan,Transit stations,-46.35
+2646,2020-03-05,Quebec,Residential,1.91
+2648,2020-03-07,Quebec,Residential,0.0
+2650,2020-03-09,Quebec,Residential,1.33
+2652,2020-03-11,Quebec,Residential,0.98
+2654,2020-03-13,Quebec,Residential,8.42
+2656,2020-03-15,Quebec,Residential,4.6
+2658,2020-03-17,Quebec,Residential,15.78
+2660,2020-03-19,Quebec,Residential,18.17
+2662,2020-03-21,Quebec,Residential,14.84
+2664,2020-03-23,Quebec,Residential,19.21
+2666,2020-03-25,Quebec,Residential,26.41
+2668,2020-03-27,Quebec,Residential,28.32
+2670,2020-03-29,Quebec,Residential,15.01
+2672,2020-02-17,Saskatchewan,Retail & recreation,-11.38
+2674,2020-02-19,Saskatchewan,Retail & recreation,-1.23
+2676,2020-02-21,Saskatchewan,Retail & recreation,1.79
+2678,2020-02-23,Saskatchewan,Retail & recreation,5.82
+2680,2020-02-25,Saskatchewan,Retail & recreation,1.02
+2682,2020-02-27,Saskatchewan,Retail & recreation,10.48
+2684,2020-02-29,Saskatchewan,Retail & recreation,11.11
+2686,2020-03-02,Saskatchewan,Retail & recreation,4.43
+2688,2020-03-04,Saskatchewan,Retail & recreation,3.72
+2690,2020-03-06,Saskatchewan,Retail & recreation,7.14
+2692,2020-03-08,Saskatchewan,Retail & recreation,0.18
+2694,2020-03-10,Saskatchewan,Retail & recreation,5.82
+2696,2020-03-12,Saskatchewan,Retail & recreation,9.63
+2698,2020-03-14,Saskatchewan,Retail & recreation,-6.56
+2700,2020-03-16,Saskatchewan,Retail & recreation,-5.04
+2702,2020-03-18,Saskatchewan,Retail & recreation,-24.23
+2704,2020-03-20,Saskatchewan,Retail & recreation,-36.78
+2706,2020-03-22,Saskatchewan,Retail & recreation,-52.75
+2708,2020-03-24,Saskatchewan,Retail & recreation,-53.9
+2710,2020-03-26,Saskatchewan,Retail & recreation,-50.1
+2712,2020-03-28,Saskatchewan,Retail & recreation,-53.98
+2714,2020-02-16,Saskatchewan,Grocery & pharmacy,-1.72
+2716,2020-02-18,Saskatchewan,Grocery & pharmacy,-0.52
+2718,2020-02-20,Saskatchewan,Grocery & pharmacy,14.36
+2720,2020-02-22,Saskatchewan,Grocery & pharmacy,2.83
+2722,2020-02-24,Saskatchewan,Grocery & pharmacy,1.12
+2724,2020-02-26,Saskatchewan,Grocery & pharmacy,5.26
+2726,2020-02-28,Saskatchewan,Grocery & pharmacy,8.48
+2728,2020-03-01,Saskatchewan,Grocery & pharmacy,3.78
+2730,2020-03-03,Saskatchewan,Grocery & pharmacy,5.15
+2732,2020-03-05,Saskatchewan,Grocery & pharmacy,8.64
+2734,2020-03-07,Saskatchewan,Grocery & pharmacy,3.93
+2736,2020-03-09,Saskatchewan,Grocery & pharmacy,5.45
+2738,2020-03-11,Saskatchewan,Grocery & pharmacy,10.52
+2740,2020-03-13,Saskatchewan,Grocery & pharmacy,31.81
+2742,2020-03-15,Saskatchewan,Grocery & pharmacy,7.89
+2744,2020-03-17,Saskatchewan,Grocery & pharmacy,19.82
+2746,2020-03-19,Saskatchewan,Grocery & pharmacy,12.86
+2748,2020-03-21,Saskatchewan,Grocery & pharmacy,-9.42
+2750,2020-03-23,Saskatchewan,Grocery & pharmacy,-12.72
+2752,2020-03-25,Saskatchewan,Grocery & pharmacy,-17.49
+2754,2020-03-27,Saskatchewan,Grocery & pharmacy,-13.04
+2756,2020-03-29,Saskatchewan,Grocery & pharmacy,-24.45
+2758,2020-02-17,Saskatchewan,Parks,8.98
+2760,2020-02-19,Saskatchewan,Parks,-5.74
+2762,2020-02-21,Saskatchewan,Parks,7.16
+2764,2020-02-23,Saskatchewan,Parks,38.57
+2766,2020-02-25,Saskatchewan,Parks,11.53
+2768,2020-02-27,Saskatchewan,Parks,21.98
+2770,2020-02-29,Saskatchewan,Parks,12.75
+2772,2020-03-02,Saskatchewan,Parks,-0.01
+2774,2020-03-04,Saskatchewan,Parks,5.72
+2776,2020-03-06,Saskatchewan,Parks,9.15
+2778,2020-03-08,Saskatchewan,Parks,-4.77
+2780,2020-03-10,Saskatchewan,Parks,18.12
+2782,2020-03-12,Saskatchewan,Parks,1.04
+2784,2020-03-14,Saskatchewan,Parks,-33.46
+2786,2020-03-16,Saskatchewan,Parks,-10.12
+2788,2020-03-18,Saskatchewan,Parks,1.03
+2790,2020-03-20,Saskatchewan,Parks,-7.98
+2792,2020-03-22,Saskatchewan,Parks,38.57
+2794,2020-03-24,Saskatchewan,Parks,-14.85
+2796,2020-03-26,Saskatchewan,Parks,13.08
+2798,2020-03-28,Saskatchewan,Parks,10.68
+2800,2020-02-16,Saskatchewan,Transit stations,0.0
+2802,2020-02-18,Saskatchewan,Transit stations,-3.57
+2804,2020-02-20,Saskatchewan,Transit stations,-2.14
+2806,2020-02-22,Saskatchewan,Transit stations,-3.32
+2808,2020-02-24,Saskatchewan,Transit stations,-1.89
+2810,2020-02-26,Saskatchewan,Transit stations,-0.55
+2812,2020-02-28,Saskatchewan,Transit stations,3.77
+2814,2020-03-01,Saskatchewan,Transit stations,-0.41
+2816,2020-03-03,Saskatchewan,Transit stations,2.47
+2818,2020-03-05,Saskatchewan,Transit stations,1.87
+2820,2020-03-07,Saskatchewan,Transit stations,-6.64
+2822,2020-03-09,Saskatchewan,Transit stations,-3.78
+2824,2020-03-11,Saskatchewan,Transit stations,0.26
+2826,2020-03-13,Saskatchewan,Transit stations,-7.28
+2828,2020-03-15,Saskatchewan,Transit stations,-17.08
+2830,2020-03-17,Saskatchewan,Transit stations,-24.46
+2832,2020-03-19,Saskatchewan,Transit stations,-36.9
+2834,2020-03-21,Saskatchewan,Transit stations,-36.9
+2836,2020-03-23,Saskatchewan,Transit stations,-49.87
+2838,2020-03-25,Saskatchewan,Transit stations,-52.59
+2840,2020-03-27,Saskatchewan,Transit stations,-51.21
+2837,2020-03-24,Saskatchewan,Transit stations,-50.27
+2839,2020-03-26,Saskatchewan,Transit stations,-53.74
+2841,2020-03-28,Saskatchewan,Transit stations,-49.44
+2843,2020-02-16,Saskatchewan,Workplace,-3.13
+2845,2020-02-18,Saskatchewan,Workplace,-17.63
+2847,2020-02-20,Saskatchewan,Workplace,-15.36
+2849,2020-02-22,Saskatchewan,Workplace,2.41
+2851,2020-02-24,Saskatchewan,Workplace,1.19
+2853,2020-02-26,Saskatchewan,Workplace,3.31
+2855,2020-02-28,Saskatchewan,Workplace,3.43
+2857,2020-03-01,Saskatchewan,Workplace,2.14
+2859,2020-03-03,Saskatchewan,Workplace,3.28
+2861,2020-03-05,Saskatchewan,Workplace,2.83
+2863,2020-03-07,Saskatchewan,Workplace,2.26
+2865,2020-03-09,Saskatchewan,Workplace,-0.87
+2867,2020-03-11,Saskatchewan,Workplace,3.41
+2869,2020-03-13,Saskatchewan,Workplace,-0.56
+2871,2020-03-15,Saskatchewan,Workplace,-3.94
+2873,2020-03-17,Saskatchewan,Workplace,-17.56
+2875,2020-03-19,Saskatchewan,Workplace,-28.77
+2877,2020-03-21,Saskatchewan,Workplace,-26.94
+2879,2020-03-23,Saskatchewan,Workplace,-43.85
+2881,2020-03-25,Saskatchewan,Workplace,-47.63
+2883,2020-03-27,Saskatchewan,Workplace,-48.62
+2885,2020-03-29,Saskatchewan,Workplace,-37.18
+2887,2020-02-17,Saskatchewan,Residential,13.95
+2889,2020-02-19,Saskatchewan,Residential,3.23
+2891,2020-02-21,Saskatchewan,Residential,1.39
+2893,2020-02-23,Saskatchewan,Residential,-0.98
+2895,2020-02-25,Saskatchewan,Residential,0.15
+2897,2020-02-27,Saskatchewan,Residential,-0.85
+2899,2020-02-29,Saskatchewan,Residential,-0.91
+2901,2020-03-02,Saskatchewan,Residential,0.26
+2903,2020-03-04,Saskatchewan,Residential,0.0
+2905,2020-03-06,Saskatchewan,Residential,-1.58
+2907,2020-03-08,Saskatchewan,Residential,0.75
+2909,2020-03-10,Saskatchewan,Residential,-0.04
+2911,2020-03-12,Saskatchewan,Residential,0.24
+2913,2020-03-14,Saskatchewan,Residential,3.8
+2915,2020-03-16,Saskatchewan,Residential,4.87
+2917,2020-03-18,Saskatchewan,Residential,10.77
+2919,2020-03-20,Saskatchewan,Residential,15.2
+2921,2020-03-22,Saskatchewan,Residential,10.21
+2923,2020-03-24,Saskatchewan,Residential,19.56
+2925,2020-03-26,Saskatchewan,Residential,19.95
+2927,2020-03-28,Saskatchewan,Residential,13.76
+2929,2020-02-16,Yukon,Retail & recreation,12.64
+2931,2020-02-18,Yukon,Retail & recreation,5.18
+2933,2020-02-20,Yukon,Retail & recreation,17.86
+2935,2020-02-22,Yukon,Retail & recreation,26.61
+2937,2020-02-24,Yukon,Retail & recreation,1.06
+2939,2020-02-26,Yukon,Retail & recreation,11.22
+2941,2020-02-28,Yukon,Retail & recreation,16.81
+2943,2020-03-01,Yukon,Retail & recreation,21.68
+2945,2020-03-03,Yukon,Retail & recreation,9.32
+2947,2020-03-05,Yukon,Retail & recreation,5.61
+2949,2020-03-07,Yukon,Retail & recreation,4.13
+2951,2020-03-09,Yukon,Retail & recreation,9.62
+2953,2020-03-11,Yukon,Retail & recreation,12.75
+2955,2020-03-13,Yukon,Retail & recreation,15.52
+2957,2020-03-15,Yukon,Retail & recreation,9.63
+2959,2020-03-17,Yukon,Retail & recreation,-2.59
+2961,2020-03-19,Yukon,Retail & recreation,-16.84
+2963,2020-03-21,Yukon,Retail & recreation,-28.89
+2965,2020-03-23,Yukon,Retail & recreation,-34.23
+2967,2020-03-25,Yukon,Retail & recreation,-40.31
+2969,2020-03-27,Yukon,Retail & recreation,-39.65
+2971,2020-03-29,Yukon,Retail & recreation,-42.77
+2973,2020-02-17,Yukon,Grocery & pharmacy,-2.23
+2975,2020-02-19,Yukon,Grocery & pharmacy,5.0
+2977,2020-02-21,Yukon,Grocery & pharmacy,-0.01
+2979,2020-02-23,Yukon,Grocery & pharmacy,5.56
+2981,2020-02-25,Yukon,Grocery & pharmacy,11.57
+2983,2020-02-27,Yukon,Grocery & pharmacy,3.7
+2985,2020-02-29,Yukon,Grocery & pharmacy,10.52
+2987,2020-03-02,Yukon,Grocery & pharmacy,17.33
+2989,2020-03-04,Yukon,Grocery & pharmacy,3.33
+2991,2020-03-06,Yukon,Grocery & pharmacy,12.5
+2993,2020-03-08,Yukon,Grocery & pharmacy,9.25
+2995,2020-03-10,Yukon,Grocery & pharmacy,24.07
+2997,2020-03-12,Yukon,Grocery & pharmacy,20.36
+2999,2020-03-14,Yukon,Grocery & pharmacy,17.54
+3001,2020-03-16,Yukon,Grocery & pharmacy,36.88
+3003,2020-03-18,Yukon,Grocery & pharmacy,8.33
+3005,2020-03-20,Yukon,Grocery & pharmacy,-6.25
+3007,2020-03-22,Yukon,Grocery & pharmacy,-18.52
+3009,2020-03-24,Yukon,Grocery & pharmacy,-11.12
+3011,2020-03-26,Yukon,Grocery & pharmacy,-11.12
+3013,2020-03-28,Yukon,Grocery & pharmacy,-21.06
+3015,2020-02-17,Yukon,Workplace,2.26
+3017,2020-02-19,Yukon,Workplace,2.17
+3019,2020-02-21,Yukon,Workplace,-38.93
+3021,2020-02-25,Yukon,Workplace,-0.73
+3023,2020-02-27,Yukon,Workplace,4.34
+3025,2020-03-02,Yukon,Workplace,3.78
+3027,2020-03-04,Yukon,Workplace,2.89
+3029,2020-03-06,Yukon,Workplace,4.57
+3031,2020-03-10,Yukon,Workplace,3.61
+3033,2020-03-12,Yukon,Workplace,2.89
+3035,2020-03-16,Yukon,Workplace,-9.86
+3037,2020-03-18,Yukon,Workplace,-25.37
+2842,2020-03-29,Saskatchewan,Transit stations,-51.63
+2844,2020-02-17,Saskatchewan,Workplace,-67.99
+2846,2020-02-19,Saskatchewan,Workplace,-15.22
+2848,2020-02-21,Saskatchewan,Workplace,-14.36
+2850,2020-02-23,Saskatchewan,Workplace,2.95
+2852,2020-02-25,Saskatchewan,Workplace,2.33
+2854,2020-02-27,Saskatchewan,Workplace,2.25
+2856,2020-02-29,Saskatchewan,Workplace,4.9
+2858,2020-03-02,Saskatchewan,Workplace,2.28
+2860,2020-03-04,Saskatchewan,Workplace,3.47
+2862,2020-03-06,Saskatchewan,Workplace,2.7
+2864,2020-03-08,Saskatchewan,Workplace,2.51
+2866,2020-03-10,Saskatchewan,Workplace,2.93
+2868,2020-03-12,Saskatchewan,Workplace,1.97
+2870,2020-03-14,Saskatchewan,Workplace,-0.69
+2872,2020-03-16,Saskatchewan,Workplace,-8.3
+2874,2020-03-18,Saskatchewan,Workplace,-22.61
+2876,2020-03-20,Saskatchewan,Workplace,-36.14
+2878,2020-03-22,Saskatchewan,Workplace,-31.27
+2880,2020-03-24,Saskatchewan,Workplace,-47.49
+2882,2020-03-26,Saskatchewan,Workplace,-48.83
+2884,2020-03-28,Saskatchewan,Workplace,-36.45
+2886,2020-02-16,Saskatchewan,Residential,-1.12
+2888,2020-02-18,Saskatchewan,Residential,3.63
+2890,2020-02-20,Saskatchewan,Residential,1.2
+2892,2020-02-22,Saskatchewan,Residential,-0.35
+2894,2020-02-24,Saskatchewan,Residential,0.14
+2896,2020-02-26,Saskatchewan,Residential,-0.4
+2898,2020-02-28,Saskatchewan,Residential,-1.93
+2900,2020-03-01,Saskatchewan,Residential,0.54
+2902,2020-03-03,Saskatchewan,Residential,-0.14
+2904,2020-03-05,Saskatchewan,Residential,-0.09
+2906,2020-03-07,Saskatchewan,Residential,1.27
+2908,2020-03-09,Saskatchewan,Residential,0.55
+2910,2020-03-11,Saskatchewan,Residential,-0.36
+2912,2020-03-13,Saskatchewan,Residential,1.16
+2914,2020-03-15,Saskatchewan,Residential,3.81
+2916,2020-03-17,Saskatchewan,Residential,8.46
+2918,2020-03-19,Saskatchewan,Residential,13.04
+2920,2020-03-21,Saskatchewan,Residential,12.42
+2922,2020-03-23,Saskatchewan,Residential,16.27
+2924,2020-03-25,Saskatchewan,Residential,19.44
+2926,2020-03-27,Saskatchewan,Residential,20.09
+2928,2020-03-29,Saskatchewan,Residential,11.36
+2930,2020-02-17,Yukon,Retail & recreation,10.16
+2932,2020-02-19,Yukon,Retail & recreation,7.14
+2934,2020-02-21,Yukon,Retail & recreation,11.64
+2936,2020-02-23,Yukon,Retail & recreation,15.66
+2938,2020-02-25,Yukon,Retail & recreation,3.11
+2940,2020-02-27,Yukon,Retail & recreation,10.71
+2942,2020-02-29,Yukon,Retail & recreation,0.45
+2944,2020-03-02,Yukon,Retail & recreation,9.62
+2946,2020-03-04,Yukon,Retail & recreation,13.27
+2948,2020-03-06,Yukon,Retail & recreation,10.35
+2950,2020-03-08,Yukon,Retail & recreation,8.43
+2952,2020-03-10,Yukon,Retail & recreation,5.7
+2954,2020-03-12,Yukon,Retail & recreation,13.27
+2956,2020-03-14,Yukon,Retail & recreation,4.59
+2958,2020-03-16,Yukon,Retail & recreation,11.22
+2960,2020-03-18,Yukon,Retail & recreation,-12.76
+2962,2020-03-20,Yukon,Retail & recreation,-18.97
+2964,2020-03-22,Yukon,Retail & recreation,-38.55
+2966,2020-03-24,Yukon,Retail & recreation,-39.89
+2968,2020-03-26,Yukon,Retail & recreation,-38.78
+2970,2020-03-28,Yukon,Retail & recreation,-45.42
+2972,2020-02-16,Yukon,Grocery & pharmacy,-1.86
+2974,2020-02-18,Yukon,Grocery & pharmacy,-0.01
+2976,2020-02-20,Yukon,Grocery & pharmacy,24.07
+2978,2020-02-22,Yukon,Grocery & pharmacy,10.52
+2980,2020-02-24,Yukon,Grocery & pharmacy,7.11
+2982,2020-02-26,Yukon,Grocery & pharmacy,3.33
+2984,2020-02-28,Yukon,Grocery & pharmacy,10.94
+2986,2020-03-01,Yukon,Grocery & pharmacy,14.81
+2988,2020-03-03,Yukon,Grocery & pharmacy,9.72
+2990,2020-03-05,Yukon,Grocery & pharmacy,-5.56
+2992,2020-03-07,Yukon,Grocery & pharmacy,15.78
+2994,2020-03-09,Yukon,Grocery & pharmacy,12.0
+2996,2020-03-11,Yukon,Grocery & pharmacy,11.66
+2998,2020-03-13,Yukon,Grocery & pharmacy,39.06
+3000,2020-03-15,Yukon,Grocery & pharmacy,16.67
+3002,2020-03-17,Yukon,Grocery & pharmacy,35.65
+3004,2020-03-19,Yukon,Grocery & pharmacy,11.11
+3006,2020-03-21,Yukon,Grocery & pharmacy,1.75
+3008,2020-03-23,Yukon,Grocery & pharmacy,-4.0
+3010,2020-03-25,Yukon,Grocery & pharmacy,-21.67
+3012,2020-03-27,Yukon,Grocery & pharmacy,-23.44
+3014,2020-03-29,Yukon,Grocery & pharmacy,-27.78
+3016,2020-02-18,Yukon,Workplace,1.44
+3018,2020-02-20,Yukon,Workplace,1.44
+3020,2020-02-24,Yukon,Workplace,-0.01
+3022,2020-02-26,Yukon,Workplace,2.17
+3024,2020-02-28,Yukon,Workplace,-2.29
+3026,2020-03-03,Yukon,Workplace,1.44
+3028,2020-03-05,Yukon,Workplace,2.17
+3030,2020-03-09,Yukon,Workplace,0.75
+3032,2020-03-11,Yukon,Workplace,4.34
+3034,2020-03-13,Yukon,Workplace,-0.01
+3036,2020-03-17,Yukon,Workplace,-18.85
+3038,2020-03-19,Yukon,Workplace,-28.27
+3040,2020-03-21,Yukon,Workplace,-11.12
+3042,2020-03-24,Yukon,Workplace,-45.66
+3044,2020-03-26,Yukon,Workplace,-47.83

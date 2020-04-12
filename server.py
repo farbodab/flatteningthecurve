@@ -50,6 +50,7 @@ sched.add_job(getontario,'interval',minutes=120)
 sched.add_job(getcanada,'interval',minutes=240)
 sched.add_job(getinternational,'interval',minutes=240)
 sched.add_job(export_sheets, 'interval',next_run_time=datetime.now(), minutes=15)
-sched.add_job(export_kaggle, 'interval',next_run_time=datetime.now(), hours=12)
+if os.getenv('FLASK_CONFIG') == 'production':
+    sched.add_job(export_kaggle, 'interval',next_run_time=datetime.now(), hours=12)
 
 sched.start()
