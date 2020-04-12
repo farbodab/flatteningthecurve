@@ -357,10 +357,19 @@ def get_testresults():
             new_positives += [0]
 
 
-        positives_pct += [positive/total]
-        new_positives_pct += [new_p/new_t]
-        negatives_pct += [negative/total]
-        investigations_pct += [investigation/total]
+        if total:
+            positives_pct += [positive/total]
+            negatives_pct += [negative/total]
+            investigations_pct += [investigation/total]
+        else:
+            positives_pct += [None]
+            negatives_pct += [None]
+            investigations_pct += [None]
+
+        if new_t:
+            new_positives_pct += [new_p/new_t]
+        else:
+            new_positives_pct += [None]
 
     data = {
         'Date': dates,
