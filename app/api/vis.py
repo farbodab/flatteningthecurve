@@ -357,10 +357,19 @@ def get_testresults():
             new_positives += [0]
 
 
-        positives_pct += [positive/total]
-        new_positives_pct += [new_p/new_t]
-        negatives_pct += [negative/total]
-        investigations_pct += [investigation/total]
+        if total:
+            positives_pct += [positive/total]
+            negatives_pct += [negative/total]
+            investigations_pct += [investigation/total]
+        else:
+            positives_pct += [None]
+            negatives_pct += [None]
+            investigations_pct += [None]
+
+        if new_t:
+            new_positives_pct += [new_p/new_t]
+        else:
+            new_positives_pct += [None]
 
     data = {
         'Date': dates,
@@ -458,7 +467,7 @@ def get_tested():
     df.loc[df.province == 'Alberta', 'testing_adjusted'] = df['cumulative_testing'] / 4067175 * 1000
 
     dft = pd.read_sql_table('internationaltesting', db.engine)
-    regions = ['United States ', 'Italy ', 'South Korea ']
+    regions = ['United States ', 'Italy ', 'South Korea ', 'Canada ']
     dft = dft.loc[dft.region.isin(regions)]
     dft = dft.rename(columns={"region": "province"})
     dft = dft[['date', 'province', 'cumulative_testing']]
@@ -467,6 +476,8 @@ def get_tested():
     df.loc[df.province == 'United States ', 'testing_adjusted'] = df['cumulative_testing'] / 330571851 * 1000
     df.loc[df.province == 'Italy ', 'testing_adjusted'] = df['cumulative_testing'] / 60480998 * 1000
     df.loc[df.province == 'South Korea ', 'testing_adjusted'] = df['cumulative_testing'] / 51259644 * 1000
+    df.loc[df.province == 'Canada ', 'testing_adjusted'] = df['cumulative_testing'] / 37670879 * 1000
+
     return df
 
 def get_deaths():

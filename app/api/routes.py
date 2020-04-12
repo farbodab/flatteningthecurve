@@ -154,6 +154,21 @@ def get_api_viz():
         "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"]})
     return data
 
+@bp.route('/api/source', methods=['GET'])
+@as_json
+def get_api_source():
+    df = pd.read_sql_table('source', db.engine)
+    df = df.sort_values(by=['name'])
+    data = []
+    for index, row in df.iterrows():
+        data.append({"name": row["name"], "source": row["source"],
+        "description": row["description"], "data_feed_type": row["data_feed_type"],
+        "link": row["link"], "refresh": row["refresh"],
+        "contributor": row["contributor"],"contact": row["contact"],
+        "download": row["download"]})
+    return data
+
+
 @as_json
 def get_testresults():
     df = pd.read_sql_table('covidtests', db.engine)

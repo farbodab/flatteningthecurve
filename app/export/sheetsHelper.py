@@ -100,7 +100,7 @@ def updateCollection(dataSource, sh):
     except:
         print("Failed to update google sheet", dataSource['name'], sys.exc_info())
 
-def dumpTablesToSheets():
+def exportToSheets():
     creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
     client = gspread.authorize(creds)
     sh = None
