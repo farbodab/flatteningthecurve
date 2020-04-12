@@ -1,76 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>How's My Flattening?</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="{{url_for('static', filename='modern-business.css') }}" rel="stylesheet">
-
-</head>
 
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="{{url_for('core.index')}}">Home</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('core.about')}}">The Story</a>
-          </li>
-      </div>
-    </div>
-  </nav>
-
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <div>
-    {{ plot |safe }}
-  </div>
-<p>We are physicians, medical students, computational health researchers, designers, and epidemiologists rapidly filtering and presenting emergent COVID-19 data to help Ontarians #FlattenTheCurve. Through our website, HowsMyFlattening.ca, we connect experts and present data in an easy-to-digest, actionable way to help Ontarians and Public Health Leaders act decisively as evidence grows and time ticks by.</p>
-<p>If you want to share anything from this post to help influence, go nuts.</p>
-<p>If you are a data viz junkie and want to join the team, contact Liam at <a href="mailto:liam.mccoy@mail.utoronto.ca"><span class="underline">liam.mccoy@mail.utoronto.ca</span></a>.</p>
-<p><strong>The #HowsMyFlattening Team Contributors Include:</strong></p>
-<p><strong>Ben Fine</strong>, <i>SM/MD, University of Toronto, Operational Analytics Lab and Institute for Better Health, Trillium Health Partners</i></p>
-<p><strong>Liam G. McCoy</strong>, <i>MD/MSc Candidate, University of Toronto Faculty of Medicine; Institute of Health Policy, Management and Evaluation</i></p>
-<p><strong>Jennifer Kwan</strong>, <i>MD/CCFP Burlington, ON</i></p>
-<p><strong>Isha Berry</strong>, <i>PhD Candidate, University of Toronto; Dalla Lana School of Public Health</i></p>
-<p><strong>Amna Liaqat</strong>, <i>PhD Student, University of Toronto Department of Computer Science</i></p>
-<p><strong>David Madras</strong>, <i>PhD Candidate, University of Toronto Department of Computer Science; Vector Institute</i></p>
-<p><strong>Jean-Paul R. Soucy</strong>, <i>PhD Candidate, University of Toronto; Dalla Lana School of Public Health</i></p>
-
-    <hr>
-
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">#HowsMyFlattening</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+Approximately 5% of patients with COVID-19 require critical care. The Critical Care capacity map (top graph) shows the % of remaining adult ICU beds in each Local Health Integration Network (LHIN). Some hospitals have created new surge ICU capacity (for example, operating rooms), which is not reflected here. Darker shades indicate a region that is closer to reaching 100% ICU capacity. Hover or select a region to see what percentage of ICU beds are occupied, and the exact count of beds remaining. </p><p><strong>Almost all regions have hit at least 50% critical care capacity, with many approaching 100%.</strong></p><p>The Critical Care Capacity Breakdown bar chart (bottom graph) illustrates how the critical care capacity is split in each region. The grey bar represents the percentage of critical care beds in use by non-COVID patients.</p><p><strong>Before COVID, the grey bars would have nearly filled capacity; hospital activities to lower the grey bars (for example by decreasing elective surgeries requiring ICU follow up care) have helped create surge capacity.</strong></p><p>The remaining coloured segments reflect COVID-related cases. Red bars show percent of confirmed COVID patients in critical care, and yellow bars show patients suspected of having COVID. Blue bars show patients with a confirmed negative COVID diagnosis. Cycle through the time windows on the top right to see how critical care beds have filled since CCSO started reporting data.</p><p>Exact counts of remaining resources (beds and ventilators) are also shown. Hover or select to see the counts. A negative number indicates that cases have exceeded conventional space and likely surged into non-conventional ICU spaces.</p><p>Source: Critical Care Services Ontario, manually entered daily at hospitals. Available from our <a href="./#/data" target="_blank">Data page</a>.</p></div>
 
 </body>
 
 </html>
+
+
+<div class="key-text ng-star-inserted" id="key-takeaway" style=""><p>Early in March, it appeared as if new diagnoses in Ontario were flattening. Deeper analyses demonstrated that this was in fact due to delays in testing. At peak, approximately 25% of cases were unreported. This bottleneck was cleared over the subsequent 2 weeks by icnreasing testing (star article from today).</p><p>This chart will help monitor for any new anomalies in testing.</p></div>

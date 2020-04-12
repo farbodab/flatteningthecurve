@@ -338,7 +338,7 @@ def get_testresults():
         resolveds += [resolved]
         totals += [total]
         hospitalizeds += [hospitalized-icu]
-        icus += [icu]
+        icus += [icu-(icu-ventilator)]
         ventilators += [icu-ventilator]
 
         if row['new_tests']==row['new_tests']:

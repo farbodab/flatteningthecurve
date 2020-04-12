@@ -1,1 +1,1 @@
-python ./extract.py ./CCSO.pdf 1 170 552 513 959
+python ./extract.py ./CCSO.pdf 1 189 591 518 959
