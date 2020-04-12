@@ -316,8 +316,6 @@ def getcanadatested():
         db.session.commit()
     return 'success',200
 
-@bp.route('/covid/mobility', methods=['GET', 'POST'])
-@as_json
 def getcanadamobility():
     start_date = None
     end_date = datetime.today()
@@ -349,13 +347,16 @@ def getcanadamobility():
                         if math.isnan(value):
                             continue
 
-                        m = Mobility(date=col, region=region, category=category, value=value)
-                        db.session.add(m)
-                        db.session.commit()
+                        m = Mobility.query.filter_by(date=col, region=region).limit(1).first()
+                        if not m:
+                            m = Mobility(date=col, region=region, category=category, value=value)
+                            print("Add mobility data for region: {}, date: {}".format(region, col))
+                            db.session.add(m)
+                            db.session.commit()
         except Exception as err:
             print("failed to get data for {}".format(dt), err)
 
-    return 'success',200
+    return 
 
 ########################################
 ###########INTERNATIONAL DATA###########
