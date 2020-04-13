@@ -87,17 +87,19 @@ def testsnew():
 
 @as_json
 def getnpis():
-    url = "https://docs.google.com/spreadsheets/d/16jZ8tdPS9x8kRHAi5CRh8iKfDshg0AMbfFLJ9ysgV9U/export?format=csv&id=16jZ8tdPS9x8kRHAi5CRh8iKfDshg0AMbfFLJ9ysgV9U&gid=1137367827"
+    url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_full.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['start_date'] = pd.to_datetime(df['start_date'])
     df['end_date'] = pd.to_datetime(df['end_date'])
+    df.dropna(subset=['start_date'],inplace=True)
     df = df.fillna("NULL")
     for index, row in df.iterrows():
         start_date = row['start_date']
         end_date = row['end_date']
         country = row['country']
         region = row['region']
+        subregion = row['subregion']
         intervention_summary = row['intervention_summary']
         intervention_category = row['intervention_category']
         target_population_category = row['target_population_category']
@@ -109,6 +111,8 @@ def getnpis():
         oxford_geographic_target_code = row['oxford_geographic_target_code']
         oxford_fiscal_measure_cad = row['oxford_fiscal_measure_cad']
         oxford_monetary_measure = row['oxford_monetary_measure']
+        oxford_testing_code = row['oxford_testing_code']
+        oxford_tracing_code = row['oxford_tracing_code']
         source_url = row['source_url']
         source_organization = row['source_organization']
         source_organization_two = row['source_organization_2']
@@ -118,14 +122,15 @@ def getnpis():
         c = NPIInterventions.query.filter_by(start_date=start_date, region=region, intervention_summary=intervention_summary).first()
         if not c:
             c = NPIInterventions(start_date=start_date,
-            country=country, region=region, intervention_summary=intervention_summary,
+            country=country, region=region, subregion=subregion, intervention_summary=intervention_summary,
             intervention_category=intervention_category, target_population_category=target_population_category,
             enforcement_category=enforcement_category, oxford_government_response_category=oxford_government_response_category,
             oxford_closure_code=oxford_closure_code, oxford_public_info_code=oxford_public_info_code,
             oxford_travel_code=oxford_travel_code, oxford_geographic_target_code=oxford_geographic_target_code,
             oxford_fiscal_measure_cad=oxford_fiscal_measure_cad, oxford_monetary_measure=oxford_monetary_measure,
             source_url=source_url, source_organization=source_organization, source_organization_two=source_organization_two,
-            source_category=source_category, source_title=source_title, source_full_text=source_full_text)
+            source_category=source_category, source_title=source_title, source_full_text=source_full_text, oxford_testing_code=oxford_testing_code,
+            oxford_tracing_code=oxford_tracing_code)
             if end_date != "NULL":
                 c.end_date = end_date
         else:
@@ -134,6 +139,7 @@ def getnpis():
                 c.end_date = end_date
             c.country = country
             c.region = region
+            c.subregion = subregion
             c.intervention_summary = intervention_summary
             c.intervention_category = intervention_category
             c.target_population_category = target_population_category
@@ -144,6 +150,8 @@ def getnpis():
             c.oxford_travel_code = oxford_travel_code
             c.oxford_geographic_target_code = oxford_geographic_target_code
             c.oxford_fiscal_measure_cad = oxford_fiscal_measure_cad
+            c.oxford_testing_code = oxford_testing_code
+            c.oxford_tracing_code = oxford_tracing_code
             c.source_url = source_url
             c.source_organization = source_organization
             c.source_organization_two = source_organization_two
