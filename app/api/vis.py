@@ -514,6 +514,148 @@ def get_deaths():
 
 
     df_final = pd.DataFrame(data, columns=['date', 'date_shifted', 'province', 'deaths', 'deaths_cumulative', 'deaths_cumulative_recent'])
+    return df_final
 
+def get_cases_rolling_average():
+    df_final = None
+
+    dfs = pd.read_sql_table('covid', db.engine)
+    regions = dfs.province.unique()
+    data = {'region':[], 'date':[], 'days_since_30_cases':[], 'average':[], 'cumulative':[]}
+
+    for region in regions:
+        df = dfs.loc[dfs.province == region]
+        dates = df.groupby("date").case_id.count().reset_index().sort_values("date").reset_index()
+
+        # Iterate all dates
+        for index, row in dates.iterrows():
+            date = row['date']
+            # Get subset of days before this time
+            mask = (dates['date'] <= date)
+            before_date = dates.loc[mask]
+
+            cumulative = before_date.case_id.cumsum().reset_index()
+            cumulative = [*cumulative.case_id.tail(1).values]
+
+            recent = before_date.tail(7)
+
+            data['region'] += [region]
+            data['date'] += [date]
+            data['average'] += [recent.case_id.mean()]
+            data['cumulative'] += cumulative
+
+    dates = dfs.groupby("date").case_id.count().reset_index().sort_values("date").reset_index()
+
+    # Iterate all dates
+    for index, row in dates.iterrows():
+        date = row['date']
+        # Get subset of days before this time
+        mask = (dates['date'] <= date)
+        before_date = dates.loc[mask]
+
+        cumulative = before_date.case_id.cumsum().reset_index()
+        recent = before_date.tail(7)
+
+        data['region'] += [region]
+        data['date'] += [date]
+        data['average'] += [recent.case_id.mean()]
+        data['cumulative'] += [*cumulative.case_id.tail(1).values]
+
+    dfs = pd.read_sql_table('internationaldata', db.engine)
+    regions = dfs.country.unique()
+    for region in regions:
+        df = dfs.loc[dfs.country == region]
+        dates = df.groupby("date").cases.sum().reset_index().sort_values("date").reset_index()
+      
+        # Iterate all dates
+        for index, row in dates.iterrows():
+            date = row['date']
+            # Get subset of days before this time
+            mask = (dates['date'] <= date)
+            before_date = dates.loc[mask]
+
+            cumulative = before_date.cases.cumsum().reset_index()
+            recent = before_date.tail(7)
+
+            data['region'] += [region]
+            data['date'] += [date]
+            data['average'] += [recent.cases.mean()]
+            data['cumulative'] += [*cumulative.cases.tail(1).values]
+
+    df_final = pd.DataFrame(data, columns=['region', 'date', 'average', 'cumulative'])
+
+    df_final = df_final.drop(df_final.loc[df_final.cumulative<30].index)
+
+    df_final['date_shifted'] = -999
+    prev_region = 'NA'
+    for index, row in df_final.iterrows():
+        if row['region'] == prev_region:
+            df_final.at[index,'date_shifted'] = i
+            i += 1
+        else:
+            i = 0
+            prev_region = row['region']
+            df_final.at[index,'date_shifted'] = i
+            i += 1
 
     return df_final
+
+def get_daily_deaths():
+
+    mortality_df = pd.read_sql_table('canadamortality', db.engine)
+
+    regions = mortality_df.province.unique()
+    data = {'date':[], 'region': [], 'daily_deaths':[]}
+    for region in regions:
+        daily_death_ser = mortality_df[mortality_df['province']=='Ontario'].groupby('date')['death_id'].count().reset_index()
+        daily_death_ser.index.name = 'date'
+        daily_death_ser.name = 'daily_deaths'
+
+        data['date'] += list(daily_death_ser['date'])
+        data['region'] += [region]*len(list(daily_death_ser['date']))
+        data['daily_deaths'] += list(daily_death_ser['death_id'])
+
+    df_final = pd.DataFrame(data, columns=['date', 'region', 'daily_deaths'])
+
+    return df_final
+
+def get_top_causes():
+    stats_df = pd.read_csv('https://raw.githubusercontent.com/alfwhitehead/coivd-datasets/master/statscan_on_causes_death.csv')
+    causes_df = stats_df.loc[stats_df['Characteristics']=='Age-standardized mortality rate per 100,000 population', ['Leading causes of death (ICD-10)', 'VALUE']]
+    causes_df.rename(columns={
+        'Leading causes of death (ICD-10)' : 'Cause',
+        'VALUE' : 'Deaths_per_100k',
+    }, inplace=True)
+    causes_df = causes_df[causes_df['Cause'] != 'Other causes of death']
+    causes_df.sort_values(by='Deaths_per_100k', ascending=False, inplace=True)
+
+    ONTARIO_POPULATION = 14711827
+
+    def annualized_per_100k_to_daily(ap100k):
+        return ap100k / 100000 * ONTARIO_POPULATION / 365
+
+    causes_df['Daily_Deaths'] = causes_df['Deaths_per_100k'].apply(annualized_per_100k_to_daily)
+    causes_df.head(10)
+
+    # Make some friendly names
+    def cause_to_friendly(cause):
+        c2f = {
+            'Malignant neoplasms [C00-C97]' : 'All Cancers',
+            'Diseases of heart [I00-I09, I11, I13, I20-I51]' : 'Heart Disease',
+            'Accidents (unintentional injuries) [V01-X59, Y85-Y86]' : 'Accidents / Injuries',
+            'Cerebrovascular diseases [I60-I69]' : 'Stroke and Related Diseases',
+            'Chronic lower respiratory diseases [J40-J47]' : 'Chronic Lower Respiratory Diseases',
+            'Influenza and pneumonia [J09-J18]' : 'Influenza and Pneumonia',
+            'Diabetes mellitus [E10-E14]' : 'Diabetes',
+            "Alzheimer's disease [G30]" : "Alzheimer's Disease",
+            'Intentional self-harm (suicide) [X60-X84, Y87.0]' : 'Suicide',
+            'Chronic liver disease and cirrhosis [K70, K73-K74]' : 'Cirrhosis and Other Chronic Liver Diseases'
+        }
+        try:
+            return c2f[cause]
+        except KeyError:
+            return ''
+
+    causes_df = causes_df.head(10)
+    causes_df['Cause'] = causes_df['Cause'].apply(cause_to_friendly)
+    return causes_df
