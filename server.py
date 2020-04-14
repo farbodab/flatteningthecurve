@@ -11,37 +11,6 @@ from app.export import kaggleHelper
 from app.api.vis import *
 from datetime import datetime
 
-def getontario():
-    with app.app_context():
-        testsnew()
-        print('Ontario data refreshed')
-
-def getcanada():
-    with app.app_context():
-        getnpis()
-        cases()
-        getcanadamortality()
-        getcanadarecovered()
-        getcanadamobility()
-        getcanadatested()
-        print('Canada data refreshed')
-
-def getinternational():
-    with app.app_context():
-        international()
-        getinternationalmortality()
-        getinternationalrecovered()
-        print('International data refreshed')
-
-def export_sheets():
-    with app.app_context():
-        sheetsHelper.exportToSheets()
-        print('Google sheets updated')
-
-def export_kaggle():
-    with app.app_context():
-        kaggleHelper.exportToKaggle()
-        print('Kaggle data exported')
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
