@@ -28,21 +28,24 @@ Ontario,25,5838
 Ontario,26,6397
 Ontario,27,6804
 Ontario,28,7294
-Nova Scotia,0,110
-Nova Scotia,1,122
-Nova Scotia,2,127
-Nova Scotia,3,147
-Nova Scotia,4,173
-Nova Scotia,5,193
-Nova Scotia,6,207
-Nova Scotia,7,236
-Nova Scotia,8,262
-Nova Scotia,9,293
-Nova Scotia,10,310
-Nova Scotia,11,342
-Nova Scotia,12,373
-Nova Scotia,13,407
-Nova Scotia,14,428
+Ontario,29,7727
+Saskatchewan,0,104
+Saskatchewan,1,134
+Saskatchewan,2,156
+Saskatchewan,3,176
+Saskatchewan,4,184
+Saskatchewan,5,193
+Saskatchewan,6,206
+Saskatchewan,7,220
+Saskatchewan,8,231
+Saskatchewan,9,249
+Saskatchewan,10,253
+Saskatchewan,11,260
+Saskatchewan,12,271
+Saskatchewan,13,278
+Saskatchewan,14,285
+Saskatchewan,15,289
+Saskatchewan,16,298
 BC,0,103
 BC,1,186
 BC,2,231
@@ -67,6 +70,47 @@ BC,20,1336
 BC,21,1370
 BC,22,1410
 BC,23,1445
+Quebec,0,121
+Quebec,1,139
+Quebec,2,181
+Quebec,3,219
+Quebec,4,628
+Quebec,5,1040
+Quebec,6,1339
+Quebec,7,1629
+Quebec,8,2021
+Quebec,9,2498
+Quebec,10,2840
+Quebec,11,3430
+Quebec,12,4162
+Quebec,13,4611
+Quebec,14,5518
+Quebec,15,6101
+Quebec,16,6997
+Quebec,17,7944
+Quebec,18,8580
+Quebec,19,9342
+Quebec,20,10033
+Quebec,21,10914
+Quebec,22,11679
+Quebec,23,12294
+Quebec,24,12848
+Nova Scotia,0,110
+Nova Scotia,1,122
+Nova Scotia,2,127
+Nova Scotia,3,147
+Nova Scotia,4,173
+Nova Scotia,5,193
+Nova Scotia,6,207
+Nova Scotia,7,236
+Nova Scotia,8,262
+Nova Scotia,9,293
+Nova Scotia,10,310
+Nova Scotia,11,342
+Nova Scotia,12,373
+Nova Scotia,13,407
+Nova Scotia,14,428
+Nova Scotia,15,445
 Alberta,0,119
 Alberta,1,146
 Alberta,2,195
@@ -92,46 +136,24 @@ Alberta,21,1423
 Alberta,22,1451
 Alberta,23,1500
 Alberta,24,1569
-Quebec,0,121
-Quebec,1,139
-Quebec,2,181
-Quebec,3,219
-Quebec,4,628
-Quebec,5,1040
-Quebec,6,1339
-Quebec,7,1629
-Quebec,8,2021
-Quebec,9,2498
-Quebec,10,2840
-Quebec,11,3430
-Quebec,12,4162
-Quebec,13,4611
-Quebec,14,5518
-Quebec,15,6101
-Quebec,16,6997
-Quebec,17,7944
-Quebec,18,8580
-Quebec,19,9342
-Quebec,20,10033
-Quebec,21,10914
-Quebec,22,11679
-Quebec,23,12294
-Saskatchewan,0,104
-Saskatchewan,1,134
-Saskatchewan,2,156
-Saskatchewan,3,176
-Saskatchewan,4,184
-Saskatchewan,5,193
-Saskatchewan,6,206
-Saskatchewan,7,220
-Saskatchewan,8,231
-Saskatchewan,9,249
-Saskatchewan,10,253
-Saskatchewan,11,260
-Saskatchewan,12,271
-Saskatchewan,13,278
-Saskatchewan,14,285
-Saskatchewan,15,289
+Alberta,25,1651
+NL,0,102
+NL,1,120
+NL,2,135
+NL,3,148
+NL,4,152
+NL,5,175
+NL,6,183
+NL,7,195
+NL,8,203
+NL,9,217
+NL,10,226
+NL,11,228
+NL,12,232
+NL,13,236
+NL,14,239
+NL,15,241
+NL,16,242
 Manitoba,0,103
 Manitoba,1,127
 Manitoba,2,167
@@ -150,22 +172,7 @@ New Brunswick,2,105
 New Brunswick,3,108
 New Brunswick,4,111
 New Brunswick,5,112
-NL,0,102
-NL,1,120
-NL,2,135
-NL,3,148
-NL,4,152
-NL,5,175
-NL,6,183
-NL,7,195
-NL,8,203
-NL,9,217
-NL,10,226
-NL,11,228
-NL,12,232
-NL,13,236
-NL,14,239
-NL,15,241
+New Brunswick,6,114
 Canada,0,116
 Canada,1,156
 Canada,2,198
@@ -198,6 +205,7 @@ Canada,28,19855
 Canada,29,21405
 Canada,30,22717
 Canada,31,23966
+Canada,32,25064
 Italy,0,155
 Italy,1,229
 Italy,2,322
@@ -248,6 +256,7 @@ Italy,46,144090
 Italy,47,148294
 Italy,48,152245
 Italy,49,156939
+Italy,50,161031
 "Korea, South",0,103
 "Korea, South",1,203
 "Korea, South",2,432
@@ -301,6 +310,7 @@ Italy,49,156939
 "Korea, South",50,10511
 "Korea, South",51,10538
 "Korea, South",52,10568
+"Korea, South",53,10600
 Spain,0,120
 Spain,1,165
 Spain,2,222
@@ -343,6 +353,7 @@ Spain,38,156167
 Spain,39,161169
 Spain,40,166220
 Spain,41,170974
+Spain,42,174778
 United Kingdom,0,116
 United Kingdom,1,164
 United Kingdom,2,207
@@ -382,6 +393,7 @@ United Kingdom,35,65782
 United Kingdom,36,70180
 United Kingdom,37,78913
 United Kingdom,38,84182
+United Kingdom,39,89514
 France,0,130
 France,1,191
 France,2,204
@@ -425,6 +437,7 @@ France,39,116139
 France,40,120961
 France,41,128111
 France,42,132907
+France,43,135850
 US,0,117
 US,1,148
 US,2,216
@@ -466,3 +479,4 @@ US,37,461383
 US,38,496481
 US,39,526342
 US,40,556203
+US,41,585120

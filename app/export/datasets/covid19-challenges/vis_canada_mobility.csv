@@ -3045,3 +3045,122 @@ id,date,region,category,value
 3040,2020-03-21,Yukon,Workplace,-11.12
 3042,2020-03-24,Yukon,Workplace,-45.66
 3044,2020-03-26,Yukon,Workplace,-47.83
+3047,2020-03-30,Canada,Retail & recreation,-53.59
+3055,2020-04-03,Canada,Retail & recreation,-55.33
+3151,2020-03-30,Yukon,Retail & recreation,-38.51
+3156,2020-04-02,Yukon,Retail & recreation,-34.69
+3165,2020-04-05,Yukon,Retail & recreation,-40.97
+3049,2020-03-31,Canada,Retail & recreation,-50.9
+3054,2020-04-03,Canada,Retail & recreation,-55.33
+3060,2020-03-30,Alberta,Retail & recreation,-49.55
+3063,2020-04-02,Alberta,Retail & recreation,-49.03
+3066,2020-04-05,Alberta,Retail & recreation,-57.33
+3069,2020-04-01,British Columbia,Retail & recreation,-50.15
+3072,2020-04-04,British Columbia,Retail & recreation,-54.45
+3075,2020-03-31,Manitoba,Retail & recreation,-36.19
+3078,2020-04-03,Manitoba,Retail & recreation,-54.9
+3081,2020-03-30,New Brunswick,Retail & recreation,-49.31
+3084,2020-04-02,New Brunswick,Retail & recreation,-51.28
+3087,2020-04-05,New Brunswick,Retail & recreation,-42.75
+3090,2020-04-01,Newfoundland and Labrador,Retail & recreation,-51.03
+3093,2020-04-04,Newfoundland and Labrador,Retail & recreation,-54.56
+3096,2020-03-31,Northwest Territories,Retail & recreation,-47.37
+3099,2020-04-03,Northwest Territories,Retail & recreation,-48.97
+3102,2020-03-30,Nova Scotia,Retail & recreation,-51.61
+3105,2020-04-02,Nova Scotia,Retail & recreation,-56.41
+3108,2020-04-05,Nova Scotia,Retail & recreation,-37.86
+3126,2020-04-01,Prince Edward Island,Retail & recreation,-57.11
+3131,2020-04-04,Prince Edward Island,Retail & recreation,-59.73
+3136,2020-03-31,Quebec,Retail & recreation,-55.16
+3139,2020-04-03,Quebec,Retail & recreation,-64.15
+3144,2020-03-30,Saskatchewan,Retail & recreation,-44.56
+3147,2020-04-02,Saskatchewan,Retail & recreation,-50.4
+3150,2020-04-05,Saskatchewan,Retail & recreation,-54.84
+3158,2020-04-03,Yukon,Retail & recreation,-40.52
+3050,2020-03-31,Canada,Retail & recreation,-50.9
+3057,2020-04-04,Canada,Retail & recreation,-56.88
+3152,2020-03-31,Yukon,Retail & recreation,-39.89
+3159,2020-04-03,Yukon,Retail & recreation,-40.52
+3051,2020-04-01,Canada,Retail & recreation,-51.52
+3056,2020-04-04,Canada,Retail & recreation,-56.88
+3061,2020-03-31,Alberta,Retail & recreation,-50.51
+3064,2020-04-03,Alberta,Retail & recreation,-50.71
+3067,2020-03-30,British Columbia,Retail & recreation,-51.4
+3070,2020-04-02,British Columbia,Retail & recreation,-51.16
+3073,2020-04-05,British Columbia,Retail & recreation,-53.2
+3076,2020-04-01,Manitoba,Retail & recreation,-45.61
+3079,2020-04-04,Manitoba,Retail & recreation,-54.28
+3082,2020-03-31,New Brunswick,Retail & recreation,-49.64
+3085,2020-04-03,New Brunswick,Retail & recreation,-49.78
+3088,2020-03-30,Newfoundland and Labrador,Retail & recreation,-57.58
+3091,2020-04-02,Newfoundland and Labrador,Retail & recreation,-52.24
+3094,2020-04-05,Newfoundland and Labrador,Retail & recreation,-42.79
+3097,2020-04-01,Northwest Territories,Retail & recreation,-51.2
+3100,2020-04-04,Northwest Territories,Retail & recreation,-53.29
+3103,2020-03-31,Nova Scotia,Retail & recreation,-53.06
+3106,2020-04-03,Nova Scotia,Retail & recreation,-53.45
+3122,2020-03-30,Prince Edward Island,Retail & recreation,-56.25
+3129,2020-04-02,Prince Edward Island,Retail & recreation,-54.85
+3133,2020-04-05,Prince Edward Island,Retail & recreation,-41.4
+3137,2020-04-01,Quebec,Retail & recreation,-57.24
+3140,2020-04-04,Quebec,Retail & recreation,-62.48
+3145,2020-03-31,Saskatchewan,Retail & recreation,-48.69
+3148,2020-04-03,Saskatchewan,Retail & recreation,-47.01
+3153,2020-04-01,Yukon,Retail & recreation,-36.73
+3161,2020-04-04,Yukon,Retail & recreation,-42.2
+3052,2020-04-01,Canada,Retail & recreation,-51.52
+3059,2020-04-05,Canada,Retail & recreation,-62.72
+3154,2020-04-01,Yukon,Retail & recreation,-36.73
+3162,2020-04-04,Yukon,Retail & recreation,-42.2
+3109,2020-03-30,Nunavut,Retail & recreation,-27.51
+3112,2020-04-02,Nunavut,Retail & recreation,-18.19
+3115,2020-03-30,Ontario,Retail & recreation,-55.28
+3118,2020-04-02,Ontario,Retail & recreation,-51.43
+3121,2020-04-05,Ontario,Retail & recreation,-59.82
+3127,2020-04-01,Prince Edward Island,Retail & recreation,-57.11
+3134,2020-04-05,Prince Edward Island,Retail & recreation,-41.4
+3157,2020-04-02,Yukon,Retail & recreation,-34.69
+3110,2020-03-31,Nunavut,Retail & recreation,-18.03
+3113,2020-04-03,Nunavut,Retail & recreation,-25.41
+3116,2020-03-31,Ontario,Retail & recreation,-51.23
+3119,2020-04-03,Ontario,Retail & recreation,-54.92
+3123,2020-03-30,Prince Edward Island,Retail & recreation,-56.25
+3128,2020-04-02,Prince Edward Island,Retail & recreation,-54.85
+3141,2020-04-04,Quebec,Retail & recreation,-62.48
+3160,2020-04-04,Yukon,Retail & recreation,-42.2
+3111,2020-04-01,Nunavut,Retail & recreation,-31.72
+3114,2020-04-04,Nunavut,Retail & recreation,-35.6
+3117,2020-04-01,Ontario,Retail & recreation,-50.96
+3120,2020-04-04,Ontario,Retail & recreation,-57.16
+3125,2020-03-31,Prince Edward Island,Retail & recreation,-57.11
+3132,2020-04-04,Prince Edward Island,Retail & recreation,-59.73
+3143,2020-04-05,Quebec,Retail & recreation,-84.18
+3163,2020-04-05,Yukon,Retail & recreation,-40.97
+3048,2020-03-30,Canada,Retail & recreation,-53.59
+3053,2020-04-02,Canada,Retail & recreation,-52.99
+3058,2020-04-05,Canada,Retail & recreation,-62.72
+3062,2020-04-01,Alberta,Retail & recreation,-47.49
+3065,2020-04-04,Alberta,Retail & recreation,-52.83
+3068,2020-03-31,British Columbia,Retail & recreation,-48.3
+3071,2020-04-03,British Columbia,Retail & recreation,-50.17
+3074,2020-03-30,Manitoba,Retail & recreation,-37.88
+3077,2020-04-02,Manitoba,Retail & recreation,-59.15
+3080,2020-04-05,Manitoba,Retail & recreation,-54.49
+3083,2020-04-01,New Brunswick,Retail & recreation,-52.25
+3086,2020-04-04,New Brunswick,Retail & recreation,-54.32
+3089,2020-03-31,Newfoundland and Labrador,Retail & recreation,-54.09
+3092,2020-04-03,Newfoundland and Labrador,Retail & recreation,-51.23
+3095,2020-03-30,Northwest Territories,Retail & recreation,-51.76
+3098,2020-04-02,Northwest Territories,Retail & recreation,-52.43
+3101,2020-04-05,Northwest Territories,Retail & recreation,-53.5
+3104,2020-04-01,Nova Scotia,Retail & recreation,-54.85
+3107,2020-04-04,Nova Scotia,Retail & recreation,-59.41
+3124,2020-03-31,Prince Edward Island,Retail & recreation,-57.11
+3130,2020-04-03,Prince Edward Island,Retail & recreation,-55.75
+3135,2020-03-30,Quebec,Retail & recreation,-60.29
+3138,2020-04-02,Quebec,Retail & recreation,-61.49
+3142,2020-04-05,Quebec,Retail & recreation,-84.18
+3146,2020-04-01,Saskatchewan,Retail & recreation,-50.86
+3149,2020-04-04,Saskatchewan,Retail & recreation,-57.06
+3155,2020-04-02,Yukon,Retail & recreation,-34.69
+3164,2020-04-05,Yukon,Retail & recreation,-40.97

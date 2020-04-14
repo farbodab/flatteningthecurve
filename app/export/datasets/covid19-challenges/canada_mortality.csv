@@ -351,7 +351,6 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1543,325,162,85,Female,York,Ontario,Canada,2020-04-06,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.Xou0AshKjIW
 1545,327,96,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1547,329,98,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
-1549,331,100,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1551,333,102,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1553,335,104,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1555,337,106,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
@@ -360,7 +359,6 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1561,343,112,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1563,345,114,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1565,347,116,Not Reported,Not Reported,Estrie,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
-1567,349,118,Not Reported,Not Reported,Mauricie,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1569,351,120,Not Reported,Not Reported,Mauricie,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1571,353,39,Not Reported,Not Reported,Vancouver Coastal,BC,Canada,2020-04-06,http://www.bccdc.ca/health-info/diseases-conditions/covid-19/case-counts-press-statements
 1573,355,164,Not Reported,Not Reported,Middlesex-London,Ontario,Canada,2020-04-07,https://www.healthunit.com/novel-coronavirus
@@ -373,6 +371,7 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1587,369,178,Not Reported,Not Reported,Toronto,Ontario,Canada,2020-04-07,https://www.toronto.ca/home/covid-19/media-room/covid-19-status-of-cases-in-toronto/
 1589,371,180,70-79,Female,Windsor-Essex,Ontario,Canada,2020-04-07,https://www.wechu.org/newsroom/news-release-april-6th-public-health-evening-updates-related-coronavirus-covid-19
 1591,373,182,70-79,Female,Windsor-Essex,Ontario,Canada,2020-04-07,https://www.wechu.org/newsroom/news-release-april-7th-public-health-updates-related-coronavirus-covid-19
+1567,349,118,92,Female,Mauricie,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1592,374,183,Not Reported,Not Reported,York,Ontario,Canada,2020-04-07,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.Xo0EcchKjif
 1594,376,185,Not Reported,Not Reported,Haliburton Kawartha Pineridge,Ontario,Canada,2020-04-07,https://www.hkpr.on.ca/
 1596,378,187,Not Reported,Not Reported,Haliburton Kawartha Pineridge,Ontario,Canada,2020-04-07,https://www.hkpr.on.ca/
@@ -440,7 +439,6 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1643,425,158,Not Reported,Not Reported,Lanaudière,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1645,427,160,Not Reported,Not Reported,Capitale-Nationale,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1647,429,162,Not Reported,Not Reported,Capitale-Nationale,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
-1649,431,164,Not Reported,Not Reported,Mauricie,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1651,433,166,Not Reported,Not Reported,Mauricie,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1653,435,168,Not Reported,Not Reported,Mauricie,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
 1655,437,170,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
@@ -552,7 +550,6 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1791,573,265,Not Reported,Not Reported,Toronto,Ontario,Canada,2020-04-10,https://www.toronto.ca/home/covid-19/media-room/covid-19-status-of-cases-in-toronto/
 1793,575,267,Not Reported,Not Reported,Waterloo,Ontario,Canada,2020-04-10,https://www.regionofwaterloo.ca/en/health-and-wellness/positive-cases-in-waterloo-region.aspx
 1795,577,269,Not Reported,Not Reported,Windsor-Essex,Ontario,Canada,2020-04-10,https://www.wechu.org/cv/local-updates
-1797,579,33,Not Reported,Not Reported,Not Reported,Alberta,Canada,2020-04-10,https://covid19stats.alberta.ca/
 1799,581,35,Not Reported,Not Reported,Edmonton,Alberta,Canada,2020-04-10,https://covid19stats.alberta.ca/
 1801,583,37,Not Reported,Not Reported,Calgary,Alberta,Canada,2020-04-10,https://covid19stats.alberta.ca/
 1803,585,39,Not Reported,Not Reported,Calgary,Alberta,Canada,2020-04-10,https://covid19stats.alberta.ca/
@@ -677,7 +674,6 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1879,661,281,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-11,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
 1881,663,283,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-11,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
 1883,665,285,Not Reported,Not Reported,Montérégie,Quebec,Canada,2020-04-11,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
-1885,667,287,Not Reported,Not Reported,Saguenay,Quebec,Canada,2020-04-11,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
 1887,669,289,Not Reported,Not Reported,Saguenay,Quebec,Canada,2020-04-11,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
 1889,671,271,Not Reported,Not Reported,Waterloo,Ontario,Canada,2020-04-11,https://www.regionofwaterloo.ca/en/health-and-wellness/positive-cases-in-waterloo-region.aspx
 1891,673,273,93,Female,Lambton,Ontario,Canada,2020-04-11,https://lambtonpublichealth.ca/2019-novel-coronavirus/
@@ -689,3 +685,70 @@ id,death_id,province_death_id,age,sex,region,province,country,date,death_source
 1903,685,285,80-89,Male,Simcoe Muskoka,Ontario,Canada,2020-04-11,http://www.simcoemuskokahealthstats.org/topics/infectious-diseases/a-h/covid-19
 1905,687,287,Not Reported,Not Reported,Toronto,Ontario,Canada,2020-04-11,https://www.toronto.ca/home/covid-19/media-room/covid-19-status-of-cases-in-toronto/
 1907,689,289,Not Reported,Not Reported,York,Ontario,Canada,2020-04-11,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.XpJSpIhKhPb
+1549,331,100,80,Male,Montréal,Quebec,Canada,2020-04-06,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
+1649,431,164,92,Female,Mauricie,Quebec,Canada,2020-04-08,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/
+1797,579,33,Not Reported,Not Reported,North,Alberta,Canada,2020-04-10,https://covid19stats.alberta.ca/
+1885,667,287,94,Female,Saguenay,Quebec,Canada,2020-04-11,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1909,691,290,Not Reported,Not Reported,Capitale-Nationale,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1910,692,291,Not Reported,Not Reported,Capitale-Nationale,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1911,693,292,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1912,694,293,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1913,695,294,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1914,696,295,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1915,697,296,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1916,698,297,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1917,699,298,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1918,700,299,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1919,701,300,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1920,702,301,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1921,703,302,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1922,704,303,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1923,705,304,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1924,706,305,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1925,707,306,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1926,708,307,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1927,709,308,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1930,712,311,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1933,715,314,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1936,718,317,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1939,721,320,Not Reported,Not Reported,Lanaudière,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1942,724,323,Not Reported,Not Reported,Lanaudière,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1945,727,326,Not Reported,Not Reported,Not Reported,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1948,730,41,Not Reported,Not Reported,Calgary,Alberta,Canada,2020-04-12,https://covid19stats.alberta.ca/
+1951,733,44,Not Reported,Not Reported,North,Alberta,Canada,2020-04-12,https://covid19stats.alberta.ca/
+1954,736,293,80-90,Not Reported,Huron Perth,Ontario,Canada,2020-04-12,https://www.hpph.ca/en/health-matters/covid-19-in-huron-and-perth.aspx
+1957,739,296,Not Reported,Not Reported,Middlesex-London,Ontario,Canada,2020-04-12,https://www.healthunit.com/novel-coronavirus
+1964,742,299,Not Reported,Not Reported,Peel,Ontario,Canada,2020-04-12,https://www.peelregion.ca/coronavirus/testing/#cases
+1969,745,302,Not Reported,Not Reported,York,Ontario,Canada,2020-04-12,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.XpOK-S-z173
+1928,710,309,Not Reported,Not Reported,Montréal,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1931,713,312,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1934,716,315,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1937,719,318,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1940,722,321,Not Reported,Not Reported,Lanaudière,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1943,725,324,Not Reported,Not Reported,Lanaudière,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1946,728,327,Not Reported,Not Reported,Montérégie,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1949,731,42,Not Reported,Not Reported,Calgary,Alberta,Canada,2020-04-12,https://covid19stats.alberta.ca/
+1952,734,291,Not Reported,Not Reported,Haldimand-Norfolk,Ontario,Canada,2020-04-12,https://hnhu.org/health-topic/coronavirus-covid-19/
+1955,737,294,Not Reported,Not Reported,Hamilton,Ontario,Canada,2020-04-12,https://www.hamilton.ca/coronavirus/status-cases
+1959,740,297,Not Reported,Not Reported,Peel,Ontario,Canada,2020-04-12,https://www.peelregion.ca/coronavirus/testing/#cases
+1966,743,300,60-69,Male,Peterborough,Ontario,Canada,2020-04-12,https://www.peterboroughpublichealth.ca/your-health/diseases-infections-immunization/diseases-and-infections/novel-coronavirus-2019-ncov/local-covid-19-status/
+1971,746,303,Not Reported,Not Reported,York,Ontario,Canada,2020-04-12,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.XpOK-S-z173
+1929,711,310,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1932,714,313,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1935,717,316,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1938,720,319,Not Reported,Not Reported,Laval,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1941,723,322,Not Reported,Not Reported,Lanaudière,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1944,726,325,Not Reported,Not Reported,Not Reported,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1947,729,328,Not Reported,Not Reported,Laurentides,Quebec,Canada,2020-04-12,https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/situation-coronavirus-quebec/#c51880
+1950,732,43,Not Reported,Not Reported,Calgary,Alberta,Canada,2020-04-12,https://covid19stats.alberta.ca/
+1953,735,292,Not Reported,Not Reported,Haldimand-Norfolk,Ontario,Canada,2020-04-12,https://hnhu.org/health-topic/coronavirus-covid-19/
+1956,738,295,Not Reported,Not Reported,Hamilton,Ontario,Canada,2020-04-12,https://www.hamilton.ca/coronavirus/status-cases
+1958,739,296,Not Reported,Not Reported,Middlesex-London,Ontario,Canada,2020-04-12,https://www.healthunit.com/novel-coronavirus
+1960,740,297,Not Reported,Not Reported,Peel,Ontario,Canada,2020-04-12,https://www.peelregion.ca/coronavirus/testing/#cases
+1961,741,298,Not Reported,Not Reported,Peel,Ontario,Canada,2020-04-12,https://www.peelregion.ca/coronavirus/testing/#cases
+1962,741,298,Not Reported,Not Reported,Peel,Ontario,Canada,2020-04-12,https://www.peelregion.ca/coronavirus/testing/#cases
+1963,742,299,Not Reported,Not Reported,Peel,Ontario,Canada,2020-04-12,https://www.peelregion.ca/coronavirus/testing/#cases
+1965,743,300,60-69,Male,Peterborough,Ontario,Canada,2020-04-12,https://www.peterboroughpublichealth.ca/your-health/diseases-infections-immunization/diseases-and-infections/novel-coronavirus-2019-ncov/local-covid-19-status/
+1967,744,301,Not Reported,Not Reported,York,Ontario,Canada,2020-04-12,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.XpOK-S-z173
+1968,744,301,Not Reported,Not Reported,York,Ontario,Canada,2020-04-12,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.XpOK-S-z173
+1970,745,302,Not Reported,Not Reported,York,Ontario,Canada,2020-04-12,https://www.york.ca/wps/portal/yorkhome/health/yr/infectiousdiseasesandprevention/covid19/covid19/!ut/p/z1/jZDfT4MwEMf_Fh94lB6Mjc63ijrKtmBi3LAvpoMOMKwlLYPEv95Ol5glit7D5e7yuR_fQwxliEne1yXvaiV5Y_MXNnulZEHjeAlJGuAICKQk8UMM93MPbT8B-MUIIPaf_hGAjY9P_lpgFfh6Ha1LxFreVde13CuUWS9yq_FoitoIboThsmi16IU8KUdZrvq68ObfwRaxy1WLJxwA3SQh2XgpBHRyBnw_mMVeBAnEKQb6ED5O73DswdI_A-Nqykbtvh5P5G6C7dla7IUW2j1qW666rjU3DjgwDINbKlU2ws3VwYGfWiplOpRdkqg9PGfvq9s5fZs2_YpcfQDml0gV/dz/d5/L2dBISEvZ0FBIS9nQSEh/#.XpOK-S-z173

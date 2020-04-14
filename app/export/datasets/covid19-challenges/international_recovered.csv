@@ -10,6 +10,8 @@ id,date,country,recovered
 910,2020-04-08,United Kingdom,20
 915,2020-04-09,Spain,4144
 918,2020-04-09,US,1851
+934,2020-04-12,Italy,1677
+936,2020-04-12,Spain,3282
 890,2020-04-05,"Korea, South",138
 893,2020-04-05,France,777
 896,2020-04-06,"Korea, South",135
@@ -24,6 +26,8 @@ id,date,country,recovered
 922,2020-04-10,United Kingdom,229
 923,2020-04-10,France,1782
 925,2020-04-10,US,3380
+935,2020-04-12,"Korea, South",125
+938,2020-04-12,France,806
 892,2020-04-05,United Kingdom,14
 897,2020-04-06,Spain,2357
 900,2020-04-06,US,2133
@@ -32,6 +36,8 @@ id,date,country,recovered
 909,2020-04-08,Spain,4813
 912,2020-04-08,US,1796
 924,2020-04-10,France,1782
+937,2020-04-12,United Kingdom,4
+939,2020-04-12,US,1718
 445,2020-01-22,Italy,0
 446,2020-01-22,"Korea, South",0
 447,2020-01-22,Spain,0
