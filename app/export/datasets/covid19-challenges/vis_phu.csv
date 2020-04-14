@@ -87,94 +87,6 @@ The District of Algoma Health Unit,2020-04-09,1
 The District of Algoma Health Unit,2020-04-10,0
 The District of Algoma Health Unit,2020-04-11,0
 The District of Algoma Health Unit,2020-04-12,0
-Durham Regional Health Unit,2020-02-29,2
-Durham Regional Health Unit,2020-03-01,0
-Durham Regional Health Unit,2020-03-02,0
-Durham Regional Health Unit,2020-03-03,0
-Durham Regional Health Unit,2020-03-04,0
-Durham Regional Health Unit,2020-03-05,0
-Durham Regional Health Unit,2020-03-06,0
-Durham Regional Health Unit,2020-03-07,0
-Durham Regional Health Unit,2020-03-08,0
-Durham Regional Health Unit,2020-03-09,0
-Durham Regional Health Unit,2020-03-10,0
-Durham Regional Health Unit,2020-03-11,0
-Durham Regional Health Unit,2020-03-12,0
-Durham Regional Health Unit,2020-03-13,0
-Durham Regional Health Unit,2020-03-14,3
-Durham Regional Health Unit,2020-03-15,2
-Durham Regional Health Unit,2020-03-16,1
-Durham Regional Health Unit,2020-03-17,0
-Durham Regional Health Unit,2020-03-18,0
-Durham Regional Health Unit,2020-03-19,4
-Durham Regional Health Unit,2020-03-20,11
-Durham Regional Health Unit,2020-03-21,4
-Durham Regional Health Unit,2020-03-22,2
-Durham Regional Health Unit,2020-03-23,6
-Durham Regional Health Unit,2020-03-24,9
-Durham Regional Health Unit,2020-03-25,9
-Durham Regional Health Unit,2020-03-26,5
-Durham Regional Health Unit,2020-03-27,10
-Durham Regional Health Unit,2020-03-28,10
-Durham Regional Health Unit,2020-03-29,10
-Durham Regional Health Unit,2020-03-30,11
-Durham Regional Health Unit,2020-03-31,12
-Durham Regional Health Unit,2020-04-01,39
-Durham Regional Health Unit,2020-04-02,23
-Durham Regional Health Unit,2020-04-03,10
-Durham Regional Health Unit,2020-04-04,38
-Durham Regional Health Unit,2020-04-05,11
-Durham Regional Health Unit,2020-04-06,11
-Durham Regional Health Unit,2020-04-07,23
-Durham Regional Health Unit,2020-04-08,11
-Durham Regional Health Unit,2020-04-09,22
-Durham Regional Health Unit,2020-04-10,19
-Durham Regional Health Unit,2020-04-11,16
-Durham Regional Health Unit,2020-04-12,22
-City of Toronto Health Unit,2020-02-29,0
-City of Toronto Health Unit,2020-03-01,1
-City of Toronto Health Unit,2020-03-02,0
-City of Toronto Health Unit,2020-03-03,3
-City of Toronto Health Unit,2020-03-04,0
-City of Toronto Health Unit,2020-03-05,1
-City of Toronto Health Unit,2020-03-06,3
-City of Toronto Health Unit,2020-03-07,0
-City of Toronto Health Unit,2020-03-08,3
-City of Toronto Health Unit,2020-03-09,2
-City of Toronto Health Unit,2020-03-10,1
-City of Toronto Health Unit,2020-03-11,2
-City of Toronto Health Unit,2020-03-12,8
-City of Toronto Health Unit,2020-03-13,12
-City of Toronto Health Unit,2020-03-14,9
-City of Toronto Health Unit,2020-03-15,14
-City of Toronto Health Unit,2020-03-16,11
-City of Toronto Health Unit,2020-03-17,0
-City of Toronto Health Unit,2020-03-18,3
-City of Toronto Health Unit,2020-03-19,16
-City of Toronto Health Unit,2020-03-20,17
-City of Toronto Health Unit,2020-03-21,33
-City of Toronto Health Unit,2020-03-22,26
-City of Toronto Health Unit,2020-03-23,15
-City of Toronto Health Unit,2020-03-24,19
-City of Toronto Health Unit,2020-03-25,25
-City of Toronto Health Unit,2020-03-26,33
-City of Toronto Health Unit,2020-03-27,55
-City of Toronto Health Unit,2020-03-28,71
-City of Toronto Health Unit,2020-03-29,80
-City of Toronto Health Unit,2020-03-30,71
-City of Toronto Health Unit,2020-03-31,112
-City of Toronto Health Unit,2020-04-01,165
-City of Toronto Health Unit,2020-04-02,79
-City of Toronto Health Unit,2020-04-03,89
-City of Toronto Health Unit,2020-04-04,40
-City of Toronto Health Unit,2020-04-05,206
-City of Toronto Health Unit,2020-04-06,69
-City of Toronto Health Unit,2020-04-07,148
-City of Toronto Health Unit,2020-04-08,121
-City of Toronto Health Unit,2020-04-09,199
-City of Toronto Health Unit,2020-04-10,122
-City of Toronto Health Unit,2020-04-11,174
-City of Toronto Health Unit,2020-04-12,160
 Simcoe Muskoka District Health Unit,2020-02-29,0
 Simcoe Muskoka District Health Unit,2020-03-01,0
 Simcoe Muskoka District Health Unit,2020-03-02,0
@@ -263,6 +175,50 @@ Chatham-Kent Health Unit,2020-04-09,1
 Chatham-Kent Health Unit,2020-04-10,0
 Chatham-Kent Health Unit,2020-04-11,1
 Chatham-Kent Health Unit,2020-04-12,6
+City of Toronto Health Unit,2020-02-29,0
+City of Toronto Health Unit,2020-03-01,1
+City of Toronto Health Unit,2020-03-02,0
+City of Toronto Health Unit,2020-03-03,3
+City of Toronto Health Unit,2020-03-04,0
+City of Toronto Health Unit,2020-03-05,1
+City of Toronto Health Unit,2020-03-06,3
+City of Toronto Health Unit,2020-03-07,0
+City of Toronto Health Unit,2020-03-08,3
+City of Toronto Health Unit,2020-03-09,2
+City of Toronto Health Unit,2020-03-10,1
+City of Toronto Health Unit,2020-03-11,2
+City of Toronto Health Unit,2020-03-12,8
+City of Toronto Health Unit,2020-03-13,12
+City of Toronto Health Unit,2020-03-14,9
+City of Toronto Health Unit,2020-03-15,14
+City of Toronto Health Unit,2020-03-16,11
+City of Toronto Health Unit,2020-03-17,0
+City of Toronto Health Unit,2020-03-18,3
+City of Toronto Health Unit,2020-03-19,16
+City of Toronto Health Unit,2020-03-20,17
+City of Toronto Health Unit,2020-03-21,33
+City of Toronto Health Unit,2020-03-22,26
+City of Toronto Health Unit,2020-03-23,15
+City of Toronto Health Unit,2020-03-24,19
+City of Toronto Health Unit,2020-03-25,25
+City of Toronto Health Unit,2020-03-26,33
+City of Toronto Health Unit,2020-03-27,55
+City of Toronto Health Unit,2020-03-28,71
+City of Toronto Health Unit,2020-03-29,80
+City of Toronto Health Unit,2020-03-30,71
+City of Toronto Health Unit,2020-03-31,112
+City of Toronto Health Unit,2020-04-01,165
+City of Toronto Health Unit,2020-04-02,79
+City of Toronto Health Unit,2020-04-03,89
+City of Toronto Health Unit,2020-04-04,40
+City of Toronto Health Unit,2020-04-05,206
+City of Toronto Health Unit,2020-04-06,69
+City of Toronto Health Unit,2020-04-07,148
+City of Toronto Health Unit,2020-04-08,121
+City of Toronto Health Unit,2020-04-09,199
+City of Toronto Health Unit,2020-04-10,122
+City of Toronto Health Unit,2020-04-11,174
+City of Toronto Health Unit,2020-04-12,160
 Middlesex-London Health Unit,2020-02-29,0
 Middlesex-London Health Unit,2020-03-01,0
 Middlesex-London Health Unit,2020-03-02,0
@@ -307,6 +263,50 @@ Middlesex-London Health Unit,2020-04-09,8
 Middlesex-London Health Unit,2020-04-10,13
 Middlesex-London Health Unit,2020-04-11,14
 Middlesex-London Health Unit,2020-04-12,18
+Halton Regional Health Unit,2020-02-29,0
+Halton Regional Health Unit,2020-03-01,0
+Halton Regional Health Unit,2020-03-02,0
+Halton Regional Health Unit,2020-03-03,0
+Halton Regional Health Unit,2020-03-04,0
+Halton Regional Health Unit,2020-03-05,0
+Halton Regional Health Unit,2020-03-06,0
+Halton Regional Health Unit,2020-03-07,0
+Halton Regional Health Unit,2020-03-08,0
+Halton Regional Health Unit,2020-03-09,0
+Halton Regional Health Unit,2020-03-10,0
+Halton Regional Health Unit,2020-03-11,1
+Halton Regional Health Unit,2020-03-12,1
+Halton Regional Health Unit,2020-03-13,0
+Halton Regional Health Unit,2020-03-14,1
+Halton Regional Health Unit,2020-03-15,0
+Halton Regional Health Unit,2020-03-16,1
+Halton Regional Health Unit,2020-03-17,0
+Halton Regional Health Unit,2020-03-18,4
+Halton Regional Health Unit,2020-03-19,3
+Halton Regional Health Unit,2020-03-20,0
+Halton Regional Health Unit,2020-03-21,0
+Halton Regional Health Unit,2020-03-22,0
+Halton Regional Health Unit,2020-03-23,2
+Halton Regional Health Unit,2020-03-24,1
+Halton Regional Health Unit,2020-03-25,4
+Halton Regional Health Unit,2020-03-26,1
+Halton Regional Health Unit,2020-03-27,0
+Halton Regional Health Unit,2020-03-28,2
+Halton Regional Health Unit,2020-03-29,4
+Halton Regional Health Unit,2020-03-30,11
+Halton Regional Health Unit,2020-03-31,0
+Halton Regional Health Unit,2020-04-01,38
+Halton Regional Health Unit,2020-04-02,7
+Halton Regional Health Unit,2020-04-03,19
+Halton Regional Health Unit,2020-04-04,31
+Halton Regional Health Unit,2020-04-05,11
+Halton Regional Health Unit,2020-04-06,13
+Halton Regional Health Unit,2020-04-07,14
+Halton Regional Health Unit,2020-04-08,59
+Halton Regional Health Unit,2020-04-09,21
+Halton Regional Health Unit,2020-04-10,12
+Halton Regional Health Unit,2020-04-11,8
+Halton Regional Health Unit,2020-04-12,11
 Huron County Health Unit,2020-02-29,0
 Huron County Health Unit,2020-03-01,0
 Huron County Health Unit,2020-03-02,0
@@ -439,50 +439,6 @@ Waterloo Health Unit,2020-04-09,17
 Waterloo Health Unit,2020-04-10,5
 Waterloo Health Unit,2020-04-11,19
 Waterloo Health Unit,2020-04-12,13
-Halton Regional Health Unit,2020-02-29,0
-Halton Regional Health Unit,2020-03-01,0
-Halton Regional Health Unit,2020-03-02,0
-Halton Regional Health Unit,2020-03-03,0
-Halton Regional Health Unit,2020-03-04,0
-Halton Regional Health Unit,2020-03-05,0
-Halton Regional Health Unit,2020-03-06,0
-Halton Regional Health Unit,2020-03-07,0
-Halton Regional Health Unit,2020-03-08,0
-Halton Regional Health Unit,2020-03-09,0
-Halton Regional Health Unit,2020-03-10,0
-Halton Regional Health Unit,2020-03-11,1
-Halton Regional Health Unit,2020-03-12,1
-Halton Regional Health Unit,2020-03-13,0
-Halton Regional Health Unit,2020-03-14,1
-Halton Regional Health Unit,2020-03-15,0
-Halton Regional Health Unit,2020-03-16,1
-Halton Regional Health Unit,2020-03-17,0
-Halton Regional Health Unit,2020-03-18,4
-Halton Regional Health Unit,2020-03-19,3
-Halton Regional Health Unit,2020-03-20,0
-Halton Regional Health Unit,2020-03-21,0
-Halton Regional Health Unit,2020-03-22,0
-Halton Regional Health Unit,2020-03-23,2
-Halton Regional Health Unit,2020-03-24,1
-Halton Regional Health Unit,2020-03-25,4
-Halton Regional Health Unit,2020-03-26,1
-Halton Regional Health Unit,2020-03-27,0
-Halton Regional Health Unit,2020-03-28,2
-Halton Regional Health Unit,2020-03-29,4
-Halton Regional Health Unit,2020-03-30,11
-Halton Regional Health Unit,2020-03-31,0
-Halton Regional Health Unit,2020-04-01,38
-Halton Regional Health Unit,2020-04-02,7
-Halton Regional Health Unit,2020-04-03,19
-Halton Regional Health Unit,2020-04-04,31
-Halton Regional Health Unit,2020-04-05,11
-Halton Regional Health Unit,2020-04-06,13
-Halton Regional Health Unit,2020-04-07,14
-Halton Regional Health Unit,2020-04-08,59
-Halton Regional Health Unit,2020-04-09,21
-Halton Regional Health Unit,2020-04-10,12
-Halton Regional Health Unit,2020-04-11,8
-Halton Regional Health Unit,2020-04-12,11
 "Haliburton, Kawartha, Pine Ridge District Health Unit",2020-02-29,0
 "Haliburton, Kawartha, Pine Ridge District Health Unit",2020-03-01,0
 "Haliburton, Kawartha, Pine Ridge District Health Unit",2020-03-02,0
@@ -571,6 +527,50 @@ Northwestern Health Unit,2020-04-09,3
 Northwestern Health Unit,2020-04-10,0
 Northwestern Health Unit,2020-04-11,0
 Northwestern Health Unit,2020-04-12,0
+Durham Regional Health Unit,2020-02-29,2
+Durham Regional Health Unit,2020-03-01,0
+Durham Regional Health Unit,2020-03-02,0
+Durham Regional Health Unit,2020-03-03,0
+Durham Regional Health Unit,2020-03-04,0
+Durham Regional Health Unit,2020-03-05,0
+Durham Regional Health Unit,2020-03-06,0
+Durham Regional Health Unit,2020-03-07,0
+Durham Regional Health Unit,2020-03-08,0
+Durham Regional Health Unit,2020-03-09,0
+Durham Regional Health Unit,2020-03-10,0
+Durham Regional Health Unit,2020-03-11,0
+Durham Regional Health Unit,2020-03-12,0
+Durham Regional Health Unit,2020-03-13,0
+Durham Regional Health Unit,2020-03-14,3
+Durham Regional Health Unit,2020-03-15,2
+Durham Regional Health Unit,2020-03-16,1
+Durham Regional Health Unit,2020-03-17,0
+Durham Regional Health Unit,2020-03-18,0
+Durham Regional Health Unit,2020-03-19,4
+Durham Regional Health Unit,2020-03-20,11
+Durham Regional Health Unit,2020-03-21,4
+Durham Regional Health Unit,2020-03-22,2
+Durham Regional Health Unit,2020-03-23,6
+Durham Regional Health Unit,2020-03-24,9
+Durham Regional Health Unit,2020-03-25,9
+Durham Regional Health Unit,2020-03-26,5
+Durham Regional Health Unit,2020-03-27,10
+Durham Regional Health Unit,2020-03-28,10
+Durham Regional Health Unit,2020-03-29,10
+Durham Regional Health Unit,2020-03-30,11
+Durham Regional Health Unit,2020-03-31,12
+Durham Regional Health Unit,2020-04-01,39
+Durham Regional Health Unit,2020-04-02,23
+Durham Regional Health Unit,2020-04-03,10
+Durham Regional Health Unit,2020-04-04,38
+Durham Regional Health Unit,2020-04-05,11
+Durham Regional Health Unit,2020-04-06,11
+Durham Regional Health Unit,2020-04-07,23
+Durham Regional Health Unit,2020-04-08,11
+Durham Regional Health Unit,2020-04-09,22
+Durham Regional Health Unit,2020-04-10,19
+Durham Regional Health Unit,2020-04-11,16
+Durham Regional Health Unit,2020-04-12,22
 Peterborough County-City Health Unit,2020-02-29,0
 Peterborough County-City Health Unit,2020-03-01,0
 Peterborough County-City Health Unit,2020-03-02,0
@@ -659,6 +659,50 @@ City of Ottawa Health Unit,2020-04-09,29
 City of Ottawa Health Unit,2020-04-10,36
 City of Ottawa Health Unit,2020-04-11,30
 City of Ottawa Health Unit,2020-04-12,37
+Lambton Health Unit,2020-02-29,0
+Lambton Health Unit,2020-03-01,0
+Lambton Health Unit,2020-03-02,0
+Lambton Health Unit,2020-03-03,0
+Lambton Health Unit,2020-03-04,0
+Lambton Health Unit,2020-03-05,0
+Lambton Health Unit,2020-03-06,0
+Lambton Health Unit,2020-03-07,0
+Lambton Health Unit,2020-03-08,0
+Lambton Health Unit,2020-03-09,0
+Lambton Health Unit,2020-03-10,0
+Lambton Health Unit,2020-03-11,0
+Lambton Health Unit,2020-03-12,0
+Lambton Health Unit,2020-03-13,0
+Lambton Health Unit,2020-03-14,0
+Lambton Health Unit,2020-03-15,0
+Lambton Health Unit,2020-03-16,0
+Lambton Health Unit,2020-03-17,0
+Lambton Health Unit,2020-03-18,0
+Lambton Health Unit,2020-03-19,0
+Lambton Health Unit,2020-03-20,0
+Lambton Health Unit,2020-03-21,0
+Lambton Health Unit,2020-03-22,0
+Lambton Health Unit,2020-03-23,0
+Lambton Health Unit,2020-03-24,0
+Lambton Health Unit,2020-03-25,0
+Lambton Health Unit,2020-03-26,5
+Lambton Health Unit,2020-03-27,3
+Lambton Health Unit,2020-03-28,0
+Lambton Health Unit,2020-03-29,0
+Lambton Health Unit,2020-03-30,0
+Lambton Health Unit,2020-03-31,0
+Lambton Health Unit,2020-04-01,48
+Lambton Health Unit,2020-04-02,3
+Lambton Health Unit,2020-04-03,4
+Lambton Health Unit,2020-04-04,5
+Lambton Health Unit,2020-04-05,11
+Lambton Health Unit,2020-04-06,1
+Lambton Health Unit,2020-04-07,6
+Lambton Health Unit,2020-04-08,1
+Lambton Health Unit,2020-04-09,11
+Lambton Health Unit,2020-04-10,7
+Lambton Health Unit,2020-04-11,2
+Lambton Health Unit,2020-04-12,8
 Windsor-Essex County Health Unit,2020-02-29,0
 Windsor-Essex County Health Unit,2020-03-01,0
 Windsor-Essex County Health Unit,2020-03-02,0
@@ -791,50 +835,6 @@ Niagara Regional Area Health Unit,2020-04-09,9
 Niagara Regional Area Health Unit,2020-04-10,12
 Niagara Regional Area Health Unit,2020-04-11,20
 Niagara Regional Area Health Unit,2020-04-12,13
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-02-29,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-01,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-02,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-03,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-04,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-05,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-06,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-07,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-08,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-09,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-10,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-11,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-12,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-13,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-14,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-15,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-16,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-17,3
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-18,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-19,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-20,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-21,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-22,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-23,1
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-24,3
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-25,5
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-26,2
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-27,2
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-28,1
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-29,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-30,17
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-31,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-01,12
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-02,1
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-03,1
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-04,4
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-05,1
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-06,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-07,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-08,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-09,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-10,0
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-11,2
-"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-12,0
 Porcupine Health Unit,2020-02-29,0
 Porcupine Health Unit,2020-03-01,0
 Porcupine Health Unit,2020-03-02,0
@@ -879,6 +879,50 @@ Porcupine Health Unit,2020-04-09,3
 Porcupine Health Unit,2020-04-10,3
 Porcupine Health Unit,2020-04-11,2
 Porcupine Health Unit,2020-04-12,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-02-29,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-01,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-02,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-03,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-04,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-05,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-06,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-07,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-08,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-09,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-10,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-11,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-12,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-13,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-14,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-15,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-16,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-17,3
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-18,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-19,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-20,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-21,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-22,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-23,1
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-24,3
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-25,5
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-26,2
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-27,2
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-28,1
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-29,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-30,17
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-03-31,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-01,12
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-02,1
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-03,1
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-04,4
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-05,1
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-06,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-07,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-08,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-09,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-10,0
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-11,2
+"Kingston, Frontenac, and Lennox and Addington Health Unit",2020-04-12,0
 Peel Regional Health Unit,2020-02-29,0
 Peel Regional Health Unit,2020-03-01,0
 Peel Regional Health Unit,2020-03-02,0
@@ -1099,50 +1143,6 @@ Grey Bruce Health Unit,2020-04-09,2
 Grey Bruce Health Unit,2020-04-10,1
 Grey Bruce Health Unit,2020-04-11,2
 Grey Bruce Health Unit,2020-04-12,3
-Lambton Health Unit,2020-02-29,0
-Lambton Health Unit,2020-03-01,0
-Lambton Health Unit,2020-03-02,0
-Lambton Health Unit,2020-03-03,0
-Lambton Health Unit,2020-03-04,0
-Lambton Health Unit,2020-03-05,0
-Lambton Health Unit,2020-03-06,0
-Lambton Health Unit,2020-03-07,0
-Lambton Health Unit,2020-03-08,0
-Lambton Health Unit,2020-03-09,0
-Lambton Health Unit,2020-03-10,0
-Lambton Health Unit,2020-03-11,0
-Lambton Health Unit,2020-03-12,0
-Lambton Health Unit,2020-03-13,0
-Lambton Health Unit,2020-03-14,0
-Lambton Health Unit,2020-03-15,0
-Lambton Health Unit,2020-03-16,0
-Lambton Health Unit,2020-03-17,0
-Lambton Health Unit,2020-03-18,0
-Lambton Health Unit,2020-03-19,0
-Lambton Health Unit,2020-03-20,0
-Lambton Health Unit,2020-03-21,0
-Lambton Health Unit,2020-03-22,0
-Lambton Health Unit,2020-03-23,0
-Lambton Health Unit,2020-03-24,0
-Lambton Health Unit,2020-03-25,0
-Lambton Health Unit,2020-03-26,5
-Lambton Health Unit,2020-03-27,3
-Lambton Health Unit,2020-03-28,0
-Lambton Health Unit,2020-03-29,0
-Lambton Health Unit,2020-03-30,0
-Lambton Health Unit,2020-03-31,0
-Lambton Health Unit,2020-04-01,48
-Lambton Health Unit,2020-04-02,3
-Lambton Health Unit,2020-04-03,4
-Lambton Health Unit,2020-04-04,5
-Lambton Health Unit,2020-04-05,11
-Lambton Health Unit,2020-04-06,1
-Lambton Health Unit,2020-04-07,6
-Lambton Health Unit,2020-04-08,1
-Lambton Health Unit,2020-04-09,11
-Lambton Health Unit,2020-04-10,7
-Lambton Health Unit,2020-04-11,2
-Lambton Health Unit,2020-04-12,8
 Hastings and Prince Edward Counties Health Unit,2020-02-29,0
 Hastings and Prince Edward Counties Health Unit,2020-03-01,0
 Hastings and Prince Edward Counties Health Unit,2020-03-02,0
@@ -1187,50 +1187,6 @@ Hastings and Prince Edward Counties Health Unit,2020-04-09,0
 Hastings and Prince Edward Counties Health Unit,2020-04-10,0
 Hastings and Prince Edward Counties Health Unit,2020-04-11,0
 Hastings and Prince Edward Counties Health Unit,2020-04-12,1
-Brant County Health Unit,2020-02-29,0
-Brant County Health Unit,2020-03-01,0
-Brant County Health Unit,2020-03-02,0
-Brant County Health Unit,2020-03-03,0
-Brant County Health Unit,2020-03-04,0
-Brant County Health Unit,2020-03-05,0
-Brant County Health Unit,2020-03-06,0
-Brant County Health Unit,2020-03-07,0
-Brant County Health Unit,2020-03-08,0
-Brant County Health Unit,2020-03-09,0
-Brant County Health Unit,2020-03-10,0
-Brant County Health Unit,2020-03-11,0
-Brant County Health Unit,2020-03-12,0
-Brant County Health Unit,2020-03-13,0
-Brant County Health Unit,2020-03-14,0
-Brant County Health Unit,2020-03-15,0
-Brant County Health Unit,2020-03-16,0
-Brant County Health Unit,2020-03-17,0
-Brant County Health Unit,2020-03-18,1
-Brant County Health Unit,2020-03-19,0
-Brant County Health Unit,2020-03-20,0
-Brant County Health Unit,2020-03-21,0
-Brant County Health Unit,2020-03-22,0
-Brant County Health Unit,2020-03-23,0
-Brant County Health Unit,2020-03-24,2
-Brant County Health Unit,2020-03-25,0
-Brant County Health Unit,2020-03-26,0
-Brant County Health Unit,2020-03-27,0
-Brant County Health Unit,2020-03-28,0
-Brant County Health Unit,2020-03-29,0
-Brant County Health Unit,2020-03-30,8
-Brant County Health Unit,2020-03-31,0
-Brant County Health Unit,2020-04-01,6
-Brant County Health Unit,2020-04-02,12
-Brant County Health Unit,2020-04-03,6
-Brant County Health Unit,2020-04-04,7
-Brant County Health Unit,2020-04-05,4
-Brant County Health Unit,2020-04-06,0
-Brant County Health Unit,2020-04-07,1
-Brant County Health Unit,2020-04-08,1
-Brant County Health Unit,2020-04-09,6
-Brant County Health Unit,2020-04-10,6
-Brant County Health Unit,2020-04-11,1
-Brant County Health Unit,2020-04-12,2
 The Eastern Ontario Health Unit,2020-02-29,0
 The Eastern Ontario Health Unit,2020-03-01,0
 The Eastern Ontario Health Unit,2020-03-02,0
@@ -1275,50 +1231,50 @@ The Eastern Ontario Health Unit,2020-04-09,2
 The Eastern Ontario Health Unit,2020-04-10,0
 The Eastern Ontario Health Unit,2020-04-11,9
 The Eastern Ontario Health Unit,2020-04-12,0
-Wellington-Dufferin-Guelph Health Unit,2020-02-29,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-01,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-02,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-03,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-04,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-05,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-06,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-07,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-08,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-09,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-10,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-11,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-12,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-13,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-14,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-15,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-16,1
-Wellington-Dufferin-Guelph Health Unit,2020-03-17,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-18,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-19,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-20,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-21,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-22,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-23,1
-Wellington-Dufferin-Guelph Health Unit,2020-03-24,1
-Wellington-Dufferin-Guelph Health Unit,2020-03-25,1
-Wellington-Dufferin-Guelph Health Unit,2020-03-26,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-27,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-28,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-29,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-30,0
-Wellington-Dufferin-Guelph Health Unit,2020-03-31,9
-Wellington-Dufferin-Guelph Health Unit,2020-04-01,35
-Wellington-Dufferin-Guelph Health Unit,2020-04-02,3
-Wellington-Dufferin-Guelph Health Unit,2020-04-03,16
-Wellington-Dufferin-Guelph Health Unit,2020-04-04,0
-Wellington-Dufferin-Guelph Health Unit,2020-04-05,0
-Wellington-Dufferin-Guelph Health Unit,2020-04-06,33
-Wellington-Dufferin-Guelph Health Unit,2020-04-07,13
-Wellington-Dufferin-Guelph Health Unit,2020-04-08,9
-Wellington-Dufferin-Guelph Health Unit,2020-04-09,5
-Wellington-Dufferin-Guelph Health Unit,2020-04-10,5
-Wellington-Dufferin-Guelph Health Unit,2020-04-11,1
-Wellington-Dufferin-Guelph Health Unit,2020-04-12,0
+Brant County Health Unit,2020-02-29,0
+Brant County Health Unit,2020-03-01,0
+Brant County Health Unit,2020-03-02,0
+Brant County Health Unit,2020-03-03,0
+Brant County Health Unit,2020-03-04,0
+Brant County Health Unit,2020-03-05,0
+Brant County Health Unit,2020-03-06,0
+Brant County Health Unit,2020-03-07,0
+Brant County Health Unit,2020-03-08,0
+Brant County Health Unit,2020-03-09,0
+Brant County Health Unit,2020-03-10,0
+Brant County Health Unit,2020-03-11,0
+Brant County Health Unit,2020-03-12,0
+Brant County Health Unit,2020-03-13,0
+Brant County Health Unit,2020-03-14,0
+Brant County Health Unit,2020-03-15,0
+Brant County Health Unit,2020-03-16,0
+Brant County Health Unit,2020-03-17,0
+Brant County Health Unit,2020-03-18,1
+Brant County Health Unit,2020-03-19,0
+Brant County Health Unit,2020-03-20,0
+Brant County Health Unit,2020-03-21,0
+Brant County Health Unit,2020-03-22,0
+Brant County Health Unit,2020-03-23,0
+Brant County Health Unit,2020-03-24,2
+Brant County Health Unit,2020-03-25,0
+Brant County Health Unit,2020-03-26,0
+Brant County Health Unit,2020-03-27,0
+Brant County Health Unit,2020-03-28,0
+Brant County Health Unit,2020-03-29,0
+Brant County Health Unit,2020-03-30,8
+Brant County Health Unit,2020-03-31,0
+Brant County Health Unit,2020-04-01,6
+Brant County Health Unit,2020-04-02,12
+Brant County Health Unit,2020-04-03,6
+Brant County Health Unit,2020-04-04,7
+Brant County Health Unit,2020-04-05,4
+Brant County Health Unit,2020-04-06,0
+Brant County Health Unit,2020-04-07,1
+Brant County Health Unit,2020-04-08,1
+Brant County Health Unit,2020-04-09,6
+Brant County Health Unit,2020-04-10,6
+Brant County Health Unit,2020-04-11,1
+Brant County Health Unit,2020-04-12,2
 Sudbury and District Health Unit,2020-02-29,0
 Sudbury and District Health Unit,2020-03-01,0
 Sudbury and District Health Unit,2020-03-02,0
@@ -1363,6 +1319,50 @@ Sudbury and District Health Unit,2020-04-09,2
 Sudbury and District Health Unit,2020-04-10,1
 Sudbury and District Health Unit,2020-04-11,1
 Sudbury and District Health Unit,2020-04-12,6
+Wellington-Dufferin-Guelph Health Unit,2020-02-29,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-01,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-02,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-03,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-04,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-05,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-06,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-07,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-08,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-09,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-10,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-11,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-12,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-13,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-14,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-15,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-16,1
+Wellington-Dufferin-Guelph Health Unit,2020-03-17,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-18,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-19,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-20,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-21,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-22,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-23,1
+Wellington-Dufferin-Guelph Health Unit,2020-03-24,1
+Wellington-Dufferin-Guelph Health Unit,2020-03-25,1
+Wellington-Dufferin-Guelph Health Unit,2020-03-26,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-27,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-28,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-29,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-30,0
+Wellington-Dufferin-Guelph Health Unit,2020-03-31,9
+Wellington-Dufferin-Guelph Health Unit,2020-04-01,35
+Wellington-Dufferin-Guelph Health Unit,2020-04-02,3
+Wellington-Dufferin-Guelph Health Unit,2020-04-03,16
+Wellington-Dufferin-Guelph Health Unit,2020-04-04,0
+Wellington-Dufferin-Guelph Health Unit,2020-04-05,0
+Wellington-Dufferin-Guelph Health Unit,2020-04-06,33
+Wellington-Dufferin-Guelph Health Unit,2020-04-07,13
+Wellington-Dufferin-Guelph Health Unit,2020-04-08,9
+Wellington-Dufferin-Guelph Health Unit,2020-04-09,5
+Wellington-Dufferin-Guelph Health Unit,2020-04-10,5
+Wellington-Dufferin-Guelph Health Unit,2020-04-11,1
+Wellington-Dufferin-Guelph Health Unit,2020-04-12,0
 Leeds Grenville and Lanark,2020-02-29,0
 Leeds Grenville and Lanark,2020-03-01,0
 Leeds Grenville and Lanark,2020-03-02,0
@@ -1537,3 +1537,4 @@ Ontario,2020-04-09,5759
 Ontario,2020-04-10,6237
 Ontario,2020-04-11,6648
 Ontario,2020-04-12,7049
+Ontario,2020-04-13,7470
