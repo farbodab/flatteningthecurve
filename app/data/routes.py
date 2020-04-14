@@ -167,7 +167,7 @@ def getnpis():
 @as_json
 def capacityicu():
     df = pd.read_csv('CCSO.csv')
-    date = "11-04-2020"
+    date = "12-04-2020"
     date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']

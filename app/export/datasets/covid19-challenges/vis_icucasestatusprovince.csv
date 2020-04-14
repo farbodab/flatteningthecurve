@@ -21,3 +21,5 @@ date,case_status,number
 2020-04-10,confirmed_positive,257
 2020-04-11,suspected_covid,270
 2020-04-11,confirmed_positive,261
+2020-04-12,suspected_covid,283
+2020-04-12,confirmed_positive,263

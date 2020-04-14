@@ -45,12 +45,13 @@ def export_kaggle():
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(getontario,'interval',minutes=120)
-sched.add_job(getcanada,'interval',minutes=240)
-sched.add_job(getinternational,'interval',minutes=240)
-sched.add_job(export_sheets, 'interval',next_run_time=datetime.now(), minutes=15)
-if os.getenv('FLASK_CONFIG') == 'production':
-    sched.add_job(export_kaggle, 'interval',next_run_time=datetime.now(), hours=12)
 
-sched.start()
+# sched = BackgroundScheduler(daemon=True)
+# sched.add_job(getontario,'interval',minutes=120)
+# sched.add_job(getcanada,'interval',minutes=240)
+# sched.add_job(getinternational,'interval',minutes=240)
+# sched.add_job(export_sheets, 'interval',next_run_time=datetime.now(), minutes=15)
+# if os.getenv('FLASK_CONFIG') == 'production':
+#     sched.add_job(export_kaggle, 'interval',next_run_time=datetime.now(), hours=12)
+
+# sched.start()
