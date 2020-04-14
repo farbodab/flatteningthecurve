@@ -35,7 +35,7 @@ def createMetadata(api, dirname, dataset, title):
 
 
 def exportToKaggle():
-    # Put all datasets here 
+    # Put all datasets here
     exportDataset([
         {'table': 'canadamortality', 'filename':'canada_mortality.csv'},
         {'table': 'canadarecovered', 'filename':'canada_recovered.csv'},
@@ -48,7 +48,6 @@ def exportToKaggle():
         {'table': 'internationaldata', 'filename':'test_data_intl.csv'},
         {'table': 'covidtests', 'filename':'test_data_on.csv'},
         {'function': get_mobility, 'filename':'vis_canada_mobility.csv'},
-        {'function': get_growth, 'filename':'vis_growth.csv'},
         {'function': get_growth_recent, 'filename':'vis_growthrecent.csv'},
         {'function': get_icu_capacity, 'filename':'vis_icucapacity.csv'},
         {'function': get_icu_capacity_province, 'filename':'vis_icucapacityprovince.csv'},
