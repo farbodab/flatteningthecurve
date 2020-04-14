@@ -231,6 +231,19 @@ def phucapacity():
 
 @bp.route('/data/canadatesting', methods=['GET'])
 def canadatesting():
+    """
+    Canada testing data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('canadatesting', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=canada_testing.csv"
@@ -239,8 +252,43 @@ def canadatesting():
 
 @bp.route('/data/internationaltesting', methods=['GET'])
 def internationaltesting():
+    """
+    International testing data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
     df = pd.read_sql_table('internationaltesting', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=international_testing.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
+
+
+@bp.route('/data/mobility', methods=['GET'])
+def sendmobility():
+    """
+    Google mobility data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('mobility', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=mobility.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
