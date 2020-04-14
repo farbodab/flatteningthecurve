@@ -332,7 +332,7 @@ def getcanadamobility():
     if not max_date:
         start_date = end_date + timedelta(-30)
     else:
-        start_date = max_date.date + timedelta(1)
+        start_date = max_date.date# + timedelta(1)
 
     datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
 
@@ -355,7 +355,7 @@ def getcanadamobility():
                         if math.isnan(value):
                             continue
 
-                        m = Mobility.query.filter_by(date=col, region=region).limit(1).first()
+                        m = Mobility.query.filter_by(date=col, region=region, category=category).limit(1).first()
                         if not m:
                             m = Mobility(date=col, region=region, category=category, value=value)
                             print("Add mobility data for region: {}, date: {}".format(region, col))
