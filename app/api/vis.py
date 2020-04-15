@@ -628,6 +628,29 @@ def get_deaths_rolling_average():
             data['average'] += [recent.death_id.mean()]
             data['cumulative'] += cumulative
 
+    dfs = pd.read_sql_table('internationalmortality', db.engine)
+    regions = dfs.country.unique()
+
+    for region in regions:
+        df = dfs.loc[dfs.country == region]
+        dates = df.groupby("date").deaths.sum().reset_index().sort_values("date").reset_index()
+
+        # Iterate all dates
+        for index, row in dates.iterrows():
+            date = row['date']
+            # Get subset of days before this time
+            mask = (dates['date'] <= date)
+            before_date = dates.loc[mask]
+
+            cumulative = before_date.deaths.cumsum().reset_index()
+            cumulative = [*cumulative.deaths.tail(1).values]
+            recent = before_date.tail(7)
+
+            data['region'] += [region]
+            data['date'] += [date]
+            data['average'] += [recent.deaths.mean()]
+            data['cumulative'] += cumulative
+
     df_final = pd.DataFrame(data, columns=['region', 'date', 'average', 'cumulative'])
     df_final = df_final.drop(df_final.loc[df_final.cumulative<3].index)
 
@@ -659,6 +682,17 @@ def get_daily_deaths():
         data['date'] += list(daily_death_ser['date'])
         data['region'] += [region]*len(list(daily_death_ser['date']))
         data['daily_deaths'] += list(daily_death_ser['death_id'])
+
+    mortality_df = pd.read_sql_table('internationalmortality', db.engine)
+    regions = mortality_df.country.unique()
+    for region in regions:
+        daily_death_ser = mortality_df[mortality_df['country']==region].groupby('date')['deaths'].sum().reset_index()
+        daily_death_ser.index.name = 'date'
+        daily_death_ser.name = 'daily_deaths'
+
+        data['date'] += list(daily_death_ser['date'])
+        data['region'] += [region]*len(list(daily_death_ser['date']))
+        data['daily_deaths'] += list(daily_death_ser['deaths'])
 
     df_final = pd.DataFrame(data, columns=['date', 'region', 'daily_deaths'])
 
