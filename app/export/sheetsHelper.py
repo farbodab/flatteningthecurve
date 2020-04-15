@@ -80,6 +80,10 @@ collections = [
         'data':api.vis.get_cases_rolling_average,
     },
     {
+        'name':'Average Daily Deaths (7-day rolling)',
+        'data':api.vis.get_deaths_rolling_average,
+    },
+    {
         'name':'Daily Deaths',
         'data':api.vis.get_daily_deaths,
     },
