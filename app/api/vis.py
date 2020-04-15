@@ -521,7 +521,7 @@ def get_cases_rolling_average():
 
     dfs = pd.read_sql_table('covid', db.engine)
     regions = dfs.province.unique()
-    data = {'region':[], 'date':[], 'days_since_30_cases':[], 'average':[], 'cumulative':[]}
+    data = {'region':[], 'date':[], 'average':[], 'cumulative':[]}
 
     for region in regions:
         df = dfs.loc[dfs.province == region]
@@ -600,6 +600,51 @@ def get_cases_rolling_average():
 
     return df_final
 
+def get_deaths_rolling_average():
+    df_final = None
+
+    dfs = pd.read_sql_table('canadamortality', db.engine)
+    regions = dfs.province.unique()
+    data = {'region':[], 'date':[],  'average':[], 'cumulative':[]}
+
+    for region in regions:
+        df = dfs.loc[dfs.province == region]
+        dates = df.groupby("date").death_id.count().reset_index().sort_values("date").reset_index()
+
+        # Iterate all dates
+        for index, row in dates.iterrows():
+            date = row['date']
+            # Get subset of days before this time
+            mask = (dates['date'] <= date)
+            before_date = dates.loc[mask]
+
+            cumulative = before_date.death_id.cumsum().reset_index()
+            cumulative = [*cumulative.death_id.tail(1).values]
+
+            recent = before_date.tail(7)
+
+            data['region'] += [region]
+            data['date'] += [date]
+            data['average'] += [recent.death_id.mean()]
+            data['cumulative'] += cumulative
+
+    df_final = pd.DataFrame(data, columns=['region', 'date', 'average', 'cumulative'])
+    df_final = df_final.drop(df_final.loc[df_final.cumulative<3].index)
+
+    df_final['date_shifted'] = -999
+    prev_region = 'NA'
+    for index, row in df_final.iterrows():
+        if row['region'] == prev_region:
+            df_final.at[index,'date_shifted'] = i
+            i += 1
+        else:
+            i = 0
+            prev_region = row['region']
+            df_final.at[index,'date_shifted'] = i
+            i += 1
+
+    return df_final 
+
 def get_daily_deaths():
 
     mortality_df = pd.read_sql_table('canadamortality', db.engine)
@@ -607,7 +652,7 @@ def get_daily_deaths():
     regions = mortality_df.province.unique()
     data = {'date':[], 'region': [], 'daily_deaths':[]}
     for region in regions:
-        daily_death_ser = mortality_df[mortality_df['province']=='Ontario'].groupby('date')['death_id'].count().reset_index()
+        daily_death_ser = mortality_df[mortality_df['province']==region].groupby('date')['death_id'].count().reset_index()
         daily_death_ser.index.name = 'date'
         daily_death_ser.name = 'daily_deaths'
 
