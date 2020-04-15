@@ -1,3 +1,4 @@
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
@@ -73,6 +74,22 @@ collections = [
         'name':'Canada Deaths',
         'data':api.vis.get_deaths,
         'endpoint':'/covid/deaths'
+    },
+    {
+        'name':'Average Daily Cases (7-day rolling)',
+        'data':api.vis.get_cases_rolling_average,
+    },
+    {
+        'name':'Average Daily Deaths (7-day rolling)',
+        'data':api.vis.get_deaths_rolling_average,
+    },
+    {
+        'name':'Daily Deaths',
+        'data':api.vis.get_daily_deaths,
+    },
+    {
+        'name':'Top Causes',
+        'data':api.vis.get_top_causes,
     }
 ]
 
