@@ -27,6 +27,7 @@ collections = [
     {'table': 'internationaldata', 'filename':'test_data_intl.csv'},
     {'table': 'covidtests', 'filename':'test_data_on.csv'},
     {'function': get_mobility, 'filename':'vis_canada_mobility.csv'},
+    {'function': get_mobility_transportation, 'filename':'vis_canada_mobility_transportation.csv'},
     {'function': get_growth_recent, 'filename':'vis_growthrecent.csv'},
     {'function': get_icu_capacity, 'filename':'vis_icucapacity.csv'},
     {'function': get_icu_capacity_province, 'filename':'vis_icucapacityprovince.csv'},
