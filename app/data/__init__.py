@@ -11,6 +11,17 @@ def getontario():
     routes.testsnew()
     print('Ontario data refreshed')
 
+@bp.cli.command('mobility')
+def getcanada():
+    routes.getcanadamobility_google()
+    routes.getcanadamobility_apple()
+    print('Mobility data refreshed')
+
+@bp.cli.command('icu')
+def getcanada():
+    routes.capacityicu()
+    print('ICU data refreshed')
+
 @bp.cli.command('canada')
 def getcanada():
     routes.getnpis()

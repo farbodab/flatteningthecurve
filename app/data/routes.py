@@ -163,7 +163,7 @@ def getnpis():
     return 'success',200
 
 
-@bp.route('/covid/icu', methods=['GET'])
+
 @as_json
 def capacityicu():
     df = pd.read_csv('CCSO.csv')
@@ -378,7 +378,7 @@ def getcanadamobility_apple():
     datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
 
     base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-'
-    regions = ['Toronto', 'Vancouver', 'Canada']
+    regions = ['Toronto', 'Vancouver', 'Canada', 'Calgary', 'Edmonton', 'Halifax', 'Montreal', 'Ottawa']
 
     #EXAMPLE https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-2020-04-13.csv
     for dt in datesToTry:
