@@ -177,3 +177,11 @@ class Mobility(db.Model):
     region = db.Column(db.String)
     category = db.Column(db.String)
     value = db.Column(db.Float)
+
+class MobilityTransportation(db.Model):
+    __tablename__ = 'mobilitytransportation'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    region = db.Column(db.String)
+    transportation_type = db.Column(db.String)
+    value = db.Column(db.Float)

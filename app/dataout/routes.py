@@ -292,3 +292,24 @@ def sendmobility():
     resp.headers["Content-Disposition"] = "attachment; filename=mobility.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp 
+
+@bp.route('/data/mobilitytransportation', methods=['GET'])
+def sendmobilitytransportation():
+    """
+    Apple mobility data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('mobilitytransportation', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=mobilitytransportation.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
