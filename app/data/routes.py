@@ -324,7 +324,7 @@ def getcanadatested():
         db.session.commit()
     return 'success',200
 
-def getcanadamobility():
+def getcanadamobility_google():
     start_date = None
     end_date = datetime.today()
 
@@ -358,12 +358,61 @@ def getcanadamobility():
                         m = Mobility.query.filter_by(date=col, region=region, category=category).limit(1).first()
                         if not m:
                             m = Mobility(date=col, region=region, category=category, value=value)
-                            print("Add mobility data for region: {}, date: {}".format(region, col))
+                            print("Add mobility data for region: {}, category: {}, date: {}".format(region, category, col))
                             db.session.add(m)
                             db.session.commit()
         except Exception as err:
             print("failed to get data for {}".format(dt), err)
+    return
 
+def getcanadamobility_apple():
+    start_date = None
+    end_date = datetime.today()
+
+    max_date = MobilityTransportation.query.order_by(text('date desc')).limit(1).first()
+    if not max_date:
+        start_date = end_date + timedelta(-14)
+    else:
+        start_date = max_date.date# + timedelta(1)
+
+    datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
+
+    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-'
+    regions = ['Toronto', 'Vancouver', 'Canada']
+
+    #EXAMPLE https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-2020-04-13.csv
+    for dt in datesToTry:
+        try:
+            datetag = dt.strftime('%Y-%m-%d')
+            url = '{}{}.csv'.format(base_url, datetag)
+            df = None
+            try:
+                s = requests.get(url).content
+                df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+            except:
+                continue
+
+            df = df[df['region'].isin(regions)]
+
+            # Get all date columns (i.e. not kind, name, category) and insert record for each
+            date_columns = [x for x in list(df.columns) if x not in ['geo_type', 'region', 'transportation_type']]
+
+            for index, row in df.iterrows():
+                region = row['region']
+                transport = row['transportation_type']
+                for col in date_columns:
+                    value = row[col]
+                    if math.isnan(value):
+                        continue
+
+                    m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport).limit(1).first()
+                    if not m:
+                        m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value)
+                        print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
+                        db.session.add(m)
+                        db.session.commit()
+        except Exception as err:
+            print("failed to get data for {}".format(dt), err)
     return
 
 ########################################

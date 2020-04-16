@@ -14,6 +14,28 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 from datetime import date
 from app.api.vis import *
 
+# Put all datasets here
+collections = [
+    {'table': 'canadamortality', 'filename':'canada_mortality.csv'},
+    {'table': 'canadarecovered', 'filename':'canada_recovered.csv'},
+    {'table': 'phucapacity', 'filename':'icu_capacity_on.csv'},
+    {'table': 'icucapacity', 'filename':'icucapacity.csv'},
+    {'table': 'internationalmortality', 'filename':'international_mortality.csv'},
+    {'table': 'internationalrecovered', 'filename':'international_recovered.csv'},
+    {'table': 'npiinterventions', 'filename':'npi_canada.csv'},
+    {'table': 'covid', 'filename':'test_data_canada.csv'},
+    {'table': 'internationaldata', 'filename':'test_data_intl.csv'},
+    {'table': 'covidtests', 'filename':'test_data_on.csv'},
+    {'function': get_mobility, 'filename':'vis_canada_mobility.csv'},
+    {'function': get_growth_recent, 'filename':'vis_growthrecent.csv'},
+    {'function': get_icu_capacity, 'filename':'vis_icucapacity.csv'},
+    {'function': get_icu_capacity_province, 'filename':'vis_icucapacityprovince.csv'},
+    {'function': get_icu_case_status_province, 'filename':'vis_icucasestatusprovince.csv'},
+    {'function': get_phus, 'filename':'vis_phu.csv'},
+    {'function': get_results, 'filename':'vis_results.csv'},
+    {'function': get_testresults, 'filename':'vis_testresults.csv'},
+] 
+
 def createMetadata(api, dirname, dataset, title):
     path = os.path.join(dirname, 'dataset-metadata.json')
     if os.path.exists(path):
@@ -35,27 +57,7 @@ def createMetadata(api, dirname, dataset, title):
 
 
 def exportToKaggle():
-    # Put all datasets here
-    exportDataset([
-        {'table': 'canadamortality', 'filename':'canada_mortality.csv'},
-        {'table': 'canadarecovered', 'filename':'canada_recovered.csv'},
-        {'table': 'phucapacity', 'filename':'icu_capacity_on.csv'},
-        {'table': 'icucapacity', 'filename':'icucapacity.csv'},
-        {'table': 'internationalmortality', 'filename':'international_mortality.csv'},
-        {'table': 'internationalrecovered', 'filename':'international_recovered.csv'},
-        {'table': 'npiinterventions', 'filename':'npi_canada.csv'},
-        {'table': 'covid', 'filename':'test_data_canada.csv'},
-        {'table': 'internationaldata', 'filename':'test_data_intl.csv'},
-        {'table': 'covidtests', 'filename':'test_data_on.csv'},
-        {'function': get_mobility, 'filename':'vis_canada_mobility.csv'},
-        {'function': get_growth_recent, 'filename':'vis_growthrecent.csv'},
-        {'function': get_icu_capacity, 'filename':'vis_icucapacity.csv'},
-        {'function': get_icu_capacity_province, 'filename':'vis_icucapacityprovince.csv'},
-        {'function': get_icu_case_status_province, 'filename':'vis_icucasestatusprovince.csv'},
-        {'function': get_phus, 'filename':'vis_phu.csv'},
-        {'function': get_results, 'filename':'vis_results.csv'},
-        {'function': get_testresults, 'filename':'vis_testresults.csv'},
-        ], 'covid19-challenges', 'HowsMyFlattening COVID-19 Challenges')
+    exportDataset(collections, 'covid19-challenges', 'HowsMyFlattening COVID-19 Challenges')
 
 def exportDataset(data, dataset, title):
     print('Exporting dataset', dataset)
