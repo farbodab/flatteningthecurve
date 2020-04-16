@@ -15,82 +15,22 @@ import json
 scopes = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
 collections = [
-    {
-        'name':'Results',
-        'data':api.vis.get_results,
-        'region': 'region',
-        'endpoint':'/covid/results'
-    },
-    {
-        'name':'PHU',
-        'region':'region',
-        'data':api.vis.get_phus,
-        'endpoint':'/covid/phu'
-    },
-    {
-        'name':'Growth',
-        'region':'country',
-        'data':api.vis.get_growth,
-        'endpoint':'/covid/growth'
-    },
-    {
-        'name':'Growth_Recent',
-        'region':'country',
-        'data':api.vis.get_growth_recent,
-        'endpoint':'/covid/growth_recent'
-    },
-    {
-        'name':'Test Results',
-        'region':'type',
-        'data':api.vis.get_testresults,
-        'endpoint':'/covid/testresults'
-    },
-    {
-        'name':'ICU Capacity',
-        'data':api.vis.get_icu_capacity,
-        'endpoint':'/covid/get_icu_capacity'
-    },
-    {
-        'name':'ICU Capacity Province',
-        'data':api.vis.get_icu_capacity_province,
-        'endpoint':'/covid/get_icu_capacity_province'
-    },
-    {
-        'name':'ICU Case Status Province',
-        'data':api.vis.get_icu_case_status_province,
-        'endpoint':'/covid/get_icu_case_status_province'
-    },
-    {
-        'name':'Canada Mobility',
-        'data':api.vis.get_mobility,
-        'endpoint':'/covid/mobility'
-    },
-    {
-        'name':'Canada Testing',
-        'data':api.vis.get_tested,
-        'endpoint':'/covid/testing'
-    },
-    {
-        'name':'Canada Deaths',
-        'data':api.vis.get_deaths,
-        'endpoint':'/covid/deaths'
-    },
-    {
-        'name':'Average Daily Cases (7-day rolling)',
-        'data':api.vis.get_cases_rolling_average,
-    },
-    {
-        'name':'Average Daily Deaths (7-day rolling)',
-        'data':api.vis.get_deaths_rolling_average,
-    },
-    {
-        'name':'Daily Deaths',
-        'data':api.vis.get_daily_deaths,
-    },
-    {
-        'name':'Top Causes',
-        'data':api.vis.get_top_causes,
-    }
+    {'name':'Results','data':api.vis.get_results},
+    {'name':'PHU','data':api.vis.get_phus},
+    {'name':'Growth','data':api.vis.get_growth},
+    {'name':'Growth_Recent','data':api.vis.get_growth_recent},
+    {'name':'Test Results','data':api.vis.get_testresults},
+    {'name':'ICU Capacity','data':api.vis.get_icu_capacity},
+    {'name':'ICU Capacity Province','data':api.vis.get_icu_capacity_province},
+    {'name':'ICU Case Status Province','data':api.vis.get_icu_case_status_province},
+    {'name':'Canada Mobility','data':api.vis.get_mobility},
+    {'name':'Canada Mobility Transportation','data':api.vis.get_mobility_transportation},
+    {'name':'Canada Testing','data':api.vis.get_tested},
+    {'name':'Canada Deaths','data':api.vis.get_deaths},
+    {'name':'Average Daily Cases (7-day rolling)','data':api.vis.get_cases_rolling_average},
+    {'name':'Average Daily Deaths (7-day rolling)','data':api.vis.get_deaths_rolling_average},
+    {'name':'Daily Deaths','data':api.vis.get_daily_deaths},
+    {'name':'Top Causes','data':api.vis.get_top_causes}
 ]
 
 def parseVal(val):

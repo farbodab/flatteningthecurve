@@ -11,10 +11,16 @@ def getontario():
     routes.testsnew()
     print('Ontario data refreshed')
 
+@bp.cli.command('mobility')
+def getcanada():
+    routes.getcanadamobility_google()
+    routes.getcanadamobility_apple()
+    print('Mobility data refreshed')
+
 @bp.cli.command('icu')
-def getontario():
+def getcanada():
     routes.capacityicu()
-    print('ICU data added')
+    print('ICU data refreshed')
 
 @bp.cli.command('canada')
 def getcanada():
@@ -22,7 +28,8 @@ def getcanada():
     routes.cases()
     routes.getcanadamortality()
     routes.getcanadarecovered()
-    routes.getcanadamobility()
+    routes.getcanadamobility_google()
+    routes.getcanadamobility_apple()
     routes.getcanadatested()
     print('Canada data refreshed')
 
