@@ -556,7 +556,7 @@ def get_cases_rolling_average():
         cumulative = before_date.case_id.cumsum().reset_index()
         recent = before_date.tail(7)
 
-        data['region'] += [region]
+        data['region'] += ['Canada']
         data['date'] += [date]
         data['average'] += [recent.case_id.mean()]
         data['cumulative'] += [*cumulative.case_id.tail(1).values]
