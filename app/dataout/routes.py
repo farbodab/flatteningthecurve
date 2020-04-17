@@ -313,3 +313,45 @@ def sendmobilitytransportation():
     resp.headers["Content-Disposition"] = "attachment; filename=mobilitytransportation.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp 
+
+@bp.route('/data/governmentresponse', methods=['GET'])
+def sendgovernmentresponse():
+    """
+    Government Response data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('governmentresponse', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=governmentresponse.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
+
+@bp.route('/data/npiinterventions_usa', methods=['GET'])
+def sendnpiinterventions_usa():
+    """
+    NPI Interventions USA data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('npiinterventions_usa', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=npi_usa.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 

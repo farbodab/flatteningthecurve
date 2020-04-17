@@ -18,13 +18,13 @@ from selenium.webdriver.chrome.options import Options
 from app.tools.covidpdftocsv import covidpdftocsv
 import math
 from sqlalchemy import text
+from sqlalchemy import sql
 
 ########################################
 ############ONTARIO DATA################
 ########################################
 
 
-@as_json
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
     s=requests.get(url).content
@@ -82,10 +82,8 @@ def testsnew():
                     c.ventilator = ventilator
                 db.session.add(c)
                 db.session.commit()
-    return 'success',200
+    return
 
-
-@as_json
 def getnpis():
     url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"
     s=requests.get(url).content
@@ -160,10 +158,8 @@ def getnpis():
             c.source_full_text = source_full_text
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
-
-@as_json
 def capacityicu():
     df = pd.read_csv('CCSO.csv')
     date = "15-04-2020"
@@ -181,11 +177,8 @@ def capacityicu():
         c = ICUCapacity(date=date, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator)
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
-
-
-@as_json
 def capacity():
     # data source Petr Smirnov
     url = "https://docs.google.com/spreadsheets/d/1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8/export?format=csv&id=1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8&gid=1666640270"
@@ -198,14 +191,12 @@ def capacity():
         c = PHUCapacity(name=name, icu=icu, acute=acute)
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
 ########################################
 ############CANADA DATA################
 ########################################
 
-
-@as_json
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
@@ -241,10 +232,8 @@ def cases():
                 c.travelh = travelh
                 db.session.add(c)
                 db.session.commit()
-    return 'success',200
+    return
 
-
-@as_json
 def getcanadamortality():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/mortality.csv"
     s=requests.get(url).content
@@ -282,10 +271,8 @@ def getcanadamortality():
 
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
-
-@as_json
 def getcanadarecovered():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/recovered_cumulative.csv"
     s=requests.get(url).content
@@ -302,9 +289,8 @@ def getcanadarecovered():
 
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
-@as_json
 def getcanadatested():
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/testing_cumulative.csv"
     s=requests.get(url).content
@@ -321,7 +307,7 @@ def getcanadatested():
 
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
 def getcanadamobility_google():
     start_date = None
@@ -414,12 +400,115 @@ def getcanadamobility_apple():
             print("failed to get data for {}".format(dt), err)
     return
 
+def getgovernmentresponse():
+    url = "https://ocgptweb.azurewebsites.net/CSVDownload"
+    s = requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
+    df = df.fillna(-1)
+
+    def parse_val(val):
+        if val == -1:
+            return sql.null()
+        else:
+            return val
+    for index, row in df.iterrows():
+        date = row['Date']
+        country = row['CountryName']
+        country_code = row['CountryCode']
+        s1_school_closing = parse_val(row['S1_School closing'])
+        s1_is_general = parse_val(row['S1_IsGeneral'])
+        s1_notes = parse_val(row['S1_Notes'])
+        s2_workplace_closing = parse_val(row['S2_Workplace closing'])
+        s2_is_general = parse_val(row['S2_IsGeneral'])
+        s2_notes = parse_val(row['S2_Notes'])
+        s3_cancel_public_events = parse_val(row['S3_Cancel public events'])
+        s3_is_general = parse_val(row['S3_IsGeneral'])
+        s3_notes = parse_val(row['S3_Notes'])
+        s4_close_public_transport = parse_val(row['S4_Close public transport'])
+        s4_is_general = parse_val(row['S4_IsGeneral'])
+        s4_notes = parse_val(row['S4_Notes'])
+        s5_public_information_campaigns = parse_val(row['S5_Public information campaigns'])
+        s5_is_general = parse_val(row['S5_IsGeneral'])
+        s5_notes = parse_val(row['S5_Notes'])
+        s6_restrictions_on_internal_movement = parse_val(row['S6_Restrictions on internal movement'])
+        s6_is_general = parse_val(row['S6_IsGeneral'])
+        s6_notes = parse_val(row['S6_Notes'])
+        s7_international_travel_controls = parse_val(row['S7_International travel controls'])
+        s7_notes = parse_val(row['S7_Notes'])
+        s8_fiscal_measures = parse_val(row['S8_Fiscal measures'])
+        s8_notes = parse_val(row['S8_Notes'])
+        s9_monetary_measures = parse_val(row['S9_Monetary measures'])
+        s9_notes = parse_val(row['S9_Notes'])
+        s10_emergency_investment_in_healthcare = parse_val(row['S10_Emergency investment in health care'])
+        s10_notes = parse_val(row['S10_Notes'])
+        s11_investement_in_vaccines = parse_val(row['S11_Investment in Vaccines'])
+        s11_notes = parse_val(row['S11_Notes'])
+        s12_testing_framework = parse_val(row['S12_Testing framework'])
+        s12_notes = parse_val(row['S12_Notes'])
+        s13_contact_tracing = parse_val(row['S13_Contact tracing'])
+        s13_notes = parse_val(row['S13_Notes'])
+        confirmed_cases = parse_val(row['ConfirmedCases'])
+        confirmed_deaths = parse_val(row['ConfirmedDeaths'])
+        stringency_index = parse_val(row['StringencyIndex'])
+        stringency_index_for_display = parse_val(row['StringencyIndexForDisplay'])
+
+        g = GovernmentResponse.query.filter_by(date=date, country=country).first()
+        if not g:
+            g = GovernmentResponse(
+                date=date, 
+                country=country, 
+                country_code=country_code,
+                s1_school_closing=s1_school_closing,
+                s2_workplace_closing=s2_workplace_closing,
+                s3_cancel_public_events=s3_cancel_public_events,
+                s4_close_public_transport=s4_close_public_transport,
+                s5_public_information_campaigns=s5_public_information_campaigns,
+                s6_restrictions_on_internal_movement=s6_restrictions_on_internal_movement,
+                s7_international_travel_controls=s7_international_travel_controls,
+                s8_fiscal_measures=s8_fiscal_measures,
+                s9_monetary_measures=s9_monetary_measures,
+                s10_emergency_investment_in_healthcare=s10_emergency_investment_in_healthcare,
+                s11_investement_in_vaccines=s11_investement_in_vaccines,
+                s12_testing_framework=s12_testing_framework,
+                s13_contact_tracing=s13_contact_tracing,
+                s1_is_general=s1_is_general,
+                s1_notes=s1_notes,
+                s2_is_general=s2_is_general,
+                s2_notes=s2_notes,
+                s3_is_general=s3_is_general,
+                s3_notes=s3_notes,
+                s4_is_general=s4_is_general,
+                s4_notes=s4_notes,
+                s5_is_general=s5_is_general,
+                s5_notes=s5_notes,
+                s6_is_general=s6_is_general,
+                s6_notes=s6_notes,
+                s7_notes=s7_notes,
+                s8_notes=s8_notes,
+                s9_notes=s9_notes,
+                s10_notes=s10_notes,
+                s11_notes=s11_notes,
+                s12_notes=s12_notes,
+                s13_notes=s13_notes,
+                confirmed_cases=confirmed_cases,
+                confirmed_deaths=confirmed_deaths,
+                stringency_index=stringency_index,
+                stringency_index_for_display=stringency_index_for_display)
+
+            db.session.add(g)
+
+        print("{}/{}: Government Response for {} {}".format(index, df.shape[0], country, date))
+        if index % 100 == 0:
+            db.session.commit()
+    db.session.commit()
+    return
+
+
 ########################################
 ###########INTERNATIONAL DATA###########
 ########################################
 
-
-@as_json
 def international():
     url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
     s=requests.get(url).content
@@ -440,11 +529,8 @@ def international():
                 c = InternationalData(country=country, date=date, cases=cases)
                 db.session.add(c)
                 db.session.commit()
+    return
 
-    return 'success',200
-
-
-@as_json
 def getinternationalmortality():
     url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
     s=requests.get(url).content
@@ -465,10 +551,8 @@ def getinternationalmortality():
                 c = InternationalMortality(country=country, date=date, deaths=cases)
                 db.session.add(c)
                 db.session.commit()
-    return 'success',200
+    return
 
-
-@as_json
 def getinternationalrecovered():
     url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
     s=requests.get(url).content
@@ -489,9 +573,8 @@ def getinternationalrecovered():
                 c = InternationalRecovered(country=country, date=date, recovered=cases)
                 db.session.add(c)
                 db.session.commit()
-    return 'success',200
+    return
 
-@as_json
 def getinternationaltested():
     url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv"
     s=requests.get(url).content
@@ -508,11 +591,9 @@ def getinternationaltested():
 
         db.session.add(c)
         db.session.commit()
-    return 'success',200
+    return
 
-
-
-@as_json
+#TODO: remove, not used?
 def new_covid():
     if request.is_json:
         items = request.get_json()
@@ -526,6 +607,58 @@ def new_covid():
         return 'success',200
     else:
         return 'must use json', 400
+
+def getnpiusa():
+    url = "https://raw.githubusercontent.com/Keystone-Strategy/covid19-intervention-data/master/complete_npis_inherited_policies.csv"
+    s = requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+
+    def datefunc(x):
+        try:
+            return datetime.strptime(x, '%m/%d/%Y %H:%M')
+        except:
+            return sql.null()
+
+    df = df.fillna(-1)
+    for index, row in df.iterrows():
+        start_date = row['start_date']
+        end_date = row['end_date']
+        county = row['county']
+        state = row['state']
+        npi = row['npi']
+        citation = row['citation']
+        note = row['note']
+
+        start_date = datefunc(start_date)
+        end_date = datefunc(end_date)
+
+        if county == -1:
+            county = sql.null()
+        if citation == -1:
+            citation = sql.null()
+        if note == -1:
+            note = sql.null()
+
+        n = NPIInterventionsUSA.query.filter_by(state=state, county=county, npi=npi).first()
+        # Update in case data changed
+        if n:
+            n.start_date = start_date
+            n.end_date = end_date
+            n.state = state
+            n.county = county
+            n.npi = npi
+            n.citation = citation
+            n.note = note
+        else:
+            n = NPIInterventionsUSA(start_date=start_date, end_date=end_date, state=state, county=county, npi=npi, citation=citation, note=note)
+            db.session.add(n)
+
+        print("{}/{}: Update NPI USA {}".format(index,df.shape[0],state))
+        # Try to speed it up a bit
+        if index % 100 == 0:
+            db.session.commit()
+    db.session.commit()
+    return
 
 ########################################
 ###########SOURCE DATA###########
