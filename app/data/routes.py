@@ -87,7 +87,7 @@ def testsnew():
 
 @as_json
 def getnpis():
-    url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_full.csv"
+    url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['start_date'] = pd.to_datetime(df['start_date'])
