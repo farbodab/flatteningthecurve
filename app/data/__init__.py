@@ -73,7 +73,9 @@ def getcanada():
 
 @bp.cli.command('npi')
 def getcanada():
+    routes.getnpis()
     routes.getgovernmentresponse()
+    routes.getnpiusa()
     print('NPI data refreshed')
 
 
@@ -84,7 +86,6 @@ def geticu():
 
 @bp.cli.command('canada')
 def getcanada():
-    routes.getnpis()
     routes.cases()
     routes.getcanadamortality()
     routes.getcanadarecovered()
