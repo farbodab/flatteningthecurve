@@ -3,7 +3,7 @@ from flask import Blueprint
 bp = Blueprint('data', __name__,cli_group='data')
 
 from app.data import routes
-from app.api.vis import *
+from app.api import vis
 from app.export import sheetsHelper
 from app.export import kaggleHelper
 
@@ -16,22 +16,22 @@ from app.export import kaggleHelper
 
 
 sheetsConfig = [
-    {'name':'Results','function':get_results},
-    {'name':'PHU','function':get_phus},
-    {'name':'Growth','function':get_growth},
-    {'name':'Growth_Recent','function':get_growth_recent},
-    {'name':'Test Results','function':get_testresults},
-    {'name':'ICU Capacity','function':get_icu_capacity},
-    {'name':'ICU Capacity Province','function':get_icu_capacity_province},
-    {'name':'ICU Case Status Province','function':get_icu_case_status_province},
-    {'name':'Canada Mobility','function':get_mobility},
-    {'name':'Canada Mobility Transportation','function':get_mobility_transportation},
-    {'name':'Canada Testing','function':get_tested},
-    {'name':'Canada Deaths','function':get_deaths},
-    {'name':'Average Daily Cases (7-day rolling)','function':get_cases_rolling_average},
-    {'name':'Average Daily Deaths (7-day rolling)','function':get_deaths_rolling_average},
-    {'name':'Daily Deaths','function':get_daily_deaths},
-    {'name':'Top Causes','function':get_top_causes},
+    {'name':'Results','function':vis.get_results},
+    {'name':'PHU','function':vis.get_phus},
+    {'name':'Growth','function':vis.get_growth},
+    {'name':'Growth_Recent','function':vis.get_growth_recent},
+    {'name':'Test Results','function':vis.get_testresults},
+    {'name':'ICU Capacity','function':vis.get_icu_capacity},
+    {'name':'ICU Capacity Province','function':vis.get_icu_capacity_province},
+    {'name':'ICU Case Status Province','function':vis.get_icu_case_status_province},
+    {'name':'Canada Mobility','function':vis.get_mobility},
+    {'name':'Canada Mobility Transportation','function':vis.get_mobility_transportation},
+    {'name':'Canada Testing','function':vis.get_tested},
+    {'name':'Canada Deaths','function':vis.get_deaths},
+    {'name':'Average Daily Cases (7-day rolling)','function':vis.get_cases_rolling_average},
+    {'name':'Average Daily Deaths (7-day rolling)','function':vis.get_deaths_rolling_average},
+    {'name':'Daily Deaths','function':vis.get_daily_deaths},
+    {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'Government Response','table':'governmentresponse'},
     {'name':'NPI Interventions - USA','table':'npiinterventions_usa'}
 ]
@@ -49,15 +49,15 @@ kaggleConfig = [
     {'name':'test_data_intl.csv','table': 'internationaldata'},
     {'name':'test_data_on.csv','table': 'covidtests'},
     {'name':'governmentresponse.csv','table': 'governmentresponse'},
-    {'name':'vis_canada_mobility.csv','function': get_mobility,},
-    {'name':'vis_canada_mobility_transportation.csv','function': get_mobility_transportation},
-    {'name':'vis_growthrecent.csv','function': get_growth_recent},
-    {'name':'vis_icucapacity.csv','function': get_icu_capacity},
-    {'name':'vis_icucapacityprovince.csv','function': get_icu_capacity_province},
-    {'name':'vis_icucasestatusprovince.csv','function': get_icu_case_status_province},
-    {'name':'vis_phu.csv','function': get_phus},
-    {'name':'vis_results.csv','function': get_results},
-    {'name':'vis_testresults.csv','function': get_testresults},
+    {'name':'vis_canada_mobility.csv','function': vis.get_mobility,},
+    {'name':'vis_canada_mobility_transportation.csv','function': vis.get_mobility_transportation},
+    {'name':'vis_growthrecent.csv','function': vis.get_growth_recent},
+    {'name':'vis_icucapacity.csv','function': vis.get_icu_capacity},
+    {'name':'vis_icucapacityprovince.csv','function': vis.get_icu_capacity_province},
+    {'name':'vis_icucasestatusprovince.csv','function': vis.get_icu_case_status_province},
+    {'name':'vis_phu.csv','function': vis.get_phus},
+    {'name':'vis_results.csv','function': vis.get_results},
+    {'name':'vis_testresults.csv','function': vis.get_testresults},
 ] 
 
 @bp.cli.command('ontario')
@@ -103,3 +103,7 @@ def export_sheets():
 def export_kaggle():
     kaggleHelper.exportToKaggle(kaggleConfig, 'covid19-challenges', 'HowsMyFlattening COVID-19 Challenges')
     print('Kaggle data exported')
+
+@bp.cli.command('test')
+def test():
+    print("Hello world")
