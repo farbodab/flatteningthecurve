@@ -11,8 +11,8 @@ from app.export import kaggleHelper
 # 1. Add function in routes.py
 # 1.5 Add function in /app/api/vis.py if we need a visualization transform
 # 2. Call function in appropriate cli command below
-# 3. Add google sheets config with either table or vis function 
-# 4. Add kaggle config with either table or vis function 
+# 3. Add google sheets config with either table or vis function
+# 4. Add kaggle config with either table or vis function
 
 
 sheetsConfig = [
@@ -58,7 +58,7 @@ kaggleConfig = [
     {'name':'vis_phu.csv','function': vis.get_phus},
     {'name':'vis_results.csv','function': vis.get_results},
     {'name':'vis_testresults.csv','function': vis.get_testresults},
-] 
+]
 
 @bp.cli.command('ontario')
 def getontario():
@@ -71,8 +71,14 @@ def getcanada():
     routes.getcanadamobility_apple()
     print('Mobility data refreshed')
 
-@bp.cli.command('icu')
+@bp.cli.command('npi')
 def getcanada():
+    routes.getgovernmentresponse()
+    print('NPI data refreshed')
+
+
+@bp.cli.command('icu')
+def geticu():
     routes.capacityicu()
     print('ICU data refreshed')
 
