@@ -160,7 +160,7 @@ def get_api_viz():
 @as_json
 def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
-    df = df.loc[df.page.notna()]
+    df = df.loc[df.html.notna()]
     df = df.sort_values(by=['page', 'order'])
     data = []
     for index, row in df.iterrows():
