@@ -3,6 +3,7 @@ from flask_json import FlaskJSON, JsonError, json_response, as_json
 from datetime import datetime, timedelta
 from datetime import date
 import requests
+import csv
 from app import db
 from app.models import *
 from app.api import bp
@@ -200,9 +201,8 @@ def capacity():
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
-    s=requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    for index, row in df.iterrows():
+    for row in csv.DictReader(io.StringIO(requests.get(url).content.decode('utf-8'))):
+    # for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
         sex = row['sex']
@@ -408,17 +408,15 @@ def getcanadamobility_apple():
 
 def getgovernmentresponse():
     url = "https://ocgptweb.azurewebsites.net/CSVDownload"
-    s = requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
-    df = df.fillna(-1)
 
     def parse_val(val):
         if val == -1:
             return sql.null()
         else:
             return val
-    for index, row in df.iterrows():
+
+    for row in csv.DictReader(io.StringIO(requests.get(url).content.decode('utf-8'))):
+    # for index, row in df.iterrows():
         date = row['Date']
         country = row['CountryName']
         country_code = row['CountryCode']
