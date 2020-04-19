@@ -217,11 +217,17 @@ def cases():
         if not c:
             c = Covid(case_id=case_id, age=age, sex=sex, region=region, province=province, country=country, date=date, travel=travel, travelh=travelh)
             db.session.add(c)
-            db.session.commit()
         else:
-            if ((c.age == age) and (c.sex == sex) and (c.region == region) and (c.province == province) and (c.country == country) and (c.date == date) and (c.travel==travel) and (c.travelh==travelh)):
-                pass
-            else:
+            if not all((
+                (c.age == age),
+                (c.sex == sex),
+                (c.region == region),
+                (c.province == province),
+                (c.country == country),
+                (c.date == date),
+                (c.travel==travel),
+                (c.travelh==travelh)
+            )):
                 c.age = age
                 c.sex = sex
                 c.region = region
@@ -231,7 +237,7 @@ def cases():
                 c.travel = travel
                 c.travelh = travelh
                 db.session.add(c)
-                db.session.commit()
+    db.session.commit()
     return
 
 def getcanadamortality():
@@ -498,9 +504,6 @@ def getgovernmentresponse():
 
             db.session.add(g)
 
-        print("{}/{}: Government Response for {} {}".format(index, df.shape[0], country, date))
-        if index % 100 == 0:
-            db.session.commit()
     db.session.commit()
     return
 
@@ -653,10 +656,6 @@ def getnpiusa():
             n = NPIInterventionsUSA(start_date=start_date, end_date=end_date, state=state, county=county, npi=npi, citation=citation, note=note)
             db.session.add(n)
 
-        print("{}/{}: Update NPI USA {}".format(index,df.shape[0],state))
-        # Try to speed it up a bit
-        if index % 100 == 0:
-            db.session.commit()
     db.session.commit()
     return
 
