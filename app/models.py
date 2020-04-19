@@ -154,6 +154,12 @@ class Viz(db.Model):
     text = db.Column(db.String)
     mobileHeight = db.Column(db.Integer)
     desktopHeight = db.Column(db.Integer)
+    page = db.Column(db.String,index=True)
+    order = db.Column(db.Integer)
+    row = db.Column(db.Integer)
+    column = db.Column(db.Integer)
+    html = db.Column(db.String)
+
 
 
 class Source(db.Model):
