@@ -35,6 +35,9 @@ def create_app(config_name):
     from app.api import bp as api
     app.register_blueprint(api)
 
+    from app.plots import bp as plots
+    app.register_blueprint(plots)
+
 
     if not app.debug and not app.testing:
         pass

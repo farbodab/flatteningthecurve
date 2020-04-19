@@ -456,8 +456,8 @@ def getgovernmentresponse():
         g = GovernmentResponse.query.filter_by(date=date, country=country).first()
         if not g:
             g = GovernmentResponse(
-                date=date, 
-                country=country, 
+                date=date,
+                country=country,
                 country_code=country_code,
                 s1_school_closing=s1_school_closing,
                 s2_workplace_closing=s2_workplace_closing,
@@ -683,13 +683,17 @@ def new_viz():
         text = row['text']
         mobileHeight = row['mobileHeight']
         desktopHeight = row['desktopHeight']
-
+        page = row['page']
+        order = row['order']
+        row_z = row['row']
+        column = row['column']
 
         c = Viz.query.filter_by(header=header).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
-            desktopHeight=desktopHeight)
+            desktopHeight=desktopHeight, page=page, order=order, row=row_z,
+            column=column)
             db.session.add(c)
             db.session.commit()
         else:
@@ -700,6 +704,10 @@ def new_viz():
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
             c.text=text
+            c.page=page 
+            c.order = order
+            c.row = row_z
+            c.column = column
             db.session.add(c)
             db.session.commit()
     return 'success',200
