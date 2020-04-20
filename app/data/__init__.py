@@ -6,6 +6,7 @@ from app.data import routes
 from app.api import vis
 from app.export import sheetsHelper
 from app.export import kaggleHelper
+from app.plots import routes as plots
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -111,6 +112,25 @@ def export_kaggle():
     kaggleHelper.exportToKaggle(kaggleConfig, 'covid19-challenges', 'HowsMyFlattening COVID-19 Challenges')
     print('Kaggle data exported')
 
-@bp.cli.command('test')
+@bp.cli.command('plots')
 def test():
-    print("Hello world")
+    plots.total_cases_plot()
+    plots.new_tests_plot()
+    plots.on_ventilator_plot()
+    plots.in_icu_plot()
+    plots.in_hospital_plot()
+    plots.recovered_plot()
+    plots.new_cases_plot()
+    plots.total_tests_plot()
+    plots.total_deaths_plot()
+    plots.cases_phu_plot()
+    plots.toronto_mobility_plot()
+    plots.retail_mobility_plot()
+    plots.cases_lhin_plot()
+    plots.cases_region_plot()
+    plots.residual_table_plot()
+    plots.lhin_icu_plot()
+    plots.icu_ontario_plot()
+    plots.ventilator_ontario_plot()
+    
+    print("Plot htmls updated")
