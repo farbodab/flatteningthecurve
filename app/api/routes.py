@@ -165,7 +165,7 @@ def get_api_source():
         "description": row["description"], "data_feed_type": row["data_feed_type"],
         "link": row["link"], "refresh": row["refresh"],
         "contributor": row["contributor"],"contact": row["contact"],
-        "download": row["download"]})
+        "download": row["download"],"category": row["page"]})
     return data
 
 
