@@ -28,11 +28,11 @@ def total_cases_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
 
     p = Viz.query.filter_by(header="Total Cases").first()
     p.html = div
@@ -46,6 +46,7 @@ def new_tests_plot():
     df = vis.get_testresults()
 
     fig = go.Figure()
+
     temp = df.loc[df['New tests'].notna()]
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['New tests']))
 
@@ -59,12 +60,12 @@ def new_tests_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="New Tests").first()
     p.html = div
     db.session.add(p)
@@ -90,12 +91,12 @@ def on_ventilator_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="On Ventilator").first()
     p.html = div
     db.session.add(p)
@@ -122,12 +123,12 @@ def in_icu_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="In ICU").first()
     p.html = div
     db.session.add(p)
@@ -152,12 +153,12 @@ def in_hospital_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="In Hospital").first()
     p.html = div
     db.session.add(p)
@@ -181,12 +182,12 @@ def recovered_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Recovered").first()
     p.html = div
     db.session.add(p)
@@ -210,12 +211,12 @@ def new_cases_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="New Cases").first()
     p.html = div
     db.session.add(p)
@@ -241,12 +242,12 @@ def total_tests_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Total Tested").first()
     p.html = div
     db.session.add(p)
@@ -270,12 +271,12 @@ def total_deaths_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Total Deaths").first()
     p.html = div
     db.session.add(p)
@@ -312,7 +313,7 @@ def cases_phu_plot():
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Cases By PHU").first()
     p.html = div
     db.session.add(p)
@@ -395,7 +396,7 @@ def cases_lhin_plot():
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Cases by LHIN").first()
     p.html = div
     db.session.add(p)
@@ -503,13 +504,13 @@ def cases_region_plot():
 
 
     fig.update_layout(
-    updatemenus=[
+        updatemenus=[
         dict(
             type="buttons",
             direction="right",
             active=0,
             x=0.57,
-            y=1.5,
+            y=-0.1,
             buttons=list([
                 dict(label="Absolute",
                      method="update",
@@ -523,7 +524,7 @@ def cases_region_plot():
         )
     ])
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Cases by Region").first()
     p.html = div
     db.session.add(p)
@@ -553,12 +554,12 @@ def toronto_mobility_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Toronto Mobility").first()
     p.html = div
     db.session.add(p)
@@ -589,12 +590,12 @@ def retail_mobility_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Retail Mobility").first()
     p.html = div
     db.session.add(p)
@@ -624,7 +625,7 @@ def residual_table_plot():
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Residual Table").first()
     p.html = div
     db.session.add(p)
@@ -643,7 +644,7 @@ def lhin_icu_plot():
         fig.add_trace(go.Bar(name=thing,y=df.lhin, x=df[thing],orientation='h'))
 
     fig.update_layout(barmode='stack')
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="LHIN ICU Breakdown").first()
     p.html = div
     db.session.add(p)
@@ -668,12 +669,12 @@ def icu_ontario_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
     p = Viz.query.filter_by(header="ICU Ontario").first()
     p.html = div
     db.session.add(p)
@@ -698,12 +699,63 @@ def ventilator_ontario_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
 
-    div = fig.to_html(include_plotlyjs='cdn')
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Ventilator Ontario").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+    return
+
+def icu_projections_plot():
+    url = "https://docs.google.com/spreadsheets/d/11y3g_qr05H6u6gDorZKUsJKWLoq6KerOfhPYOsnI55Q/export?format=csv&id=11y3g_qr05H6u6gDorZKUsJKWLoq6KerOfhPYOsnI55Q&gid=0"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    dft = vis.get_icu_case_status_province()
+    dft.case_status.replace("suspected_covid","Suspected Covid",inplace=True)
+    dft.case_status.replace("confirmed_positive","Confirmed Covid",inplace=True)
+
+    fig = go.Figure()
+
+    types = dft.case_status.unique()
+
+    for thing in types:
+        temp = dft.loc[dft.case_status==thing]
+        fig.add_trace(go.Bar(name=thing,x=temp.date, y=temp.number))
+
+    fig.add_trace(go.Scatter(name='Worst Case',x=df.Date,y=df['Worst Case'],opacity=.3,marker_color='red'))
+    fig.add_trace(go.Scatter(name='Best Case',x=df.Date,y=df['Best Case'],opacity=.3,marker_color='blue'))
+
+    fig.update_layout(barmode='stack')
+
+    fig.update_layout(
+        yaxis =  {'gridcolor': '#d1cfc8', 'title': 'Confirmed Covid Cases In ICU'},
+        xaxis = {'showgrid': False},
+        title={'text':f"COVID ICU Cases",
+                'y':1,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor="White",
+        legend_orientation="h"
+    )
+
+    div = fig.to_json()
     p = Viz.query.filter_by(header="Ventilator Ontario").first()
     p.html = div
     db.session.add(p)

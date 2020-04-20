@@ -132,5 +132,6 @@ def test():
     plots.lhin_icu_plot()
     plots.icu_ontario_plot()
     plots.ventilator_ontario_plot()
-    
+    plots.icu_projections_plot()
+
     print("Plot htmls updated")
