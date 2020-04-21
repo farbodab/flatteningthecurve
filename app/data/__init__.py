@@ -136,5 +136,11 @@ def test():
     plots.new_deaths_plot()
     plots.ventilator_ontario_plot()
     plots.new_deaths_plot()
+    plots.socio_plot()
+    plots.canada_cases_plot()
+    plots.international_cases_plot()
+    plots.canada_deaths_plot()
+    plots.international_deaths_plot()
+    plots.ontario_death_plots()
 
     print("Plot htmls updated")

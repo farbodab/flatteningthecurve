@@ -1446,3 +1446,337 @@ def icu_projections_plot():
     db.session.add(p)
     db.session.commit()
     return
+
+## Socioeconomic
+
+def socio_plot():
+    url = "https://docs.google.com/spreadsheets/d/1PTVSFZwSVWldmDpFEO_xXxTB-xSFtGq3pDPUKeLDEec/export?format=csv&id=1PTVSFZwSVWldmDpFEO_xXxTB-xSFtGq3pDPUKeLDEec&gid=0"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+
+    df.SES.replace(1,"1 (least deprived)",inplace=True)
+    df.SES.replace(5,"5 (most deprived)",inplace=True)
+
+
+    fig = go.Figure()
+
+    types = df['case status'].unique()
+
+    socio = ["1 (least deprived)",2,3,4,"5 (most deprived)"]
+
+    colors = ['blue', 'red']
+
+    colors = ['#B9DDF1','#8BBADC','#6798C1','#4776A4','#2A5783']
+
+    for ttype, color in zip(socio,colors):
+        temp = df.loc[df.SES == ttype]
+        fig.add_trace(go.Bar(name=ttype,x=types,y=temp['value'].values,text=temp['value'].values,textposition='auto',marker_color=color))
+
+
+    fig.update_layout(barmode='stack')
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=40, b=50),
+        plot_bgcolor='#E0DFED',
+        paper_bgcolor="#E0DFED",
+        legend_orientation="h"
+    )
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True},
+        yaxis = {'showgrid': True,'visible':True},
+        title={'text':f"Distribution of COVID19 Cases by Neighbourhood Socioeconmic Status",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Socioeconmic").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+    return
+
+
+## Trajectory
+def canada_cases_plot():
+    df = vis.get_cases_rolling_average()
+    Canada = ['Ontario', 'BC', 'Alberta', 'Quebec', 'Saskatchewan',
+       'Nova Scotia', 'NL', 'New Brunswick', 'Manitoba', 'Canada']
+    International = ['Ontario','Canada',
+           'Italy', 'Korea, South', 'Spain', 'United Kingdom', 'France', 'US']
+
+    fig = go.Figure()
+
+    for item in Canada:
+        temp = df.loc[df.region == item]
+        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True},
+        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
+        title={'text':f"Provincial Comparison: COVID19 Reported Cases Per Day",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=40, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+        legend_orientation="h"
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Canada Cases Average").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+
+    return
+
+def international_cases_plot():
+    International = ['Ontario','Canada',
+       'Italy', 'Korea, South', 'Spain', 'United Kingdom', 'France', 'US']
+
+    df = vis.get_cases_rolling_average()
+
+    fig = go.Figure()
+
+    for item in International:
+        temp = df.loc[df.region == item]
+        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True},
+        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
+        title={'text':f"International Comparison: COVID19 Reported Cases Per Day",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=40, b=50),
+        plot_bgcolor='#E0DFED',
+        paper_bgcolor="#E0DFED",
+        legend_orientation="h"
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="International Cases Average").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def canada_deaths_plot():
+    df = vis.get_deaths_rolling_average()
+    Canada = ['Ontario', 'BC', 'Alberta', 'Quebec', 'Saskatchewan',
+       'Nova Scotia', 'NL', 'New Brunswick', 'Manitoba', 'Canada']
+
+    fig = go.Figure()
+
+    for item in Canada:
+        temp = df.loc[df.region == item]
+        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True},
+        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
+        title={'text':f"Provincial Comparison: COVID19 Reported Deaths Per Day",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=40, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+        legend_orientation="h"
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Canada Deaths Average").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+
+    return
+
+def international_deaths_plot():
+    International = ['Ontario','Canada',
+       'Italy', 'Korea, South', 'Spain', 'United Kingdom', 'France', 'US']
+
+    df = vis.get_deaths_rolling_average()
+    fig = go.Figure()
+
+    for item in International:
+        temp = df.loc[df.region == item]
+        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True},
+        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
+        title={'text':f"International Comparison: COVID19 Reported Deaths Per Day",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=40, b=50),
+        plot_bgcolor='#E0DFED',
+        paper_bgcolor="#E0DFED",
+        legend_orientation="h"
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="International Deaths Average").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def ontario_death_plots():
+    df = vis.get_daily_deaths()
+
+    df = df.loc[df.region == 'Ontario']
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(x=df.date,y=df.daily_deaths,text=df.daily_deaths,textposition='auto', marker_color='#4F4B99'))
+
+    fig.update_layout(
+        title={'text':"Daily Deaths in Ontario: Comparison of COVID-19 and Estimates of non-COVID-19 Leading Causes",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=40, b=50),
+        plot_bgcolor='#E0DFED',
+        paper_bgcolor="#E0DFED",
+        showlegend=False
+    )
+
+    fig.add_shape(
+            # Line Horizontal
+                type="line",
+                x0=df.date.head(1).values[0],
+                y0=8,
+                x1=df.date.tail(1).values[0],
+                y1=8,
+                line=dict(
+                    color="grey",
+                    width=1,
+                ),
+        )
+
+    fig.add_shape(
+            # Line Horizontal
+                type="line",
+                x0=df.date.head(1).values[0],
+                y0=14,
+                x1=df.date.tail(1).values[0],
+                y1=14,
+                line=dict(
+                    color="grey",
+                    width=1,
+                ),
+        )
+
+    fig.add_shape(
+            # Line Horizontal
+                type="line",
+                x0=df.date.head(1).values[0],
+                y0=16,
+                x1=df.date.tail(1).values[0],
+                y1=16,
+                line=dict(
+                    color="grey",
+                    width=1,
+                ),
+        )
+
+    fig.add_shape(
+            # Line Horizontal
+                type="line",
+                x0=df.date.head(1).values[0],
+                y0=56,
+                x1=df.date.tail(1).values[0],
+                y1=56,
+                line=dict(
+                    color="grey",
+                    width=1,
+                ),
+        )
+
+    fig.add_shape(
+            # Line Horizontal
+                type="line",
+                x0=df.date.head(1).values[0],
+                y0=83,
+                x1=df.date.tail(1).values[0],
+                y1=83,
+                line=dict(
+                    color="grey",
+                    width=1,
+                ),
+        )
+
+    fig.update_shapes(dict(xref='x', yref='y'))
+
+    fig.add_trace(go.Scatter(
+        x=[df.date.head(3).values[1], df.date.head(3).values[1], df.date.head(3).values[1],df.date.head(3).values[1],df.date.head(3).values[1],df.date.head(3).values[1]],
+        y=[8+1,14+1,16+1,56+1,83+1],
+        text=["Diabetes","Cerebrovascular Disease","Accidents / Injuries","Heart Disease","All Cancers"],
+        mode="text",
+    ))
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Ontario Death Comparison").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+
+    return
