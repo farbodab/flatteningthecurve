@@ -201,7 +201,8 @@ def capacity():
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
-    for row in csv.DictReader(io.StringIO(requests.get(url).content.decode('utf-8'))):
+    r = requests.get(url, stream=True)
+    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
     # for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
@@ -408,6 +409,7 @@ def getcanadamobility_apple():
 
 def getgovernmentresponse():
     url = "https://ocgptweb.azurewebsites.net/CSVDownload"
+    r = requests.get(url, stream=True)
 
     def parse_val(val):
         if val == -1:
@@ -415,7 +417,7 @@ def getgovernmentresponse():
         else:
             return val
 
-    for row in csv.DictReader(io.StringIO(requests.get(url).content.decode('utf-8'))):
+    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
     # for index, row in df.iterrows():
         date = row['Date']
         country = row['CountryName']
