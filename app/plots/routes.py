@@ -57,7 +57,7 @@ def new_tests_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -128,7 +128,7 @@ def total_tests_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -199,7 +199,7 @@ def tested_positve_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -267,7 +267,7 @@ def under_investigation_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -337,7 +337,7 @@ def in_hospital_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -405,7 +405,7 @@ def in_icu_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -474,7 +474,7 @@ def on_ventilator_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -553,7 +553,7 @@ def total_cases_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -629,7 +629,7 @@ def new_cases_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -704,7 +704,7 @@ def recovered_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -779,7 +779,82 @@ def total_deaths_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
+            y=-0.1,
+            buttons=list([
+                dict(label="KPI",
+                     method="update",
+                     args=[{"visible": [True, False]},
+                           {"title": ""}
+                          ]),
+                dict(label="Trend",
+                     method="update",
+                     args=[{"visible": [False, True]},
+                           {"title": "Deaths Over Time"},]),
+            ]),
+        )])
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Total Deaths").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def total_deaths_plot():
+    df = vis.get_testresults()
+    fig = go.Figure()
+
+    fig.add_trace(go.Indicator(
+        mode = "number+delta",
+        value = df['Deaths'].tail(1).values[0],
+    ),
+                 )
+
+
+
+
+
+    fig.update_layout(
+        template = {'data' : {'indicator': [{
+            'title': {'text': "Total Deaths"},
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['Deaths'].iloc[-2],
+                      'increasing': {'color':'red'},
+                      'decreasing': {'color':'green'}}},
+            ]
+                             }})
+
+
+
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=False))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':False},
+        title={'text':f"",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            size=22,
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="right",
+            active=0,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -856,7 +931,7 @@ def new_deaths_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -871,7 +946,7 @@ def new_deaths_plot():
             ]),
         )])
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Total Deaths").first()
+    p = Viz.query.filter_by(header="New Deaths").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -953,7 +1028,7 @@ def cases_region_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="PHU",
@@ -1130,7 +1205,7 @@ def retail_mobility_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="Grocery",
@@ -1226,7 +1301,7 @@ def icu_ontario_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -1300,7 +1375,7 @@ def ventilator_ontario_plot():
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -1367,7 +1442,7 @@ def icu_projections_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Ventilator Ontario").first()
+    p = Viz.query.filter_by(header="ICU Projections").first()
     p.html = div
     db.session.add(p)
     db.session.commit()

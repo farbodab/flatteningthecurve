@@ -161,7 +161,7 @@ def get_api_viz():
 def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.html.notna()]
-    df = df.sort_values(by=['page', 'order'])
+    df = df.sort_values(by=['order'])
     data = []
     for index, row in df.iterrows():
         data.append({"header": row["header"], "order": row["order"],

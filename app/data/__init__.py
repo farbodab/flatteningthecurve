@@ -125,9 +125,9 @@ def test():
     plots.total_deaths_plot()
     plots.toronto_mobility_plot()
     plots.retail_mobility_plot()
-    plots.cases_region_plot()
+    # plots.cases_region_plot()
     plots.residual_table_plot()
-    plots.lhin_icu_plot()
+    # plots.lhin_icu_plot()
     plots.icu_ontario_plot()
     plots.ventilator_ontario_plot()
     plots.icu_projections_plot()
@@ -135,5 +135,6 @@ def test():
     plots.under_investigation_plot()
     plots.new_deaths_plot()
     plots.ventilator_ontario_plot()
+    plots.new_deaths_plot()
 
     print("Plot htmls updated")
