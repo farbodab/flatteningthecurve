@@ -1436,8 +1436,8 @@ def icu_projections_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor="White",
+        plot_bgcolor='#E4F7FD',
+        paper_bgcolor="#E4F7FD",
         legend_orientation="h"
     )
 
