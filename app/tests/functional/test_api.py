@@ -23,7 +23,7 @@ testdata = [
 responseThresold = 2000
 
 @pytest.mark.parametrize('endpoint', testdata)
-def test_api(test_client, endpoint):
+def test_dataout(test_client, endpoint):
     start = time.time()
     response = test_client.get(endpoint)
     elapsed = int((time.time() - start)*1000)
@@ -31,3 +31,20 @@ def test_api(test_client, endpoint):
     assert response.content_type == 'text/csv'
     assert response.content_length > 0
     assert elapsed < responseThresold, "({} > {}) Request time exceeded threshold".format(elapsed, responseThresold)
+
+testdata = [
+    '/api/viz',
+    '/api/plots',
+    '/api/source',
+]
+
+@pytest.mark.parametrize('endpoint', testdata)
+def test_api(test_client, endpoint):
+    start = time.time()
+    response = test_client.get(endpoint)
+    elapsed = int((time.time() - start)*1000)
+    assert response.status_code == 200
+    assert response.content_type == 'application/json'
+    assert response.content_length > 0
+    assert elapsed < responseThresold, "({} > {}) Request time exceeded threshold".format(elapsed, responseThresold)
+
