@@ -41,7 +41,6 @@ def new_tests_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
             color="#000"
         )
     )
@@ -112,7 +111,7 @@ def total_tests_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -183,7 +182,7 @@ def tested_positve_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -251,7 +250,7 @@ def under_investigation_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -322,7 +321,7 @@ def in_hospital_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -390,7 +389,7 @@ def in_icu_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -459,7 +458,7 @@ def on_ventilator_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -539,7 +538,7 @@ def total_cases_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -615,7 +614,7 @@ def new_cases_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -690,7 +689,7 @@ def recovered_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -765,7 +764,7 @@ def total_deaths_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -840,7 +839,7 @@ def total_deaths_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -917,7 +916,7 @@ def new_deaths_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -1145,7 +1144,7 @@ def toronto_mobility_plot():
         fig.add_trace(go.Scatter(name=thing,x=temp.date,y=temp['value']))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False},
         yaxis = {'showgrid': False},
         title={'text':f"Toronto Mobility",
                 'y':0.95,
@@ -1189,7 +1188,7 @@ def retail_mobility_plot():
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False},
         yaxis = {'showgrid': False},
         title={'text':f"{ttype[0]} {int(df.loc[df.category == ttype[0]]['value'].tail(1))}%",
                 'y':0.99,
@@ -1239,7 +1238,7 @@ def retail_mobility_plot():
     ])
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
+        margin=dict(l=0, r=20, t=40, b=50),
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
     )
@@ -1287,7 +1286,7 @@ def icu_ontario_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
@@ -1361,7 +1360,7 @@ def ventilator_ontario_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-            size=22,
+
             color="#000"
         )
     )
