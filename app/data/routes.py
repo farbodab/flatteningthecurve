@@ -3,6 +3,7 @@ from flask_json import FlaskJSON, JsonError, json_response, as_json
 from datetime import datetime, timedelta
 from datetime import date
 import requests
+import csv
 from app import db
 from app.models import *
 from app.api import bp
@@ -200,9 +201,9 @@ def capacity():
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
-    s=requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    for index, row in df.iterrows():
+    r = requests.get(url, stream=True)
+    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+    # for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
         sex = row['sex']
@@ -217,11 +218,17 @@ def cases():
         if not c:
             c = Covid(case_id=case_id, age=age, sex=sex, region=region, province=province, country=country, date=date, travel=travel, travelh=travelh)
             db.session.add(c)
-            db.session.commit()
         else:
-            if ((c.age == age) and (c.sex == sex) and (c.region == region) and (c.province == province) and (c.country == country) and (c.date == date) and (c.travel==travel) and (c.travelh==travelh)):
-                pass
-            else:
+            if not all((
+                (c.age == age),
+                (c.sex == sex),
+                (c.region == region),
+                (c.province == province),
+                (c.country == country),
+                (c.date == date),
+                (c.travel==travel),
+                (c.travelh==travelh)
+            )):
                 c.age = age
                 c.sex = sex
                 c.region = region
@@ -231,7 +238,7 @@ def cases():
                 c.travel = travel
                 c.travelh = travelh
                 db.session.add(c)
-                db.session.commit()
+    db.session.commit()
     return
 
 def getcanadamortality():
@@ -402,17 +409,16 @@ def getcanadamobility_apple():
 
 def getgovernmentresponse():
     url = "https://ocgptweb.azurewebsites.net/CSVDownload"
-    s = requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
-    df = df.fillna(-1)
+    r = requests.get(url, stream=True)
 
     def parse_val(val):
         if val == -1:
             return sql.null()
         else:
             return val
-    for index, row in df.iterrows():
+
+    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+    # for index, row in df.iterrows():
         date = row['Date']
         country = row['CountryName']
         country_code = row['CountryCode']
@@ -498,9 +504,6 @@ def getgovernmentresponse():
 
             db.session.add(g)
 
-        print("{}/{}: Government Response for {} {}".format(index, df.shape[0], country, date))
-        if index % 100 == 0:
-            db.session.commit()
     db.session.commit()
     return
 
@@ -653,10 +656,6 @@ def getnpiusa():
             n = NPIInterventionsUSA(start_date=start_date, end_date=end_date, state=state, county=county, npi=npi, citation=citation, note=note)
             db.session.add(n)
 
-        print("{}/{}: Update NPI USA {}".format(index,df.shape[0],state))
-        # Try to speed it up a bit
-        if index % 100 == 0:
-            db.session.commit()
     db.session.commit()
     return
 
