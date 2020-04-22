@@ -15,6 +15,7 @@ from app.api import vis
 def new_tests_plot():
 
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
 
@@ -26,7 +27,7 @@ def new_tests_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "New Tests"},
+            'title' : {"text": f"New Tests<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['New tests'].iloc[-2]}}]
                              }})
@@ -83,6 +84,7 @@ def new_tests_plot():
 
 def total_tests_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
     temp = df.loc[df['Total tested'].notna()]
@@ -96,7 +98,7 @@ def total_tests_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "Total tested"},
+            'title' : {"text": f"Total Tested<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Total tested'].iloc[-2]}}]
                              }})
@@ -154,6 +156,7 @@ def total_tests_plot():
 
 def tested_positve_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
     temp = df.loc[df['New Positive pct'].notna()]
@@ -168,7 +171,7 @@ def tested_positve_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "New Positive %"},
+            'title' : {"text": f"New Positive %<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number"}]
                              }})
 
@@ -224,6 +227,8 @@ def tested_positve_plot():
 
 def under_investigation_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
+
     fig = go.Figure()
     temp = df.loc[df['Total tested'].notna()]
 
@@ -236,7 +241,7 @@ def under_investigation_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "Under Investigation"},
+        'title' : {"text": f"Under Investigation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number"}]
                              }})
 
@@ -293,6 +298,7 @@ def under_investigation_plot():
 ## Hospital
 def in_hospital_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
     temp = df.loc[df['Hospitalized'].notna()]
@@ -303,7 +309,7 @@ def in_hospital_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "In Hospital"},
+        'title' : {"text": f"In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Hospitalized'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -362,6 +368,8 @@ def in_hospital_plot():
 def in_icu_plot():
 
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
+
     fig = go.Figure()
     temp = df.loc[df['ICU'].notna()]
     fig.add_trace(go.Indicator(
@@ -371,7 +379,7 @@ def in_icu_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "In ICU"},
+        'title' : {"text": f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['ICU'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -429,6 +437,7 @@ def in_icu_plot():
 def on_ventilator_plot():
 
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
     temp = df.loc[df['Ventilator'].notna()]
@@ -440,7 +449,7 @@ def on_ventilator_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "On Ventilator"},
+        'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Ventilator'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -501,6 +510,7 @@ def on_ventilator_plot():
 def total_cases_plot():
 
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
 
@@ -516,7 +526,7 @@ def total_cases_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "Total cases"},
+            'title' : {"text": f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Positives'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -577,6 +587,7 @@ def total_cases_plot():
 
 def new_cases_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
 
@@ -592,7 +603,7 @@ def new_cases_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "New cases"},
+            'title' : {"text": f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['New positives'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -653,6 +664,7 @@ def new_cases_plot():
 
 def recovered_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
 
@@ -668,7 +680,7 @@ def recovered_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "Recovered Cases"},
+            'title' : {"text": f"Recovered Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Resolved'].iloc[-2],
                       }},
@@ -728,6 +740,8 @@ def recovered_plot():
 
 def total_deaths_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
+
     fig = go.Figure()
 
     fig.add_trace(go.Indicator(
@@ -742,82 +756,7 @@ def total_deaths_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "Total Deaths"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Deaths'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
-
-
-
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=False))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':f"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-
-            color="#000"
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Deaths Over Time"},]),
-            ]),
-        )])
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Total Deaths").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
-
-def total_deaths_plot():
-    df = vis.get_testresults()
-    fig = go.Figure()
-
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['Deaths'].tail(1).values[0],
-    ),
-                 )
-
-
-
-
-
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'title': {'text': "Total Deaths"},
+            'title' : {"text": f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Deaths'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -878,8 +817,8 @@ def total_deaths_plot():
 
 def new_deaths_plot():
     df = vis.get_testresults()
+    df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
     fig = go.Figure()
 
     fig.add_trace(go.Indicator(
@@ -894,7 +833,7 @@ def new_deaths_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "New Deaths"},
+            'title' : {"text": f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['New deaths'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -946,6 +885,84 @@ def new_deaths_plot():
         )])
     div = fig.to_json()
     p = Viz.query.filter_by(header="New Deaths").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def ltc_deaths_plot():
+    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Indicator(
+        mode = "number+delta",
+        value = df['LTC Deaths'].tail(1).values[0],
+    ),
+                 )
+
+
+
+
+
+    fig.update_layout(
+        template = {'data' : {'indicator': [{
+            'title' : {"text": f"LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['LTC Deaths'].iloc[-2],
+                      'increasing': {'color':'red'},
+                      'decreasing': {'color':'green'}}},
+            ]
+                             }})
+
+
+
+    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=False))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':False},
+        title={'text':f"",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="right",
+            active=0,
+            x=1,
+            y=-0.1,
+            buttons=list([
+                dict(label="KPI",
+                     method="update",
+                     args=[{"visible": [True, False]},
+                           {"title": ""}
+                          ]),
+                dict(label="Trend",
+                     method="update",
+                     args=[{"visible": [False, True]},
+                           {"title": "LTC Deaths Over Time"},]),
+            ]),
+        )])
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="LTC Deaths").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -1265,7 +1282,7 @@ def icu_ontario_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "ICU Beds Left"},
+        'title' : {"text": f"ICU Beds Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['residual_beds'].iloc[-2],
                       }},
@@ -1339,7 +1356,7 @@ def ventilator_ontario_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title': {'text': "Ventilators Left"},
+        'title' : {"text": f"Ventilators Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['residual_ventilators'].iloc[-2],
                       }},
