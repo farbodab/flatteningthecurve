@@ -319,7 +319,7 @@ def getcanadatested():
 
 def getcanadamobility_google():
     # From global data
-    try: 
+    try:
         url = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'
         r = requests.get(url, stream=True)
         for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
@@ -331,6 +331,8 @@ def getcanadamobility_google():
                     region = subregion
 
                 def add_transport(date, region, transportation_type, value):
+                    if value == '':
+                        value = -999
 
                     m = MobilityTransportation.query.filter_by(date=date, region=region, transportation_type=transportation_type).limit(1).first()
                     if not m:
@@ -699,7 +701,7 @@ def new_viz():
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
             c.text=text
-            c.page=page 
+            c.page=page
             c.order = order
             c.row = row_z
             c.column = column
