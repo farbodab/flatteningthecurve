@@ -939,8 +939,8 @@ def ltc_cases_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
+        plot_bgcolor='#E4F7FD',
+        paper_bgcolor="#E4F7FD",
     updatemenus=[
         dict(
             type="buttons",
@@ -1017,8 +1017,8 @@ def ltc_deaths_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
+        plot_bgcolor='#E4F7FD',
+        paper_bgcolor="#E4F7FD",
     updatemenus=[
         dict(
             type="buttons",
@@ -1530,8 +1530,8 @@ def icu_projections_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#E4F7FD',
-        paper_bgcolor="#E4F7FD",
+        plot_bgcolor='#FFF',
+        paper_bgcolor="#FFF",
         legend_orientation="h"
     )
 
@@ -1937,7 +1937,7 @@ def ltc_staff_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"LTC Staff Infected<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"LTC Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Staff'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -1954,7 +1954,7 @@ def ltc_staff_plot():
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
-                'x':0.5,
+                'x':1,
                'xanchor': 'center',
                 'yanchor': 'top'},
         font=dict(
@@ -1965,14 +1965,14 @@ def ltc_staff_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
+        plot_bgcolor='#F0D2C9',
+        paper_bgcolor="#F0D2C9",
     updatemenus=[
         dict(
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
@@ -2016,7 +2016,7 @@ def hospital_staff_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"Hospital Staff Infected<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"Hospital Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Hospital Staff'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -2044,14 +2044,14 @@ def hospital_staff_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
+        plot_bgcolor='#F0D2C9',
+        paper_bgcolor="#F0D2C9",
     updatemenus=[
         dict(
             type="buttons",
             direction="right",
             active=0,
-            x=0.57,
+            x=1,
             y=-0.1,
             buttons=list([
                 dict(label="KPI",
