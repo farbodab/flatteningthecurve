@@ -34,8 +34,8 @@ psutil==5.7.0
 psycopg2==2.8.4
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-pytest=5.4.1
-pytest-dotenv=0.4.0
+pytest==5.4.1
+pytest-dotenv==0.4.0
 python-dateutil==2.8.1
 python-dotenv==0.12.0
 python-editor==1.0.4
