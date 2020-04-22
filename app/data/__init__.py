@@ -145,4 +145,6 @@ def test():
     plots.ltc_deaths_plot()
     plots.ltc_cases_plot()
     plots.blank_plot()
+    plots.ltc_staff_plot()
+    plots.hospital_staff_plot()
     print("Plot htmls updated")

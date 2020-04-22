@@ -1876,7 +1876,6 @@ def ontario_death_plots():
 
     return
 
-
 def blank_plot():
     fig = go.Figure()
 
@@ -1912,5 +1911,165 @@ def blank_plot():
     db.session.add(p)
     db.session.commit()
 
+
+    return
+
+
+## Health Care Workers
+
+def ltc_staff_plot():
+    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Indicator(
+        mode = "number+delta",
+        value = df['Staff'].tail(1).values[0],
+    ),
+                 )
+
+
+
+
+
+    fig.update_layout(
+        template = {'data' : {'indicator': [{
+            'title' : {"text": f"LTC Staff Infected<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['Staff'].iloc[-2],
+                      'increasing': {'color':'red'},
+                      'decreasing': {'color':'green'}}},
+            ]
+                             }})
+
+
+
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#497787', visible=False))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':False},
+        title={'text':f"",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="right",
+            active=0,
+            x=0.57,
+            y=-0.1,
+            buttons=list([
+                dict(label="KPI",
+                     method="update",
+                     args=[{"visible": [True, False]},
+                           {"title": ""}
+                          ]),
+                dict(label="Trend",
+                     method="update",
+                     args=[{"visible": [False, True]},
+                           {"title": "LTC Staff Infections Over Time"},]),
+            ]),
+        )])
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="LTC Staff").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def hospital_staff_plot():
+
+    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Indicator(
+        mode = "number+delta",
+        value = df['Hospital Staff'].tail(1).values[0],
+    ),
+                 )
+
+
+
+
+
+    fig.update_layout(
+        template = {'data' : {'indicator': [{
+            'title' : {"text": f"Hospital Staff Infected<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['Hospital Staff'].iloc[-2],
+                      'increasing': {'color':'red'},
+                      'decreasing': {'color':'green'}}},
+            ]
+                             }})
+
+
+
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#497787', visible=False))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':False},
+        title={'text':f"",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="right",
+            active=0,
+            x=0.57,
+            y=-0.1,
+            buttons=list([
+                dict(label="KPI",
+                     method="update",
+                     args=[{"visible": [True, False]},
+                           {"title": ""}
+                          ]),
+                dict(label="Trend",
+                     method="update",
+                     args=[{"visible": [False, True]},
+                           {"title": "Hospital Staff Infections Over Time"},]),
+            ]),
+        )])
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Hospital Staff").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
 
     return
