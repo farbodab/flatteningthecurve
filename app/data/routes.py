@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from app.tools.covidpdftocsv import covidpdftocsv
+from app.tools.pdfparse import extract
 import math
 from sqlalchemy import text
 from sqlalchemy import sql
@@ -162,10 +163,10 @@ def getnpis():
         db.session.commit()
     return
 
-def capacityicu():
+def capacityicu(date):
+    # Extract csv from pdf
+    extract.extractCCSO(['', './CCSO.pdf', 1, 188, 600, 519, 959])
     df = pd.read_csv('CCSO.csv')
-    date = "18-04-2020"
-    date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']
         lhin = row['LHIN']
@@ -365,7 +366,7 @@ def getcanadamobility_apple():
     datesToTry.reverse()
 
     ## ATTENION! this url likes to change and will need to be updated whenever the data starts falling behind. Find it here: https://www.apple.com/covid19/mobility
-    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2006HotfixDev10/v1/en-us/applemobilitytrends-'
+    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2006HotfixDev11/v1/en-us/applemobilitytrends-'
     regions = ['Toronto', 'Vancouver', 'Canada', 'Calgary', 'Edmonton', 'Halifax', 'Montreal', 'Ottawa']
 
     #EXAMPLE https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-2020-04-13.csv

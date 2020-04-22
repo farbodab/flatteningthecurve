@@ -1,4 +1,5 @@
 from flask import Blueprint
+import click
 
 bp = Blueprint('data', __name__,cli_group='data')
 
@@ -81,8 +82,15 @@ def getcanada():
 
 
 @bp.cli.command('icu')
-def geticu():
-    routes.capacityicu()
+@click.argument("date")
+def geticu(date):
+    try:
+        date = datetime.strptime(date,"%d-%m-%Y")
+    except:
+        print("Date format incorrect, should be DD-MM-YYYY")
+        return
+        
+    routes.capacityicu(date)
     print('ICU data refreshed')
 
 @bp.cli.command('canada')
