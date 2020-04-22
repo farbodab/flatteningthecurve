@@ -143,5 +143,6 @@ def test():
     plots.international_deaths_plot()
     plots.ontario_death_plots()
     plots.ltc_deaths_plot()
-
+    plots.ltc_cases_plot()
+    plots.blank_plot()
     print("Plot htmls updated")

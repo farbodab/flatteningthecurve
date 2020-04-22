@@ -891,6 +891,84 @@ def new_deaths_plot():
 
     return
 
+def ltc_cases_plot():
+    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Indicator(
+        mode = "number+delta",
+        value = df['LTC Cases Total'].tail(1).values[0],
+    ),
+                 )
+
+
+
+
+
+    fig.update_layout(
+        template = {'data' : {'indicator': [{
+            'title' : {"text": f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['LTC Cases Total'].iloc[-2],
+                      'increasing': {'color':'red'},
+                      'decreasing': {'color':'green'}}},
+            ]
+                             }})
+
+
+
+    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=False))
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':False},
+        title={'text':f"",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#000"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#DFE7EA',
+        paper_bgcolor="#DFE7EA",
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="right",
+            active=0,
+            x=1,
+            y=-0.1,
+            buttons=list([
+                dict(label="KPI",
+                     method="update",
+                     args=[{"visible": [True, False]},
+                           {"title": ""}
+                          ]),
+                dict(label="Trend",
+                     method="update",
+                     args=[{"visible": [False, True]},
+                           {"title": "Total LTC Cases Over Time"},]),
+            ]),
+        )])
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="LTC Total").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
 def ltc_deaths_plot():
     url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
     s=requests.get(url).content
@@ -911,7 +989,7 @@ def ltc_deaths_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['LTC Deaths'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -1791,6 +1869,45 @@ def ontario_death_plots():
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Ontario Death Comparison").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+
+    return
+
+
+def blank_plot():
+    fig = go.Figure()
+
+    fig.add_trace(go.Indicator(
+        mode = "number",
+    ),
+                 )
+
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':False},
+        title={'text':f"",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#FFF"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=0, t=0, b=0),
+        plot_bgcolor='#FFF',
+        paper_bgcolor="#FFF",
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Blank Plot").first()
     p.html = div
     db.session.add(p)
     db.session.commit()

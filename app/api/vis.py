@@ -337,9 +337,9 @@ def get_testresults():
         positives += [positive]
         resolveds += [resolved]
         totals += [total]
-        hospitalizeds += [hospitalized-icu]
-        icus += [icu-(icu-ventilator)]
-        ventilators += [icu-ventilator]
+        hospitalizeds += [hospitalized]
+        icus += [icu]
+        ventilators += [ventilator]
 
         if row['new_tests']==row['new_tests']:
             new_tests += [new_t]
@@ -570,7 +570,7 @@ def get_cases_rolling_average():
     for region in regions:
         df = dfs.loc[dfs.country == region]
         dates = df.groupby("date").cases.sum().reset_index().sort_values("date").reset_index()
-      
+
         # Iterate all dates
         for index, row in dates.iterrows():
             date = row['date']
@@ -670,7 +670,7 @@ def get_deaths_rolling_average():
             df_final.at[index,'date_shifted'] = i
             i += 1
 
-    return df_final 
+    return df_final
 
 def get_daily_deaths():
 
