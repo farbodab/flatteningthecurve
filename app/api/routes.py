@@ -166,7 +166,7 @@ def get_api_plots():
     data = []
     for index, row in df.iterrows():
         data.append({"header": row["header"], "order": row["order"],
-        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"]})
+        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"], "group": row["category"]})
     return data
 
 @bp.route('/api/source', methods=['GET'])
