@@ -20,6 +20,7 @@ from app.tools.covidpdftocsv import covidpdftocsv
 import math
 from sqlalchemy import text
 from sqlalchemy import sql
+import csv
 
 ########################################
 ############ONTARIO DATA################
@@ -317,44 +318,35 @@ def getcanadatested():
     return
 
 def getcanadamobility_google():
-    start_date = None
-    end_date = datetime.today()
+    # From global data
+    try: 
+        url = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'
+        r = requests.get(url, stream=True)
+        for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+            region = row['country_region']
+            subregion = row['sub_region_1']
+            date = row['date']
+            if region == 'Canada':
+                if subregion is not '':
+                    region = subregion
 
-    max_date = Mobility.query.order_by(text('date desc')).limit(1).first()
-    if not max_date:
-        start_date = end_date + timedelta(-30)
-    else:
-        start_date = max_date.date# + timedelta(1)
+                def add_transport(date, region, transportation_type, value):
 
-    datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
+                    m = MobilityTransportation.query.filter_by(date=date, region=region, transportation_type=transportation_type).limit(1).first()
+                    if not m:
+                        m = MobilityTransportation(date=date, region=region, transportation_type=transportation_type, value=value)
+                        print("Add transport mobility data for region: {}, date: {}, type: {}, value: {}".format(region, date, transportation_type, value))
+                        db.session.add(m)
 
-    #EXAMPLE: https://www.gstatic.com/covid19/mobility/2020-03-29_CA_Mobility_Report_en.pdf
-    for dt in datesToTry:
-        try:
-            datetag = dt.strftime('%Y-%m-%d')
-            filename = datetag +  '_CA_Mobility_Report_en.csv'
-            if os.path.exists(filename):
-                df = pd.read_csv(filename)
-
-                # Get all date columns (i.e. not kind, name, category) and insert record for each
-                date_columns = [x for x in list(df.columns) if x not in ['Kind', 'Name', 'Category']]
-
-                for index, row in df.iterrows():
-                    for col in date_columns:
-                        region = row['Name']
-                        category = row['Category']
-                        value = row[col]
-                        if math.isnan(value):
-                            continue
-
-                        m = Mobility.query.filter_by(date=col, region=region, category=category).limit(1).first()
-                        if not m:
-                            m = Mobility(date=col, region=region, category=category, value=value)
-                            print("Add mobility data for region: {}, category: {}, date: {}".format(region, category, col))
-                            db.session.add(m)
-                            db.session.commit()
-        except Exception as err:
-            print("failed to get data for {}".format(dt), err)
+                add_transport(date, region, 'Retail & recreation', row['retail_and_recreation_percent_change_from_baseline'])
+                add_transport(date, region, 'Grocery & pharmacy', row['grocery_and_pharmacy_percent_change_from_baseline'])
+                add_transport(date, region, 'Parks', row['parks_percent_change_from_baseline'])
+                add_transport(date, region, 'Transit stations', row['transit_stations_percent_change_from_baseline'])
+                add_transport(date, region, 'Workplace', row['workplaces_percent_change_from_baseline'])
+                add_transport(date, region, 'Residential', row['residential_percent_change_from_baseline'])
+        db.session.commit()
+    except Exception as err:
+        print("failed to get data", err)
     return
 
 def getcanadamobility_apple():
