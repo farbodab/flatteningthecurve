@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -7,6 +7,8 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flasgger import Swagger
 from config import config
+import os
+import time
 
 
 cors = CORS()
@@ -43,3 +45,5 @@ def create_app(config_name):
         pass
 
     return app
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
