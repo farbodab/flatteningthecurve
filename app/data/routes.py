@@ -17,7 +17,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from app.tools.covidpdftocsv import covidpdftocsv
-from app.tools.pdfparse import extract
 import math
 from sqlalchemy import text
 from sqlalchemy import sql
@@ -164,8 +163,6 @@ def getnpis():
     return
 
 def capacityicu(date):
-    # Extract csv from pdf
-    extract.extractCCSO(['', './CCSO.pdf', 1, 188, 600, 519, 959])
     df = pd.read_csv('CCSO.csv')
     for index, row in df.iterrows():
         region = row['Region']

@@ -8,6 +8,7 @@ from app.api import vis
 from app.export import sheetsHelper
 from app.export import kaggleHelper
 from app.plots import routes as plots
+from app.tools.pdfparse import extract
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -80,12 +81,18 @@ def getcanada():
     routes.getnpiusa()
     print('NPI data refreshed')
 
-
 @bp.cli.command('icu')
-@click.argument("date")
-def geticu(date):
+@click.argument("arg")
+def geticu(arg):
+    if arg == 'extract':
+        # Extract csv from pdf
+        extract.extractCCSO(['', './CCSO.pdf', 1, 188, 600, 519, 959])
+        print('CCSO data extracted')
+        return
+
+    date = None
     try:
-        date = datetime.strptime(date,"%d-%m-%Y")
+        date = datetime.strptime(arg,"%d-%m-%Y")
     except:
         print("Date format incorrect, should be DD-MM-YYYY")
         return
