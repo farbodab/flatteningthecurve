@@ -162,10 +162,8 @@ def getnpis():
         db.session.commit()
     return
 
-def capacityicu():
+def capacityicu(date):
     df = pd.read_csv('CCSO.csv')
-    date = "18-04-2020"
-    date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']
         lhin = row['LHIN']
