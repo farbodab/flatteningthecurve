@@ -66,7 +66,7 @@ def extractCCSO(argv):
                 i = i + 1
 
     os.remove('temp.csv')
-    print("Done, see {}".format(output))
+    #print("Done, see {}".format(output))
 
 if __name__ == '__main__':
     if(len(sys.argv) <= 1):
