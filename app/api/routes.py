@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
+import plotly.graph_objects as go
 from datetime import datetime
 import requests
-from app import db
+from app import db, cache
 from app.models import *
 from app.api import bp
 import pandas as pd
@@ -142,9 +143,11 @@ def get_growth():
     return provines_dict
 
 @bp.route('/api/viz', methods=['GET'])
+@cache.cached(timeout=50)
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
+    df = df.loc[df.category!='NaN']
     df = df.sort_values(by=['category', 'header'])
     data = []
     for index, row in df.iterrows():
@@ -152,6 +155,20 @@ def get_api_viz():
         "content": row["content"], "text": row["text"],
         "viz": row["viz"], "thumbnail": row["thumbnail"],
         "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"]})
+    return data
+
+@bp.route('/api/plots', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_api_plots():
+    df = pd.read_sql_table('viz', db.engine)
+    df = df.loc[df.html.notna()]
+    df = df.loc[df.order > 0]
+    df = df.sort_values(by=['order'])
+    data = []
+    for index, row in df.iterrows():
+        data.append({"header": row["header"], "order": row["order"],
+        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"], "group": row["category"]})
     return data
 
 @bp.route('/api/source', methods=['GET'])
@@ -165,7 +182,7 @@ def get_api_source():
         "description": row["description"], "data_feed_type": row["data_feed_type"],
         "link": row["link"], "refresh": row["refresh"],
         "contributor": row["contributor"],"contact": row["contact"],
-        "download": row["download"]})
+        "download": row["download"],"category": row["page"]})
     return data
 
 

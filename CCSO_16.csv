@@ -1,0 +1,15 @@
+Region,LHIN,# Critical Care Beds,# Critical Care Patients,# Baseline Vented Beds,# Expanded Vented Beds,# Vented Patients,% Ventilator Capacity Remaining,# Suspected COVID-19,# Confirmed Positive COVID-19,# Confirmed Positive COVID-19 Patients with Invasive Ventilation,# Patients in Expanded ICU,# COVID Positive Patients in Expanded ICU
+West,L1: ESC,87,44,73,63,21,84.60%,10,14,13,0,0
+West,L2: SW,187,113,98,207,33,89.20%,18,11,11,0,0
+West,L3: WW,98,49,58,77,25,81.50%,8,16,12,1,0
+West,L4: HNHB,271,167,172,213,41,89.40%,25,13,6,0,0
+Central,L5: CW,68,53,26,79,35,66.70%,14,20,19,7,5
+Central,L6: MH,130,103,116,91,65,68.60%,18,23,16,3,1
+Central,L8: Central,153,130,130,117,88,64.40%,25,41,35,22,0
+Central,L12: NSM,48,33,26,45,11,84.50%,7,2,2,2,0
+Toronto,L7: Toronto,373,253,266,208,131,72.40%,44,57,50,2,2
+East,L9: CE,163,126,109,77,63,66.10%,46,26,18,0,0
+East,L10: SE,103,65,57,37,28,70.20%,13,4,3,0,0
+East,L11: Champlain,199,122,119,185,44,85.50%,32,15,12,6,1
+North,L13: NE,102,52,53,69,15,87.70%,18,2,2,0,0
+North,L14: NW,30,11,16,24,3,92.50%,2,1,1,0,0

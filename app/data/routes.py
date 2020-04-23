@@ -3,6 +3,7 @@ from flask_json import FlaskJSON, JsonError, json_response, as_json
 from datetime import datetime, timedelta
 from datetime import date
 import requests
+import csv
 from app import db
 from app.models import *
 from app.api import bp
@@ -19,6 +20,7 @@ from app.tools.covidpdftocsv import covidpdftocsv
 import math
 from sqlalchemy import text
 from sqlalchemy import sql
+import csv
 
 ########################################
 ############ONTARIO DATA################
@@ -160,10 +162,8 @@ def getnpis():
         db.session.commit()
     return
 
-def capacityicu():
+def capacityicu(date):
     df = pd.read_csv('CCSO.csv')
-    date = "15-04-2020"
-    date = datetime.strptime(date,"%d-%m-%Y")
     for index, row in df.iterrows():
         region = row['Region']
         lhin = row['LHIN']
@@ -203,6 +203,7 @@ def cases():
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     for index, row in df.iterrows():
+    # for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
         sex = row['sex']
@@ -219,9 +220,16 @@ def cases():
             db.session.add(c)
             db.session.commit()
         else:
-            if ((c.age == age) and (c.sex == sex) and (c.region == region) and (c.province == province) and (c.country == country) and (c.date == date) and (c.travel==travel) and (c.travelh==travelh)):
-                pass
-            else:
+            if not all((
+                (c.age == age),
+                (c.sex == sex),
+                (c.region == region),
+                (c.province == province),
+                (c.country == country),
+                (c.date == date),
+                (c.travel==travel),
+                (c.travelh==travelh)
+            )):
                 c.age = age
                 c.sex = sex
                 c.region = region
@@ -310,44 +318,38 @@ def getcanadatested():
     return
 
 def getcanadamobility_google():
-    start_date = None
-    end_date = datetime.today()
+    # From global data
+    try:
+        url = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        for index, row in df.iterrows():
+            region = row['country_region']
+            subregion = row['sub_region_1']
+            date = row['date']
+            if region == 'Canada':
+                if subregion is not '':
+                    region = subregion
 
-    max_date = Mobility.query.order_by(text('date desc')).limit(1).first()
-    if not max_date:
-        start_date = end_date + timedelta(-30)
-    else:
-        start_date = max_date.date# + timedelta(1)
+                def add_transport(date, region, transportation_type, value):
+                    if value == '':
+                        value = -999
 
-    datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
+                    m = MobilityTransportation.query.filter_by(date=date, region=region, transportation_type=transportation_type).limit(1).first()
+                    if not m:
+                        m = MobilityTransportation(date=date, region=region, transportation_type=transportation_type, value=value)
+                        print("Add transport mobility data for region: {}, date: {}, type: {}, value: {}".format(region, date, transportation_type, value))
+                        db.session.add(m)
 
-    #EXAMPLE: https://www.gstatic.com/covid19/mobility/2020-03-29_CA_Mobility_Report_en.pdf
-    for dt in datesToTry:
-        try:
-            datetag = dt.strftime('%Y-%m-%d')
-            filename = datetag +  '_CA_Mobility_Report_en.csv'
-            if os.path.exists(filename):
-                df = pd.read_csv(filename)
-
-                # Get all date columns (i.e. not kind, name, category) and insert record for each
-                date_columns = [x for x in list(df.columns) if x not in ['Kind', 'Name', 'Category']]
-
-                for index, row in df.iterrows():
-                    for col in date_columns:
-                        region = row['Name']
-                        category = row['Category']
-                        value = row[col]
-                        if math.isnan(value):
-                            continue
-
-                        m = Mobility.query.filter_by(date=col, region=region, category=category).limit(1).first()
-                        if not m:
-                            m = Mobility(date=col, region=region, category=category, value=value)
-                            print("Add mobility data for region: {}, category: {}, date: {}".format(region, category, col))
-                            db.session.add(m)
-                            db.session.commit()
-        except Exception as err:
-            print("failed to get data for {}".format(dt), err)
+                add_transport(date, region, 'Retail & recreation', row['retail_and_recreation_percent_change_from_baseline'])
+                add_transport(date, region, 'Grocery & pharmacy', row['grocery_and_pharmacy_percent_change_from_baseline'])
+                add_transport(date, region, 'Parks', row['parks_percent_change_from_baseline'])
+                add_transport(date, region, 'Transit stations', row['transit_stations_percent_change_from_baseline'])
+                add_transport(date, region, 'Workplace', row['workplaces_percent_change_from_baseline'])
+                add_transport(date, region, 'Residential', row['residential_percent_change_from_baseline'])
+            db.session.commit()
+    except Exception as err:
+        print("failed to get data", err)
     return
 
 def getcanadamobility_apple():
@@ -361,8 +363,10 @@ def getcanadamobility_apple():
         start_date = max_date.date# + timedelta(1)
 
     datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
+    datesToTry.reverse()
 
-    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-'
+    ## ATTENION! this url likes to change and will need to be updated whenever the data starts falling behind. Find it here: https://www.apple.com/covid19/mobility
+    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2006HotfixDev10/v1/en-us/applemobilitytrends-'
     regions = ['Toronto', 'Vancouver', 'Canada', 'Calgary', 'Edmonton', 'Halifax', 'Montreal', 'Ottawa']
 
     #EXAMPLE https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-2020-04-13.csv
@@ -396,23 +400,26 @@ def getcanadamobility_apple():
                         print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
                         db.session.add(m)
                         db.session.commit()
+
+            break
         except Exception as err:
             print("failed to get data for {}".format(dt), err)
     return
 
 def getgovernmentresponse():
     url = "https://ocgptweb.azurewebsites.net/CSVDownload"
-    s = requests.get(url).content
+    s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
-    df = df.fillna(-1)
+
 
     def parse_val(val):
         if val == -1:
             return sql.null()
         else:
             return val
+
     for index, row in df.iterrows():
+    # for index, row in df.iterrows():
         date = row['Date']
         country = row['CountryName']
         country_code = row['CountryCode']
@@ -456,8 +463,8 @@ def getgovernmentresponse():
         g = GovernmentResponse.query.filter_by(date=date, country=country).first()
         if not g:
             g = GovernmentResponse(
-                date=date, 
-                country=country, 
+                date=date,
+                country=country,
                 country_code=country_code,
                 s1_school_closing=s1_school_closing,
                 s2_workplace_closing=s2_workplace_closing,
@@ -497,11 +504,9 @@ def getgovernmentresponse():
                 stringency_index_for_display=stringency_index_for_display)
 
             db.session.add(g)
-
-        print("{}/{}: Government Response for {} {}".format(index, df.shape[0], country, date))
-        if index % 100 == 0:
             db.session.commit()
-    db.session.commit()
+
+
     return
 
 
@@ -653,10 +658,6 @@ def getnpiusa():
             n = NPIInterventionsUSA(start_date=start_date, end_date=end_date, state=state, county=county, npi=npi, citation=citation, note=note)
             db.session.add(n)
 
-        print("{}/{}: Update NPI USA {}".format(index,df.shape[0],state))
-        # Try to speed it up a bit
-        if index % 100 == 0:
-            db.session.commit()
     db.session.commit()
     return
 
@@ -683,13 +684,17 @@ def new_viz():
         text = row['text']
         mobileHeight = row['mobileHeight']
         desktopHeight = row['desktopHeight']
-
+        page = row['page']
+        order = row['order']
+        row_z = row['row']
+        column = row['column']
 
         c = Viz.query.filter_by(header=header).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
-            desktopHeight=desktopHeight)
+            desktopHeight=desktopHeight, page=page, order=order, row=row_z,
+            column=column)
             db.session.add(c)
             db.session.commit()
         else:
@@ -700,6 +705,10 @@ def new_viz():
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
             c.text=text
+            c.page=page
+            c.order = order
+            c.row = row_z
+            c.column = column
             db.session.add(c)
             db.session.commit()
     return 'success',200

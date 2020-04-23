@@ -34,10 +34,9 @@ def extractCCSO(argv):
             "# Patients in Expanded ICU",
             "# COVID Positive Patients in Expanded ICU"]
 
-    prepend = ['Central,L5: CW','Central,L6: MH','Central,L8: Central',
-    'Central,L12: NSM','East,L9: CE', 'East,L10: SE', 'East,L11: Champlain',
-    'North,L13: NE', 'North,L14: NW', 'Toronto,L7: Toronto', 'West,L1: ESC',
-    'West,L2: SW','West,L3: WW','West,L4: HNHB']
+    prepend = ['West,L1: ESC','West,L2: SW','West,L3: WW','West,L4: HNHB','Central,L5: CW','Central,L6: MH','Central,L8: Central',
+    'Central,L12: NSM','Toronto,L7: Toronto','East,L9: CE', 'East,L10: SE', 'East,L11: Champlain',
+    'North,L13: NE', 'North,L14: NW']
 
 
     def parsenum(value):
@@ -67,7 +66,7 @@ def extractCCSO(argv):
                 i = i + 1
 
     os.remove('temp.csv')
-    print("Done, see {}".format(output))
+    #print("Done, see {}".format(output))
 
 if __name__ == '__main__':
     if(len(sys.argv) <= 1):
