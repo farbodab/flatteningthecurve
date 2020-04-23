@@ -23,7 +23,7 @@ def new_tests_plot():
         mode = "number+delta",
         value = df['New tests'].tail(1).values[0],))
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],marker_color='#5E5AA1',visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],marker_color='#5E5AA1',visible=True, opacity=0.5))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -94,7 +94,7 @@ def total_tests_plot():
         mode = "number+delta",
         value = df['Total tested'].tail(1).values[0],))
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],marker_color='#5E5AA1', visible=False))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],marker_color='#5E5AA1', visible=True, opacity=0.5))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -163,16 +163,20 @@ def tested_positve_plot():
     temp = df.loc[df['New Positive pct'] > 0]
 
     fig.add_trace(go.Indicator(
-        mode = "number",
+        mode = "number+delta",
         value = df['New Positive pct'].tail(1).values[0]*100,))
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],marker_color='#5E5AA1',visible=False))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],marker_color='#5E5AA1',visible=True, opacity=0.5))
 
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'title' : {"text": f"New Positive %<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number"}]
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['New Positive pct'].iloc[-2]*100,
+                      'increasing': {'color':'red'},
+                      'decreasing': {'color':'green'}}},
+            ]
                              }})
 
     fig.update_layout(
@@ -233,16 +237,20 @@ def under_investigation_plot():
     temp = df.loc[df['Total tested'].notna()]
 
     fig.add_trace(go.Indicator(
-        mode = "number",
+        mode = "number+delta",
         value = df['Under Investigation'].tail(1).values[0],))
 
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],marker_color='#5E5AA1', visible=False))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],marker_color='#5E5AA1', visible=True, opacity=0.5))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-        'title' : {"text": f"Under Investigation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number"}]
+            'title' : {"text": f"Under Investigation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'mode' : "number+delta+gauge",
+            'delta' : {'reference': df['Under Investigation'].iloc[-2],
+                      'increasing': {'color':'grey'},
+                      'decreasing': {'color':'grey'}}},
+            ]
                              }})
 
     fig.update_layout(
@@ -305,7 +313,7 @@ def in_hospital_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = temp['Hospitalized'].tail(1).values[0],))
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],marker_color='#54CAF1',visible=False))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -375,7 +383,7 @@ def in_icu_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = temp['ICU'].tail(1).values[0],))
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=False))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -445,7 +453,7 @@ def on_ventilator_plot():
         mode = "number+delta",
         value = temp['Ventilator'].tail(1).values[0],))
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=False))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -536,7 +544,7 @@ def total_cases_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -613,7 +621,7 @@ def new_cases_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -689,7 +697,7 @@ def recovered_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -766,7 +774,7 @@ def total_deaths_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -843,7 +851,7 @@ def new_deaths_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -921,7 +929,7 @@ def ltc_cases_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -999,7 +1007,7 @@ def ltc_deaths_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -1099,11 +1107,11 @@ def cases_region_plot():
 
     df_t = df.groupby('LHIN')['value'].sum().sort_values()
 
-    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h',text=df_t.values, textposition='inside',visible=False,marker_color="#413C90"))
+    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h',text=df_t.values, textposition='inside',visible=True, opacity=0.5,marker_color="#413C90"))
 
     df_t = df.groupby('Region')['value'].sum().sort_values()
 
-    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h',text=df_t.values, textposition='inside',visible=False, marker_color="#413C90"))
+    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h',text=df_t.values, textposition='inside',visible=True, opacity=0.5, marker_color="#413C90"))
 
     fig.update_layout(
         xaxis =  {'showgrid': False},
@@ -1279,7 +1287,7 @@ def retail_mobility_plot():
     fig.add_trace(go.Scatter(name=ttype[0],x=df.loc[df.category == ttype[0]].date,y=df.loc[df.category == ttype[0]]['value']))
 
     for item in ttype[1:]:
-        fig.add_trace(go.Scatter(name=item,x=df.loc[df.category == item].date,y=df.loc[df.category == item]['value'],visible=False))
+        fig.add_trace(go.Scatter(name=item,x=df.loc[df.category == item].date,y=df.loc[df.category == item]['value'],visible=True, opacity=0.5))
 
 
     fig.update_layout(
@@ -1369,7 +1377,7 @@ def icu_ontario_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -1443,7 +1451,7 @@ def ventilator_ontario_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -1947,7 +1955,7 @@ def ltc_staff_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
@@ -2026,7 +2034,7 @@ def hospital_staff_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#497787', visible=False))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':False},
