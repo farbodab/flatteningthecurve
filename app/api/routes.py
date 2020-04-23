@@ -3,7 +3,7 @@ from flask_json import FlaskJSON, JsonError, json_response, as_json
 import plotly.graph_objects as go
 from datetime import datetime
 import requests
-from app import db
+from app import db, cache
 from app.models import *
 from app.api import bp
 import pandas as pd
@@ -143,6 +143,7 @@ def get_growth():
     return provines_dict
 
 @bp.route('/api/viz', methods=['GET'])
+@cache.cached(timeout=50)
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
@@ -157,6 +158,7 @@ def get_api_viz():
     return data
 
 @bp.route('/api/plots', methods=['GET'])
+@cache.cached(timeout=50)
 @as_json
 def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)

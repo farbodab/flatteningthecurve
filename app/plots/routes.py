@@ -21,7 +21,7 @@ def new_tests_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['New tests'].tail(1).values[0],))
+        value = df['New tests'].tail(1).values[0],number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],marker_color='#5E5AA1',visible=True, opacity=0.5))
 
@@ -33,7 +33,7 @@ def new_tests_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -92,7 +92,7 @@ def total_tests_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['Total tested'].tail(1).values[0],))
+        value = df['Total tested'].tail(1).values[0],number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],marker_color='#5E5AA1', visible=True, opacity=0.5))
 
@@ -104,7 +104,7 @@ def total_tests_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -164,7 +164,8 @@ def tested_positve_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['New Positive pct'].tail(1).values[0]*100,))
+        value = df['New Positive pct'].tail(1).values[0]*100,
+        number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],marker_color='#5E5AA1',visible=True, opacity=0.5))
 
@@ -180,7 +181,7 @@ def tested_positve_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -238,7 +239,7 @@ def under_investigation_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['Under Investigation'].tail(1).values[0],))
+        value = df['Under Investigation'].tail(1).values[0],number = {'font': {'size': 60}},))
 
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],marker_color='#5E5AA1', visible=True, opacity=0.5))
@@ -254,7 +255,7 @@ def under_investigation_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -312,7 +313,7 @@ def in_hospital_plot():
     temp = df.loc[df['Hospitalized'].notna()]
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = temp['Hospitalized'].tail(1).values[0],))
+        value = temp['Hospitalized'].tail(1).values[0],number = {'font': {'size': 60}},))
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
@@ -326,7 +327,7 @@ def in_hospital_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':"",
                 'y':0.95,
@@ -382,7 +383,7 @@ def in_icu_plot():
     temp = df.loc[df['ICU'].notna()]
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = temp['ICU'].tail(1).values[0],))
+        value = temp['ICU'].tail(1).values[0],number = {'font': {'size': 60}},))
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
@@ -396,7 +397,7 @@ def in_icu_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':"",
                 'y':0.95,
@@ -451,7 +452,7 @@ def on_ventilator_plot():
     temp = df.loc[df['Ventilator'].notna()]
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = temp['Ventilator'].tail(1).values[0],))
+        value = temp['Ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
@@ -466,7 +467,7 @@ def on_ventilator_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':"",
                 'y':0.95,
@@ -525,6 +526,7 @@ def total_cases_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Positives'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -547,7 +549,7 @@ def total_cases_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -602,6 +604,7 @@ def new_cases_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['New positives'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -624,7 +627,7 @@ def new_cases_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -679,6 +682,7 @@ def recovered_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Resolved'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -700,7 +704,7 @@ def recovered_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -755,6 +759,7 @@ def total_deaths_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Deaths'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -777,7 +782,7 @@ def total_deaths_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -832,6 +837,7 @@ def new_deaths_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['New deaths'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -854,7 +860,7 @@ def new_deaths_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -910,6 +916,7 @@ def ltc_cases_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['LTC Cases Total'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -932,7 +939,7 @@ def ltc_cases_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -988,6 +995,7 @@ def ltc_deaths_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['LTC Deaths'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1010,7 +1018,7 @@ def ltc_deaths_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1363,6 +1371,7 @@ def icu_ontario_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['residual_beds'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1380,7 +1389,7 @@ def icu_ontario_plot():
     fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1433,6 +1442,7 @@ def ventilator_ontario_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['residual_ventilators'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1454,7 +1464,7 @@ def ventilator_ontario_plot():
     fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1894,7 +1904,7 @@ def blank_plot():
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1936,6 +1946,7 @@ def ltc_staff_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Staff'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1958,7 +1969,7 @@ def ltc_staff_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -2015,6 +2026,7 @@ def hospital_staff_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Hospital Staff'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -2037,7 +2049,7 @@ def hospital_staff_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,

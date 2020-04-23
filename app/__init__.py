@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_json import FlaskJSON
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_caching import Cache
 from flasgger import Swagger
 from config import config
 import os
@@ -16,6 +17,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 flaskjson = FlaskJSON()
 limiter = Limiter(key_func=get_remote_address)
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -26,6 +28,7 @@ def create_app(config_name):
     migrate.init_app(app, db)
     flaskjson.init_app(app)
     limiter.init_app(app)
+    cache.init_app(app)
     swagger = Swagger(app)
 
     from app.data import bp as data

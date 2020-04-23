@@ -200,8 +200,9 @@ def capacity():
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
-    r = requests.get(url, stream=True)
-    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    for index, row in df.iterrows():
     # for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
@@ -217,6 +218,7 @@ def cases():
         if not c:
             c = Covid(case_id=case_id, age=age, sex=sex, region=region, province=province, country=country, date=date, travel=travel, travelh=travelh)
             db.session.add(c)
+            db.session.commit()
         else:
             if not all((
                 (c.age == age),
@@ -237,7 +239,7 @@ def cases():
                 c.travel = travel
                 c.travelh = travelh
                 db.session.add(c)
-    db.session.commit()
+                db.session.commit()
     return
 
 def getcanadamortality():
@@ -319,8 +321,9 @@ def getcanadamobility_google():
     # From global data
     try:
         url = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'
-        r = requests.get(url, stream=True)
-        for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        for index, row in df.iterrows():
             region = row['country_region']
             subregion = row['sub_region_1']
             date = row['date']
@@ -344,7 +347,7 @@ def getcanadamobility_google():
                 add_transport(date, region, 'Transit stations', row['transit_stations_percent_change_from_baseline'])
                 add_transport(date, region, 'Workplace', row['workplaces_percent_change_from_baseline'])
                 add_transport(date, region, 'Residential', row['residential_percent_change_from_baseline'])
-        db.session.commit()
+            db.session.commit()
     except Exception as err:
         print("failed to get data", err)
     return
@@ -405,7 +408,9 @@ def getcanadamobility_apple():
 
 def getgovernmentresponse():
     url = "https://ocgptweb.azurewebsites.net/CSVDownload"
-    r = requests.get(url, stream=True)
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+
 
     def parse_val(val):
         if val == -1:
@@ -413,7 +418,7 @@ def getgovernmentresponse():
         else:
             return val
 
-    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+    for index, row in df.iterrows():
     # for index, row in df.iterrows():
         date = row['Date']
         country = row['CountryName']
@@ -499,8 +504,9 @@ def getgovernmentresponse():
                 stringency_index_for_display=stringency_index_for_display)
 
             db.session.add(g)
+            db.session.commit()
 
-    db.session.commit()
+
     return
 
 
