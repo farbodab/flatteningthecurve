@@ -172,6 +172,7 @@ def get_api_plots():
     return data
 
 @bp.route('/api/source', methods=['GET'])
+@cache.cached(timeout=50)
 @as_json
 def get_api_source():
     df = pd.read_sql_table('source', db.engine)
@@ -182,7 +183,7 @@ def get_api_source():
         "description": row["description"], "data_feed_type": row["data_feed_type"],
         "link": row["link"], "refresh": row["refresh"],
         "contributor": row["contributor"],"contact": row["contact"],
-        "download": row["download"],"category": row["page"]})
+        "download": row["download"]})
     return data
 
 
