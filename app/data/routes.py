@@ -160,6 +160,9 @@ def getnpis():
             c.source_full_text = source_full_text
         db.session.add(c)
         db.session.commit()
+
+        if (index % 100) == 0:
+            print(f'{index} passed')
     return
 
 def capacityicu(date):
@@ -240,6 +243,8 @@ def cases():
                 c.travelh = travelh
                 db.session.add(c)
                 db.session.commit()
+        if (index % 100) == 0:
+            print(f'{index} passed')
     return
 
 def getcanadamortality():
@@ -297,6 +302,8 @@ def getcanadarecovered():
 
         db.session.add(c)
         db.session.commit()
+        if (index % 100) == 0:
+            print(f'{index} passed')
     return
 
 def getcanadatested():
@@ -315,6 +322,8 @@ def getcanadatested():
 
         db.session.add(c)
         db.session.commit()
+        if (index % 100) == 0:
+            print(f'{index} passed')
     return
 
 def getcanadamobility_google():
@@ -348,6 +357,8 @@ def getcanadamobility_google():
                 add_transport(date, region, 'Workplace', row['workplaces_percent_change_from_baseline'])
                 add_transport(date, region, 'Residential', row['residential_percent_change_from_baseline'])
             db.session.commit()
+            if (index % 100) == 0:
+                print(f'{index} passed')
     except Exception as err:
         print("failed to get data", err)
     return
@@ -505,6 +516,8 @@ def getgovernmentresponse():
 
             db.session.add(g)
             db.session.commit()
+            if (index % 100) == 0:
+                print(f'{index} passed')
 
 
     return

@@ -51,27 +51,7 @@ def new_tests_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "New Tests Over Time"},]),
-            ]),
-        )
-    ])
+)
 
 
     div = fig.to_json()
@@ -123,27 +103,7 @@ def total_tests_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Total tested Over Time"},]),
-            ]),
-        )
-    ])
+)
 
 
     div = fig.to_json()
@@ -200,27 +160,7 @@ def tested_positve_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Positive % Over Time"},]),
-            ]),
-        )
-    ])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Tested Positive").first()
@@ -273,28 +213,7 @@ def under_investigation_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
-        legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Under Investigation Over Time"},]),
-            ]),
-        )
-    ])
+        legend_orientation="h",)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Under Investigation").first()
@@ -346,25 +265,7 @@ def in_hospital_plot():
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
         legend_orientation="h",
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Hospitalized Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="In Hospital").first()
@@ -415,26 +316,7 @@ def in_icu_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
-        legend_orientation="h",
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "In ICU Over Time"},]),
-            ]),
-        )])
+        legend_orientation="h",)
     div = fig.to_json()
     p = Viz.query.filter_by(header="In ICU").first()
     p.html = div
@@ -486,25 +368,7 @@ def on_ventilator_plot():
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
         legend_orientation="h",
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "On Ventilator Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="On Ventilator").first()
@@ -567,25 +431,7 @@ def total_cases_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Cases Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Total Cases").first()
@@ -645,25 +491,7 @@ def new_cases_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "New Cases Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="New Cases").first()
@@ -721,26 +549,7 @@ def recovered_plot():
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Recovered Cases Over Time"},]),
-            ]),
-        )])
+        paper_bgcolor="#DFE7EA",)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Recovered").first()
@@ -800,25 +609,7 @@ def total_deaths_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Deaths Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Total Deaths").first()
@@ -878,25 +669,7 @@ def new_deaths_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "New deaths Over Time"},]),
-            ]),
-        )])
+)
     div = fig.to_json()
     p = Viz.query.filter_by(header="New Deaths").first()
     p.html = div
@@ -956,25 +729,7 @@ def ltc_cases_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Total LTC Cases Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="LTC Total").first()
@@ -1035,25 +790,7 @@ def ltc_deaths_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "LTC Deaths Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="LTC Deaths").first()
@@ -1133,29 +870,7 @@ def cases_region_plot():
             family="Roboto",
             color="#000"
         ),
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="PHU",
-                     method="update",
-                     args=[{"visible": [True, False, False]},
-                           {"title": "Total Cases by Public Health Unit"}]),
-                dict(label="LHIN",
-                     method="update",
-                     args=[{"visible": [False, True, False]},
-                           {"title": "Total Cases by LHIN"}]),
-                dict(label="Region",
-                     method="update",
-                     args=[{"visible": [False, False, True]},
-                           {"title": "Total Cases by LHIN Region"}]),
-            ]),
-        )
-    ])
+)
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=40, b=50),
@@ -1407,25 +1122,7 @@ def icu_ontario_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Residual Beds Over Time"},]),
-            ]),
-        )])
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="ICU Ontario").first()
@@ -1482,25 +1179,7 @@ def ventilator_ontario_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Residual Ventilators Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Ventilator Ontario").first()
@@ -1986,25 +1665,7 @@ def ltc_staff_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#F0D2C9',
         paper_bgcolor="#F0D2C9",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "LTC Staff Infections Over Time"},]),
-            ]),
-        )])
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="LTC Staff").first()
@@ -2066,25 +1727,7 @@ def hospital_staff_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#F0D2C9',
         paper_bgcolor="#F0D2C9",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Hospital Staff Infections Over Time"},]),
-            ]),
-        )])
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Hospital Staff").first()
