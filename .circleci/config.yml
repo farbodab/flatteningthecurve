@@ -53,7 +53,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            flask test
+            pytest
       - store_artifacts:
           path: test-reports/
           destination: tr1
