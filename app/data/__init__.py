@@ -36,7 +36,9 @@ sheetsConfig = [
     {'name':'Daily Deaths','function':vis.get_daily_deaths},
     {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'Government Response','table':'governmentresponse'},
-    {'name':'NPI Interventions - USA','table':'npiinterventions_usa'}
+    {'name':'NPI Interventions - USA','table':'npiinterventions_usa'},
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}
+]
 ]
 
 kaggleConfig = [
