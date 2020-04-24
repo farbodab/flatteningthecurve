@@ -107,8 +107,6 @@ def getcanada():
     routes.cases()
     routes.getcanadamortality()
     routes.getcanadarecovered()
-    routes.getcanadamobility_google()
-    routes.getcanadamobility_apple()
     routes.getcanadatested()
     print('Canada data refreshed')
 
