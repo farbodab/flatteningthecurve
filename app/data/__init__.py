@@ -9,6 +9,7 @@ from app.export import sheetsHelper
 from app.export import kaggleHelper
 from app.plots import routes as plots
 from app.tools.pdfparse import extract
+from datetime import datetime
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -91,12 +92,13 @@ def geticu(arg):
         return
 
     date = None
-    try:
-        date = datetime.strptime(arg,"%d-%m-%Y")
-    except:
-        print("Date format incorrect, should be DD-MM-YYYY")
-        return
-        
+
+
+    date = datetime.strptime(arg,"%d-%m-%Y")
+    # except:
+    #     print("Date format incorrect, should be DD-MM-YYYY")
+    #     return
+
     routes.capacityicu(date)
     print('ICU data refreshed')
 
@@ -105,8 +107,6 @@ def getcanada():
     routes.cases()
     routes.getcanadamortality()
     routes.getcanadarecovered()
-    routes.getcanadamobility_google()
-    routes.getcanadamobility_apple()
     routes.getcanadatested()
     print('Canada data refreshed')
 
