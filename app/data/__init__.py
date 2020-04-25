@@ -36,6 +36,7 @@ sheetsConfig = [
     {'name':'Average Daily Deaths (7-day rolling)','function':vis.get_deaths_rolling_average},
     {'name':'Daily Deaths','function':vis.get_daily_deaths},
     {'name':'Top Causes','function':vis.get_top_causes},
+    {'name':'PHU Death','function':vis.get_phudeath},
     {'name':'Government Response','table':'governmentresponse'},
     {'name':'NPI Interventions - USA','table':'npiinterventions_usa'}
 ]
