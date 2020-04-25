@@ -856,8 +856,7 @@ def get_rt_est():
             continue
         hdis = highest_density_interval(posteriors)
         most_likely = posteriors.idxmax().rename('ML')
-        result = pd.concat([most_likely, hdis], axis=1)
-        result['region'] = prov_name
+        result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['region', 'date'])
         if results is None:
             results = result
         else:
