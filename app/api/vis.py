@@ -73,7 +73,9 @@ def get_phus():
       "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
       "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
       "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
-      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit"}
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+      "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit", "Leeds Grenville and Lanark": "Leeds Grenville and Lanark District Health Unit", "Renfrew": "Renfrew Country and District Health Unit",
+      "Thunder Bay": "Thunder Bay District Health Unit"}
     dfs.region = dfs.region.replace(replace)
     regions = dfs.region.unique()
 
@@ -873,7 +875,9 @@ def get_phudeath():
       "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
       "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
       "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
-      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit"}
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+      "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit","Leeds Grenville and Lanark": "Leeds Grenville and Lanark District Health Unit", "Renfrew": "Renfrew Country and District Health Unit",
+      "Thunder Bay": "Thunder Bay District Health Unit"}
     dfs.region = dfs.region.replace(replace)
     regions = dfs.region.unique()
 
@@ -919,7 +923,7 @@ def get_icu_capacity_phu():
            "Hastings and Prince Edward Counties Health Unit": ["South East"],
            "Huron County Health Unit": ["South West"],
            "Chatham-Kent Health Unit": ["Erie St. Clair"],
-           "Kingston, Frontenac and Lennox and Addington Health Unit": ["South East"],
+           "Kingston, Frontenac, and Lennox and Addington Health Unit": ["South East"],
            "Lambton Health Unit": ["Erie St. Clair"],
            "Leeds, Grenville and Lanark District Health Unit": ["South East", "Champlain"],
            "Middlesex-London Health Unit": ["South West"],
@@ -941,7 +945,7 @@ def get_icu_capacity_phu():
            "Wellington-Dufferin-Guelph Health Unit": ["Waterloo Wellington", "Central West"],
            "Windsor-Essex County Health Unit": ["Erie St. Clair"],
            "York Regional Health Unit": ["Central"],
-           "Oxford Elgin St. Thomas Health Unit": ["South West"],
+           "Southwestern Public Health": ["South West"],
            "City of Toronto Health Unit": ["Toronto Central", "Central East", "Central"]
            }
 
