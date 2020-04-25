@@ -174,7 +174,7 @@ def capacityicu(date):
         lhin = row['LHIN']
         critical_care_beds = row['# Critical Care Beds']
         critical_care_patients = row['# Critical Care Patients']
-        vented_beds = row['# Baseline Vented Beds'] + row['# Expanded Vented Beds']
+        vented_beds = row['# Expanded Vented Beds']
         vented_patients = row['# Vented Patients']
         suspected_covid = row['# Suspected COVID-19']
         confirmed_positive = row['# Confirmed Positive COVID-19']
