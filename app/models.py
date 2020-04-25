@@ -159,6 +159,7 @@ class Viz(db.Model):
     row = db.Column(db.Integer)
     column = db.Column(db.Integer)
     html = db.Column(db.String)
+    phu = db.Column(db.String)
 
 
 
