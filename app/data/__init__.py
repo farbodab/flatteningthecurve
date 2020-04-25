@@ -41,7 +41,6 @@ sheetsConfig = [
     {'name':'NPI Interventions - USA','table':'npiinterventions_usa'},
     {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}
 ]
-]
 
 kaggleConfig = [
     {'name':'canada_mortality.csv', 'table':'canadamortality', 'col':10, 'timeseries':'date'},
