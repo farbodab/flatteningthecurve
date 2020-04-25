@@ -754,6 +754,7 @@ def get_rt_est():
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
     prov_name = 'Ontario'
     cases_df = pd.read_sql_table('covid', db.engine)
+    cases_df = cases_df.loc[cases_df.province == prov_name]
     cases_df['date'] = pd.to_datetime(cases_df['date'])
     province_df = cases_df.groupby(['province', 'date'])['id'].count()
     province_df.index.rename(['region', 'date'], inplace=True)
