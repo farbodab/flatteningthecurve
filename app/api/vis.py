@@ -748,7 +748,7 @@ def get_top_causes():
 
 
 def get_rt_est():
-    # Source Alf Whitehead Kaggle Notebook 
+    # Source Alf Whitehead Kaggle Notebook
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
     prov_name = 'Ontario'
     cases_df = pd.read_sql_table('covid', db.engine)
@@ -770,7 +770,7 @@ def get_rt_est():
             # information from the future
             #center=True).mean(std=2).round()
             center=False).mean(std=2).round()
-        
+
         zeros = smoothed.index[smoothed.eq(0)]
         if len(zeros) == 0:
             idx_start = 0
@@ -795,7 +795,7 @@ def get_rt_est():
         # Note: if you want to have a Uniform prior you can use the following line instead.
         # I chose the gamma distribution because of our prior knowledge of the likely value
         # of R_t.
-        
+
         # prior0 = np.full(len(r_t_range), np.log(1/len(r_t_range)))
         prior0 = np.log(sps.gamma(a=3).pdf(r_t_range) + 1e-14)
 
@@ -815,7 +815,7 @@ def get_rt_est():
 
         # Normalize to 1.0
         posteriors = posteriors.div(posteriors.sum(axis=0), axis=1)
-        
+
         return posteriors
 
     def highest_density_interval(pmf, p=.95):
@@ -823,7 +823,7 @@ def get_rt_est():
         if(isinstance(pmf, pd.DataFrame)):
             return pd.DataFrame([highest_density_interval(pmf[col]) for col in pmf],
                                 index=pmf.columns)
-        
+
         cumsum = np.cumsum(pmf.values)
         best = None
         for i, value in enumerate(cumsum):
@@ -831,12 +831,12 @@ def get_rt_est():
                 if (high_value-value > p) and (not best or j<best[1]-best[0]):
                     best = (i, i+j+1)
                     break
-                
+
         low = pmf.index[best[0]]
         high = pmf.index[best[1]]
         return pd.Series([low, high], index=['Low', 'High'])
 
-        
+
     target_regions = []
     for reg, cases in canada_df.groupby(level='region'):
         if cases.max() >= 30:
@@ -861,7 +861,7 @@ def get_rt_est():
             results = results.append(result)
     return results
 
-  
+
 def get_phudeath():
     c = CanadaMortality.query.filter_by(province="Ontario")
     dfs = pd.read_sql(c.statement, db.engine)
@@ -898,3 +898,65 @@ def get_phudeath():
 
     return df_final
 
+def get_icu_capacity_phu():
+    df = pd.read_sql_table('icucapacity', db.engine)
+
+    replace = {"1. ESC":"Erie St. Clair", "2. SW": "South West", "3. WW": "Waterloo Wellington", "4. HNHB": "Hamilton Niagara Haldimand Brant", "5. CW": "Central West", "6. MH": "Mississauga Halton", "7. TC": "Toronto Central", "8. Central": "Central", "9. CE": "Central East", "10. SE": "South East", "11. Champlain": "Champlain", "12. NSM": "North Simcoe Muskoka", "13. NE": "North East", "14. NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+    replace = {"L1: ESC":"Erie St. Clair", "L2: SW": "South West", "L3: WW": "Waterloo Wellington", "L4: HNHB": "Hamilton Niagara Haldimand Brant", "L5: CW": "Central West", "L6: MH": "Mississauga Halton", "L7: Toronto": "Toronto Central", "L8: Central": "Central", "L9: CE": "Central East", "L10: SE": "South East", "L11: Champlain": "Champlain", "L12: NSM": "North Simcoe Muskoka", "L13: NE": "North East", "L14: NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+    mapping = {
+           "The District of Algoma Health Unit": ["North East"],
+           "Brant County Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "Durham Regional Health Unit": ["Central East"],
+           "Grey Bruce Health Unit": ["South West"],
+           "Haldimand-Norfolk Health Unit": ["Hamilton Niagara Haldimand Brant", "South West"],
+           "Haliburton, Kawartha, Pine Ridge District Health Unit": ["Central East"],
+           "Halton Regional Health Unit": ["Mississauga Halton", "Hamilton Niagara Haldimand Brant"],
+           "City of Hamilton Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "Hastings and Prince Edward Counties Health Unit": ["South East"],
+           "Huron County Health Unit": ["South West"],
+           "Chatham-Kent Health Unit": ["Erie St. Clair"],
+           "Kingston, Frontenac and Lennox and Addington Health Unit": ["South East"],
+           "Lambton Health Unit": ["Erie St. Clair"],
+           "Leeds, Grenville and Lanark District Health Unit": ["South East", "Champlain"],
+           "Middlesex-London Health Unit": ["South West"],
+           "Niagara Regional Area Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "North Bay Parry Sound District Health Unit": ["North East"],
+           "Northwestern Health Unit": ["North West"],
+           "City of Ottawa Health Unit": ["Champlain"],
+           "Peel Regional Health Unit": ["Central West", "Mississauga Halton"],
+           "Perth District Health Unit": ["South West"],
+           "Peterborough County–City Health Unit": ["Central East"],
+           "Porcupine Health Unit": ["North East"],
+           "Renfrew County and District Health Unit": ["North East","Champlain"],
+           "The Eastern Ontario Health Unit": ["Champlain"],
+           "Simcoe Muskoka District Health Unit": ["North Simcoe Muskoka"],
+           "Sudbury and District Health Unit": ["North East"],
+           "Thunder Bay District Health Unit": ["North West"],
+           "Timiskaming Health Unit": ["North East"],
+           "Waterloo Health Unit": ["Waterloo Wellington"],
+           "Wellington-Dufferin-Guelph Health Unit": ["Waterloo Wellington", "Central West"],
+           "Windsor-Essex County Health Unit": ["Erie St. Clair"],
+           "York Regional Health Unit": ["Central"],
+           "Oxford Elgin St. Thomas Health Unit": ["South West"],
+           "City of Toronto Health Unit": ["Toronto Central", "Central East", "Central"]
+           }
+
+    df = df.groupby(['date', 'lhin']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
+
+    df['non_covid'] = df['critical_care_patients'] - df['confirmed_negative'] - df['confirmed_positive'] - df['suspected_covid']
+    df['residual_beds'] = df['critical_care_beds'] - df['critical_care_patients']
+    df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
+
+    data = pd.DataFrame(columns=['date','critical_care_beds','critical_care_patients','vented_beds','vented_patients','suspected_covid','suspected_covid_ventilator','confirmed_positive','confirmed_negative','confirmed_positive_ventilator','non_covid','residual_beds','residual_ventilators','PHU'])
+    for item in mapping:
+        temp = df.loc[df.lhin.isin(mapping[item])].groupby(['date']).sum().reset_index()
+        temp['PHU'] = item
+        data = data.append(temp)
+
+
+    return data
