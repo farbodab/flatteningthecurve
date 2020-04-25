@@ -946,7 +946,7 @@ def get_icu_capacity_phu():
            "Wellington-Dufferin-Guelph Health Unit": ["Waterloo Wellington", "Central West"],
            "Windsor-Essex County Health Unit": ["Erie St. Clair"],
            "York Regional Health Unit": ["Central"],
-           "Southwestern Public Health": ["South West"],
+           "Southwestern Public Health Unit": ["South West"],
            "City of Toronto Health Unit": ["Toronto Central", "Central East", "Central"]
            }
 
