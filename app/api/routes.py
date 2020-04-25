@@ -147,7 +147,7 @@ def get_growth():
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
-    df = df.loc[df.category!='NaN']
+    df = df.loc[df.html.isna()]
     df = df.sort_values(by=['category', 'header'])
     data = []
     for index, row in df.iterrows():
