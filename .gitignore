@@ -133,7 +133,7 @@ dmypy.json
 
 # Temp files
 app/export/datasets
-app/tests/data
+app/tests/data/*
 
 # Sublime
 *.sublime-project

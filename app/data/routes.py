@@ -34,8 +34,10 @@ def testsnew():
     df['Reported Date'] = pd.to_datetime(df['Reported Date'])
     date_include = datetime.strptime("2020-02-04","%Y-%m-%d")
     df = df.loc[df['Reported Date'] > date_include]
-
+    print('ontario testing data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['Reported Date']
         negative = row['Confirmed Negative']
         investigation = row['Under Investigation']
@@ -94,7 +96,10 @@ def getnpis():
     df['end_date'] = pd.to_datetime(df['end_date'])
     df.dropna(subset=['start_date'],inplace=True)
     df = df.fillna("NULL")
+    print('npi canada data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         start_date = row['start_date']
         end_date = row['end_date']
         country = row['country']
@@ -200,8 +205,12 @@ def capacity():
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
-    r = requests.get(url, stream=True)
-    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    print('canada case data being refreshed')
+    for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
     # for index, row in df.iterrows():
         case_id = row['case_id']
         age = row['age']
@@ -217,6 +226,7 @@ def cases():
         if not c:
             c = Covid(case_id=case_id, age=age, sex=sex, region=region, province=province, country=country, date=date, travel=travel, travelh=travelh)
             db.session.add(c)
+            db.session.commit()
         else:
             if not all((
                 (c.age == age),
@@ -237,7 +247,7 @@ def cases():
                 c.travel = travel
                 c.travelh = travelh
                 db.session.add(c)
-    db.session.commit()
+                db.session.commit()
     return
 
 def getcanadamortality():
@@ -247,7 +257,10 @@ def getcanadamortality():
     df['date'] = pd.to_datetime(df['date_death_report'],dayfirst=True)
     df = df.fillna("NULL")
     df = df.replace("NA", "NULL")
+    print('canada mortality data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         death_id = row['death_id']
         province_death_id = row['province_death_id']
         age = row['age']
@@ -285,7 +298,10 @@ def getcanadarecovered():
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['date_recovered'] = pd.to_datetime(df['date_recovered'],dayfirst=True)
     df = df.fillna(-1)
+    print('canada recovered data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['date_recovered']
         province = row['province']
         cumulative_recovered = row['cumulative_recovered']
@@ -295,6 +311,8 @@ def getcanadarecovered():
 
         db.session.add(c)
         db.session.commit()
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
     return
 
 def getcanadatested():
@@ -303,7 +321,10 @@ def getcanadatested():
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['date_testing'] = pd.to_datetime(df['date_testing'],dayfirst=True)
     df = df.fillna(-1)
+    print('canada testing counts being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['date_testing']
         province = row['province']
         cumulative_testing = row['cumulative_testing']
@@ -313,14 +334,21 @@ def getcanadatested():
 
         db.session.add(c)
         db.session.commit()
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
     return
 
 def getcanadamobility_google():
     # From global data
     try:
         url = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'
-        r = requests.get(url, stream=True)
-        for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df = df.loc[df.country_region == 'Canada']
+        print('google mobility data being refreshed')
+        for index, row in df.iterrows():
+            if (index % 100) == 0:
+                print(f'{index} / {df.tail(1).index.values[0]} passed')
             region = row['country_region']
             subregion = row['sub_region_1']
             date = row['date']
@@ -331,7 +359,8 @@ def getcanadamobility_google():
                 def add_transport(date, region, transportation_type, value):
                     if value == '':
                         value = -999
-
+                    if region != region:
+                        region = 'Canada'
                     m = MobilityTransportation.query.filter_by(date=date, region=region, transportation_type=transportation_type).limit(1).first()
                     if not m:
                         m = MobilityTransportation(date=date, region=region, transportation_type=transportation_type, value=value)
@@ -344,7 +373,8 @@ def getcanadamobility_google():
                 add_transport(date, region, 'Transit stations', row['transit_stations_percent_change_from_baseline'])
                 add_transport(date, region, 'Workplace', row['workplaces_percent_change_from_baseline'])
                 add_transport(date, region, 'Residential', row['residential_percent_change_from_baseline'])
-        db.session.commit()
+            db.session.commit()
+
     except Exception as err:
         print("failed to get data", err)
     return
@@ -382,21 +412,23 @@ def getcanadamobility_apple():
 
             # Get all date columns (i.e. not kind, name, category) and insert record for each
             date_columns = [x for x in list(df.columns) if x not in ['geo_type', 'region', 'transportation_type']]
-
+            print('apple mobility data being refreshed')
             for index, row in df.iterrows():
+                if (index % 100) == 0:
+                    print(f'{index} / {df.tail(1).index.values[0]} passed')
                 region = row['region']
                 transport = row['transportation_type']
                 for col in date_columns:
                     value = row[col]
                     if math.isnan(value):
                         continue
-
-                    m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport).limit(1).first()
-                    if not m:
-                        m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value)
-                        print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
-                        db.session.add(m)
-                        db.session.commit()
+                    if region==region:
+                        m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport).limit(1).first()
+                        if not m:
+                            m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value)
+                            print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
+                            db.session.add(m)
+                            db.session.commit()
 
             break
         except Exception as err:
@@ -405,15 +437,22 @@ def getcanadamobility_apple():
 
 def getgovernmentresponse():
     url = "https://ocgptweb.azurewebsites.net/CSVDownload"
-    r = requests.get(url, stream=True)
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df.Date,format="%Y%m%d")
+
 
     def parse_val(val):
         if val == -1:
             return sql.null()
+        elif val != val:
+            return sql.null()
         else:
             return val
-
-    for row in csv.DictReader(r.iter_lines(decode_unicode=True)):
+    print('international npi data being refreshed')
+    for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
     # for index, row in df.iterrows():
         date = row['Date']
         country = row['CountryName']
@@ -499,8 +538,9 @@ def getgovernmentresponse():
                 stringency_index_for_display=stringency_index_for_display)
 
             db.session.add(g)
+            db.session.commit()
 
-    db.session.commit()
+
     return
 
 
@@ -517,7 +557,10 @@ def international():
     df = df.drop(['Lat', 'Long', 'Province/State'], axis=1).groupby("Country/Region").sum().T
     df = df.diff().reset_index()
     df['Date']= pd.to_datetime(df['index'])
+    print('international case data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['Date']
         for country in countries:
             cases = row[country]
@@ -539,7 +582,10 @@ def getinternationalmortality():
     df = df.drop(['Lat', 'Long', 'Province/State'], axis=1).groupby("Country/Region").sum().T
     df = df.diff().reset_index()
     df['Date']= pd.to_datetime(df['index'])
+    print('international mortality data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['Date']
         for country in countries:
             cases = row[country]
@@ -561,7 +607,10 @@ def getinternationalrecovered():
     df = df.drop(['Lat', 'Long', 'Province/State'], axis=1).groupby("Country/Region").sum().T
     df = df.diff().reset_index()
     df['Date']= pd.to_datetime(df['index'])
+    print('international recovered data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['Date']
         for country in countries:
             cases = row[country]
@@ -580,7 +629,10 @@ def getinternationaltested():
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['Date'] = pd.to_datetime(df['Date'])
     df = df.fillna(-1)
+    print('international testing data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         date = row['Date']
         region = row['Entity'].split('-')[0]
         cumulative_testing = row['Cumulative total']
@@ -619,7 +671,10 @@ def getnpiusa():
             return sql.null()
 
     df = df.fillna(-1)
+    print('npi us data being refreshed')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         start_date = row['start_date']
         end_date = row['end_date']
         county = row['county']

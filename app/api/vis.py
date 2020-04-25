@@ -746,6 +746,7 @@ def get_top_causes():
     causes_df['Cause'] = causes_df['Cause'].apply(cause_to_friendly)
     return causes_df
 
+
 def get_rt_est():
     # Source Alf Whitehead Kaggle Notebook 
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
@@ -859,3 +860,41 @@ def get_rt_est():
         else:
             results = results.append(result)
     return results
+
+  
+def get_phudeath():
+    c = CanadaMortality.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
+    "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+     "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+     "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+      "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
+      "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
+      "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+      "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit"}
+    dfs.region = dfs.region.replace(replace)
+    regions = dfs.region.unique()
+
+    data = {'date':[], 'region':[], 'value':[]}
+    min = dfs['date'].min()
+    max = dfs['date'].max()
+    idx = pd.date_range(min, max)
+
+    for region in regions:
+        df = dfs.loc[dfs.region == region]
+        df = df.groupby("date").death_id.count()
+        df = df.reindex(idx, fill_value=0).reset_index()
+        date = datetime.strptime("2020-02-28","%Y-%m-%d")
+        df = df.loc[df['index'] > date]
+        df['date_str'] = df['index'].astype(str)
+
+        data['date'] += df['index'].tolist()
+        data['region'] += [region]*len(df['index'].tolist())
+        data['value'] += df['death_id'].tolist()
+
+    df_final = pd.DataFrame(data, columns=['region', 'date', 'value'])
+
+    return df_final
+

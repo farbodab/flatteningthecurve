@@ -21,7 +21,7 @@ def new_tests_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['New tests'].tail(1).values[0],))
+        value = df['New tests'].tail(1).values[0],number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],marker_color='#5E5AA1',visible=True, opacity=0.5))
 
@@ -33,7 +33,7 @@ def new_tests_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -51,27 +51,7 @@ def new_tests_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "New Tests Over Time"},]),
-            ]),
-        )
-    ])
+)
 
 
     div = fig.to_json()
@@ -92,7 +72,7 @@ def total_tests_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['Total tested'].tail(1).values[0],))
+        value = df['Total tested'].tail(1).values[0],number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],marker_color='#5E5AA1', visible=True, opacity=0.5))
 
@@ -104,7 +84,7 @@ def total_tests_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -123,27 +103,7 @@ def total_tests_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Total tested Over Time"},]),
-            ]),
-        )
-    ])
+)
 
 
     div = fig.to_json()
@@ -164,7 +124,8 @@ def tested_positve_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['New Positive pct'].tail(1).values[0]*100,))
+        value = df['New Positive pct'].tail(1).values[0]*100,
+        number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],marker_color='#5E5AA1',visible=True, opacity=0.5))
 
@@ -180,7 +141,7 @@ def tested_positve_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -199,27 +160,7 @@ def tested_positve_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Positive % Over Time"},]),
-            ]),
-        )
-    ])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Tested Positive").first()
@@ -238,7 +179,7 @@ def under_investigation_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['Under Investigation'].tail(1).values[0],))
+        value = df['Under Investigation'].tail(1).values[0],number = {'font': {'size': 60}},))
 
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],marker_color='#5E5AA1', visible=True, opacity=0.5))
@@ -254,7 +195,7 @@ def under_investigation_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -272,28 +213,7 @@ def under_investigation_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
-        legend_orientation="h",
-
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Under Investigation Over Time"},]),
-            ]),
-        )
-    ])
+        legend_orientation="h",)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Under Investigation").first()
@@ -312,7 +232,7 @@ def in_hospital_plot():
     temp = df.loc[df['Hospitalized'].notna()]
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = temp['Hospitalized'].tail(1).values[0],))
+        value = temp['Hospitalized'].tail(1).values[0],number = {'font': {'size': 60}},))
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
@@ -326,7 +246,7 @@ def in_hospital_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':"",
                 'y':0.95,
@@ -345,25 +265,7 @@ def in_hospital_plot():
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
         legend_orientation="h",
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Hospitalized Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="In Hospital").first()
@@ -382,7 +284,7 @@ def in_icu_plot():
     temp = df.loc[df['ICU'].notna()]
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = temp['ICU'].tail(1).values[0],))
+        value = temp['ICU'].tail(1).values[0],number = {'font': {'size': 60}},))
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
     fig.update_layout(
@@ -396,7 +298,7 @@ def in_icu_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':"",
                 'y':0.95,
@@ -414,26 +316,7 @@ def in_icu_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
-        legend_orientation="h",
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "In ICU Over Time"},]),
-            ]),
-        )])
+        legend_orientation="h",)
     div = fig.to_json()
     p = Viz.query.filter_by(header="In ICU").first()
     p.html = div
@@ -451,7 +334,7 @@ def on_ventilator_plot():
     temp = df.loc[df['Ventilator'].notna()]
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = temp['Ventilator'].tail(1).values[0],))
+        value = temp['Ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
@@ -466,7 +349,7 @@ def on_ventilator_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':"",
                 'y':0.95,
@@ -485,25 +368,7 @@ def on_ventilator_plot():
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
         legend_orientation="h",
-        updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "On Ventilator Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="On Ventilator").first()
@@ -525,6 +390,7 @@ def total_cases_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Positives'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -547,7 +413,7 @@ def total_cases_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -565,25 +431,7 @@ def total_cases_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Cases Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Total Cases").first()
@@ -602,6 +450,7 @@ def new_cases_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['New positives'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -624,7 +473,7 @@ def new_cases_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -642,25 +491,7 @@ def new_cases_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "New Cases Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="New Cases").first()
@@ -679,6 +510,7 @@ def recovered_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Resolved'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -700,7 +532,7 @@ def recovered_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -717,26 +549,7 @@ def recovered_plot():
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Recovered Cases Over Time"},]),
-            ]),
-        )])
+        paper_bgcolor="#DFE7EA",)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Recovered").first()
@@ -755,6 +568,7 @@ def total_deaths_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Deaths'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -777,7 +591,7 @@ def total_deaths_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -795,25 +609,7 @@ def total_deaths_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Deaths Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Total Deaths").first()
@@ -832,6 +628,7 @@ def new_deaths_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['New deaths'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -854,7 +651,7 @@ def new_deaths_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -872,25 +669,7 @@ def new_deaths_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "New deaths Over Time"},]),
-            ]),
-        )])
+)
     div = fig.to_json()
     p = Viz.query.filter_by(header="New Deaths").first()
     p.html = div
@@ -910,6 +689,7 @@ def ltc_cases_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['LTC Cases Total'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -932,7 +712,7 @@ def ltc_cases_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -949,25 +729,7 @@ def ltc_cases_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Total LTC Cases Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="LTC Total").first()
@@ -988,6 +750,7 @@ def ltc_deaths_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['LTC Deaths'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1010,7 +773,7 @@ def ltc_deaths_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1027,25 +790,7 @@ def ltc_deaths_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "LTC Deaths Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="LTC Deaths").first()
@@ -1125,29 +870,7 @@ def cases_region_plot():
             family="Roboto",
             color="#000"
         ),
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="PHU",
-                     method="update",
-                     args=[{"visible": [True, False, False]},
-                           {"title": "Total Cases by Public Health Unit"}]),
-                dict(label="LHIN",
-                     method="update",
-                     args=[{"visible": [False, True, False]},
-                           {"title": "Total Cases by LHIN"}]),
-                dict(label="Region",
-                     method="update",
-                     args=[{"visible": [False, False, True]},
-                           {"title": "Total Cases by LHIN Region"}]),
-            ]),
-        )
-    ])
+)
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=40, b=50),
@@ -1363,6 +1086,7 @@ def icu_ontario_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['residual_beds'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1380,7 +1104,7 @@ def icu_ontario_plot():
     fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1398,25 +1122,7 @@ def icu_ontario_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Residual Beds Over Time"},]),
-            ]),
-        )])
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="ICU Ontario").first()
@@ -1433,6 +1139,7 @@ def ventilator_ontario_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['residual_ventilators'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1454,7 +1161,7 @@ def ventilator_ontario_plot():
     fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1472,25 +1179,7 @@ def ventilator_ontario_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Residual Ventilators Over Time"},]),
-            ]),
-        )])
+)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Ventilator Ontario").first()
@@ -1894,7 +1583,7 @@ def blank_plot():
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1936,6 +1625,7 @@ def ltc_staff_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Staff'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -1958,7 +1648,7 @@ def ltc_staff_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -1975,25 +1665,7 @@ def ltc_staff_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#F0D2C9',
         paper_bgcolor="#F0D2C9",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "LTC Staff Infections Over Time"},]),
-            ]),
-        )])
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="LTC Staff").first()
@@ -2015,6 +1687,7 @@ def hospital_staff_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = df['Hospital Staff'].tail(1).values[0],
+        number = {'font': {'size': 60}}
     ),
                  )
 
@@ -2037,7 +1710,7 @@ def hospital_staff_plot():
     fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#497787', visible=True, opacity=0.5))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
                 'y':0.95,
@@ -2054,25 +1727,7 @@ def hospital_staff_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#F0D2C9',
         paper_bgcolor="#F0D2C9",
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="KPI",
-                     method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": ""}
-                          ]),
-                dict(label="Trend",
-                     method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "Hospital Staff Infections Over Time"},]),
-            ]),
-        )])
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Hospital Staff").first()
