@@ -20,7 +20,7 @@ testdata = [
     '/data/npiinterventions_usa'
 ]
 
-responseThresold = 2000
+responseThresold = 3000
 
 @pytest.mark.parametrize('endpoint', testdata)
 def test_dataout(test_client, endpoint):

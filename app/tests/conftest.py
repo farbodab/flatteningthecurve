@@ -25,18 +25,8 @@ def test_client():
 
 @pytest.fixture(scope='module')
 def init_kaggle():
-    #kaggleHelper.exportToKaggle(kaggleConfig, 'test', 'testtitle', True)
-    '''api = KaggleApi()
+    api = KaggleApi()
     api.authenticate()
-    data = api.datasets_download('howsmyflattening', 'covid19-challenges')
-    print('DATA', data)'''
     dirname = os.path.join(APP_ROOT, 'tests/data')
-    print("APPY ROOT", APP_ROOT, dirname)
-    if not os.path.exists(dirname):
-        os.mkdir(dirname)
-    subprocess.run("kaggle datasets download howsmyflattening/covid19-challenges -p {}".format(dirname))
-
-    zipname = os.path.join(dirname, 'covid19-challenges.zip')
-    with ZipFile(zipname, 'r') as zipObj:
-        zipObj.extractall(dirname)
+    data = api.dataset_download_files('covid19-challenges', path=dirname, unzip=True)
 
