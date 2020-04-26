@@ -9,6 +9,7 @@ from app.plots import bp
 import pandas as pd
 import io
 from app.api import vis
+from sqlalchemy import sql
 
 PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'brant_county':'Brant County Health Unit',
@@ -370,7 +371,7 @@ def in_icu_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-            'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['confirmed_positive'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -565,11 +566,12 @@ def total_cases_plot(region='ontario'):
     else:
         df = vis.get_phus()
         df = df.loc[df.region == PHU[region]]
-        df = df.groupby('date').value.cumsum().reset_index()
-        df['Date'] = pd.to_datetime(df['index'])
+        df['value'] = df.value.cumsum()
+        df['Date'] = pd.to_datetime(df['date'])
+
         if len(df) <= 0:
-            div = ''
-            p = Viz.query.filter_by(header="deaths", phu=region).first()
+            div = sql.null()
+            p = Viz.query.filter_by(header="cases", phu=region).first()
             p.html = div
             db.session.add(p)
             db.session.commit()
@@ -690,8 +692,8 @@ def new_cases_plot(region='ontario'):
         df['Date'] = pd.to_datetime(df['date'])
 
         if len(df) <= 0:
-            div = ''
-            p = Viz.query.filter_by(header="deaths", phu=region).first()
+            div = sql.null()
+            p = Viz.query.filter_by(header="new cases", phu=region).first()
             p.html = div
             db.session.add(p)
             db.session.commit()
@@ -863,10 +865,10 @@ def total_deaths_plot(region='ontario'):
     else:
         df = vis.get_phudeath()
         df = df.loc[df.region == PHU[region]]
-        df = df.groupby('date').value.cumsum().reset_index()
-        df['Date'] = pd.to_datetime(df['index'])
+        df['value'] = df.value.cumsum()
+        df['Date'] = pd.to_datetime(df['date'])
         if len(df) <= 0:
-            div = ''
+            div = sql.null()
             p = Viz.query.filter_by(header="deaths", phu=region).first()
             p.html = div
             db.session.add(p)
@@ -984,7 +986,7 @@ def new_deaths_plot(region='ontario'):
         df['Date'] = pd.to_datetime(df['date'])
 
         if len(df) <= 0:
-            div = ''
+            div = sql.null()
             p = Viz.query.filter_by(header="new deaths", phu=region).first()
             p.html = div
             db.session.add(p)
