@@ -739,7 +739,7 @@ def new_viz():
         column = row['column']
         phu = row['phu']
 
-        c = Viz.query.filter_by(header=header).first()
+        c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
@@ -759,7 +759,6 @@ def new_viz():
             c.order = order
             c.row = row_z
             c.column = column
-            c.phu = phu
             db.session.add(c)
             db.session.commit()
     return 'success',200

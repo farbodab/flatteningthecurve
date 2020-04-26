@@ -65,6 +65,42 @@ kaggleConfig = [
     {'name':'vis_testresults.csv','function': vis.get_testresults, 'col':17, 'timeseries':'Date'},
 ]
 
+PHU = ['the district of algoma health unit',
+ 'brant county health unit',
+ 'durham regional health unit',
+ 'grey bruce health unit',
+ 'haldimand-norfolk health unit',
+ 'haliburton, kawartha, pine ridge district health unit',
+ 'halton regional health unit',
+ 'city of hamilton health unit',
+ 'hastings and prince edward counties health unit',
+ 'huron county health unit',
+ 'chatham-kent health unit',
+ 'kingston, frontenac, and lennox and addington health unit',
+ 'lambton health unit',
+ 'leeds, grenville and lanark district health unit',
+ 'middlesex-london health unit',
+ 'niagara regional area health unit',
+ 'north bay parry sound district health unit',
+ 'northwestern health unit',
+ 'city of ottawa health unit',
+ 'peel regional health unit',
+ 'perth district health unit',
+ 'peterborough county–city health unit',
+ 'porcupine health unit',
+ 'renfrew county and district health unit',
+ 'the eastern ontario health unit',
+ 'simcoe muskoka district health unit',
+ 'sudbury and district health unit',
+ 'thunder bay district health unit',
+ 'timiskaming health unit',
+ 'waterloo health unit',
+ 'wellington-dufferin-guelph health unit',
+ 'windsor-essex county health unit',
+ 'york regional health unit',
+ 'southwestern public health unit',
+ 'city of toronto health unit']
+
 @bp.cli.command('ontario')
 def getontario():
     routes.testsnew()
@@ -130,6 +166,19 @@ def export_kaggle():
 
 @bp.cli.command('plots')
 def test():
+    for region in PHU:
+        ## Cases
+        plots.total_cases_plot(region=region)
+        plots.new_cases_plot(region=region)
+        plots.new_deaths_plot(region=region)
+        plots.total_deaths_plot(region=region)
+        ## Hospitalization
+        plots.on_ventilator_plot(region=region)
+        plots.in_icu_plot(region=region)
+        ## Capacity
+        plots.icu_ontario_plot(region=region)
+        plots.ventilator_ontario_plot(region=region)
+
     plots.total_cases_plot()
     plots.new_tests_plot()
     plots.on_ventilator_plot()
@@ -141,9 +190,6 @@ def test():
     plots.total_deaths_plot()
     plots.toronto_mobility_plot()
     plots.retail_mobility_plot()
-    # plots.cases_region_plot()
-    plots.residual_table_plot()
-    # plots.lhin_icu_plot()
     plots.icu_ontario_plot()
     plots.ventilator_ontario_plot()
     plots.icu_projections_plot()
@@ -152,12 +198,7 @@ def test():
     plots.new_deaths_plot()
     plots.ventilator_ontario_plot()
     plots.new_deaths_plot()
-    plots.socio_plot()
-    plots.canada_cases_plot()
-    plots.international_cases_plot()
-    plots.canada_deaths_plot()
-    plots.international_deaths_plot()
-    plots.ontario_death_plots()
+
     plots.ltc_deaths_plot()
     plots.ltc_cases_plot()
     plots.blank_plot()

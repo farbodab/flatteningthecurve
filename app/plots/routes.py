@@ -55,7 +55,7 @@ def new_tests_plot():
 
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="New Tests").first()
+    p = Viz.query.filter_by(header="new tests").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -107,7 +107,7 @@ def total_tests_plot():
 
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Total Tested").first()
+    p = Viz.query.filter_by(header="tests").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -163,7 +163,7 @@ def tested_positve_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Tested Positive").first()
+    p = Viz.query.filter_by(header="tested positive").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -216,7 +216,7 @@ def under_investigation_plot():
         legend_orientation="h",)
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Under Investigation").first()
+    p = Viz.query.filter_by(header="under investigation").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -268,14 +268,14 @@ def in_hospital_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="In Hospital").first()
+    p = Viz.query.filter_by(header="in hospital").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-def in_icu_plot():
+def in_icu_plot(region='ontario'):
 
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
@@ -317,15 +317,16 @@ def in_icu_plot():
         plot_bgcolor='#E4F7FD',
         paper_bgcolor="#E4F7FD",
         legend_orientation="h",)
+
     div = fig.to_json()
-    p = Viz.query.filter_by(header="In ICU").first()
+    p = Viz.query.filter_by(header="in icu", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-def on_ventilator_plot():
+def on_ventilator_plot(region='ontario'):
 
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
@@ -371,7 +372,7 @@ def on_ventilator_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="On Ventilator").first()
+    p = Viz.query.filter_by(header="on ventilator").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -380,7 +381,7 @@ def on_ventilator_plot():
 
 ## Cases
 
-def total_cases_plot():
+def total_cases_plot(region='ontario'):
 
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
@@ -434,14 +435,15 @@ def total_cases_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Total Cases").first()
+    print(region)
+    p = Viz.query.filter_by(header="cases",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-def new_cases_plot():
+def new_cases_plot(region='ontario'):
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
 
@@ -494,7 +496,7 @@ def new_cases_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="New Cases").first()
+    p = Viz.query.filter_by(header="new cases",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -552,14 +554,14 @@ def recovered_plot():
         paper_bgcolor="#DFE7EA",)
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Recovered").first()
+    p = Viz.query.filter_by(header="recovered").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-def total_deaths_plot():
+def total_deaths_plot(region='ontario'):
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
 
@@ -612,14 +614,14 @@ def total_deaths_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Total Deaths").first()
+    p = Viz.query.filter_by(header="deaths",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-def new_deaths_plot():
+def new_deaths_plot(region='ontario'):
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
 
@@ -671,7 +673,7 @@ def new_deaths_plot():
         paper_bgcolor="#DFE7EA",
 )
     div = fig.to_json()
-    p = Viz.query.filter_by(header="New Deaths").first()
+    p = Viz.query.filter_by(header="new deaths", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -732,7 +734,7 @@ def ltc_cases_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="LTC Total").first()
+    p = Viz.query.filter_by(header="long term care cases").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -793,167 +795,13 @@ def ltc_deaths_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="LTC Deaths").first()
+    p = Viz.query.filter_by(header="long term care deaths").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-## Regional
-
-def cases_region_plot():
-    PHU = {
-        "Erie St. Clair": ['Chatham-Kent Health Unit', 'Lambton Health Unit', 'Windsor-Essex County Health Unit'],
-        "South West":['Middlesex-London Health Unit', 'Grey Bruce Health Unit', 'Haldimand-Norfolk','Southwestern','Huron County Health Unit'],
-        "Waterloo Wellington":['Wellington-Dufferin-Guelph Health Unit','Grey Bruce Health Unit','Waterloo Health Unit'],
-        "Hamilton Niagara Haldimand Brant":['Brant County Health Unit','City of Hamilton Health Unit','Halton Regional Health Unit','Haldimand-Norfolk','Niagara Regional Area Health Unit'],
-        "Central West":['Wellington-Dufferin-Guelph Health Unit','Toronto Public Health'],
-        "Mississauga Halton":['Peel Regional Health Unit','Halton Regional Health Unit','Toronto Public Health'],
-        "Toronto Central":['City of Toronto Health Unit'],
-        "Central":['York Regional Health Unit','Toronto Public Health'],
-        "Central East":['Peterborough County-City Health Unit','Haliburton, Kawartha','Pine Ridge District Health Unit','Toronto Public Health','Durham Regional Health Unit'],
-        "South East":['Hastings and Prince Edward Counties Health Unit','Leeds, Grenville and Lanark District Health Unit','Kingston, Frontenac, and Lennox and Addington Health Unit','Haliburton, Kawartha, Pine Ridge District Health Unit'],
-        "Champlain":['Leeds Grenville and Lanark','The Eastern Ontario Health Unit','City of Ottawa Health Unit','Renfrew'],
-        "North Simcoe Muskoka":['Simcoe Muskoka District Health Unit','Grey Bruce Health Unit'],
-        "North East":['Northwestern Health Unit','Timiskaming Health Unit','North Bay Parry Sound District Health Unit','The District of Algoma Health Unit','Sudbury and District Health Unit','Porcupine Health Unit'],
-        "North West":['Northwestern Health Unit','Thunder Bay']
-    }
-
-    Regions = {
-        "West":["Erie St. Clair","South West","Waterloo Wellington","Hamilton Niagara Haldimand Brant"],
-        "Central":["Central West","Mississauga Halton","Central","North Simcoe Muskoka"],
-        "Toronto":["Toronto Central"],
-        "East": ["Central East","South East","Champlain"],
-        "North": ["North East","North West"]
-    }
-
-
-    df = vis.get_phus()
-    for item in PHU:
-        df.loc[df.region.isin(PHU[item]),'LHIN'] = item
-
-    for item in Regions:
-        df.loc[df.LHIN.isin(Regions[item]),'Region'] = item
-
-
-
-    df = df.drop(df.loc[df.region == 'Ontario'].index)
-
-    regions = df.region.values
-
-    df.region = [thing.replace("Health Unit","") for thing in regions]
-
-    fig = go.Figure()
-
-    df_t = df.groupby('region')['value'].sum().sort_values()
-
-    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h', text=df_t.values, textposition='inside',marker_color="#413C90"))
-
-    df_t = df.groupby('LHIN')['value'].sum().sort_values()
-
-    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h',text=df_t.values, textposition='inside',visible=True, opacity=0.5,marker_color="#413C90"))
-
-    df_t = df.groupby('Region')['value'].sum().sort_values()
-
-    fig.add_trace(go.Bar(y=df_t.index, x=df_t.values, orientation='h',text=df_t.values, textposition='inside',visible=True, opacity=0.5, marker_color="#413C90"))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False},
-        yaxis = {'showgrid': False},
-        title={'text':f"Total Cases by Public Health Unit",
-                'y':0.98,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        ),
-)
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-    )
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Cases by Region").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
-
-def residual_table_plot():
-    df = vis.get_icu_capacity()
-    last_date = df.tail(1).date.values[0]
-    df = df.loc[df.date == last_date]
-
-
-    fig = go.Figure()
-
-    fig.add_trace(
-        go.Table(
-            header=dict(
-                values=["LHIN", "Residual Beds", "Residual Ventilators"],
-                font=dict(size=10),
-                align="left",
-                fill_color='#E0DFED'
-            ),
-            cells=dict(
-                values=[df[k].tolist() for k in df[['lhin', 'residual_beds', 'residual_ventilators']].columns[:]],
-                align = "left",
-            fill_color='#E0DFED')
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-    )
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Residual Table").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
-
-def lhin_icu_plot():
-    df = vis.get_icu_capacity()
-
-    last_date = df.tail(1).date.values[0]
-    df = df.loc[df.date == last_date]
-
-    df.rename(columns={"confirmed_positive":"Confirmed Covid"},inplace=True)
-    df.rename(columns={"suspected_covid":"Suspected Covid"},inplace=True)
-    df.rename(columns={"non_covid":"Not Covid"},inplace=True)
-
-    fig = go.Figure()
-
-    for thing in ['Confirmed Covid','Suspected Covid','Not Covid']:
-        fig.add_trace(go.Bar(name=thing,y=df.lhin, x=df[thing],orientation='h'))
-
-    fig.update_layout(barmode='stack')
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-        legend_orientation="h"
-    )
-
-    fig.update_layout(barmode='stack')
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="LHIN ICU Breakdown").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
 
 ## Mobility
 
@@ -991,7 +839,7 @@ def toronto_mobility_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Toronto Mobility").first()
+    p = Viz.query.filter_by(header="transit mobility").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -1070,7 +918,7 @@ def retail_mobility_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Retail Mobility").first()
+    p = Viz.query.filter_by(header="retail mobility").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -1078,7 +926,7 @@ def retail_mobility_plot():
     return
 
 ## Capacity
-def icu_ontario_plot():
+def icu_ontario_plot(region='ontario'):
     df = vis.get_icu_capacity_province()
 
     fig = go.Figure()
@@ -1125,14 +973,14 @@ def icu_ontario_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="ICU Ontario").first()
+    p = Viz.query.filter_by(header="residual beds",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
 
-def ventilator_ontario_plot():
+def ventilator_ontario_plot(region='ontario'):
     df = vis.get_icu_capacity_province()
     fig = go.Figure()
 
@@ -1182,7 +1030,7 @@ def ventilator_ontario_plot():
 )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Ventilator Ontario").first()
+    p = Viz.query.filter_by(header="residual ventilators",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -1233,344 +1081,10 @@ def icu_projections_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="ICU Projections").first()
+    p = Viz.query.filter_by(header="icu projections").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
-    return
-
-## Socioeconomic
-
-def socio_plot():
-    url = "https://docs.google.com/spreadsheets/d/1PTVSFZwSVWldmDpFEO_xXxTB-xSFtGq3pDPUKeLDEec/export?format=csv&id=1PTVSFZwSVWldmDpFEO_xXxTB-xSFtGq3pDPUKeLDEec&gid=0"
-    s=requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-
-    df.SES.replace(1,"1 (least deprived)",inplace=True)
-    df.SES.replace(5,"5 (most deprived)",inplace=True)
-
-
-    fig = go.Figure()
-
-    types = df['case status'].unique()
-
-    socio = ["1 (least deprived)",2,3,4,"5 (most deprived)"]
-
-    colors = ['blue', 'red']
-
-    colors = ['#B9DDF1','#8BBADC','#6798C1','#4776A4','#2A5783']
-
-    for ttype, color in zip(socio,colors):
-        temp = df.loc[df.SES == ttype]
-        fig.add_trace(go.Bar(name=ttype,x=types,y=temp['value'].values,text=temp['value'].values,textposition='auto',marker_color=color))
-
-
-    fig.update_layout(barmode='stack')
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-        legend_orientation="h"
-    )
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': True,'visible':True},
-        title={'text':f"Distribution of COVID19 Cases by Neighbourhood Socioeconmic Status",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        )
-    )
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Socioeconmic").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-    return
-
-
-## Trajectory
-def canada_cases_plot():
-    df = vis.get_cases_rolling_average()
-    Canada = ['Ontario', 'BC', 'Alberta', 'Quebec', 'Saskatchewan',
-       'Nova Scotia', 'NL', 'New Brunswick', 'Manitoba', 'Canada']
-    International = ['Ontario','Canada',
-           'Italy', 'Korea, South', 'Spain', 'United Kingdom', 'France', 'US']
-
-    fig = go.Figure()
-
-    for item in Canada:
-        temp = df.loc[df.region == item]
-        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
-        title={'text':f"Provincial Comparison: COVID19 Reported Cases Per Day",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-        legend_orientation="h"
-    )
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Canada Cases Average").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-
-    return
-
-def international_cases_plot():
-    International = ['Ontario','Canada',
-       'Italy', 'Korea, South', 'Spain', 'United Kingdom', 'France', 'US']
-
-    df = vis.get_cases_rolling_average()
-
-    fig = go.Figure()
-
-    for item in International:
-        temp = df.loc[df.region == item]
-        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
-        title={'text':f"International Comparison: COVID19 Reported Cases Per Day",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-        legend_orientation="h"
-    )
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="International Cases Average").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
-
-def canada_deaths_plot():
-    df = vis.get_deaths_rolling_average()
-    Canada = ['Ontario', 'BC', 'Alberta', 'Quebec', 'Saskatchewan',
-       'Nova Scotia', 'NL', 'New Brunswick', 'Manitoba', 'Canada']
-
-    fig = go.Figure()
-
-    for item in Canada:
-        temp = df.loc[df.region == item]
-        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
-        title={'text':f"Provincial Comparison: COVID19 Reported Deaths Per Day",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-        legend_orientation="h"
-    )
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Canada Deaths Average").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-
-    return
-
-def international_deaths_plot():
-    International = ['Ontario','Canada',
-       'Italy', 'Korea, South', 'Spain', 'United Kingdom', 'France', 'US']
-
-    df = vis.get_deaths_rolling_average()
-    fig = go.Figure()
-
-    for item in International:
-        temp = df.loc[df.region == item]
-        fig.add_trace(go.Scatter(name=item,x=temp.date_shifted,y=temp.average))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': True,'visible':True, 'type': 'log'},
-        title={'text':f"International Comparison: COVID19 Reported Deaths Per Day",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-        legend_orientation="h"
-    )
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="International Deaths Average").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
-
-def ontario_death_plots():
-    df = vis.get_daily_deaths()
-
-    df = df.loc[df.region == 'Ontario']
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Bar(x=df.date,y=df.daily_deaths,text=df.daily_deaths,textposition='auto', marker_color='#4F4B99'))
-
-    fig.update_layout(
-        title={'text':"Daily Deaths in Ontario: Comparison of COVID-19 and Estimates of non-COVID-19 Leading Causes",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
-        )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
-        plot_bgcolor='#E0DFED',
-        paper_bgcolor="#E0DFED",
-        showlegend=False
-    )
-
-    fig.add_shape(
-            # Line Horizontal
-                type="line",
-                x0=df.date.head(1).values[0],
-                y0=8,
-                x1=df.date.tail(1).values[0],
-                y1=8,
-                line=dict(
-                    color="grey",
-                    width=1,
-                ),
-        )
-
-    fig.add_shape(
-            # Line Horizontal
-                type="line",
-                x0=df.date.head(1).values[0],
-                y0=14,
-                x1=df.date.tail(1).values[0],
-                y1=14,
-                line=dict(
-                    color="grey",
-                    width=1,
-                ),
-        )
-
-    fig.add_shape(
-            # Line Horizontal
-                type="line",
-                x0=df.date.head(1).values[0],
-                y0=16,
-                x1=df.date.tail(1).values[0],
-                y1=16,
-                line=dict(
-                    color="grey",
-                    width=1,
-                ),
-        )
-
-    fig.add_shape(
-            # Line Horizontal
-                type="line",
-                x0=df.date.head(1).values[0],
-                y0=56,
-                x1=df.date.tail(1).values[0],
-                y1=56,
-                line=dict(
-                    color="grey",
-                    width=1,
-                ),
-        )
-
-    fig.add_shape(
-            # Line Horizontal
-                type="line",
-                x0=df.date.head(1).values[0],
-                y0=83,
-                x1=df.date.tail(1).values[0],
-                y1=83,
-                line=dict(
-                    color="grey",
-                    width=1,
-                ),
-        )
-
-    fig.update_shapes(dict(xref='x', yref='y'))
-
-    fig.add_trace(go.Scatter(
-        x=[df.date.head(3).values[1], df.date.head(3).values[1], df.date.head(3).values[1],df.date.head(3).values[1],df.date.head(3).values[1],df.date.head(3).values[1]],
-        y=[8+1,14+1,16+1,56+1,83+1],
-        text=["Diabetes","Cerebrovascular Disease","Accidents / Injuries","Heart Disease","All Cancers"],
-        mode="text",
-    ))
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="Ontario Death Comparison").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-
     return
 
 def blank_plot():
@@ -1668,7 +1182,7 @@ def ltc_staff_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="LTC Staff").first()
+    p = Viz.query.filter_by(header="long term care staff cases").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -1730,7 +1244,7 @@ def hospital_staff_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="Hospital Staff").first()
+    p = Viz.query.filter_by(header="hospital staff cases").first()
     p.html = div
     db.session.add(p)
     db.session.commit()
