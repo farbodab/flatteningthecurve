@@ -10,6 +10,43 @@ import pandas as pd
 import io
 from app.api import vis
 
+PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
+ 'brant_county':'Brant County Health Unit',
+ 'durham_regional':'Durham Regional Health Unit',
+ 'grey_bruce':'Grey Bruce Health Unit',
+ 'haldimand_norfolk':'Haldimand-Norfolk Health Unit',
+ 'haliburton_kawartha_pine_ridge_district':'Haliburton, Kawartha, Pine Ridge District Health Unit',
+ 'halton_regional':'Halton Regional Health Unit',
+ 'city_of_hamilton':'City of Hamilton Health Unit',
+ 'hastings_and_prince_edward_counties':'Hastings and Prince Edward Counties Health Unit',
+ 'huron_county':'Huron County Health Unit',
+ 'chatham_kent':'Chatham-Kent Health Unit',
+ 'kingston_frontenac_and_lennox_and_addington':'Kingston, Frontenac, and Lennox and Addington Health Unit',
+ 'lambton':'Lambton Health Unit',
+ 'leeds_grenville_and_lanark_district':'Leeds, Grenville and Lanark District Health Unit',
+ 'middlesex_london':'Middlesex-London Health Unit',
+ 'niagara_regional_area':'Niagara Regional Area Health Unit',
+ 'north_bay_parry_sound_district':'North Bay Parry Sound District Health Unit',
+ 'northwestern':'Northwestern Health Unit',
+ 'city_of_ottawa':'City of Ottawa Health Unit',
+ 'peel_regional':'Peel Regional Health Unit',
+ 'perth_district':'Perth District Health Unit',
+ 'peterborough_county_city':'Peterborough County–City Health Unit',
+ 'porcupine':'Porcupine Health Unit',
+ 'renfrew_county_and_district':'Renfrew County and District Health Unit',
+ 'the_eastern_ontario':'The Eastern Ontario Health Unit',
+ 'simcoe_muskoka_district':'Simcoe Muskoka District Health Unit',
+ 'sudbury_and_district':'Sudbury and District Health Unit',
+ 'thunder_bay_district':'Thunder Bay District Health Unit',
+ 'timiskaming':'Timiskaming Health Unit',
+ 'waterloo':'Waterloo Health Unit',
+ 'wellington_dufferin_guelph':'Wellington-Dufferin-Guelph Health Unit',
+ 'windsor_essex_county':'Windsor-Essex County Health Unit',
+ 'york_regional':'York Regional Health Unit',
+ 'southwestern':'Southwestern Public Health Unit',
+ 'city_of_toronto':'City of Toronto Health Unit'}
+
+
 ## Tests
 
 def new_tests_plot():
@@ -277,46 +314,91 @@ def in_hospital_plot():
 
 def in_icu_plot(region='ontario'):
 
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
+    if region=='ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
-    temp = df.loc[df['ICU'].notna()]
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = temp['ICU'].tail(1).values[0],number = {'font': {'size': 60}},))
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=True, opacity=0.5))
+        fig = go.Figure()
+        temp = df.loc[df['ICU'].notna()]
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = temp['ICU'].tail(1).values[0],number = {'font': {'size': 60}},))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-        'title' : {"text": f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['ICU'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+            'title' : {"text": f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['ICU'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
 
-            color="#000"
+                color="#000"
+            )
         )
-    )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#E4F7FD',
-        paper_bgcolor="#E4F7FD",
-        legend_orientation="h",)
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",)
+    else:
+        df = vis.get_icu_capacity_phu()
+        df = df.loc[df.PHU == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
+
+        fig = go.Figure()
+        temp = df.loc[df['confirmed_positive'].notna()]
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = temp['confirmed_positive'].tail(1).values[0],number = {'font': {'size': 60}},))
+
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'],marker_color='#54CAF1',visible=True, opacity=0.5))
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+            'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['confirmed_positive'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="in icu", phu=region).first()
@@ -328,51 +410,96 @@ def in_icu_plot(region='ontario'):
 
 def on_ventilator_plot(region='ontario'):
 
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
+    if region=='ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
-    temp = df.loc[df['Ventilator'].notna()]
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = temp['Ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
+        fig = go.Figure()
+        temp = df.loc[df['Ventilator'].notna()]
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = temp['Ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
 
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-        'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Ventilator'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+            'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['Ventilator'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
 
-            color="#000"
+                color="#000"
+            )
         )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
+    )
+    else:
+        df = vis.get_icu_capacity_phu()
+        df = df.loc[df.PHU == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
+
+        fig = go.Figure()
+        temp = df.loc[df['confirmed_positive_ventilator'].notna()]
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = temp['confirmed_positive_ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
+
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+            'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['confirmed_positive_ventilator'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
     )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#E4F7FD',
-        paper_bgcolor="#E4F7FD",
-        legend_orientation="h",
-)
-
     div = fig.to_json()
-    p = Viz.query.filter_by(header="on ventilator").first()
+    p = Viz.query.filter_by(header="on ventilator", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -383,56 +510,121 @@ def on_ventilator_plot(region='ontario'):
 
 def total_cases_plot(region='ontario'):
 
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
+    if region=='ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
+        fig = go.Figure()
 
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['Positives'].tail(1).values[0],
-        number = {'font': {'size': 60}}
-    ),
-                 )
-
-
-
-
-
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'title' : {"text": f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Positives'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['Positives'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=True, opacity=0.5))
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':f"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
 
-            color="#000"
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['Positives'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
         )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
     )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-)
+    else:
+        df = vis.get_phus()
+        df = df.loc[df.region == PHU[region]]
+        df = df.groupby('date').value.cumsum().reset_index()
+        df['Date'] = pd.to_datetime(df['index'])
+        if len(df) <= 0:
+            div = ''
+            p = Viz.query.filter_by(header="deaths", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['value'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+
+
+
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['value'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
+    )
+
+
+
 
     div = fig.to_json()
     print(region)
@@ -444,56 +636,114 @@ def total_cases_plot(region='ontario'):
     return
 
 def new_cases_plot(region='ontario'):
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
+    if region == 'ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['New positives'].tail(1).values[0],
-        number = {'font': {'size': 60}}
-    ),
-                 )
+        fig = go.Figure()
 
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['New positives'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
 
-
-
-
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'title' : {"text": f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['New positives'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['New positives'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=True, opacity=0.5))
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':f"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
 
-            color="#000"
+                color="#000"
+            )
         )
-    )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-)
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
+    )
+    else:
+        df = vis.get_phus()
+        df = df.loc[df.region == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
+
+        if len(df) <= 0:
+            div = ''
+            p = Viz.query.filter_by(header="deaths", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['value'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+
+
+
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['value'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="new cases",phu=region).first()
@@ -562,56 +812,110 @@ def recovered_plot():
     return
 
 def total_deaths_plot(region='ontario'):
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
+    if region == 'ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['Deaths'].tail(1).values[0],
-        number = {'font': {'size': 60}}
-    ),
-                 )
+        fig = go.Figure()
 
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['Deaths'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
 
-
-
-
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'title' : {"text": f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Deaths'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['Deaths'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':f"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
 
-            color="#000"
+                color="#000"
+            )
         )
-    )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-)
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
+    )
+    else:
+        df = vis.get_phudeath()
+        df = df.loc[df.region == PHU[region]]
+        df = df.groupby('date').value.cumsum().reset_index()
+        df['Date'] = pd.to_datetime(df['index'])
+        if len(df) <= 0:
+            div = ''
+            p = Viz.query.filter_by(header="deaths", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['value'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['value'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="deaths",phu=region).first()
@@ -622,56 +926,119 @@ def total_deaths_plot(region='ontario'):
     return
 
 def new_deaths_plot(region='ontario'):
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
+    if region == 'ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['New deaths'].tail(1).values[0],
-        number = {'font': {'size': 60}}
-    ),
-                 )
+        fig = go.Figure()
 
-
-
-
-
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'title' : {"text": f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['New deaths'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['New deaths'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=True, opacity=0.5))
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':f"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
 
-            color="#000"
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['New deaths'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
         )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
+    )
+    else:
+        df = vis.get_phudeath()
+        df = df.loc[df.region == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
+
+        if len(df) <= 0:
+            div = ''
+            p = Viz.query.filter_by(header="new deaths", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['value'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+
+
+
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['value'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#DFE7EA',
+            paper_bgcolor="#DFE7EA",
     )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",
-)
     div = fig.to_json()
     p = Viz.query.filter_by(header="new deaths", phu=region).first()
     p.html = div
@@ -927,7 +1294,15 @@ def retail_mobility_plot():
 
 ## Capacity
 def icu_ontario_plot(region='ontario'):
-    df = vis.get_icu_capacity_province()
+
+    if region == 'ontario':
+        df = vis.get_icu_capacity_province()
+        df['Date'] = pd.to_datetime(df['date'])
+    else:
+        df = vis.get_icu_capacity_phu()
+        df = df.loc[df.PHU == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
+
 
     fig = go.Figure()
 
@@ -981,7 +1356,14 @@ def icu_ontario_plot(region='ontario'):
     return
 
 def ventilator_ontario_plot(region='ontario'):
-    df = vis.get_icu_capacity_province()
+
+    if region == 'ontario':
+        df = vis.get_icu_capacity_province()
+        df['Date'] = pd.to_datetime(df['date'])
+    else:
+        df = vis.get_icu_capacity_phu()
+        df = df.loc[df.PHU == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
     fig = go.Figure()
 
     fig.add_trace(go.Indicator(
