@@ -1125,7 +1125,7 @@ def ltc_cases_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Confirmed Resident Cases<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"Confirmed Resident Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1241,7 +1241,7 @@ def ltc_deaths_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Confirmed Resident Deaths<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"Confirmed Resident Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1358,7 +1358,7 @@ def ltc_outbreaks_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"# of LTC Outbreaks<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"# of LTC Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1435,7 +1435,7 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         showlegend=False,
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"<span style='font-size:0.8em>R<sub>t</sub> value</span><br><span style='font-size:0.8em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"<span style='font-size:0.5em>R<sub>t</sub> value</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['ML'].tail(2).values[0],
                       'increasing': {'color':'red'},
