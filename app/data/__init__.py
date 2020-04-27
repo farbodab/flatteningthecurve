@@ -20,6 +20,7 @@ from datetime import datetime
 
 
 sheetsConfig = [
+    {'name': 'PHU Map', 'function': vis.get_phu_map},
     {'name':'Results','function':vis.get_results},
     {'name':'PHU','function':vis.get_phus},
     {'name':'Growth','function':vis.get_growth},
@@ -38,7 +39,6 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'PHU Death','function':vis.get_phudeath},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu},
-    {'name': 'PHU Map', 'function': vis.get_phu_map},
     {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}
 ]
 

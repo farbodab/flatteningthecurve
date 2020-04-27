@@ -12,6 +12,42 @@ import numpy as np
 from scipy import stats as sps
 from scipy.interpolate import interp1d
 
+PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
+ 'brant_county':'Brant County Health Unit',
+ 'durham_regional':'Durham Regional Health Unit',
+ 'grey_bruce':'Grey Bruce Health Unit',
+ 'haldimand_norfolk':'Haldimand-Norfolk Health Unit',
+ 'haliburton_kawartha_pine_ridge_district':'Haliburton, Kawartha, Pine Ridge District Health Unit',
+ 'halton_regional':'Halton Regional Health Unit',
+ 'city_of_hamilton':'City of Hamilton Health Unit',
+ 'hastings_and_prince_edward_counties':'Hastings and Prince Edward Counties Health Unit',
+ 'huron_county':'Huron County Health Unit',
+ 'chatham_kent':'Chatham-Kent Health Unit',
+ 'kingston_frontenac_and_lennox_and_addington':'Kingston, Frontenac, and Lennox and Addington Health Unit',
+ 'lambton':'Lambton Health Unit',
+ 'leeds_grenville_and_lanark_district':'Leeds, Grenville and Lanark District Health Unit',
+ 'middlesex_london':'Middlesex-London Health Unit',
+ 'niagara_regional_area':'Niagara Regional Area Health Unit',
+ 'north_bay_parry_sound_district':'North Bay Parry Sound District Health Unit',
+ 'northwestern':'Northwestern Health Unit',
+ 'city_of_ottawa':'City of Ottawa Health Unit',
+ 'peel_regional':'Peel Regional Health Unit',
+ 'perth_district':'Perth District Health Unit',
+ 'peterborough_county_city':'Peterborough County–City Health Unit',
+ 'porcupine':'Porcupine Health Unit',
+ 'renfrew_county_and_district':'Renfrew County and District Health Unit',
+ 'the_eastern_ontario':'The Eastern Ontario Health Unit',
+ 'simcoe_muskoka_district':'Simcoe Muskoka District Health Unit',
+ 'sudbury_and_district':'Sudbury and District Health Unit',
+ 'thunder_bay_district':'Thunder Bay District Health Unit',
+ 'timiskaming':'Timiskaming Health Unit',
+ 'waterloo':'Waterloo Health Unit',
+ 'wellington_dufferin_guelph':'Wellington-Dufferin-Guelph Health Unit',
+ 'windsor_essex_county':'Windsor-Essex County Health Unit',
+ 'york_regional':'York Regional Health Unit',
+ 'southwestern':'Southwestern Public Health Unit',
+ 'city_of_toronto':'City of Toronto Health Unit'}
+
 def get_results():
     c = Covid.query.filter_by(province="Ontario")
     df = pd.read_sql(c.statement, db.engine)
@@ -993,32 +1029,47 @@ def get_phu_map():
       "Thunder Bay": "Thunder Bay District Health Unit", "Thunder Bay": "Thunder Bay District Health Unit",
       "Southwestern":"Southwestern Public Health Unit"}
     dfs.region = dfs.region.replace(replace)
-    regions = dfs.region.unique()
 
-    data = {'region':[], 'deaths':[], 'outbreaks': []}
+    data = {'region':[], 'cases':[],'deaths':[], 'outbreaks': []}
 
-    for region in regions:
-        df = dfs.loc[dfs.region == region]
+    for region in PHU:
+        df = dfs.loc[dfs.region == PHU[region]]
         if len(df) <= 0:
-            data['region'] += [region]
+            data['region'] += [PHU[region]]
             data['deaths'] += [0]
         else:
             df = df.groupby("date").death_id.count().cumsum()
-            data['region'] += [region]
+            data['region'] += [PHU[region]]
             data['deaths'] += [df.tail(1).values[0]]
+
+
+    c = Covid.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    dfs.region = dfs.region.replace(replace)
+
+    for region in PHU:
+        df = dfs.loc[dfs.region == PHU[region]]
+        if len(df) <= 0:
+            data['cases'] += [0]
+        else:
+            df = df.groupby("date").case_id.count().cumsum()
+            data['cases'] += [df.tail(1).values[0]]
 
     url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['Date'] = pd.to_datetime(df['Date'])
+    dfs.region = dfs.region.replace(replace)
 
-    for region in regions:
-        temp = df.loc[df.PHU == region]
+    for region in PHU:
+        temp = df.loc[df.PHU == PHU[region]]
         if len(temp) <= 0:
             data['outbreaks'] += [0]
         else:
             data['outbreaks'] += [temp.groupby('Date')['LTC Home'].count().tail(1).values[0]]
 
-    df_final = pd.DataFrame(data, columns=['region', 'deaths', 'outbreaks'])
+    df_final = pd.DataFrame(data, columns=['region', 'cases','deaths', 'outbreaks'])
+
+
 
     return df_final
