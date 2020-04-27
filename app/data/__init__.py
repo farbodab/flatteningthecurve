@@ -38,6 +38,7 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'PHU Death','function':vis.get_phudeath},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu},
+    {'name': 'PHU Map', 'function': vis.get_phu_map},
     {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}
 ]
 
@@ -64,6 +65,42 @@ kaggleConfig = [
     {'name':'vis_results.csv','function': vis.get_results, 'col':3},
     {'name':'vis_testresults.csv','function': vis.get_testresults, 'col':17, 'timeseries':'Date'},
 ]
+
+PHU = ['the_district_of_algoma',
+ 'brant_county',
+ 'durham_regional',
+ 'grey_bruce',
+ 'haldimand_norfolk',
+ 'haliburton_kawartha_pine_ridge_district',
+ 'halton_regional',
+ 'city_of_hamilton',
+ 'hastings_and_prince_edward_counties',
+ 'huron_county',
+ 'chatham_kent',
+ 'kingston_frontenac_and_lennox_and_addington',
+ 'lambton',
+ 'leeds_grenville_and_lanark_district',
+ 'middlesex_london',
+ 'niagara_regional_area',
+ 'north_bay_parry_sound_district',
+ 'northwestern',
+ 'city_of_ottawa',
+ 'peel_regional',
+ 'perth_district',
+ 'peterborough_county_city',
+ 'porcupine',
+ 'renfrew_county_and_district',
+ 'the_eastern_ontario',
+ 'simcoe_muskoka_district',
+ 'sudbury_and_district',
+ 'thunder_bay_district',
+ 'timiskaming',
+ 'waterloo',
+ 'wellington_dufferin_guelph',
+ 'windsor_essex_county',
+ 'york_regional',
+ 'southwestern',
+ 'city_of_toronto']
 
 @bp.cli.command('ontario')
 def getontario():
@@ -129,7 +166,25 @@ def export_kaggle():
     print('Kaggle data exported')
 
 @bp.cli.command('plots')
-def test():
+def updateplots():
+    for region in PHU:
+        ## Cases
+        plots.total_cases_plot(region=region)
+        plots.new_cases_plot(region=region)
+        plots.new_deaths_plot(region=region)
+        plots.total_deaths_plot(region=region)
+        ## Hospitalization
+        plots.on_ventilator_plot(region=region)
+        plots.in_icu_plot(region=region)
+        ## Capacity
+        plots.icu_ontario_plot(region=region)
+        plots.ventilator_ontario_plot(region=region)
+        plots.rt_analysis_plot(region=region)
+        ## ltc_cases_plot
+        plots.ltc_deaths_plot(region=region)
+        plots.ltc_cases_plot(region=region)
+        plots.ltc_outbreaks_plot(region=region)
+
     plots.total_cases_plot()
     plots.new_tests_plot()
     plots.on_ventilator_plot()
@@ -141,9 +196,6 @@ def test():
     plots.total_deaths_plot()
     plots.toronto_mobility_plot()
     plots.retail_mobility_plot()
-    # plots.cases_region_plot()
-    plots.residual_table_plot()
-    # plots.lhin_icu_plot()
     plots.icu_ontario_plot()
     plots.ventilator_ontario_plot()
     plots.icu_projections_plot()
@@ -152,15 +204,12 @@ def test():
     plots.new_deaths_plot()
     plots.ventilator_ontario_plot()
     plots.new_deaths_plot()
-    plots.socio_plot()
-    plots.canada_cases_plot()
-    plots.international_cases_plot()
-    plots.canada_deaths_plot()
-    plots.international_deaths_plot()
-    plots.ontario_death_plots()
+
     plots.ltc_deaths_plot()
     plots.ltc_cases_plot()
+    plots.ltc_outbreaks_plot()
     plots.blank_plot()
     plots.ltc_staff_plot()
     plots.hospital_staff_plot()
+    plots.rt_analysis_plot()
     print("Plot htmls updated")

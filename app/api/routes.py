@@ -147,7 +147,7 @@ def get_growth():
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
-    df = df.loc[df.category!='NaN']
+    df = df.loc[df.viz != 'NaN']
     df = df.sort_values(by=['category', 'header'])
     data = []
     for index, row in df.iterrows():
@@ -168,7 +168,7 @@ def get_api_plots():
     data = []
     for index, row in df.iterrows():
         data.append({"header": row["header"], "order": row["order"],
-        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"], "group": row["category"]})
+        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"], "group": row["category"], "phu": row["phu"]})
     return data
 
 @bp.route('/api/source', methods=['GET'])

@@ -753,8 +753,20 @@ def get_rt_est():
     # Source Alf Whitehead Kaggle Notebook
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
     prov_name = 'Ontario'
-    cases_df = pd.read_sql_table('covid', db.engine)
-    cases_df = cases_df.loc[cases_df.province == prov_name]
+    c = Covid.query.filter_by(province="Ontario")
+    cases_df = pd.read_sql(c.statement, db.engine)
+    replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
+    "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+     "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+     "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+      "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
+      "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
+      "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+      "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+      "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit", "Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
+      "Thunder Bay": "Thunder Bay District Health Unit", "Southwestern":"Southwestern Public Health Unit"}
+    cases_df.region = cases_df.region.replace(replace)
     cases_df['date'] = pd.to_datetime(cases_df['date'])
     province_df = cases_df.groupby(['province', 'date'])['id'].count()
     province_df.index.rename(['region', 'date'], inplace=True)
@@ -863,7 +875,6 @@ def get_rt_est():
             results = results.append(result)
     return results
 
-
 def get_phudeath():
     c = CanadaMortality.query.filter_by(province="Ontario")
     dfs = pd.read_sql(c.statement, db.engine)
@@ -965,3 +976,49 @@ def get_icu_capacity_phu():
 
 
     return data
+
+def get_phu_map():
+    c = CanadaMortality.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
+    "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+     "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+     "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+      "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
+      "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
+      "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+      "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+      "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit","Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
+      "Thunder Bay": "Thunder Bay District Health Unit", "Thunder Bay": "Thunder Bay District Health Unit",
+      "Southwestern":"Southwestern Public Health Unit"}
+    dfs.region = dfs.region.replace(replace)
+    regions = dfs.region.unique()
+
+    data = {'region':[], 'deaths':[], 'outbreaks': []}
+
+    for region in regions:
+        df = dfs.loc[dfs.region == region]
+        if len(df) <= 0:
+            data['region'] += [region]
+            data['deaths'] += [0]
+        else:
+            df = df.groupby("date").death_id.count().cumsum()
+            data['region'] += [region]
+            data['deaths'] += [df.tail(1).values[0]]
+
+    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    for region in regions:
+        temp = df.loc[df.PHU == region]
+        if len(temp) <= 0:
+            data['outbreaks'] += [0]
+        else:
+            data['outbreaks'] += [temp.groupby('Date')['LTC Home'].count().tail(1).values[0]]
+
+    df_final = pd.DataFrame(data, columns=['region', 'deaths', 'outbreaks'])
+
+    return df_final

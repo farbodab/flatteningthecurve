@@ -737,13 +737,14 @@ def new_viz():
         order = row['order']
         row_z = row['row']
         column = row['column']
+        phu = row['phu']
 
-        c = Viz.query.filter_by(header=header).first()
+        c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
-            column=column)
+            column=column, phu=phu)
             db.session.add(c)
             db.session.commit()
         else:
