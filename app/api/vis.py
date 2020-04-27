@@ -1123,14 +1123,14 @@ def get_phu_map():
     df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
 
 
-    data = pd.DataFrame(columns=['date','critical_care_beds','critical_care_patients','vented_beds','vented_patients','suspected_covid','suspected_covid_ventilator','confirmed_positive','confirmed_negative','confirmed_positive_ventilator','non_covid','residual_beds','residual_ventilators','PHU'])
+    data_t = pd.DataFrame(columns=['date','critical_care_beds','critical_care_patients','vented_beds','vented_patients','suspected_covid','suspected_covid_ventilator','confirmed_positive','confirmed_negative','confirmed_positive_ventilator','non_covid','residual_beds','residual_ventilators','PHU'])
     for item in mapping:
         temp = df.loc[df.lhin.isin(mapping[item])].groupby(['date']).sum().reset_index()
         temp['PHU'] = item
-        data = data.append(temp)
+        data_t = data_t.append(temp)
 
     for region in PHU:
-        temp = data.loc[data.PHU == PHU[region]]
+        temp = data_t.loc[data_t.PHU == PHU[region]]
         if len(temp) <= 0:
             data['critical_care_beds'] += [0]
             data['critical_care_patients'] += [0]
