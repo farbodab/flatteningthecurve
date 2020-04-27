@@ -1103,7 +1103,7 @@ def ltc_cases_plot(region='ontario'):
         s=requests.get(url).content
         df = pd.read_csv(io.StringIO(s.decode('utf-8')))
         df['Date'] = pd.to_datetime(df['Date'])
-        df = df.loc[df.PHU == region]
+        df = df.loc[df.PHU == PHU[region]]
 
         if len(df) <= 0:
             div = sql.null()
@@ -1219,7 +1219,7 @@ def ltc_deaths_plot(region='ontario'):
         s=requests.get(url).content
         df = pd.read_csv(io.StringIO(s.decode('utf-8')))
         df['Date'] = pd.to_datetime(df['Date'])
-        df = df.loc[df.PHU == region]
+        df = df.loc[df.PHU == PHU[region]]
 
         if len(df) <= 0:
             div = sql.null()
@@ -1336,7 +1336,7 @@ def ltc_outbreaks_plot(region='ontario'):
         s=requests.get(url).content
         df = pd.read_csv(io.StringIO(s.decode('utf-8')))
         df['Date'] = pd.to_datetime(df['Date'])
-        df = df.loc[df.PHU == region]
+        df = df.loc[df.PHU == PHU[region]]
 
         if len(df) <= 0:
             div = sql.null()
@@ -1400,7 +1400,10 @@ def rt_analysis_plot(region='Ontario'):
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['date'] = pd.to_datetime(df['date'])
 
-    df = df.loc[df.region == region]
+    if region=='Ontario':
+        df = df.loc[df.region == region]
+    else:
+        df = df.loc[df.region == PHU[region]]
 
     if len(df) <= 0:
         div = sql.null()
