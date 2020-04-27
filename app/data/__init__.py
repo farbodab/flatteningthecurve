@@ -38,6 +38,7 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'PHU Death','function':vis.get_phudeath},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu},
+    {'name': 'PHU Map', 'function': vis.get_phu_map},
     {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}
 ]
 
@@ -165,7 +166,7 @@ def export_kaggle():
     print('Kaggle data exported')
 
 @bp.cli.command('plots')
-def test():
+def updateplots():
     for region in PHU:
         ## Cases
         plots.total_cases_plot(region=region)
@@ -178,6 +179,11 @@ def test():
         ## Capacity
         plots.icu_ontario_plot(region=region)
         plots.ventilator_ontario_plot(region=region)
+        plots.rt_analysis_plot(region=region)
+        ## ltc_cases_plot
+        plots.ltc_deaths_plot(region=region)
+        plots.ltc_cases_plot(region=region)
+        plots.ltc_outbreaks_plot(region=region)
 
     plots.total_cases_plot()
     plots.new_tests_plot()
@@ -201,7 +207,9 @@ def test():
 
     plots.ltc_deaths_plot()
     plots.ltc_cases_plot()
+    plots.ltc_outbreaks_plot()
     plots.blank_plot()
     plots.ltc_staff_plot()
     plots.hospital_staff_plot()
+    plots.rt_analysis_plot()
     print("Plot htmls updated")

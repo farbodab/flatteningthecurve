@@ -1049,42 +1049,401 @@ def new_deaths_plot(region='ontario'):
 
     return
 
-def ltc_cases_plot():
-    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+def ltc_cases_plot(region='ontario'):
+
+    if region == 'ontario':
+        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df['Date'] = pd.to_datetime(df['Date'])
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['LTC Cases Total'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['LTC Cases Total'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+    )
+
+    else:
+        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df['Date'] = pd.to_datetime(df['Date'])
+        df = df.loc[df.PHU == region]
+
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="long term care cases", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number",
+            value = df.groupby('Date')['Confirmed Resident Cases'].sum().tail(1).values[0],
+            number = {'font': {'size': 60}},))
+
+
+
+        fig.update_layout(
+            showlegend=False,
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Confirmed Resident Cases<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number",
+            },
+                ]
+                                 }})
+
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
+            )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="long term care cases", phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def ltc_deaths_plot(region='ontario'):
+    if region == 'ontario':
+        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df['Date'] = pd.to_datetime(df['Date'])
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['LTC Deaths'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+
+
+
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['LTC Deaths'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+    )
+    else:
+        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df['Date'] = pd.to_datetime(df['Date'])
+        df = df.loc[df.PHU == region]
+
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="long term care deaths", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number",
+            value = df.groupby('Date')['Resident Deaths'].sum().tail(1).values[0],
+            number = {'font': {'size': 60}},))
+
+
+
+        fig.update_layout(
+            showlegend=False,
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"Confirmed Resident Deaths<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number",
+            },
+                ]
+                                 }})
+
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
+            )
+
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="long term care deaths", phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def ltc_outbreaks_plot(region='ontario'):
+    if region == 'ontario':
+        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df['Date'] = pd.to_datetime(df['Date'])
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['LTC Homes'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+
+
+
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"# of LTC Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['LTC Homes'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'],marker_color='#497787', visible=True, opacity=0.5))
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':False},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+    )
+    else:
+        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
+        s=requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df['Date'] = pd.to_datetime(df['Date'])
+        df = df.loc[df.PHU == region]
+
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="long term care outbreaks", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number",
+            value = df.groupby('Date')['LTC Home'].count().tail(1).values[0],
+            number = {'font': {'size': 60}},))
+
+
+
+        fig.update_layout(
+            showlegend=False,
+            template = {'data' : {'indicator': [{
+                'title' : {"text": f"# of LTC Outbreaks<br><span style='font-size:0.8em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'mode' : "number",
+            },
+                ]
+                                 }})
+
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"",
+                    'y':0.95,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+            plot_bgcolor='#E4F7FD',
+            paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
+            )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="long term care outbreaks", phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def rt_analysis_plot(region='Ontario'):
+    url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1086007065"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['Date'] = pd.to_datetime(df['Date'])
+    df['date'] = pd.to_datetime(df['date'])
+
+    df = df.loc[df.region == region]
+
+    if len(df) <= 0:
+        div = sql.null()
+        p = Viz.query.filter_by(header="rt analysis", phu=region).first()
+        p.html = div
+        db.session.add(p)
+        db.session.commit()
+        return
 
     fig = go.Figure()
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['LTC Cases Total'].tail(1).values[0],
-        number = {'font': {'size': 60}}
-    ),
-                 )
+        value = df['ML'].tail(1).values[0],
+        number = {'font': {'size': 60}},))
 
+    fig.add_trace(go.Scatter(x=df.date,y=df.ML,marker_color='#5E5AA1',visible=True,opacity=0.5))
 
-
+    fig.add_trace(go.Scatter(x=df.date,y=df.Low,
+        fill=None,
+        mode='lines',
+        line_color='#4F4B99',opacity=0.1
+        ))
+    fig.add_trace(go.Scatter(x=df.date,y=df.High,
+        fill='tonexty',
+        mode='lines', line_color='#4F4B99',opacity=0.1))
 
 
     fig.update_layout(
+        showlegend=False,
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"<span style='font-size:0.8em>R<sub>t</sub> value</span><br><span style='font-size:0.8em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['LTC Cases Total'].iloc[-2],
+            'delta' : {'reference': df['ML'].tail(2).values[0],
                       'increasing': {'color':'red'},
                       'decreasing': {'color':'green'}}},
             ]
                              }})
 
 
-
-    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=True, opacity=0.5))
-
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -1098,79 +1457,19 @@ def ltc_cases_plot():
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#E4F7FD',
-        paper_bgcolor="#E4F7FD",
-)
-
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="long term care cases").first()
-    p.html = div
-    db.session.add(p)
-    db.session.commit()
-
-    return
-
-def ltc_deaths_plot():
-    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
-    s=requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-    df['Date'] = pd.to_datetime(df['Date'])
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['LTC Deaths'].tail(1).values[0],
-        number = {'font': {'size': 60}}
-    ),
-                 )
-
-
-
-
-
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'title' : {"text": f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['LTC Deaths'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
-
-
-
-    fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=True, opacity=0.5))
-
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
-        title={'text':f"",
-                'y':0.95,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#000"
+        plot_bgcolor='#E0DFED',
+        paper_bgcolor="#E0DFED",
+        legend_orientation="h",
         )
-    )
-
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-        plot_bgcolor='#E4F7FD',
-        paper_bgcolor="#E4F7FD",
-)
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="long term care deaths").first()
+
+    p = Viz.query.filter_by(header="rt analysis",phu=region.lower()).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
 
     return
-
 
 ## Mobility
 
