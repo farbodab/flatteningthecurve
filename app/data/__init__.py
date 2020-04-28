@@ -20,6 +20,7 @@ from datetime import datetime
 
 
 sheetsConfig = [
+    {'name': 'PHU Map', 'function': vis.get_phu_map},
     {'name':'Results','function':vis.get_results},
     {'name':'PHU','function':vis.get_phus},
     {'name':'Growth','function':vis.get_growth},
@@ -167,7 +168,7 @@ def export_kaggle():
     print('Kaggle data exported')
 
 @bp.cli.command('plots')
-def plots():
+def updateplots():
     for region in PHU:
         ## Cases
         plots.total_cases_plot(region=region)
@@ -180,6 +181,11 @@ def plots():
         ## Capacity
         plots.icu_ontario_plot(region=region)
         plots.ventilator_ontario_plot(region=region)
+        plots.rt_analysis_plot(region=region)
+        ## ltc_cases_plot
+        plots.ltc_deaths_plot(region=region)
+        plots.ltc_cases_plot(region=region)
+        plots.ltc_outbreaks_plot(region=region)
 
     plots.total_cases_plot()
     plots.new_tests_plot()
@@ -203,7 +209,9 @@ def plots():
 
     plots.ltc_deaths_plot()
     plots.ltc_cases_plot()
+    plots.ltc_outbreaks_plot()
     plots.blank_plot()
     plots.ltc_staff_plot()
     plots.hospital_staff_plot()
+    plots.rt_analysis_plot()
     print("Plot htmls updated")

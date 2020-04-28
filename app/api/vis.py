@@ -12,6 +12,42 @@ import numpy as np
 from scipy import stats as sps
 from scipy.interpolate import interp1d
 
+PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
+ 'brant_county':'Brant County Health Unit',
+ 'durham_regional':'Durham Regional Health Unit',
+ 'grey_bruce':'Grey Bruce Health Unit',
+ 'haldimand_norfolk':'Haldimand-Norfolk Health Unit',
+ 'haliburton_kawartha_pine_ridge_district':'Haliburton, Kawartha, Pine Ridge District Health Unit',
+ 'halton_regional':'Halton Regional Health Unit',
+ 'city_of_hamilton':'City of Hamilton Health Unit',
+ 'hastings_and_prince_edward_counties':'Hastings and Prince Edward Counties Health Unit',
+ 'huron_county':'Huron County Health Unit',
+ 'chatham_kent':'Chatham-Kent Health Unit',
+ 'kingston_frontenac_and_lennox_and_addington':'Kingston, Frontenac, and Lennox and Addington Health Unit',
+ 'lambton':'Lambton Health Unit',
+ 'leeds_grenville_and_lanark_district':'Leeds, Grenville and Lanark District Health Unit',
+ 'middlesex_london':'Middlesex-London Health Unit',
+ 'niagara_regional_area':'Niagara Regional Area Health Unit',
+ 'north_bay_parry_sound_district':'North Bay Parry Sound District Health Unit',
+ 'northwestern':'Northwestern Health Unit',
+ 'city_of_ottawa':'City of Ottawa Health Unit',
+ 'peel_regional':'Peel Regional Health Unit',
+ 'perth_district':'Perth District Health Unit',
+ 'peterborough_county_city':'Peterborough County–City Health Unit',
+ 'porcupine':'Porcupine Health Unit',
+ 'renfrew_county_and_district':'Renfrew County and District Health Unit',
+ 'the_eastern_ontario':'The Eastern Ontario Health Unit',
+ 'simcoe_muskoka_district':'Simcoe Muskoka District Health Unit',
+ 'sudbury_and_district':'Sudbury and District Health Unit',
+ 'thunder_bay_district':'Thunder Bay District Health Unit',
+ 'timiskaming':'Timiskaming Health Unit',
+ 'waterloo':'Waterloo Health Unit',
+ 'wellington_dufferin_guelph':'Wellington-Dufferin-Guelph Health Unit',
+ 'windsor_essex_county':'Windsor-Essex County Health Unit',
+ 'york_regional':'York Regional Health Unit',
+ 'southwestern':'Southwestern Public Health Unit',
+ 'city_of_toronto':'City of Toronto Health Unit'}
+
 def get_results():
     c = Covid.query.filter_by(province="Ontario")
     df = pd.read_sql(c.statement, db.engine)
@@ -875,7 +911,6 @@ def get_rt_est():
             results = results.append(result)
     return results
 
-
 def get_phudeath():
     c = CanadaMortality.query.filter_by(province="Ontario")
     dfs = pd.read_sql(c.statement, db.engine)
@@ -977,3 +1012,160 @@ def get_icu_capacity_phu():
 
 
     return data
+
+def get_phu_map():
+    c = CanadaMortality.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
+    "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+     "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+     "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+      "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
+      "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
+      "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+      "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+      "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit","Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
+      "Thunder Bay": "Thunder Bay District Health Unit", "Thunder Bay": "Thunder Bay District Health Unit",
+      "Southwestern":"Southwestern Public Health Unit"}
+    dfs.region = dfs.region.replace(replace)
+
+    data = {'region':[], 'cases':[],'deaths':[], 'outbreaks': [], 'critical_care_beds':[],'critical_care_patients':[],'vented_beds':[],'vented_patients':[],'suspected_covid':[],'suspected_covid_ventilator':[],'confirmed_positive':[],'confirmed_negative':[],'confirmed_positive_ventilator':[],'non_covid':[],'residual_beds':[],'residual_ventilators':[]}
+
+    for region in PHU:
+        df = dfs.loc[dfs.region == PHU[region]]
+        if len(df) <= 0:
+            data['region'] += [PHU[region]]
+            data['deaths'] += [0]
+        else:
+            df = df.groupby("date").death_id.count().cumsum()
+            data['region'] += [PHU[region]]
+            data['deaths'] += [df.tail(1).values[0]]
+
+
+    c = Covid.query.filter_by(province="Ontario")
+    dfs = pd.read_sql(c.statement, db.engine)
+    dfs.region = dfs.region.replace(replace)
+
+    for region in PHU:
+        df = dfs.loc[dfs.region == PHU[region]]
+        if len(df) <= 0:
+            data['cases'] += [0]
+        else:
+            df = df.groupby("date").case_id.count().cumsum()
+            data['cases'] += [df.tail(1).values[0]]
+
+    url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
+    s=requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df['Date'] = pd.to_datetime(df['Date'])
+    dfs.region = dfs.region.replace(replace)
+
+    for region in PHU:
+        temp = df.loc[df.PHU == PHU[region]]
+        if len(temp) <= 0:
+            data['outbreaks'] += [0]
+        else:
+            data['outbreaks'] += [temp.groupby('Date')['LTC Home'].count().tail(1).values[0]]
+
+
+    df = pd.read_sql_table('icucapacity', db.engine)
+
+    replace = {"1. ESC":"Erie St. Clair", "2. SW": "South West", "3. WW": "Waterloo Wellington", "4. HNHB": "Hamilton Niagara Haldimand Brant", "5. CW": "Central West", "6. MH": "Mississauga Halton", "7. TC": "Toronto Central", "8. Central": "Central", "9. CE": "Central East", "10. SE": "South East", "11. Champlain": "Champlain", "12. NSM": "North Simcoe Muskoka", "13. NE": "North East", "14. NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+    replace = {"L1: ESC":"Erie St. Clair", "L2: SW": "South West", "L3: WW": "Waterloo Wellington", "L4: HNHB": "Hamilton Niagara Haldimand Brant", "L5: CW": "Central West", "L6: MH": "Mississauga Halton", "L7: Toronto": "Toronto Central", "L8: Central": "Central", "L9: CE": "Central East", "L10: SE": "South East", "L11: Champlain": "Champlain", "L12: NSM": "North Simcoe Muskoka", "L13: NE": "North East", "L14: NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+    mapping = {
+           "The District of Algoma Health Unit": ["North East"],
+           "Brant County Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "Durham Regional Health Unit": ["Central East"],
+           "Grey Bruce Health Unit": ["South West"],
+           "Haldimand-Norfolk Health Unit": ["Hamilton Niagara Haldimand Brant", "South West"],
+           "Haliburton, Kawartha, Pine Ridge District Health Unit": ["Central East"],
+           "Halton Regional Health Unit": ["Mississauga Halton", "Hamilton Niagara Haldimand Brant"],
+           "City of Hamilton Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "Hastings and Prince Edward Counties Health Unit": ["South East"],
+           "Huron County Health Unit": ["South West"],
+           "Chatham-Kent Health Unit": ["Erie St. Clair"],
+           "Kingston, Frontenac, and Lennox and Addington Health Unit": ["South East"],
+           "Lambton Health Unit": ["Erie St. Clair"],
+           "Leeds, Grenville and Lanark District Health Unit": ["South East", "Champlain"],
+           "Middlesex-London Health Unit": ["South West"],
+           "Niagara Regional Area Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "North Bay Parry Sound District Health Unit": ["North East"],
+           "Northwestern Health Unit": ["North West"],
+           "City of Ottawa Health Unit": ["Champlain"],
+           "Peel Regional Health Unit": ["Central West", "Mississauga Halton"],
+           "Perth District Health Unit": ["South West"],
+           "Peterborough County–City Health Unit": ["Central East"],
+           "Porcupine Health Unit": ["North East"],
+           "Renfrew County and District Health Unit": ["North East","Champlain"],
+           "The Eastern Ontario Health Unit": ["Champlain"],
+           "Simcoe Muskoka District Health Unit": ["North Simcoe Muskoka"],
+           "Sudbury and District Health Unit": ["North East"],
+           "Thunder Bay District Health Unit": ["North West"],
+           "Timiskaming Health Unit": ["North East"],
+           "Waterloo Health Unit": ["Waterloo Wellington"],
+           "Wellington-Dufferin-Guelph Health Unit": ["Waterloo Wellington", "Central West"],
+           "Windsor-Essex County Health Unit": ["Erie St. Clair"],
+           "York Regional Health Unit": ["Central"],
+           "Southwestern Public Health Unit": ["South West"],
+           "City of Toronto Health Unit": ["Toronto Central", "Central East", "Central"]
+           }
+
+    df = df.groupby(['date', 'lhin']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
+
+    df['non_covid'] = df['critical_care_patients'] - df['confirmed_negative'] - df['confirmed_positive'] - df['suspected_covid']
+    df['residual_beds'] = df['critical_care_beds'] - df['critical_care_patients']
+    df['residual_ventilators'] = df['vented_beds'] - df['vented_patients']
+
+
+    data_t = pd.DataFrame(columns=['date','critical_care_beds','critical_care_patients','vented_beds','vented_patients','suspected_covid','suspected_covid_ventilator','confirmed_positive','confirmed_negative','confirmed_positive_ventilator','non_covid','residual_beds','residual_ventilators','PHU'])
+    for item in mapping:
+        temp = df.loc[df.lhin.isin(mapping[item])].groupby(['date']).sum().reset_index()
+        temp['PHU'] = item
+        data_t = data_t.append(temp)
+
+    for region in PHU:
+        temp = data_t.loc[data_t.PHU == PHU[region]]
+        if len(temp) <= 0:
+            data['critical_care_beds'] += [0]
+            data['critical_care_patients'] += [0]
+            data['vented_beds'] += [0]
+            data['vented_patients'] += [0]
+            data['suspected_covid'] += [0]
+            data['suspected_covid_ventilator'] += [0]
+            data['confirmed_positive'] += [0]
+            data['confirmed_negative'] += [0]
+            data['confirmed_positive_ventilator'] += [0]
+            data['non_covid'] += [0]
+            data['residual_beds'] += [0]
+            data['residual_ventilators'] += [0]
+
+
+
+        else:
+            data['critical_care_beds'] += [temp.tail(1).critical_care_beds.values[0]]
+            data['critical_care_patients'] += [temp.tail(1).critical_care_patients.values[0]]
+            data['vented_beds'] += [temp.tail(1).vented_beds.values[0]]
+            data['vented_patients'] += [temp.tail(1).vented_patients.values[0]]
+            data['suspected_covid'] += [temp.tail(1).suspected_covid.values[0]]
+            data['suspected_covid_ventilator'] += [temp.tail(1).suspected_covid_ventilator.values[0]]
+            data['confirmed_positive'] += [temp.tail(1).confirmed_positive.values[0]]
+            data['confirmed_negative'] += [temp.tail(1).confirmed_negative.values[0]]
+            data['confirmed_positive_ventilator'] += [temp.tail(1).confirmed_positive_ventilator.values[0]]
+            data['non_covid'] += [temp.tail(1).non_covid.values[0]]
+            data['residual_beds'] += [temp.tail(1).residual_beds.values[0]]
+            data['residual_ventilators'] += [temp.tail(1).residual_ventilators.values[0]]
+
+
+
+
+    df_final = pd.DataFrame(data, columns=['region', 'cases','deaths', 'outbreaks', 'critical_care_beds','critical_care_patients','vented_beds','vented_patients','suspected_covid','suspected_covid_ventilator','confirmed_positive','confirmed_negative','confirmed_positive_ventilator','non_covid','residual_beds','residual_ventilators'])
+
+
+
+    return df_final
