@@ -562,7 +562,7 @@ def getlongtermcare():
         ltc_mapping[city] = phu
 
     try:
-        for table in tables: 
+        for table in tables:
             headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
 
             # Isolate table we care about
@@ -587,12 +587,12 @@ def getlongtermcare():
                 l = LongTermCare.query.filter_by(date=date, home=home).first()
                 if not l:
                     l = LongTermCare(
-                        date=date, 
-                        home=home, 
-                        city=city, 
-                        beds=beds, 
-                        confirmed_resident_cases=confirmed_resident_cases, 
-                        resident_deaths=resident_deaths, 
+                        date=date,
+                        home=home,
+                        city=city,
+                        beds=beds,
+                        confirmed_resident_cases=confirmed_resident_cases,
+                        resident_deaths=resident_deaths,
                         confirmed_staff_cases=confirmed_staff_cases,
                         phu=phu)
                     db.session.add(l)
@@ -837,6 +837,8 @@ def new_source():
     data = io.StringIO(s.decode('utf-8'))
     df = pd.read_csv(data)
     for index, row in df.iterrows():
+        region = row['Region']
+        type = row['Type']
         name = row['Name']
         source = row['Source']
         description = row['Description']
@@ -849,12 +851,14 @@ def new_source():
 
         c = Source.query.filter_by(name=name).first()
         if not c:
-            c = Source(name=name, source=source, description=description,
+            c = Source(region=region, type=type, name=name, source=source, description=description,
             data_feed_type=data_feed_type, link=link, refresh=refresh,
             contributor=contributor, contact=contact, download=download)
             db.session.add(c)
             db.session.commit()
         else:
+            c.region = region
+            c.type = type
             c.source = source
             c.description = description
             c.data_feed_type = data_feed_type

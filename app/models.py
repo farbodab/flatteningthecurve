@@ -166,6 +166,8 @@ class Viz(db.Model):
 class Source(db.Model):
     __tablename__ = 'source'
     id = db.Column(db.Integer(), primary_key=True)
+    region = db.Column(db.String, index=True)
+    type = db.Column(db.String, index=True)
     name = db.Column(db.String, index=True)
     source = db.Column(db.String)
     description = db.Column(db.String)

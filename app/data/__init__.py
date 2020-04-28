@@ -39,7 +39,7 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'PHU Death','function':vis.get_phudeath},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu},
-    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}, 
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est},
     {'name':'Long-term Care Homes','table':'longtermcare'},
 ]
 
@@ -107,6 +107,7 @@ PHU = ['the_district_of_algoma',
 @bp.cli.command('ontario')
 def getontario():
     routes.testsnew()
+    routes.getlongtermcare()
     print('Ontario data refreshed')
 
 @bp.cli.command('mobility')

@@ -179,7 +179,7 @@ def get_api_source():
     df = df.sort_values(by=['name'])
     data = []
     for index, row in df.iterrows():
-        data.append({"name": row["name"], "source": row["source"],
+        data.append({"region": row["region"],"type": row["type"],"name": row["name"], "source": row["source"],
         "description": row["description"], "data_feed_type": row["data_feed_type"],
         "link": row["link"], "refresh": row["refresh"],
         "contributor": row["contributor"],"contact": row["contact"],
