@@ -38,7 +38,8 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes},
     {'name':'PHU Death','function':vis.get_phudeath},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu},
-    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est}, 
+    {'name':'Long-term Care Homes','table':'longtermcare'},
 ]
 
 kaggleConfig = [
@@ -54,6 +55,7 @@ kaggleConfig = [
     {'name':'test_data_intl.csv','table': 'internationaldata', 'col':4, 'timeseries':'date'},
     {'name':'test_data_on.csv','table': 'covidtests', 'col':11, 'timeseries':'date'},
     {'name':'governmentresponse.csv','table': 'governmentresponse', 'col':40, 'timeseries':'date'},
+    {'name':'longtermcare_on.csv','table': 'longtermcare', 'col':9, 'timeseries':'date'},
     {'name':'vis_canada_mobility.csv','function': vis.get_mobility, 'col':5, 'timeseries':'date'},
     {'name':'vis_canada_mobility_transportation.csv','function': vis.get_mobility_transportation, 'col':5, 'timeseries':'date'},
     {'name':'vis_growthrecent.csv','function': vis.get_growth_recent, 'col':5, 'timeseries':'date'},
@@ -165,7 +167,7 @@ def export_kaggle():
     print('Kaggle data exported')
 
 @bp.cli.command('plots')
-def test():
+def plots():
     for region in PHU:
         ## Cases
         plots.total_cases_plot(region=region)
