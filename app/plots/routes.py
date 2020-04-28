@@ -1435,7 +1435,7 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         showlegend=False,
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"<span style='font-size:0.5em>R<sub>t</sub> value</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"<span style='font-size:0.5em>Basic Reproduction Number (<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a>)</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['ML'].tail(2).values[0],
                       'increasing': {'color':'red'},
@@ -1457,6 +1457,20 @@ def rt_analysis_plot(region='Ontario'):
             color="#000"
         )
     )
+    
+    fig.add_shape(
+            type="line",
+            xref="paper",
+            yref="y",
+            x0=0,
+            y0=1,
+            x1=1,
+            y1=1,
+            line=dict(
+                color="red",
+                width=2,
+            ),
+        )
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
