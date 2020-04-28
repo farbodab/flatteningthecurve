@@ -355,3 +355,25 @@ def sendnpiinterventions_usa():
     resp.headers["Content-Disposition"] = "attachment; filename=npi_usa.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp 
+
+
+@bp.route('/data/longtermcare', methods=['GET'])
+def longtermcare_ontario():
+    """
+    Ontario Long-term Care Home data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('longtermcare', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=longtermcare.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 

@@ -11,7 +11,6 @@ import pandas as pd
 import numpy as np
 import io
 import os
-from bs4 import BeautifulSoup
 import urllib.request
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -21,6 +20,7 @@ import math
 from sqlalchemy import text
 from sqlalchemy import sql
 import csv
+from app.export import sheetsHelper
 
 ########################################
 ############ONTARIO DATA################
@@ -539,9 +539,70 @@ def getgovernmentresponse():
 
             db.session.add(g)
             db.session.commit()
-
-
     return
+
+def getlongtermcare():
+    options = Options()
+    options.headless = True
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus"
+    driver.implicitly_wait(30)
+    driver.get(urlpage)
+    tables = driver.find_elements_by_tag_name("table")
+
+    def parseNum(num):
+        return int(num.replace('<', ''))
+
+    ltc_mapping = {}
+    #https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/edit?usp=sharing
+    #https://www.phdapps.health.gov.on.ca/PHULocator/Results.aspx
+    for row in sheetsHelper.readSheet('HowsMyFlattening - Mappings', 'CityToPHU'):
+        city = row[0]
+        phu = row[1]
+        ltc_mapping[city] = phu
+
+    try:
+        for table in tables: 
+            headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
+
+            # Isolate table we care about
+            # Match first 3 headers we know
+            if headers[0] != 'LTC Home' or headers[1] != 'City' or headers[2] != 'Beds':
+                continue
+
+            rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
+
+            for row in rows:
+                row_values = [x.text for x in row.find_elements_by_tag_name('td')]
+                date = datetime.now().strftime("%Y-%m-%d")
+                home = row_values[0].replace('""','')
+                city = row_values[1]
+                beds = parseNum(row_values[2])
+                confirmed_resident_cases = parseNum(row_values[3])
+                resident_deaths = parseNum(row_values[4])
+                confirmed_staff_cases = parseNum(row_values[4])
+                phu = ''
+                if city in ltc_mapping:
+                    phu = ltc_mapping[city]
+                l = LongTermCare.query.filter_by(date=date, home=home).first()
+                if not l:
+                    l = LongTermCare(
+                        date=date, 
+                        home=home, 
+                        city=city, 
+                        beds=beds, 
+                        confirmed_resident_cases=confirmed_resident_cases, 
+                        resident_deaths=resident_deaths, 
+                        confirmed_staff_cases=confirmed_staff_cases,
+                        phu=phu)
+                    db.session.add(l)
+            db.session.commit()
+            break
+    except:
+        print('Failed to extract LTC data from ontario.ca')
+        values = []
+
+    driver.quit()
 
 
 ########################################
