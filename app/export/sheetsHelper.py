@@ -55,3 +55,17 @@ def exportToSheets(collections):
 
     for index, x in enumerate(collections):
         updateCollection(x, sh)
+
+
+def readSheet(document, sheet, lazy=False):    
+    creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
+    client = gspread.authorize(creds)
+    sh = client.open(document)
+    sheet = sh.worksheet(sheet)
+
+    if lazy:
+        for line in range(3,sheet.col_count):
+            yield sheet.row_values(line)
+    else:
+        for line in sheet.get_all_values()[1:]:
+            yield line

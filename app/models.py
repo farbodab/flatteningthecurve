@@ -166,6 +166,8 @@ class Viz(db.Model):
 class Source(db.Model):
     __tablename__ = 'source'
     id = db.Column(db.Integer(), primary_key=True)
+    region = db.Column(db.String, index=True)
+    type = db.Column(db.String, index=True)
     name = db.Column(db.String, index=True)
     source = db.Column(db.String)
     description = db.Column(db.String)
@@ -246,3 +248,15 @@ class GovernmentResponse(db.Model):
     confirmed_deaths = db.Column(db.Integer)
     stringency_index = db.Column(db.Float)
     stringency_index_for_display = db.Column(db.Float)
+
+class LongTermCare(db.Model):
+    __tablename__ = 'longtermcare'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    home = db.Column(db.String)
+    city = db.Column(db.String)
+    beds = db.Column(db.Integer)
+    confirmed_resident_cases = db.Column(db.Integer)
+    resident_deaths = db.Column(db.Integer)
+    confirmed_staff_cases = db.Column(db.Integer)
+    phu = db.Column(db.String)
