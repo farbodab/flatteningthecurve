@@ -516,7 +516,7 @@ def get_tested():
     dft = dft.loc[dft.region.isin(regions)]
     dft = dft.rename(columns={"region": "province"})
     dft = dft[['date', 'province', 'cumulative_testing']]
-    df = pd.concat([df,dft])
+    df = pd.concat([df,dft]).reset_index()
 
     df.loc[df.province == 'United States ', 'testing_adjusted'] = df['cumulative_testing'] / 330571851 * 1000
     df.loc[df.province == 'Italy ', 'testing_adjusted'] = df['cumulative_testing'] / 60480998 * 1000
