@@ -1859,7 +1859,7 @@ def ltc_staff_plot(region="ontario"):
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#497787', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#EF7959', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
@@ -1921,7 +1921,7 @@ def hospital_staff_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#497787', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#EF7959', visible=True, opacity=0.5))
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
