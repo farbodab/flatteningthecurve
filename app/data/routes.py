@@ -547,7 +547,7 @@ def getlongtermcare():
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=options)
-    urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus"
+    urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)
     tables = driver.find_elements_by_tag_name("table")
