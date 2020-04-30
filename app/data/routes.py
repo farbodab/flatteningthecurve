@@ -544,7 +544,8 @@ def getgovernmentresponse():
 def getlongtermcare():
     options = Options()
     options.headless = True
-    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=options)
     urlpage = "https://www.ontario.ca/page/2019-novel-coronavirus"
     driver.implicitly_wait(30)
