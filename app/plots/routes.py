@@ -1068,7 +1068,7 @@ def ltc_cases_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"Total Long Term Care Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['LTC Cases Total'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1183,7 +1183,7 @@ def ltc_deaths_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"Total Long Term Care Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['LTC Deaths'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1300,7 +1300,7 @@ def ltc_outbreaks_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"# of LTC Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"# of Long Term Care Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['LTC Homes'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1358,7 +1358,7 @@ def ltc_outbreaks_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"# of LTC Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+                'title' : {"text": f"# of Long Term Care Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1849,7 +1849,7 @@ def ltc_staff_plot(region="ontario"):
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"LTC Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"Long Term Care Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Staff'].iloc[-2],
                       'increasing': {'color':'red'},
