@@ -1457,7 +1457,7 @@ def rt_analysis_plot(region='Ontario'):
             color="#000"
         )
     )
-    
+
     fig.add_shape(
             type="line",
             xref="paper",
@@ -1828,7 +1828,7 @@ def blank_plot():
 
 ## Health Care Workers
 
-def ltc_staff_plot():
+def ltc_staff_plot(region="ontario"):
     url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
@@ -1882,7 +1882,7 @@ def ltc_staff_plot():
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="long term care staff cases").first()
+    p = Viz.query.filter_by(header="long term care staff cases", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
