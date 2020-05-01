@@ -59,20 +59,25 @@ def new_tests_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['New tests'].tail(1).values[0],number = {'font': {'size': 60}},))
+        value = df['New tests'].tail(1).values[0],number = {'font': {'size': 60}},
+        ))
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],marker_color='#5E5AA1',visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],line=dict(color='#000', dash='dot'),visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'title' : {"text": f"New Tests<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['New tests'].iloc[-2]}}]
-                             }})
+            'delta' : {'reference': df['New tests'].iloc[-2],
+                  'increasing': {'color':'green'},
+                  'decreasing': {'color':'red'}}},
+        ]
+                         }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -112,18 +117,23 @@ def total_tests_plot():
         mode = "number+delta",
         value = df['Total tested'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],marker_color='#5E5AA1', visible=True, opacity=0.5))
+    # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],line=dict(color='#5E5AA1',dash='dot'), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Total tested'].rolling(7).mean(),line=dict(color='#5E5AA1', width=5), opacity=0.5,name="7 Day Average"))
+
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'title' : {"text": f"Total Tested<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Total tested'].iloc[-2]}}]
-                             }})
+            'delta' : {'reference': df['Total tested'].iloc[-2],
+                  'increasing': {'color':'green'},
+                  'decreasing': {'color':'red'}}},
+        ]
+                         }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -165,7 +175,9 @@ def tested_positve_plot():
         value = df['New Positive pct'].tail(1).values[0]*100,
         number = {'font': {'size': 60}},))
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],marker_color='#5E5AA1',visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],line=dict(color='#000', dash='dot'),visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=temp['New Positive pct'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
+
 
 
     fig.update_layout(
@@ -179,8 +191,8 @@ def tested_positve_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -220,7 +232,8 @@ def under_investigation_plot():
         value = df['Under Investigation'].tail(1).values[0],number = {'font': {'size': 60}},))
 
 
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],marker_color='#5E5AA1', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Under Investigation'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -233,8 +246,8 @@ def under_investigation_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -271,7 +284,8 @@ def in_hospital_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = temp['Hospitalized'].tail(1).values[0],number = {'font': {'size': 60}},))
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],marker_color='#54CAF1',visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5,name="Value"))
+    # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -284,8 +298,8 @@ def in_hospital_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':"",
                 'y':0.95,
                 'x':0.5,
@@ -293,7 +307,6 @@ def in_hospital_plot():
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
-
             color="#000"
         )
     )
@@ -324,7 +337,8 @@ def in_icu_plot(region='ontario'):
         fig.add_trace(go.Indicator(
             mode = "number+delta",
             value = temp['ICU'].tail(1).values[0],number = {'font': {'size': 60}},))
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],marker_color='#54CAF1',visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
@@ -337,8 +351,8 @@ def in_icu_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':"",
                     'y':0.95,
                     'x':0.5,
@@ -367,7 +381,9 @@ def in_icu_plot(region='ontario'):
             mode = "number+delta",
             value = temp['confirmed_positive'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'],marker_color='#54CAF1',visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
@@ -380,8 +396,8 @@ def in_icu_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':"",
                     'y':0.95,
                     'x':0.5,
@@ -421,7 +437,9 @@ def on_ventilator_plot(region='ontario'):
             mode = "number+delta",
             value = temp['Ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
@@ -434,7 +452,7 @@ def on_ventilator_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
+            xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':False},
             title={'text':"",
                     'y':0.95,
@@ -465,7 +483,9 @@ def on_ventilator_plot(region='ontario'):
             mode = "number+delta",
             value = temp['confirmed_positive_ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'],marker_color='#54CAF1',visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
@@ -478,8 +498,8 @@ def on_ventilator_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':"",
                     'y':0.95,
                     'x':0.5,
@@ -540,11 +560,12 @@ def total_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -561,6 +582,7 @@ def total_cases_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
 
     else:
@@ -602,11 +624,13 @@ def total_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -623,11 +647,8 @@ def total_cases_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
-
-
-
-
     div = fig.to_json()
     print(region)
     p = Viz.query.filter_by(header="cases",phu=region).first()
@@ -664,11 +685,13 @@ def new_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],line=dict(color='#000', dash='dot', ), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -685,6 +708,7 @@ def new_cases_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
     else:
         df = vis.get_phus()
@@ -724,11 +748,13 @@ def new_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -745,6 +771,7 @@ def new_cases_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
 
     div = fig.to_json()
@@ -755,7 +782,7 @@ def new_cases_plot(region='ontario'):
 
     return
 
-def recovered_plot():
+def recovered_plot(region='ontario'):
     df = vis.get_testresults()
     df['Date'] = pd.to_datetime(df['Date'])
 
@@ -768,26 +795,24 @@ def recovered_plot():
     ),
                  )
 
-
-
-
-
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'title' : {"text": f"Recovered Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Resolved'].iloc[-2],
-                      }},
-            ]
-                             }})
+                  'increasing': {'color':'green'},
+                  'decreasing': {'color':'red'}}},
+        ]
+                         }})
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],marker_color='#497787', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+    # fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -803,10 +828,11 @@ def recovered_plot():
     fig.update_layout(
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
-        paper_bgcolor="#DFE7EA",)
+        paper_bgcolor="#DFE7EA",
+        legend_orientation="h")
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="recovered").first()
+    p = Viz.query.filter_by(header="recovered", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -840,11 +866,13 @@ def total_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -861,6 +889,7 @@ def total_deaths_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
     else:
         df = vis.get_phudeath()
@@ -896,11 +925,12 @@ def total_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -917,6 +947,7 @@ def total_deaths_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
 
     div = fig.to_json()
@@ -958,11 +989,13 @@ def new_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -979,6 +1012,7 @@ def new_deaths_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
     else:
         df = vis.get_phudeath()
@@ -1018,11 +1052,13 @@ def new_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -1039,6 +1075,7 @@ def new_deaths_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#DFE7EA',
             paper_bgcolor="#DFE7EA",
+            legend_orientation="h",
     )
 
     div = fig.to_json()
@@ -1076,11 +1113,13 @@ def ltc_cases_plot(region='ontario'):
                 ]
                                  }})
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -1096,6 +1135,7 @@ def ltc_cases_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#E4F7FD',
             paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
     )
 
     else:
@@ -1193,11 +1233,13 @@ def ltc_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],line=dict(color='#497787', width=5), visible=True, opacity=0.5,name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -1213,6 +1255,7 @@ def ltc_deaths_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#E4F7FD',
             paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
     )
     else:
         url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
@@ -1310,11 +1353,13 @@ def ltc_outbreaks_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'],marker_color='#497787', visible=True, opacity=0.5))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'],line=dict(color='#497787', width=5), visible=True, opacity=0.5,name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
-            yaxis = {'showgrid': False,'visible':False},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
             title={'text':f"",
                     'y':0.95,
                     'x':0.5,
@@ -1330,6 +1375,7 @@ def ltc_outbreaks_plot(region='ontario'):
             margin=dict(l=0, r=10, t=30, b=50),
             plot_bgcolor='#E4F7FD',
             paper_bgcolor="#E4F7FD",
+            legend_orientation="h",
     )
     else:
         url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
@@ -1420,7 +1466,7 @@ def rt_analysis_plot(region='Ontario'):
         value = df['ML'].tail(1).values[0],
         number = {'font': {'size': 60}},))
 
-    fig.add_trace(go.Scatter(x=df.date,y=df.ML,marker_color='#5E5AA1',visible=True,opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.date,y=df.ML,line=dict(color='#5E5AA1', width=5),visible=True,opacity=0.5))
 
     fig.add_trace(go.Scatter(x=df.date,y=df.Low,
         fill=None,
@@ -1636,17 +1682,19 @@ def icu_ontario_plot(region='ontario'):
         'title' : {"text": f"ICU Beds Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['residual_beds'].iloc[-2],
-                      }},
-            ]
-                             }})
+                  'increasing': {'color':'green'},
+                  'decreasing': {'color':'red'}}},
+        ]
+                         }})
 
 
 
-    fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],marker_color='#497787', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+    # fig.add_trace(go.Scatter(x=df.Date,y=df['residual_beds'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -1663,6 +1711,7 @@ def icu_ontario_plot(region='ontario'):
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
+        legend_orientation="h",
     )
 
     div = fig.to_json()
@@ -1700,17 +1749,20 @@ def ventilator_ontario_plot(region='ontario'):
         'title' : {"text": f"Ventilators Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['residual_ventilators'].iloc[-2],
-                      }},
-            ]
-                             }})
+                  'increasing': {'color':'green'},
+                  'decreasing': {'color':'red'}}},
+        ]
+                         }})
 
 
 
-    fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],marker_color='#497787', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+    # fig.add_trace(go.Scatter(x=df.Date,y=df['residual_ventilators'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -1727,6 +1779,7 @@ def ventilator_ontario_plot(region='ontario'):
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#DFE7EA',
         paper_bgcolor="#DFE7EA",
+        legend_orientation="h",
 )
 
     div = fig.to_json()
@@ -1859,11 +1912,13 @@ def ltc_staff_plot(region="ontario"):
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],marker_color='#EF7959', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],line=dict(color='#EF7959', width=5), visible=True, opacity=0.5, name="Value"))
+    # fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':1,
@@ -1879,6 +1934,7 @@ def ltc_staff_plot(region="ontario"):
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#F0D2C9',
         paper_bgcolor="#F0D2C9",
+        legend_orientation="h",
     )
 
     div = fig.to_json()
@@ -1921,11 +1977,13 @@ def hospital_staff_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],marker_color='#EF7959', visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],line=dict(color='#EF7959', width=5), visible=True, opacity=0.5, name="Value"))
+    # fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
+
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
-        yaxis = {'showgrid': False,'visible':False},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
         title={'text':f"",
                 'y':0.95,
                 'x':0.5,
@@ -1941,6 +1999,7 @@ def hospital_staff_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#F0D2C9',
         paper_bgcolor="#F0D2C9",
+        legend_orientation="h",
     )
 
     div = fig.to_json()
