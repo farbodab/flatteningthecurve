@@ -1882,7 +1882,7 @@ def ltc_staff_plot(region="ontario"):
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="LTC staff cases", phu=region).first()
+    p = Viz.query.filter_by(header="long term care staff cases", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
