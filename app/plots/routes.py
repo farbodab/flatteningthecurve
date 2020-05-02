@@ -1529,7 +1529,7 @@ def apple_mobility_plot():
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False},
+        xaxis =  {'showgrid': False,'tickformat':'%d-%B'},
         yaxis = {'showgrid': False},
         title={'text':f"Ontario Driving Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
