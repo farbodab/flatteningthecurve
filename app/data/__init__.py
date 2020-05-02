@@ -170,6 +170,8 @@ def export_kaggle():
 
 @bp.cli.command('plots')
 def updateplots():
+
+
     # for region in PHU:
     #     ## Cases
     #     plots.total_cases_plot(region=region)
@@ -187,7 +189,7 @@ def updateplots():
     #     plots.ltc_deaths_plot(region=region)
     #     plots.ltc_cases_plot(region=region)
     #     plots.ltc_outbreaks_plot(region=region)
-
+    
     plots.total_cases_plot()
     plots.new_tests_plot()
     plots.on_ventilator_plot()
@@ -207,7 +209,7 @@ def updateplots():
     plots.new_deaths_plot()
     plots.ventilator_ontario_plot()
     plots.new_deaths_plot()
-
+    plots.total_tests_plot()
     plots.ltc_deaths_plot()
     plots.ltc_cases_plot()
     plots.ltc_outbreaks_plot()

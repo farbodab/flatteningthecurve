@@ -56,35 +56,36 @@ def new_tests_plot():
     df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
+    temp = df.loc[df['New tests'].notna()]
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['New tests'].tail(1).values[0],number = {'font': {'size': 60}},
-        ))
+        value = df['New tests'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'],line=dict(color='#000', dash='dot'),visible=True, opacity=0.5, name="Value"))
-    fig.add_trace(go.Scatter(x=df.Date,y=df['New tests'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
+
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['New tests'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=temp['New tests'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"New Tests<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['New tests'].iloc[-2],
-                  'increasing': {'color':'green'},
-                  'decreasing': {'color':'red'}}},
-        ]
-                         }})
+                      'increasing': {'color':'green'},
+                      'decreasing': {'color':'red'}}},
+            ]
+                             }})
 
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"New Tests<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
+
             color="#000"
         )
     )
@@ -93,8 +94,7 @@ def new_tests_plot():
         margin=dict(l=0, r=10, t=30, b=50),
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
-        legend_orientation="h",
-)
+        legend_orientation="h",)
 
 
     div = fig.to_json()
@@ -115,7 +115,9 @@ def total_tests_plot():
 
     fig.add_trace(go.Indicator(
         mode = "number+delta",
-        value = df['Total tested'].tail(1).values[0],number = {'font': {'size': 60}},))
+        value = df['Total tested'].tail(1).values[0],
+        number = {'font': {'size': 60}},
+        ))
 
     # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],line=dict(color='#5E5AA1',dash='dot'), visible=True, opacity=0.5, name="Value"))
     fig.add_trace(go.Scatter(x=df.Date,y=df['Total tested'].rolling(7).mean(),line=dict(color='#5E5AA1', width=5), opacity=0.5,name="7 Day Average"))
@@ -123,7 +125,6 @@ def total_tests_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"Total Tested<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Total tested'].iloc[-2],
                   'increasing': {'color':'green'},
@@ -134,8 +135,8 @@ def total_tests_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"Total Tested<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -171,9 +172,10 @@ def tested_positve_plot():
     temp = df.loc[df['New Positive pct'] > 0]
 
     fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = df['New Positive pct'].tail(1).values[0]*100,
-        number = {'font': {'size': 60}},))
+    mode = "number+delta",
+    value = df['New Positive pct'].tail(1).values[0]*100,
+    number = {'font': {'size': 60}}
+    ))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],line=dict(color='#000', dash='dot'),visible=True, opacity=0.5, name="Value"))
     fig.add_trace(go.Scatter(x=df.Date,y=temp['New Positive pct'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
@@ -182,7 +184,6 @@ def tested_positve_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"New Positive %<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['New Positive pct'].iloc[-2]*100,
                       'increasing': {'color':'red'},
@@ -193,8 +194,8 @@ def tested_positve_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text': f"New Positive %<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -210,7 +211,7 @@ def tested_positve_plot():
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
         legend_orientation="h",
-)
+    )
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="tested positive").first()
@@ -233,11 +234,10 @@ def under_investigation_plot():
 
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Under Investigation'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
+    fig.add_trace(go.Scatter(x=df.Date,y=temp['Under Investigation'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"Under Investigation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Under Investigation'].iloc[-2],
                       'increasing': {'color':'grey'},
@@ -248,8 +248,8 @@ def under_investigation_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"Under Investigation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -289,7 +289,6 @@ def in_hospital_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-        'title' : {"text": f"In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Hospitalized'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -300,8 +299,8 @@ def in_hospital_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':"",
-                'y':0.95,
+        title={'text':f"In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -342,7 +341,6 @@ def in_icu_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-            'title' : {"text": f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['ICU'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -353,8 +351,8 @@ def in_icu_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':"",
-                    'y':0.95,
+            title={'text':f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -399,7 +397,7 @@ def in_icu_plot(region='ontario'):
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':"",
-                    'y':0.95,
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -443,7 +441,6 @@ def on_ventilator_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-            'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['Ventilator'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -454,8 +451,8 @@ def on_ventilator_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':False},
-            title={'text':"",
-                    'y':0.95,
+            title={'text':f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -489,7 +486,6 @@ def on_ventilator_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-            'title' : {"text": f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['confirmed_positive_ventilator'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -500,8 +496,8 @@ def on_ventilator_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':"",
-                    'y':0.95,
+            title={'text':f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -550,7 +546,6 @@ def total_cases_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['Positives'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -566,8 +561,8 @@ def total_cases_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -614,7 +609,6 @@ def total_cases_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -631,8 +625,8 @@ def total_cases_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -675,7 +669,6 @@ def new_cases_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['New positives'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -685,15 +678,15 @@ def new_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],line=dict(color='#000', dash='dot', ), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
         fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
 
 
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -738,7 +731,6 @@ def new_cases_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -755,8 +747,8 @@ def new_cases_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -797,7 +789,6 @@ def recovered_plot(region='ontario'):
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"Recovered Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Resolved'].iloc[-2],
                   'increasing': {'color':'green'},
@@ -813,8 +804,8 @@ def recovered_plot(region='ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"Recovered Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -856,7 +847,6 @@ def total_deaths_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['Deaths'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -873,8 +863,8 @@ def total_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -915,7 +905,6 @@ def total_deaths_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -931,8 +920,8 @@ def total_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -979,7 +968,6 @@ def new_deaths_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['New deaths'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -996,8 +984,8 @@ def new_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1042,7 +1030,6 @@ def new_deaths_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1059,8 +1046,8 @@ def new_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1105,7 +1092,6 @@ def ltc_cases_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['LTC Cases Total'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1120,8 +1106,8 @@ def ltc_cases_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1165,7 +1151,6 @@ def ltc_cases_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Confirmed Resident Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1175,8 +1160,8 @@ def ltc_cases_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Confirmed Resident Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1223,7 +1208,6 @@ def ltc_deaths_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['LTC Deaths'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1240,8 +1224,8 @@ def ltc_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1284,7 +1268,6 @@ def ltc_deaths_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"Confirmed Resident Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1294,8 +1277,8 @@ def ltc_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"Confirmed Resident Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1343,7 +1326,6 @@ def ltc_outbreaks_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"# of LTC Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['LTC Homes'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -1360,8 +1342,8 @@ def ltc_outbreaks_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"# of LTC Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1404,7 +1386,6 @@ def ltc_outbreaks_plot(region='ontario'):
         fig.update_layout(
             showlegend=False,
             template = {'data' : {'indicator': [{
-                'title' : {"text": f"# of LTC Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number",
             },
                 ]
@@ -1414,8 +1395,8 @@ def ltc_outbreaks_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"",
-                    'y':0.95,
+            title={'text':f"# of LTC Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
                     'yanchor': 'top'},
@@ -1481,7 +1462,6 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         showlegend=False,
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"<span style='font-size:0.5em>Basic Reproduction Number (<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a>)</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['ML'].tail(2).values[0],
                       'increasing': {'color':'red'},
@@ -1493,8 +1473,8 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"<span style='font-size:0.5em>Basic Reproduction Number (<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a>)</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -1552,7 +1532,7 @@ def toronto_mobility_plot():
         xaxis =  {'showgrid': False},
         yaxis = {'showgrid': False},
         title={'text':f"Toronto Mobility",
-                'y':0.95,
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -1679,7 +1659,6 @@ def icu_ontario_plot(region='ontario'):
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-        'title' : {"text": f"ICU Beds Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['residual_beds'].iloc[-2],
                   'increasing': {'color':'green'},
@@ -1695,8 +1674,8 @@ def icu_ontario_plot(region='ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"ICU Beds Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -1746,7 +1725,6 @@ def ventilator_ontario_plot(region='ontario'):
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-        'title' : {"text": f"Ventilators Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['residual_ventilators'].iloc[-2],
                   'increasing': {'color':'green'},
@@ -1763,8 +1741,8 @@ def ventilator_ontario_plot(region='ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"Ventilators Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -1853,7 +1831,7 @@ def blank_plot():
         xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':False},
         title={'text':f"",
-                'y':0.95,
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
@@ -1902,7 +1880,6 @@ def ltc_staff_plot(region="ontario"):
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"LTC Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Staff'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -1919,9 +1896,9 @@ def ltc_staff_plot(region="ontario"):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
-                'x':1,
+        title={'text':f"LTC Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
+                'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
         font=dict(
@@ -1967,7 +1944,6 @@ def hospital_staff_plot():
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
-            'title' : {"text": f"Hospital Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
             'mode' : "number+delta+gauge",
             'delta' : {'reference': df['Hospital Staff'].iloc[-2],
                       'increasing': {'color':'red'},
@@ -1984,8 +1960,8 @@ def hospital_staff_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"",
-                'y':0.95,
+        title={'text':f"Hospital Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
