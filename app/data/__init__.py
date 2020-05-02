@@ -172,24 +172,24 @@ def export_kaggle():
 def updateplots():
 
 
-    # for region in PHU:
-    #     ## Cases
-    #     plots.total_cases_plot(region=region)
-    #     plots.new_cases_plot(region=region)
-    #     plots.new_deaths_plot(region=region)
-    #     plots.total_deaths_plot(region=region)
-    #     ## Hospitalization
-    #     plots.on_ventilator_plot(region=region)
-    #     plots.in_icu_plot(region=region)
-    #     ## Capacity
-    #     plots.icu_ontario_plot(region=region)
-    #     plots.ventilator_ontario_plot(region=region)
-    #     plots.rt_analysis_plot(region=region)
-    #     ## ltc_cases_plot
-    #     plots.ltc_deaths_plot(region=region)
-    #     plots.ltc_cases_plot(region=region)
-    #     plots.ltc_outbreaks_plot(region=region)
-    
+    for region in PHU:
+        ## Cases
+        plots.total_cases_plot(region=region)
+        plots.new_cases_plot(region=region)
+        plots.new_deaths_plot(region=region)
+        plots.total_deaths_plot(region=region)
+        ## Hospitalization
+        plots.on_ventilator_plot(region=region)
+        plots.in_icu_plot(region=region)
+        ## Capacity
+        plots.icu_ontario_plot(region=region)
+        plots.ventilator_ontario_plot(region=region)
+        plots.rt_analysis_plot(region=region)
+        ## ltc_cases_plot
+        plots.ltc_deaths_plot(region=region)
+        plots.ltc_cases_plot(region=region)
+        plots.ltc_outbreaks_plot(region=region)
+
     plots.total_cases_plot()
     plots.new_tests_plot()
     plots.on_ventilator_plot()
