@@ -393,8 +393,8 @@ def getcanadamobility_apple():
     datesToTry.reverse()
 
     ## ATTENION! this url likes to change and will need to be updated whenever the data starts falling behind. Find it here: https://www.apple.com/covid19/mobility
-    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2006HotfixDev10/v1/en-us/applemobilitytrends-'
-    regions = ['Toronto', 'Vancouver', 'Canada', 'Calgary', 'Edmonton', 'Halifax', 'Montreal', 'Ottawa']
+    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2007HotfixDev44/v2/en-us/applemobilitytrends-'
+    regions = ['Ontario']
 
     #EXAMPLE https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-2020-04-13.csv
     for dt in datesToTry:
@@ -429,7 +429,6 @@ def getcanadamobility_apple():
                             print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
                             db.session.add(m)
                             db.session.commit()
-
             break
         except Exception as err:
             print("failed to get data for {}".format(dt), err)

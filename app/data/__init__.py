@@ -112,7 +112,7 @@ def getontario():
 
 @bp.cli.command('mobility')
 def getcanada():
-    routes.getcanadamobility_google()
+    # routes.getcanadamobility_google()
     routes.getcanadamobility_apple()
     print('Mobility data refreshed')
 
