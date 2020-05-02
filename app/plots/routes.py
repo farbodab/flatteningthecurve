@@ -64,7 +64,7 @@ def new_tests_plot():
 
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['New tests'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
-    fig.add_trace(go.Scatter(x=df.Date,y=temp['New tests'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
+    fig.add_trace(go.Scatter(x=df.Date,y=temp['New tests'].rolling(7).mean(),line=dict(color='#5E5AA1',width=3), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -120,7 +120,7 @@ def total_tests_plot():
         ))
 
     # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Total tested'],line=dict(color='#5E5AA1',dash='dot'), visible=True, opacity=0.5, name="Value"))
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Total tested'].rolling(7).mean(),line=dict(color='#5E5AA1', width=5), opacity=0.5,name="7 Day Average"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Total tested'].rolling(7).mean(),line=dict(color='#5E5AA1', width=3), opacity=0.5,name="7 Day Average"))
 
 
     fig.update_layout(
@@ -178,7 +178,7 @@ def tested_positve_plot():
     ))
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['New Positive pct'],line=dict(color='#000', dash='dot'),visible=True, opacity=0.5, name="Value"))
-    fig.add_trace(go.Scatter(x=df.Date,y=temp['New Positive pct'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
+    fig.add_trace(go.Scatter(x=df.Date,y=temp['New Positive pct'].rolling(7).mean(),line=dict(color='#5E5AA1',width=3), opacity=0.5,name="7 Day Average"))
 
 
 
@@ -234,7 +234,7 @@ def under_investigation_plot():
 
 
     fig.add_trace(go.Scatter(x=temp.Date,y=temp['Under Investigation'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
-    fig.add_trace(go.Scatter(x=df.Date,y=temp['Under Investigation'].rolling(7).mean(),line=dict(color='#5E5AA1',width=5), opacity=0.5,name="7 Day Average"))
+    fig.add_trace(go.Scatter(x=df.Date,y=temp['Under Investigation'].rolling(7).mean(),line=dict(color='#5E5AA1',width=3), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
         template = {'data' : {'indicator': [{
@@ -284,7 +284,7 @@ def in_hospital_plot():
     fig.add_trace(go.Indicator(
         mode = "number+delta",
         value = temp['Hospitalized'].tail(1).values[0],number = {'font': {'size': 60}},))
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5,name="Value"))
+    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],line=dict(color='#54CAF1', width=3),visible=True, opacity=0.5,name="Value"))
     # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
@@ -336,7 +336,7 @@ def in_icu_plot(region='ontario'):
         fig.add_trace(go.Indicator(
             mode = "number+delta",
             value = temp['ICU'].tail(1).values[0],number = {'font': {'size': 60}},))
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'],line=dict(color='#54CAF1', width=3),visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
@@ -379,7 +379,7 @@ def in_icu_plot(region='ontario'):
             mode = "number+delta",
             value = temp['confirmed_positive'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'],line=dict(color='#54CAF1', width=3),visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -435,7 +435,7 @@ def on_ventilator_plot(region='ontario'):
             mode = "number+delta",
             value = temp['Ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'],line=dict(color='#54CAF1', width=3),visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Ventilator'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -480,7 +480,7 @@ def on_ventilator_plot(region='ontario'):
             mode = "number+delta",
             value = temp['confirmed_positive_ventilator'].tail(1).values[0],number = {'font': {'size': 60}},))
 
-        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'],line=dict(color='#54CAF1', width=5),visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'],line=dict(color='#54CAF1', width=3),visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=temp.Date,y=temp['confirmed_positive_ventilator'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -555,7 +555,7 @@ def total_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
@@ -618,7 +618,7 @@ def total_cases_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -679,7 +679,7 @@ def new_cases_plot(region='ontario'):
 
 
         fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
-        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New positives'].rolling(7).mean(),line=dict(color='#497787', width=3), opacity=0.5,name="7 Day Average"))
 
 
         fig.update_layout(
@@ -741,7 +741,7 @@ def new_cases_plot(region='ontario'):
 
 
         fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#497787', width=3), opacity=0.5,name="7 Day Average"))
 
 
         fig.update_layout(
@@ -798,7 +798,7 @@ def recovered_plot(region='ontario'):
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
     # fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
@@ -856,7 +856,7 @@ def total_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['Deaths'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -914,7 +914,7 @@ def total_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
@@ -978,7 +978,7 @@ def new_deaths_plot(region='ontario'):
 
 
         fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'],line=dict(color='#000', dash='dot'), visible=True, opacity=0.5, name="Value"))
-        fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'].rolling(7).mean(),line=dict(color='#497787', width=5), opacity=0.5,name="7 Day Average"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['New deaths'].rolling(7).mean(),line=dict(color='#497787', width=3), opacity=0.5,name="7 Day Average"))
 
 
         fig.update_layout(
@@ -1039,7 +1039,7 @@ def new_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
         fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -1099,7 +1099,7 @@ def ltc_cases_plot(region='ontario'):
                 ]
                                  }})
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -1217,7 +1217,7 @@ def ltc_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],line=dict(color='#497787', width=5), visible=True, opacity=0.5,name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'],line=dict(color='#497787', width=3), visible=True, opacity=0.5,name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Deaths'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -1335,7 +1335,7 @@ def ltc_outbreaks_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'],line=dict(color='#497787', width=5), visible=True, opacity=0.5,name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'],line=dict(color='#497787', width=3), visible=True, opacity=0.5,name="Value"))
         # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Homes'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -1447,7 +1447,7 @@ def rt_analysis_plot(region='Ontario'):
         value = df['ML'].tail(1).values[0],
         number = {'font': {'size': 60}},))
 
-    fig.add_trace(go.Scatter(x=df.date,y=df.ML,line=dict(color='#5E5AA1', width=5),visible=True,opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.date,y=df.ML,line=dict(color='#5E5AA1', width=3),visible=True,opacity=0.5))
 
     fig.add_trace(go.Scatter(x=df.date,y=df.Low,
         fill=None,
@@ -1668,7 +1668,7 @@ def icu_ontario_plot(region='ontario'):
 
 
 
-    fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.date,y=df['residual_beds'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
     # fig.add_trace(go.Scatter(x=df.Date,y=df['residual_beds'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
@@ -1734,7 +1734,7 @@ def ventilator_ontario_plot(region='ontario'):
 
 
 
-    fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],line=dict(color='#497787', width=5), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.date,y=df['residual_ventilators'],line=dict(color='#497787', width=3), visible=True, opacity=0.5, name="Value"))
     # fig.add_trace(go.Scatter(x=df.Date,y=df['residual_ventilators'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -1889,7 +1889,7 @@ def ltc_staff_plot(region="ontario"):
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],line=dict(color='#EF7959', width=5), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'],line=dict(color='#EF7959', width=3), visible=True, opacity=0.5, name="Value"))
     # fig.add_trace(go.Scatter(x=df.Date,y=df['Staff'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
@@ -1953,7 +1953,7 @@ def hospital_staff_plot():
 
 
 
-    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],line=dict(color='#EF7959', width=5), visible=True, opacity=0.5, name="Value"))
+    fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'],line=dict(color='#EF7959', width=3), visible=True, opacity=0.5, name="Value"))
     # fig.add_trace(go.Scatter(x=df.Date,y=df['Hospital Staff'].rolling(7).mean(),line=dict(color='#000', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
