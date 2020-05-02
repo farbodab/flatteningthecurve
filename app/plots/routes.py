@@ -299,7 +299,7 @@ def in_hospital_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"COVID-19 Patients In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -351,7 +351,7 @@ def in_icu_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+            title={'text':f"COVID-19 Patients In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
@@ -385,7 +385,7 @@ def in_icu_plot(region='ontario'):
 
         fig.update_layout(
             template = {'data' : {'indicator': [{
-            'title' : {"text": f"In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
+            'title' : {"text": f"COVID-19 Patients In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>"},
                 'mode' : "number+delta+gauge",
                 'delta' : {'reference': df['confirmed_positive'].iloc[-2],
                           'increasing': {'color':'red'},
@@ -451,7 +451,7 @@ def on_ventilator_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':False},
-            title={'text':f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+            title={'text':f"COVID-19 Patients On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
@@ -496,7 +496,7 @@ def on_ventilator_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+            title={'text':f"COVID-19 Patients On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
@@ -1516,22 +1516,22 @@ def rt_analysis_plot(region='Ontario'):
 
 ## Mobility
 
-def toronto_mobility_plot():
+def apple_mobility_plot():
     df = vis.get_mobility_transportation()
 
-    df = df.loc[df.region=='Toronto']
+    df = df.loc[df.region=='Ontario']
     fig = go.Figure()
 
-    ttype = df.transportation_type.unique()
+    df = df.loc[df.transportation_type == 'driving']
 
-    for thing in ttype:
-        temp = df.loc[df.transportation_type == thing]
-        fig.add_trace(go.Scatter(name=thing,x=temp.date,y=temp['value']))
+    fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='#000', dash='dot'),opacity=0.5,name="Value"))
+    fig.add_trace(go.Scatter(x=df.date,y=df['value'].rolling(7).mean(),line=dict(color='#5E5AA1', width=3),opacity=1,name="7 Day Average"))
+
 
     fig.update_layout(
         xaxis =  {'showgrid': False},
         yaxis = {'showgrid': False},
-        title={'text':f"Toronto Mobility",
+        title={'text':f"Ontario Driving Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -1542,11 +1542,26 @@ def toronto_mobility_plot():
         )
     )
 
+    fig.add_shape(
+            type="line",
+            xref="paper",
+            yref="y",
+            x0=0,
+            y0=100,
+            x1=1,
+            y1=100,
+            line=dict(
+                color="#5E5AA1",
+                width=2,
+            ),
+        )
+
 
     fig.update_layout(
         margin=dict(l=0, r=10, t=40, b=50),
         plot_bgcolor='#E0DFED',
         paper_bgcolor="#E0DFED",
+        legend_orientation="h",
     )
 
     div = fig.to_json()
