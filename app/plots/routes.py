@@ -984,7 +984,7 @@ def new_deaths_plot(region='ontario'):
         fig.update_layout(
             xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"<span style='font-size: 1.25em'>New Deaths</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+            title={'text':f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
