@@ -128,7 +128,7 @@ def getcanada():
 def geticu(arg):
     if arg == 'extract':
         # Extract csv from pdf
-        extract.extractCCSO(['', './CCSO.pdf', 1, 188, 600, 519, 959])
+        extract.extractCCSO(['', './CCSO.pdf', 1, 183 ,646 ,504 ,964])
         print('CCSO data extracted')
         return
 
