@@ -21,6 +21,7 @@ from sqlalchemy import text
 from sqlalchemy import sql
 import csv
 from app.export import sheetsHelper
+import re
 
 ########################################
 ############ONTARIO DATA################
@@ -380,58 +381,60 @@ def getcanadamobility_google():
     return
 
 def getcanadamobility_apple():
-    start_date = None
-    end_date = datetime.today()
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.apple.com/covid19/mobility"
+    driver.implicitly_wait(100)
+    driver.get(urlpage)
+    button = None
+    url = None
+    tries = 3
+    while url == None and tries > 0:
+        tries -= 1
+        driver.implicitly_wait(100)
+        try:
+            button = driver.find_elements_by_class_name("download-button-container")[0]
+            url = button.find_element_by_tag_name('a').get_attribute('href')
+        except:
+            continue
 
-    max_date = MobilityTransportation.query.order_by(text('date desc')).limit(1).first()
-    if not max_date:
-        start_date = end_date + timedelta(-14)
-    else:
-        start_date = max_date.date# + timedelta(1)
+    if url is None:
+        print("Failed to find download button")
+        driver.quit()
+        return
 
-    datesToTry = [start_date + timedelta(x) for x in range(int((end_date - start_date).days))]
-    datesToTry.reverse()
-
-    ## ATTENION! this url likes to change and will need to be updated whenever the data starts falling behind. Find it here: https://www.apple.com/covid19/mobility
-    base_url = 'https://covid19-static.cdn-apple.com/covid19-mobility-data/2007HotfixDev44/v2/en-us/applemobilitytrends-'
     regions = ['Ontario']
 
-    #EXAMPLE https://covid19-static.cdn-apple.com/covid19-mobility-data/2005HotfixDev13/v1/en-us/applemobilitytrends-2020-04-13.csv
-    for dt in datesToTry:
-        try:
-            datetag = dt.strftime('%Y-%m-%d')
-            url = '{}{}.csv'.format(base_url, datetag)
-            df = None
-            try:
-                s = requests.get(url).content
-                df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-            except:
-                continue
+    try:
+        s = requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+        df = df[df['region'].isin(regions)]
 
-            df = df[df['region'].isin(regions)]
-
-            # Get all date columns (i.e. not kind, name, category) and insert record for each
-            date_columns = [x for x in list(df.columns) if x not in ['geo_type', 'region', 'transportation_type']]
-            print('apple mobility data being refreshed')
-            for index, row in df.iterrows():
-                if (index % 100) == 0:
-                    print(f'{index} / {df.tail(1).index.values[0]} passed')
-                region = row['region']
-                transport = row['transportation_type']
-                for col in date_columns:
-                    value = row[col]
-                    if math.isnan(value):
-                        continue
-                    if region==region:
-                        m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport).limit(1).first()
-                        if not m:
-                            m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value)
-                            print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
-                            db.session.add(m)
-                            db.session.commit()
-            break
-        except Exception as err:
-            print("failed to get data for {}".format(dt), err)
+        # Get all date columns (i.e. not kind, name, category) and insert record for each
+        date_columns = [x for x in list(df.columns) if x not in ['geo_type', 'region', 'transportation_type']]
+        print('Apple mobility data being refreshed')
+        for index, row in df.iterrows():
+            if (index % 100) == 0:
+                print(f'{index} / {df.tail(1).index.values[0]} passed')
+            region = row['region']
+            transport = row['transportation_type']
+            for col in date_columns:
+                value = row[col]
+                if math.isnan(value):
+                    continue
+                if region==region:
+                    m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport).limit(1).first()
+                    if not m:
+                        m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value)
+                        print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
+                        db.session.add(m)
+                        db.session.commit()
+    except Exception as err:
+        print("failed to get apple data", err)
+    driver.quit()
     return
 
 def getgovernmentresponse():
