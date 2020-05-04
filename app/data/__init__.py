@@ -20,26 +20,26 @@ from datetime import datetime
 
 
 sheetsConfig = [
-    {'name': 'PHU Map', 'function': vis.get_phu_map},
-    {'name':'Results','function':vis.get_results},
-    {'name':'PHU','function':vis.get_phus},
-    {'name':'Growth','function':vis.get_growth},
-    {'name':'Growth_Recent','function':vis.get_growth_recent},
-    {'name':'Test Results','function':vis.get_testresults},
-    {'name':'ICU Capacity','function':vis.get_icu_capacity},
-    {'name':'ICU Capacity Province','function':vis.get_icu_capacity_province},
-    {'name':'ICU Case Status Province','function':vis.get_icu_case_status_province},
-    {'name':'Canada Mobility','function':vis.get_mobility},
-    {'name':'Canada Mobility Transportation','function':vis.get_mobility_transportation},
-    {'name':'Canada Testing','function':vis.get_tested},
-    {'name':'Canada Deaths','function':vis.get_deaths},
-    {'name':'Average Daily Cases (7-day rolling)','function':vis.get_cases_rolling_average},
-    {'name':'Average Daily Deaths (7-day rolling)','function':vis.get_deaths_rolling_average},
-    {'name':'Daily Deaths','function':vis.get_daily_deaths},
-    {'name':'Top Causes','function':vis.get_top_causes},
-    {'name':'PHU Death','function':vis.get_phudeath},
-    {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu},
-    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est},
+    {'name': 'PHU Map', 'function': vis.get_phu_map, 'col':16},
+    {'name':'Results','function':vis.get_results, 'col':3},
+    {'name':'PHU','function':vis.get_phus, 'col':3},
+    {'name':'Growth','function':vis.get_growth, 'col':3},
+    {'name':'Growth_Recent','function':vis.get_growth_recent, 'col':5},
+    {'name':'Test Results','function':vis.get_testresults, 'col':17},
+    {'name':'ICU Capacity','function':vis.get_icu_capacity, 'col':20},
+    {'name':'ICU Capacity Province','function':vis.get_icu_capacity_province, 'col':19},
+    {'name':'ICU Case Status Province','function':vis.get_icu_case_status_province, 'col':3},
+    {'name':'Canada Mobility','function':vis.get_mobility, 'col':5},
+    {'name':'Canada Mobility Transportation','function':vis.get_mobility_transportation, 'col':5},
+    {'name':'Canada Testing','function':vis.get_tested, 'col':3},
+    {'name':'Canada Deaths','function':vis.get_deaths, 'col':6},
+    {'name':'Average Daily Cases (7-day rolling)','function':vis.get_cases_rolling_average, 'col':5},
+    {'name':'Average Daily Deaths (7-day rolling)','function':vis.get_deaths_rolling_average, 'col':5},
+    {'name':'Daily Deaths','function':vis.get_daily_deaths, 'col':3},
+    {'name':'Top Causes','function':vis.get_top_causes, 'col':3},
+    {'name':'PHU Death','function':vis.get_phudeath, 'col':3},
+    {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu, 'col':14},
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5},
     {'name':'Long-term Care Homes','table':'longtermcare'},
 ]
 
@@ -216,3 +216,8 @@ def updateplots():
     plots.hospital_staff_plot()
     plots.rt_analysis_plot()
     print("Plot htmls updated")
+
+# Required for pytest don't change
+@bp.cli.command('test')
+def test():
+    print('Hello World')
