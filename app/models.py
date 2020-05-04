@@ -160,6 +160,7 @@ class Viz(db.Model):
     column = db.Column(db.Integer)
     html = db.Column(db.String)
     phu = db.Column(db.String)
+    tab_order = db.Column(db.Integer)
 
 
 

@@ -800,13 +800,14 @@ def new_viz():
         row_z = row['row']
         column = row['column']
         phu = row['phu']
+        tab_order = row['tab_order']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
-            column=column, phu=phu)
+            column=column, phu=phu, tab_order=tab_order)
             db.session.add(c)
             db.session.commit()
         else:
@@ -821,6 +822,7 @@ def new_viz():
             c.order = order
             c.row = row_z
             c.column = column
+            c.tab_order = tab_order
             db.session.add(c)
             db.session.commit()
     return 'success',200
