@@ -275,50 +275,51 @@ def under_investigation_plot():
     return
 
 ## Hospital
-def in_hospital_plot():
-    df = vis.get_testresults()
-    df['Date'] = pd.to_datetime(df['Date'])
+def in_hospital_plot(region='ontario'):
+    if region=='ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
 
-    fig = go.Figure()
-    temp = df.loc[df['Hospitalized'].notna()]
-    fig.add_trace(go.Indicator(
-        mode = "number+delta",
-        value = temp['Hospitalized'].tail(1).values[0],number = {'font': {'size': 60}},))
-    fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],line=dict(color='red', width=3),visible=True, opacity=0.5,name="Value"))
-    # fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
+        fig = go.Figure()
+        temp = df.loc[df['Hospitalized'].notna()]
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = temp['Hospitalized'].tail(1).values[0],number = {'font': {'size': 60}},))
+        fig.add_trace(go.Scatter(x=temp.Date,y=temp['Hospitalized'],line=dict(color='red', width=3),visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=temp.Date,y=temp['ICU'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
 
-    fig.update_layout(
-        template = {'data' : {'indicator': [{
-            'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Hospitalized'].iloc[-2],
-                      'increasing': {'color':'red'},
-                      'decreasing': {'color':'green'}}},
-            ]
-                             }})
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['Hospitalized'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
 
-    fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
-        yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"COVID-19 Patients In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
-                'y':0.90,
-                'x':0.5,
-               'xanchor': 'center',
-                'yanchor': 'top'},
-        font=dict(
-            family="Roboto",
-            color="#FFF"
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"COVID-19 Patients In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#FFF"
+            )
         )
-    )
 
-    fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
-       plot_bgcolor="#343332",
-        paper_bgcolor="#343332",
-        legend_orientation="h",
-)
+        fig.update_layout(
+            margin=dict(l=0, r=10, t=30, b=50),
+           plot_bgcolor="#343332",
+            paper_bgcolor="#343332",
+            legend_orientation="h",)
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="in hospital").first()
+    p = Viz.query.filter_by(header="in hospital", phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
