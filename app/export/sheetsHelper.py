@@ -20,7 +20,7 @@ def parseVal(val):
     else:
         return val
 
-def getSheet(sheetName, sh, rows, cols):
+def getOrCreateSheet(sheetName, sh, rows, cols):
     worksheet_list = [x.title for x in sh.worksheets()]
     if sheetName in worksheet_list:
         return  sh.worksheet(sheetName)
@@ -35,7 +35,7 @@ def updateCollection(dataSource, sh):
             df = dataSource['function']()
         elif 'table' in dataSource:
             df = pd.read_sql_table(dataSource['table'], db.engine)
-        sheet = getSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
+        sheet = getOrCreateSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
         print("Update collection", dataSource['name'])
         set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)
 
@@ -56,6 +56,11 @@ def exportToSheets(collections):
     for index, x in enumerate(collections):
         updateCollection(x, doc)
 
+def getVizSheet(sheetName):
+    doc = getVizDocument()
+    sheet = doc.worksheet(sheetName)
+    return sheet
+
 def getSheet(document, sheetName):
     creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
     client = gspread.authorize(creds)
@@ -63,12 +68,7 @@ def getSheet(document, sheetName):
     sheet = sh.worksheet(sheetName)
     return sheet
 
-def getVizSheet(sheetName):
-    doc = getVizDocument()
-    sheet = doc.worksheet(sheetName)
-    return sheet
-
-def readSheet(document, sheetName, lazy=False):    
+def readSheet(document, sheetName, lazy=False):   
     sheet = getSheet(document, sheetName)
 
     if lazy:
