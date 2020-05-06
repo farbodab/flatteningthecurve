@@ -362,9 +362,9 @@ def getcanadamobility_google():
                         value = -999
                     if region != region:
                         region = 'Canada'
-                    m = MobilityTransportation.query.filter_by(date=date, region=region, transportation_type=transportation_type).limit(1).first()
+                    m = MobilityTransportation.query.filter_by(date=date, region=region, transportation_type=transportation_type, source='Google').limit(1).first()
                     if not m:
-                        m = MobilityTransportation(date=date, region=region, transportation_type=transportation_type, value=value)
+                        m = MobilityTransportation(date=date, region=region, transportation_type=transportation_type, value=value, source='Google')
                         print("Add transport mobility data for region: {}, date: {}, type: {}, value: {}".format(region, date, transportation_type, value))
                         db.session.add(m)
 
@@ -406,7 +406,7 @@ def getcanadamobility_apple():
         driver.quit()
         return
 
-    regions = ['Ontario']
+    regions = ['Ontario', 'Canada', 'Toronto', 'Ottawa']
 
     try:
         s = requests.get(url).content
@@ -426,9 +426,9 @@ def getcanadamobility_apple():
                 if math.isnan(value):
                     continue
                 if region==region:
-                    m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport).limit(1).first()
+                    m = MobilityTransportation.query.filter_by(date=col, region=region, transportation_type=transport, source='Apple').limit(1).first()
                     if not m:
-                        m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value)
+                        m = MobilityTransportation(date=col, region=region, transportation_type=transport, value=value, source='Apple')
                         print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
                         db.session.add(m)
                         db.session.commit()
