@@ -42,26 +42,34 @@ def updateCollection(dataSource, sh):
     except:
         print("Failed to update google sheet", dataSource['name'], sys.exc_info())
 
-def exportToSheets(collections):
+def getVizDocument():
     creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
     client = gspread.authorize(creds)
-    sh = None
     if os.getenv('FLASK_CONFIG') == 'production':
-        print("Using Production Sheet COVID-19 Data")
-        sh = client.open("COVID-19 Data")
+        return client.open("COVID-19 Data")
     else:
-        print("Using Dev Sheet COVID-19 Dev")
-        sh = client.open("COVID-19 Dev")
+        return client.open("COVID-19 Dev")
+
+def exportToSheets(collections):
+    doc = getVizDocument()
 
     for index, x in enumerate(collections):
-        updateCollection(x, sh)
+        updateCollection(x, doc)
 
-
-def readSheet(document, sheet, lazy=False):    
+def getSheet(document, sheetName):
     creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
     client = gspread.authorize(creds)
     sh = client.open(document)
-    sheet = sh.worksheet(sheet)
+    sheet = sh.worksheet(sheetName)
+    return sheet
+
+def getVizSheet(sheetName):
+    doc = getVizDocument()
+    sheet = doc.worksheet(sheetName)
+    return sheet
+
+def readSheet(document, sheetName, lazy=False):    
+    sheet = getSheet(document, sheetName)
 
     if lazy:
         for line in range(3,sheet.col_count):
@@ -69,3 +77,4 @@ def readSheet(document, sheet, lazy=False):
     else:
         for line in sheet.get_all_values()[1:]:
             yield line
+
