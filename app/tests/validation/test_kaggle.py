@@ -5,6 +5,8 @@ import pandas as pd
 from app.data import kaggleConfig
 from app import APP_ROOT
 
+outofdate_threshold = 2
+
 @pytest.mark.parametrize('config', kaggleConfig)
 def test_kaggle_basic(test_client, init_kaggle, config):
     def isempty(f):
@@ -35,7 +37,7 @@ def test_kaggle_uptodate(test_client, init_kaggle, config):
     if 'timeseries' in config:
         df = pd.read_csv(csv)
 
-        uptodate = date.today() - timedelta(days=1)
+        uptodate = date.today() - timedelta(days=outofdate_threshold)
         latest = datetime.strptime(max(df[config['timeseries']]), "%Y-%m-%d").date()
 
         assert latest >= uptodate, "({} < {}) Dataset {} is not  up to date".format(latest, uptodate, config['name'])
