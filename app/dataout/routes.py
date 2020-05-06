@@ -368,7 +368,7 @@ def sendnpiinterventions_usa():
 
 
 @bp.route('/data/longtermcare', methods=['GET'])
-def longtermcare_ontario():
+def sendlongtermcare_ontario():
     """
     Ontario Long-term Care Home data
     ---
@@ -386,4 +386,47 @@ def longtermcare_ontario():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=longtermcare.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp
+    return resp 
+
+@bp.route('/data/predictivemodel', methods=['GET'])
+def sendpredictivemodel():
+    """
+    Predictive model from https://pechlilab.shinyapps.io/output/
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('predictivemodel', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
+
+
+@bp.route('/data/ideamodel', methods=['GET'])
+def sendideamodel():
+    """
+    IDEA model from https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('ideamodel', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=ideamodel.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
