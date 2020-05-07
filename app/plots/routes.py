@@ -91,7 +91,7 @@ def new_tests_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",)
@@ -148,7 +148,7 @@ def total_tests_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -207,7 +207,7 @@ def tested_positve_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -261,7 +261,7 @@ def under_investigation_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",)
@@ -313,7 +313,7 @@ def in_hospital_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",)
@@ -365,7 +365,7 @@ def in_icu_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",)
@@ -410,7 +410,7 @@ def in_icu_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -465,7 +465,7 @@ def on_ventilator_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -510,7 +510,7 @@ def on_ventilator_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -572,7 +572,7 @@ def new_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h")
@@ -634,7 +634,7 @@ def new_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -697,7 +697,7 @@ def total_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -761,7 +761,7 @@ def total_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -818,7 +818,7 @@ def recovered_plot(region='ontario'):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h")
@@ -877,7 +877,7 @@ def total_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -934,7 +934,7 @@ def total_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -998,7 +998,7 @@ def new_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1060,7 +1060,7 @@ def new_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1119,7 +1119,7 @@ def ltc_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1173,7 +1173,7 @@ def ltc_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1237,7 +1237,7 @@ def ltc_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1290,7 +1290,7 @@ def ltc_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1355,7 +1355,7 @@ def ltc_outbreaks_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1408,7 +1408,7 @@ def ltc_outbreaks_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1500,7 +1500,7 @@ def rt_analysis_plot(region='Ontario'):
         )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1559,7 +1559,7 @@ def apple_mobility_plot():
 
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
+        margin=dict(l=0, r=20, t=40, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1703,7 +1703,7 @@ def icu_ontario_plot(region='ontario'):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1770,7 +1770,7 @@ def ventilator_ontario_plot(region='ontario'):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1821,7 +1821,7 @@ def icu_projections_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor='#FFF',
         paper_bgcolor="#FFF",
         legend_orientation="h"
@@ -1924,7 +1924,7 @@ def ltc_staff_plot(region="ontario"):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1988,7 +1988,7 @@ def hospital_staff_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
