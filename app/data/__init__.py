@@ -58,7 +58,7 @@ kaggleConfig = [
     {'name':'governmentresponse.csv','table': 'governmentresponse', 'col':40, 'timeseries':'date'},
     {'name':'longtermcare_on.csv','table': 'longtermcare', 'col':9, 'timeseries':'date'},
     {'name':'vis_canada_mobility.csv','function': vis.get_mobility, 'col':5, 'timeseries':'date'},
-    {'name':'vis_canada_mobility_transportation.csv','function': vis.get_mobility_transportation, 'col':5, 'timeseries':'date'},
+    {'name':'vis_canada_mobility_transportation.csv','function': vis.get_mobility_transportation, 'col':6, 'timeseries':'date'},
     {'name':'vis_growthrecent.csv','function': vis.get_growth_recent, 'col':5, 'timeseries':'date'},
     {'name':'vis_icucapacity.csv','function': vis.get_icu_capacity, 'col':20, 'timeseries':'date'},
     {'name':'vis_icucapacityprovince.csv','function': vis.get_icu_capacity_province, 'col':19, 'timeseries':'date'},
