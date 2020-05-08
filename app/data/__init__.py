@@ -30,7 +30,7 @@ sheetsConfig = [
     {'name':'ICU Capacity Province','function':vis.get_icu_capacity_province, 'col':19, 'timeseries':'date'},
     {'name':'ICU Case Status Province','function':vis.get_icu_case_status_province, 'col':3, 'timeseries':'date'},
     {'name':'Canada Mobility','function':vis.get_mobility, 'col':5, 'timeseries':'date'},
-    {'name':'Canada Mobility Transportation','function':vis.get_mobility_transportation, 'col':5, 'timeseries':'date'},
+    {'name':'Canada Mobility Transportation','function':vis.get_mobility_transportation, 'col':6, 'timeseries':'date'},
     {'name':'Canada Testing','function':vis.get_tested, 'col':6, 'timeseries':'date'},
     {'name':'Canada Deaths','function':vis.get_deaths, 'col':6, 'timeseries':'date'},
     {'name':'Average Daily Cases (7-day rolling)','function':vis.get_cases_rolling_average, 'col':5, 'timeseries':'date'},
