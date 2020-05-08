@@ -36,6 +36,7 @@ def testsnew():
     date_include = datetime.strptime("2020-02-04","%Y-%m-%d")
     df = df.loc[df['Reported Date'] > date_include]
     print('ontario testing data being refreshed')
+    new = False
     for index, row in df.iterrows():
         if (index % 100) == 0:
             print(f'{index} / {df.tail(1).index.values[0]} passed')
@@ -69,6 +70,7 @@ def testsnew():
                 c.ventilator = ventilator
             db.session.add(c)
             db.session.commit()
+            new = True
         else:
             if ((c.negative == negative) and (c.positive == positive) and (c.investigation == investigation) and (c.resolved == resolved) and (c.deaths == deaths) and (c.total == total) and (c.hospitalized == hospitalized) and (c.icu == icu) and (c.ventilator == ventilator)):
                 pass
@@ -87,7 +89,10 @@ def testsnew():
                     c.ventilator = ventilator
                 db.session.add(c)
                 db.session.commit()
-    return
+    if new:
+        return 'New'
+    else:
+        return 'Same'
 
 def getnpis():
     url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"

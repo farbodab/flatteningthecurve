@@ -104,6 +104,7 @@ PHU = ['the_district_of_algoma',
  'southwestern',
  'city_of_toronto']
 
+
 @bp.cli.command('ontario')
 def getontario():
     routes.testsnew()
@@ -217,6 +218,60 @@ def updateplots():
     plots.hospital_staff_plot()
     plots.rt_analysis_plot()
     print("Plot htmls updated")
+
+@bp.cli.command('newest')
+def getontario():
+     resp = routes.testsnew()
+     if resp == 'New':
+         print("New data")
+         for region in PHU:
+             ## Cases
+             plots.total_cases_plot(region=region)
+             plots.new_cases_plot(region=region)
+             plots.new_deaths_plot(region=region)
+             plots.total_deaths_plot(region=region)
+             ## Hospitalization
+             plots.on_ventilator_plot(region=region)
+             plots.in_icu_plot(region=region)
+             ## Capacity
+             plots.icu_ontario_plot(region=region)
+             plots.ventilator_ontario_plot(region=region)
+             plots.rt_analysis_plot(region=region)
+             ## ltc_cases_plot
+             plots.ltc_deaths_plot(region=region)
+             plots.ltc_cases_plot(region=region)
+             plots.ltc_outbreaks_plot(region=region)
+         plots.map()
+         plots.apple_mobility_plot()
+         plots.total_cases_plot()
+         plots.new_tests_plot()
+         plots.on_ventilator_plot()
+         plots.in_icu_plot()
+         plots.in_hospital_plot()
+         plots.recovered_plot()
+         plots.new_cases_plot()
+         plots.total_tests_plot()
+         plots.total_deaths_plot()
+         plots.retail_mobility_plot()
+         plots.icu_ontario_plot()
+         plots.ventilator_ontario_plot()
+         plots.icu_projections_plot()
+         plots.tested_positve_plot()
+         plots.under_investigation_plot()
+         plots.new_deaths_plot()
+         plots.ventilator_ontario_plot()
+         plots.new_deaths_plot()
+         plots.total_tests_plot()
+         plots.ltc_deaths_plot()
+         plots.ltc_cases_plot()
+         plots.ltc_outbreaks_plot()
+         plots.ltc_staff_plot()
+
+         plots.hospital_staff_plot()
+         plots.rt_analysis_plot()
+         print("Plot htmls updated")
+     else:
+         print("No new data")
 
 # Required for pytest don't change
 @bp.cli.command('test')
