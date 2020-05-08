@@ -160,6 +160,7 @@ class Viz(db.Model):
     column = db.Column(db.Integer)
     html = db.Column(db.String)
     phu = db.Column(db.String)
+    tab_order = db.Column(db.Integer)
 
 
 
@@ -191,6 +192,7 @@ class MobilityTransportation(db.Model):
     __tablename__ = 'mobilitytransportation'
     id = db.Column(db.Integer(), primary_key=True)
     date = db.Column(db.DateTime, index=True)
+    source = db.Column(db.String)
     region = db.Column(db.String)
     transportation_type = db.Column(db.String)
     value = db.Column(db.Float)
