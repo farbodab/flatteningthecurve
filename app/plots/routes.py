@@ -1453,11 +1453,11 @@ def rt_analysis_plot(region='Ontario'):
     fig.add_trace(go.Scatter(x=df.date,y=df.Low,
         fill=None,
         mode='lines',
-        line_color='red',opacity=0.1
+        line_color='grey',opacity=0.1
         ))
     fig.add_trace(go.Scatter(x=df.date,y=df.High,
         fill='tonexty',
-        mode='lines', line_color='red',opacity=0.1))
+        mode='lines', line_color='grey',opacity=0.1))
 
 
     fig.update_layout(
@@ -1474,7 +1474,7 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"<span style='font-size:0.5em>Basic Reproduction Number (<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a>)</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"<span style='<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a></span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
