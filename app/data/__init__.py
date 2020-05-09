@@ -21,6 +21,7 @@ from datetime import datetime
 
 sheetsConfig = [
     {'name': 'PHU Map', 'function': vis.get_phu_map, 'col':16},
+    {'name':'PHU LTC Timeseries','function':vis.get_ltc, 'col':5, 'timeseries':'date'},
     {'name':'Results','function':vis.get_results, 'col':3},
     {'name':'PHU','function':vis.get_phus, 'col':3, 'timeseries':'date'},
     {'name':'Growth','function':vis.get_growth, 'col':3},
@@ -129,7 +130,7 @@ def getcanada():
 def geticu(arg):
     if arg == 'extract':
         # Extract csv from pdf
-        extract.extractCCSO(['', './CCSO.pdf', 1, 188, 600, 519, 959])
+        extract.extractCCSO(['', './CCSO.pdf', 1, 183.33,646.74,505.89,965.52])
         print('CCSO data extracted')
         return
 
@@ -171,7 +172,7 @@ def export_kaggle():
 
 @bp.cli.command('plots')
 def updateplots():
-
+    
     for region in PHU:
         ## Cases
         plots.total_cases_plot(region=region)
@@ -219,59 +220,6 @@ def updateplots():
     plots.rt_analysis_plot()
     print("Plot htmls updated")
 
-@bp.cli.command('newest')
-def getontario():
-     resp = routes.testsnew()
-     if resp == 'New':
-         print("New data")
-         for region in PHU:
-             ## Cases
-             plots.total_cases_plot(region=region)
-             plots.new_cases_plot(region=region)
-             plots.new_deaths_plot(region=region)
-             plots.total_deaths_plot(region=region)
-             ## Hospitalization
-             plots.on_ventilator_plot(region=region)
-             plots.in_icu_plot(region=region)
-             ## Capacity
-             plots.icu_ontario_plot(region=region)
-             plots.ventilator_ontario_plot(region=region)
-             plots.rt_analysis_plot(region=region)
-             ## ltc_cases_plot
-             plots.ltc_deaths_plot(region=region)
-             plots.ltc_cases_plot(region=region)
-             plots.ltc_outbreaks_plot(region=region)
-         plots.map()
-         plots.apple_mobility_plot()
-         plots.total_cases_plot()
-         plots.new_tests_plot()
-         plots.on_ventilator_plot()
-         plots.in_icu_plot()
-         plots.in_hospital_plot()
-         plots.recovered_plot()
-         plots.new_cases_plot()
-         plots.total_tests_plot()
-         plots.total_deaths_plot()
-         plots.retail_mobility_plot()
-         plots.icu_ontario_plot()
-         plots.ventilator_ontario_plot()
-         plots.icu_projections_plot()
-         plots.tested_positve_plot()
-         plots.under_investigation_plot()
-         plots.new_deaths_plot()
-         plots.ventilator_ontario_plot()
-         plots.new_deaths_plot()
-         plots.total_tests_plot()
-         plots.ltc_deaths_plot()
-         plots.ltc_cases_plot()
-         plots.ltc_outbreaks_plot()
-         plots.ltc_staff_plot()
-
-         plots.hospital_staff_plot()
-         plots.rt_analysis_plot()
-         print("Plot htmls updated")
-     else:
-         print("No new data")
 
 # Required for pytest don't change
 @bp.cli.command('test')

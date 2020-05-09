@@ -1126,11 +1126,9 @@ def ltc_cases_plot(region='ontario'):
     )
 
     else:
-        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
-        s=requests.get(url).content
-        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-        df['Date'] = pd.to_datetime(df['Date'])
-        df = df.loc[df.PHU == PHU[region]]
+        df = vis.get_ltc()
+        df['Date'] = pd.to_datetime(df['date'])
+        df = df.loc[df.phu == PHU[region]]
 
         if len(df) <= 0:
             div = sql.null()
@@ -1143,25 +1141,30 @@ def ltc_cases_plot(region='ontario'):
         fig = go.Figure()
 
         fig.add_trace(go.Indicator(
-            mode = "number",
-            value = df.groupby('Date')['Confirmed Resident Cases'].sum().tail(1).values[0],
-            number = {'font': {'size': 60}},))
+            mode = "number+delta",
+            value = df['total'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
 
+        if len(df) > 1:
+            fig.update_layout(
+                template = {'data' : {'indicator': [{
+                    'mode' : "number+delta+gauge",
+                    'delta' : {'reference': df['total'].iloc[-2],
+                              'increasing': {'color':'red'},
+                              'decreasing': {'color':'green'}}},
+                    ]
+                                     }})
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['total'],line=dict(color='red', width=3), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['LTC Cases Total'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
 
 
         fig.update_layout(
-            showlegend=False,
-            template = {'data' : {'indicator': [{
-                'mode' : "number",
-            },
-                ]
-                                 }})
-
-
-        fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
-            title={'text':f"Confirmed Resident Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+            title={'text':f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
                     'x':0.5,
                    'xanchor': 'center',
@@ -1176,8 +1179,7 @@ def ltc_cases_plot(region='ontario'):
             margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
-            legend_orientation="h",
-            )
+            legend_orientation="h",)
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="long term care cases", phu=region).first()
@@ -1243,11 +1245,10 @@ def ltc_deaths_plot(region='ontario'):
             legend_orientation="h",
     )
     else:
-        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
-        s=requests.get(url).content
-        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-        df['Date'] = pd.to_datetime(df['Date'])
-        df = df.loc[df.PHU == PHU[region]]
+        df = vis.get_ltc()
+        df = df.loc[df.phu == PHU[region]]
+        df['Date'] = pd.to_datetime(df['date'])
+
 
         if len(df) <= 0:
             div = sql.null()
@@ -1261,18 +1262,21 @@ def ltc_deaths_plot(region='ontario'):
 
         fig.add_trace(go.Indicator(
             mode = "number",
-            value = df.groupby('Date')['Resident Deaths'].sum().tail(1).values[0],
+            value = df.groupby('Date')['resident_deaths'].tail(1).values[0],
             number = {'font': {'size': 60}},))
 
+        fig.add_trace(go.Scatter(x=df.Date,y=df['resident_deaths'],line=dict(color='red', width=3), visible=True, opacity=0.5, name="Value"))
 
 
-        fig.update_layout(
-            showlegend=False,
-            template = {'data' : {'indicator': [{
-                'mode' : "number",
-            },
-                ]
-                                 }})
+        if len(df) > 1:
+            fig.update_layout(
+                template = {'data' : {'indicator': [{
+                    'mode' : "number+delta+gauge",
+                    'delta' : {'reference': df['resident_deaths'].iloc[-2],
+                              'increasing': {'color':'red'},
+                              'decreasing': {'color':'green'}}},
+                    ]
+                                     }})
 
 
         fig.update_layout(
@@ -1361,11 +1365,9 @@ def ltc_outbreaks_plot(region='ontario'):
             legend_orientation="h",
     )
     else:
-        url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=689073638"
-        s=requests.get(url).content
-        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-        df['Date'] = pd.to_datetime(df['Date'])
-        df = df.loc[df.PHU == PHU[region]]
+        df = vis.get_ltc()
+        df['Date'] = pd.to_datetime(df['date'])
+        df = df.loc[df.phu == PHU[region]]
 
         if len(df) <= 0:
             div = sql.null()
@@ -1379,18 +1381,23 @@ def ltc_outbreaks_plot(region='ontario'):
 
         fig.add_trace(go.Indicator(
             mode = "number",
-            value = df.groupby('Date')['LTC Home'].count().tail(1).values[0],
+            value = df['outbreaks'].tail(1).values[0],
             number = {'font': {'size': 60}},))
 
 
+        fig.add_trace(go.Scatter(x=df.Date,y=df['outbreaks'],line=dict(color='red', width=3), visible=True, opacity=0.5,name="Value"))
 
-        fig.update_layout(
-            showlegend=False,
-            template = {'data' : {'indicator': [{
-                'mode' : "number",
-            },
-                ]
-                                 }})
+
+
+        if len(df) > 1:
+            fig.update_layout(
+                template = {'data' : {'indicator': [{
+                    'mode' : "number+delta+gauge",
+                    'delta' : {'reference': df['outbreaks'].iloc[-2],
+                              'increasing': {'color':'red'},
+                              'decreasing': {'color':'green'}}},
+                    ]
+                                     }})
 
 
         fig.update_layout(
@@ -1453,11 +1460,11 @@ def rt_analysis_plot(region='Ontario'):
     fig.add_trace(go.Scatter(x=df.date,y=df.Low,
         fill=None,
         mode='lines',
-        line_color='red',opacity=0.1
+        line_color='grey',opacity=0.1
         ))
     fig.add_trace(go.Scatter(x=df.date,y=df.High,
         fill='tonexty',
-        mode='lines', line_color='red',opacity=0.1))
+        mode='lines', line_color='grey',opacity=0.1))
 
 
     fig.update_layout(
@@ -1474,7 +1481,7 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"<span style='font-size:0.5em>Basic Reproduction Number (<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a>)</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"<span style='font-size:0.5em><a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a></span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',

@@ -502,6 +502,14 @@ def get_mobility_transportation():
     df = pd.read_sql_table('mobilitytransportation', db.engine)
     return df
 
+def get_ltc():
+    df = pd.read_sql_table('longtermcare', db.engine)
+    df_t = df.groupby(['date', 'phu']).sum().reset_index()
+    df_t['total'] = df_t['confirmed_resident_cases'] + df_t['confirmed_staff_cases']
+    df_t['outbreaks'] = df.groupby(['date', 'phu']).home.count().values
+
+    return df_t
+
 def get_tested():
     df = pd.read_sql_table('canadatesting', db.engine)
     provinces = ['Ontario', 'Quebec', 'BC', 'Alberta']
