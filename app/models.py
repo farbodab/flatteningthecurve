@@ -1,5 +1,24 @@
 from app import db
 
+
+class CasesStatus(db.Model):
+    __tablename__ = "casesstatus"
+    id = db.Column(db.Integer, primary_key=True)
+    reported_date = db.Column(db.DateTime, index=True)
+    confirmed_negative = db.Column(db.Integer)
+    presumptive_negative = db.Column(db.Integer)
+    presumptive_positive = db.Column(db.Integer)
+    confirmed_positive = db.Column(db.Integer)
+    resolved = db.Column(db.Integer)
+    deaths = db.Column(db.Integer)
+    total_cases = db.Column(db.Integer)
+    patients_approved = db.Column(db.Integer)
+    tests_today = db.Column(db.Integer)
+    under_investigation = db.Column(db.Integer)
+    hospitalized = db.Column(db.Integer)
+    icu = db.Column(db.Integer)
+    icu_ventilator = db.Column(db.Integer)
+
 class CovidTests(db.Model):
     __tablename__ = 'covidtests'
     id = db.Column(db.Integer(), primary_key=True)

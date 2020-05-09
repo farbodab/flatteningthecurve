@@ -108,6 +108,7 @@ PHU = ['the_district_of_algoma',
 def getontario():
     routes.testsnew()
     routes.getlongtermcare()
+    routes.cases_status()
     print('Ontario data refreshed')
 
 @bp.cli.command('mobility')

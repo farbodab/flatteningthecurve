@@ -26,6 +26,43 @@ from app.export import sheetsHelper
 ############ONTARIO DATA################
 ########################################
 
+def cases_status():
+    field_map = {
+        "_id":"id",
+        "Reported Date": "reported_date",
+        "Confirmed Negative":"confirmed_negative",
+        "Presumptive Negative":"presumptive_negative",
+        "Presumptive Positive": "presumptive_positive",
+        "Confirmed Positive": "confirmed_positive",
+        "Resolved": "resolved",
+        "Deaths": "deaths",
+        "Total Cases": "total_cases",
+        "Total patients approved for testing as of Reporting Date": "patients_approved",
+        "Total tests completed in the last day": "tests_today",
+        "Under Investigation": "under_investigation",
+        "Number of patients hospitalized with COVID-19":"hospitalized",
+        "Number of patients in ICU with COVID-19": "icu",
+        "Number of patients in ICU on a ventilator with COVID-19": "icu_ventilator",
+    }
+    url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
+    daily_reports = {report.reported_date:report for report in CasesStatus.query.all()}
+    req = requests.get(url, stream=True)
+
+    for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
+        if row["Reported Date"] in daily_reports:
+            daily_status = daily_reports.get(row["Reported Date"])
+            for header in row.keys():
+                setattr(daily_status,field_map[header],row[header])
+        else:
+            db.session.add(
+                CasesStatus(**dict(zip(
+                    map(field_map.get,row.keys()),
+                    map(lambda x: x if x else None,row.values())
+                )))
+            )
+
+    db.session.commit()
+
 
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
