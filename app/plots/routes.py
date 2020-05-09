@@ -1524,6 +1524,10 @@ def apple_mobility_plot():
     fig = go.Figure()
 
     df = df.loc[df.transportation_type == 'driving']
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.sort_values(['date'])
+
+
 
     fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='#FFF', dash='dot'),opacity=0.5,name="Value"))
     fig.add_trace(go.Scatter(x=df.date,y=df['value'].rolling(7).mean(),line=dict(color='red', width=3),opacity=1,name="7 Day Average"))
