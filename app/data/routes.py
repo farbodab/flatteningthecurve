@@ -623,7 +623,7 @@ def getpredictivemodel():
     #['base_on', 'base_sk', 'base_on', 'base_italy', 'expanded_sk', 'expanded_on_expected', 'expanded_italy', 'base_on_n', 'base_on_e', 'base_on_w', 'base_on_c', 'base_toronto']
 
     def parseInt(val):
-        try:
+        try: 
             val = int(val)
             if val == -1 or val != val:
                 raise
@@ -680,7 +680,7 @@ def getideamodel():
     #['on', 'health_unit']
 
     def parseInt(val):
-        try:
+        try: 
             val = int(val)
             if val == -1 or val != val:
                 raise
@@ -689,7 +689,7 @@ def getideamodel():
         return val
 
     def parseFloat(val):
-        try:
+        try: 
             val = float(val)
             if val == -1 or val != val:
                 raise
@@ -835,6 +835,21 @@ def getinternationaltested():
         db.session.add(c)
         db.session.commit()
     return
+
+#TODO: remove, not used?
+def new_covid():
+    if request.is_json:
+        items = request.get_json()
+        for item in items:
+            date = datetime.strptime(item['date'],"%Y-%m-%d")
+            province = item['province']
+            confirmed = item['new']
+            c = Comparison(province=province, count=confirmed, date=date)
+            db.session.add(c)
+            db.session.commit()
+        return 'success',200
+    else:
+        return 'must use json', 400
 
 def getnpiusa():
     url = "https://raw.githubusercontent.com/Keystone-Strategy/covid19-intervention-data/master/complete_npis_inherited_policies.csv"
