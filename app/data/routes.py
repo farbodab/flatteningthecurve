@@ -16,12 +16,16 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from app.tools.covidpdftocsv import covidpdftocsv
+from app.tools.covid_19_mc_interactive_model import scrape as interactiveScraper
+from app.tools.ontario_health_unit_IDEA_model import scrape as ideaScraper
 import math
 from sqlalchemy import text
 from sqlalchemy import sql
 import csv
 from app.export import sheetsHelper
 import re
+import asyncio
+import sys
 
 ########################################
 ############ONTARIO DATA################
@@ -612,6 +616,124 @@ def getlongtermcare():
         values = []
 
     driver.quit()
+
+def getpredictivemodel():
+    PredictiveModel.query.delete()
+    sources = interactiveScraper.get_permitted_sources()
+    #['base_on', 'base_sk', 'base_on', 'base_italy', 'expanded_sk', 'expanded_on_expected', 'expanded_italy', 'base_on_n', 'base_on_e', 'base_on_w', 'base_on_c', 'base_toronto']
+
+    def parseInt(val):
+        try: 
+            val = int(val)
+            if val == -1 or val != val:
+                raise
+        except:
+            return sql.null()
+        return val
+
+    for source in sources:
+        print("Getting predictive model data from source {}".format(source))
+        try:
+            df = asyncio.get_event_loop().run_until_complete(interactiveScraper.test(source))[1:]
+
+            # One problem with this data is it assumes dates relative to 07/03/2020, not sure if this will change
+            start_date = datetime(2020, 3, 7)
+            for index, row in df.iterrows():
+                if len(row) == 0 or row['date'] == None:
+                    continue
+
+                region = source
+                date = start_date + timedelta(days=parseInt(row['date']))
+                cumulative_incidence = parseInt(row['cum_incidence'])
+                required_hospW = parseInt(row['required_hospW'])
+                required_hospNonVentICU = parseInt(row['required_hospNonVentICU'])
+                required_hospVentICU = parseInt(row['required_hospVentICU'])
+                available_hospW = parseInt(row['available_hospW'])
+                available_hospNonVentICU = parseInt(row['available_hospNonVentICU'])
+                available_hospVentICU = parseInt(row['available_hospVentICU'])
+                waiting_hospW = parseInt(row['waiting_hospW'])
+                waiting_hospNonVentICU = parseInt(row['waiting_hospNonVentICU'])
+                waiting_hospVentICU = parseInt(row['waiting_hospVentICU'])
+
+                p = PredictiveModel.query.filter_by(date=date, region=region).first()
+                if not p:
+                    p = PredictiveModel(
+                            region=region,
+                            date=date,
+                            cumulative_incidence=cumulative_incidence,
+                            required_hospW=required_hospW,
+                            required_hospNonVentICU=required_hospNonVentICU,
+                            required_hospVentICU=required_hospVentICU,
+                            available_hospW=available_hospW,
+                            available_hospNonVentICU=available_hospNonVentICU,
+                            available_hospVentICU=available_hospVentICU,
+                            waiting_hospW=waiting_hospW,
+                            waiting_hospNonVentICU=waiting_hospNonVentICU,
+                            waiting_hospVentICU=waiting_hospVentICU)
+                    db.session.add(p)
+            db.session.commit()
+        except:
+            print('Failed to get predictive model for source {}'.format(source), sys.exc_info())
+
+def getideamodel():
+    sources = ideaScraper.get_permitted_sources()
+    #['on', 'health_unit']
+
+    def parseInt(val):
+        try: 
+            val = int(val)
+            if val == -1 or val != val:
+                raise
+        except:
+            return sql.null()
+        return val
+
+    def parseFloat(val):
+        try: 
+            val = float(val)
+            if val == -1 or val != val:
+                raise
+        except:
+            return sql.null()
+        return val
+    for source in sources:
+        print("Getting IDEA model data from source {}".format(source))
+        try:
+            df = asyncio.get_event_loop().run_until_complete(ideaScraper.test(source))[1:]
+            df = df.replace("NA", -1)
+            # One problem with this data is it assumes dates relative to 07/03/2020, not sure if this will change
+            for index, row in df.iterrows():
+                if len(row) == 0 or row['Date'] is None:
+                    continue
+
+                source = source
+                date = datetime.strptime(row['Date'],"%Y-%m-%d")
+                reported_cases = parseInt(row['Reported cases'])
+                model_incident_cases = parseFloat(row['Model incident cases'])
+                model_incident_cases_lower_PI = parseFloat(row['Model incident cases lower PI'])
+                model_incident_cases_upper_PI = parseFloat(row['Model incident cases upper PI'])
+                reported_cumulative_cases = parseInt(row['Reported cumulative cases'])
+                model_cumulative_cases = parseFloat(row['Model cumulative cases'])
+                model_cumulative_cases_lower_PI = parseFloat(row['Model cumulative cases lower PI'])
+                model_cumulative_cases_upper_PI = parseFloat(row['Model cumulative cases upper PI'])
+
+                p = IDEAModel.query.filter_by(date=date, source=source).first()
+                if not p:
+                    p = IDEAModel(
+                            source=source,
+                            date=date,
+                            reported_cases=reported_cases,
+                            model_incident_cases=model_incident_cases,
+                            model_incident_cases_lower_PI=model_incident_cases_lower_PI,
+                            model_incident_cases_upper_PI=model_incident_cases_upper_PI,
+                            reported_cumulative_cases=reported_cumulative_cases,
+                            model_cumulative_cases=model_cumulative_cases,
+                            model_cumulative_cases_lower_PI=model_incident_cases_lower_PI,
+                            model_cumulative_cases_upper_PI=model_cumulative_cases_upper_PI)
+                    db.session.add(p)
+            db.session.commit()
+        except:
+            print('Failed to get idea model for source {}'.format(source), sys.exc_info())
 
 
 ########################################

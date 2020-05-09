@@ -41,6 +41,8 @@ sheetsConfig = [
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu, 'col':14, 'timeseries':'date'},
     {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
     {'name':'Long-term Care Homes','table':'longtermcare', 'timeseries':'date'},
+    {'name':'Predictive Model','table':'predictivemodel', 'timeseries':'date'},
+    {'name':'IDEA Model','table':'ideamodel', 'timeseries':'date'},
 ]
 
 kaggleConfig = [
@@ -57,6 +59,8 @@ kaggleConfig = [
     {'name':'test_data_on.csv','table': 'covidtests', 'col':11, 'timeseries':'date'},
     {'name':'governmentresponse.csv','table': 'governmentresponse', 'col':40, 'timeseries':'date'},
     {'name':'longtermcare_on.csv','table': 'longtermcare', 'col':9, 'timeseries':'date'},
+    {'name':'predictivemodel.csv','table':'predictivemodel', 'timeseries':'date'},
+    {'name':'ideamodel.csv','table':'ideamodel', 'timeseries':'date'},
     {'name':'vis_canada_mobility.csv','function': vis.get_mobility, 'col':5, 'timeseries':'date'},
     {'name':'vis_canada_mobility_transportation.csv','function': vis.get_mobility_transportation, 'col':6, 'timeseries':'date'},
     {'name':'vis_growthrecent.csv','function': vis.get_growth_recent, 'col':5, 'timeseries':'date'},
@@ -109,6 +113,8 @@ PHU = ['the_district_of_algoma',
 def getontario():
     routes.testsnew()
     routes.getlongtermcare()
+    routes.getpredictivemodel()
+    routes.getideamodel()
     print('Ontario data refreshed')
 
 @bp.cli.command('mobility')
