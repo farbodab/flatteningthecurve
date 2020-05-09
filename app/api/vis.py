@@ -496,6 +496,7 @@ def get_icu_case_status_province():
 
 def get_mobility():
     df = pd.read_sql_table('mobilitytransportation', db.engine)
+    df = df.loc[df.source == 'Google']
     df['category'] = df['transportation_type']
     return df
 
