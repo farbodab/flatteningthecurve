@@ -36,6 +36,7 @@ def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df = df.dropna(how='all')
     df['Reported Date'] = pd.to_datetime(df['Reported Date'])
     date_include = datetime.strptime("2020-02-04","%Y-%m-%d")
     df = df.loc[df['Reported Date'] > date_include]
@@ -623,7 +624,7 @@ def getpredictivemodel():
     #['base_on', 'base_sk', 'base_on', 'base_italy', 'expanded_sk', 'expanded_on_expected', 'expanded_italy', 'base_on_n', 'base_on_e', 'base_on_w', 'base_on_c', 'base_toronto']
 
     def parseInt(val):
-        try: 
+        try:
             val = int(val)
             if val == -1 or val != val:
                 raise
@@ -680,7 +681,7 @@ def getideamodel():
     #['on', 'health_unit']
 
     def parseInt(val):
-        try: 
+        try:
             val = int(val)
             if val == -1 or val != val:
                 raise
@@ -689,7 +690,7 @@ def getideamodel():
         return val
 
     def parseFloat(val):
-        try: 
+        try:
             val = float(val)
             if val == -1 or val != val:
                 raise
