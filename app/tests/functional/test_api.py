@@ -1,7 +1,9 @@
 import pytest
 import time
+from flask import json
 
-testdata = [
+
+data_endpoints = [
     '/data/covidtests',
     '/data/covid',
     '/data/npi',
@@ -22,7 +24,7 @@ testdata = [
 
 responseThresold = 3000
 
-@pytest.mark.parametrize('endpoint', testdata)
+@pytest.mark.parametrize('endpoint', data_endpoints)
 def test_dataout(test_client, endpoint):
     start = time.time()
     response = test_client.get(endpoint)
@@ -32,13 +34,13 @@ def test_dataout(test_client, endpoint):
     assert response.content_length > 0
     assert elapsed < responseThresold, "({} > {}) Request time exceeded threshold".format(elapsed, responseThresold)
 
-testdata = [
+api_endpoints = [
     '/api/viz',
     '/api/plots',
     '/api/source',
 ]
 
-@pytest.mark.parametrize('endpoint', testdata)
+@pytest.mark.parametrize('endpoint', api_endpoints)
 def test_api(test_client, endpoint):
     start = time.time()
     response = test_client.get(endpoint)
@@ -48,3 +50,35 @@ def test_api(test_client, endpoint):
     assert response.content_length > 0
     assert elapsed < responseThresold, "({} > {}) Request time exceeded threshold".format(elapsed, responseThresold)
 
+
+def test_viz(test_client):
+    response = test_client.get('/api/viz')
+    data = json.loads(response.get_data(as_text=True))
+
+    attrs = ['category', 'content', 'desktopHeight', 'header', 'mobileHeight', 'text', 'thumbnail', 'viz']
+    assert len(data) > 0
+    for i in range(len(data)):
+        for attr in attrs:
+            assert attr in data[i]
+        assert 'div' in data[0]['text'] 
+
+def test_plots(test_client):
+    response = test_client.get('/api/plots')
+    data = json.loads(response.get_data(as_text=True))
+
+    attrs = ['category', 'column', 'group', 'header', 'html', 'order', 'phu', 'row']
+    assert len(data) > 0
+    for i in range(len(data)):
+        for attr in attrs:
+            assert attr in data[i]
+        assert 'data' in data[0]['html'] 
+
+def test_source(test_client):
+    response = test_client.get('/api/source')
+    data = json.loads(response.get_data(as_text=True))
+
+    attrs = ['contact', 'contributor', 'data_feed_type', 'description', 'download', 'link', 'name', 'refresh', 'region', 'source', 'type']
+    assert len(data) > 0
+    for i in range(len(data)):
+        for attr in attrs:
+            assert attr in data[i]
