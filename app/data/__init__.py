@@ -195,8 +195,12 @@ def updateplots():
         plots.ltc_deaths_plot(region=region)
         plots.ltc_cases_plot(region=region)
         plots.ltc_outbreaks_plot(region=region)
+        
     plots.map()
     plots.apple_mobility_plot()
+    plots.retail_mobility_plot()
+    plots.work_mobility_plot()
+    plots.active_cases_plot()
     plots.total_cases_plot()
     plots.new_tests_plot()
     plots.on_ventilator_plot()

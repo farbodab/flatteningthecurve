@@ -432,6 +432,7 @@ def get_testresults():
         'Ventilator': ventilators
     }
     df = pd.DataFrame(data, columns=['Date', 'Deaths', 'New deaths','Under Investigation', 'Positives', 'New positives','Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct', 'New Positive pct', 'Hospitalized','ICU', 'Ventilator'])
+    df['Active'] = df['Positives'] - df['Deaths'] - df['Resolved']
     return  df
 
 def get_icu_capacity():
