@@ -46,7 +46,6 @@ py==1.8.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyparsing==2.4.7
-pyppeteer==0.0.25
 pyrsistent==0.16.0
 pytest==5.4.1
 pytest-dotenv==0.4.0

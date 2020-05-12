@@ -648,6 +648,67 @@ def new_cases_plot(region='ontario'):
 
     return
 
+def active_cases_plot(region='ontario'):
+
+    if region == 'ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
+        df = df.loc[df['Active'].notna()]
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['Active'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['Active'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Active'],line=dict(color='red', width=3), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['Active'].rolling(7).mean(),line=dict(color='red', width=3), opacity=0.5,name="7 Day Average"))
+
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"Active Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#FFF"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=20, t=30, b=50),
+            plot_bgcolor="#343332",
+            paper_bgcolor="#343332",
+            legend_orientation="h")
+
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="active cases",phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
 def total_cases_plot(region='ontario'):
 
     if region=='ontario':
@@ -1517,7 +1578,7 @@ def rt_analysis_plot(region='Ontario'):
 
 ## Mobility
 
-def apple_mobility_plot():
+def apple_mobility_plot(region='ontario'):
     df = vis.get_mobility_transportation()
 
     df = df.loc[df.region=='Ontario']
@@ -1536,7 +1597,7 @@ def apple_mobility_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'tickformat':'%d-%b'},
         yaxis = {'showgrid': False},
-        title={'text':f"Ontario Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"Driving Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -1577,79 +1638,96 @@ def apple_mobility_plot():
 
     return
 
-def retail_mobility_plot():
+def retail_mobility_plot(region='ontario'):
     df = vis.get_mobility()
+
     df = df.loc[df.region == 'Ontario']
-    df = df.sort_values(['region', 'category', 'date'])
+    df = df.loc[df.category == "Retail & recreation"]
+    df['date'] = pd.to_datetime(df['date'])
+    df['day'] = df['date'].dt.day_name()
+    df = df.sort_values(['date'])
+    date_include = datetime.strptime("2020-02-18","%Y-%m-%d")
+    df = df.loc[df['date'] > date_include]
 
     fig = go.Figure()
 
-    ttype = df.category.unique()
+    df = df.loc[df.category == "Retail & recreation"]
 
-    fig.add_trace(go.Scatter(name=ttype[0],x=df.loc[df.category == ttype[0]].date,y=df.loc[df.category == ttype[0]]['value']))
-
-    for item in ttype[1:]:
-        fig.add_trace(go.Scatter(name=item,x=df.loc[df.category == item].date,y=df.loc[df.category == item]['value'],visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='red', width=3),visible=True,opacity=0.5,name="Value"))
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False},
-        yaxis = {'showgrid': False},
-        title={'text':f"{ttype[0]} {int(df.loc[df.category == ttype[0]]['value'].tail(1))}%",
-                'y':0.99,
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
+        title={'text':f"Retail and Recreation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.95,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
             color="#FFF"
-        ),
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="Grocery",
-                     method="update",
-                     args=[{"visible": [True, False, False, False, False, False]},
-                           {"title": f"{ttype[0]} {int(df.loc[df.category == ttype[0]]['value'].tail(1))}%"}]),
-                dict(label="Parks",
-                     method="update",
-                     args=[{"visible": [False, True, False, False, False, False]},
-                           {"title": f"{ttype[1]} {int(df.loc[df.category == ttype[1]]['value'].tail(1))}%"}]),
-                dict(label="Residential",
-                     method="update",
-                     args=[{"visible": [False, False, True, False, False, False]},
-                           {"title": f"{ttype[2]} {int(df.loc[df.category == ttype[2]]['value'].tail(1))}%"}]),
-                dict(label="Retail",
-                     method="update",
-                     args=[{"visible": [False, False, False, True, False, False]},
-                           {"title": f"{ttype[3]} {int(df.loc[df.category == ttype[3]]['value'].tail(1))}%"}]),
-
-                dict(label="Transit",
-                     method="update",
-                     args=[{"visible": [False, False, False, False, True, False]},
-                           {"title": f"{ttype[4]} {int(df.loc[df.category == ttype[4]]['value'].tail(1))}%"}]),
-
-                dict(label="Work",
-                     method="update",
-                     args=[{"visible": [False, False, False, False, False, True]},
-                           {"title": f"{ttype[5]} {int(df.loc[df.category == ttype[5]]['value'].tail(1))}%"}]),
-            ]),
         )
-    ])
+    )
 
     fig.update_layout(
-        margin=dict(l=0, r=20, t=40, b=50),
-       plot_bgcolor="#343332",
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#343332',
         paper_bgcolor="#343332",
+        legend_orientation="h",
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="retail mobility").first()
+    p = Viz.query.filter_by(header="retail mobility",phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def work_mobility_plot(region='ontario'):
+    df = vis.get_mobility()
+    df = df.loc[df.region == 'Ontario']
+
+    df['date'] = pd.to_datetime(df['date'])
+    df['day'] = df['date'].dt.day_name()
+
+    df = df.loc[df.category == "Workplace"]
+    df = df.loc[~df.day.isin(["Saturday", "Sunday"])]
+    df = df.sort_values(['date'])
+    date_include = datetime.strptime("2020-02-18","%Y-%m-%d")
+    df = df.loc[df['date'] > date_include]
+
+    fig = go.Figure()
+
+
+
+    fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='red', width=3),visible=True,opacity=0.5,name="Value"))
+
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
+        title={'text':f"Workplaces<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#FFF"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#343332',
+        paper_bgcolor="#343332",
+        legend_orientation="h",
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="work mobility",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()

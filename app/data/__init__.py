@@ -25,11 +25,11 @@ sheetsConfig = [
     {'name':'PHU','function':vis.get_phus, 'col':3, 'timeseries':'date'},
     {'name':'Growth','function':vis.get_growth, 'col':3},
     {'name':'Growth_Recent','function':vis.get_growth_recent, 'col':5, 'timeseries':'date'},
-    {'name':'Test Results','function':vis.get_testresults, 'col':17, 'timeseries':'Date'},
+    {'name':'Test Results','function':vis.get_testresults, 'col':18, 'timeseries':'Date'},
     {'name':'ICU Capacity','function':vis.get_icu_capacity, 'col':20, 'timeseries':'date'},
     {'name':'ICU Capacity Province','function':vis.get_icu_capacity_province, 'col':19, 'timeseries':'date'},
     {'name':'ICU Case Status Province','function':vis.get_icu_case_status_province, 'col':3, 'timeseries':'date'},
-    {'name':'Canada Mobility','function':vis.get_mobility, 'col':5, 'timeseries':'date'},
+    {'name':'Canada Mobility','function':vis.get_mobility, 'col':7, 'timeseries':'date'},
     {'name':'Canada Mobility Transportation','function':vis.get_mobility_transportation, 'col':6, 'timeseries':'date'},
     {'name':'Canada Testing','function':vis.get_tested, 'col':6, 'timeseries':'date'},
     {'name':'Canada Deaths','function':vis.get_deaths, 'col':6, 'timeseries':'date'},
@@ -195,8 +195,12 @@ def updateplots():
         plots.ltc_deaths_plot(region=region)
         plots.ltc_cases_plot(region=region)
         plots.ltc_outbreaks_plot(region=region)
+
     plots.map()
     plots.apple_mobility_plot()
+    plots.retail_mobility_plot()
+    plots.work_mobility_plot()
+    plots.active_cases_plot()
     plots.total_cases_plot()
     plots.new_tests_plot()
     plots.on_ventilator_plot()

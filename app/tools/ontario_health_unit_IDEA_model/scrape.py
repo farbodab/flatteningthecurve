@@ -1,6 +1,3 @@
-import asyncio
-from pyppeteer import launch
-from bs4 import BeautifulSoup
 from urllib import parse
 import requests
 import time
@@ -9,6 +6,11 @@ from os import path
 import argparse
 import csv
 import pandas as pd
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+import time
 
 target_url = 'https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/'
 
@@ -22,34 +24,24 @@ async def test(source):
         print('Choose from {}'.format(get_permitted_sources().join('\n')))
         return
 
-    # Launch a headless browser
-    browser = await launch()
-    page = await browser.newPage()
-    await page.goto(target_url)
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(10)
+    driver.get(target_url)
 
-    # TO DO: This could be better, rather than waiting an arbitrary length for the page content to load
-    await page.waitFor(5000)
-
-    page_body = await page.evaluate('''() => { return document.body.innerHTML }''')
-
-    # Get the href target from the download button
-    soup = BeautifulSoup(page_body, 'html.parser')
-    data_endpoint = soup.find(id=get_id_for_source(source)).get('href')
-
-    # Construct the download URL
-    data_url = target_url + data_endpoint
-    query = parse.parse_qs(parse.urlparse(data_url).query)['w'][0]
-    file_url = target_url + '_w_' + query + '/' + data_endpoint
+    button = driver.find_element_by_id(get_id_for_source(source))
+    # Button href is set by a script so have to wait
+    time.sleep(5)
+    data_endpoint = button.get_attribute('href')
+    if not data_endpoint:
+        raise Exception("couldn't find button")
 
     # Download the file
-    data = requests.get(file_url, allow_redirects=True)
+    data = requests.get(data_endpoint, allow_redirects=True)
 
-    # Save
-    '''if not os.path.exists(output):
-        os.mkdir(output) 
-    output_file = output + '/' + source + '_' + time.strftime('%Y-%m-%d %Hh%Mm%Ss') + '.csv'
-    # Create the output path if it doesn't exist
-    open(output_file, 'wb').write(data.content)'''
     lines = data.content.decode("utf-8").split('\n')
     reader = csv.reader(lines)
     parsed_csv = list(reader)
