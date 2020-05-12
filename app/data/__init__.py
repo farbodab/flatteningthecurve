@@ -195,7 +195,7 @@ def updateplots():
         plots.ltc_deaths_plot(region=region)
         plots.ltc_cases_plot(region=region)
         plots.ltc_outbreaks_plot(region=region)
-        
+
     plots.map()
     plots.apple_mobility_plot()
     plots.retail_mobility_plot()

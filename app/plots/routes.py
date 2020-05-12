@@ -1597,7 +1597,7 @@ def apple_mobility_plot(region='ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'tickformat':'%d-%b'},
         yaxis = {'showgrid': False},
-        title={'text':f"Ontario Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"Driving Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -1640,11 +1640,14 @@ def apple_mobility_plot(region='ontario'):
 
 def retail_mobility_plot(region='ontario'):
     df = vis.get_mobility()
+
     df = df.loc[df.region == 'Ontario']
+    df = df.loc[df.category == "Retail & recreation"]
     df['date'] = pd.to_datetime(df['date'])
     df['day'] = df['date'].dt.day_name()
-    df = df.sort_values(['region', 'category', 'date'])
-    df = df.loc[df.category == "Retail & recreation"]
+    df = df.sort_values(['date'])
+    date_include = datetime.strptime("2020-02-18","%Y-%m-%d")
+    df = df.loc[df['date'] > date_include]
 
     fig = go.Figure()
 
@@ -1656,7 +1659,7 @@ def retail_mobility_plot(region='ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"Retail and Recreation",
+        title={'text':f"Retail and Recreation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.95,
                 'x':0.5,
                'xanchor': 'center',
@@ -1685,14 +1688,19 @@ def retail_mobility_plot(region='ontario'):
 def work_mobility_plot(region='ontario'):
     df = vis.get_mobility()
     df = df.loc[df.region == 'Ontario']
+
     df['date'] = pd.to_datetime(df['date'])
     df['day'] = df['date'].dt.day_name()
-    df = df.sort_values(['region', 'category', 'date'])
-
-    fig = go.Figure()
 
     df = df.loc[df.category == "Workplace"]
     df = df.loc[~df.day.isin(["Saturday", "Sunday"])]
+    df = df.sort_values(['date'])
+    date_include = datetime.strptime("2020-02-18","%Y-%m-%d")
+    df = df.loc[df['date'] > date_include]
+
+    fig = go.Figure()
+
+
 
     fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='red', width=3),visible=True,opacity=0.5,name="Value"))
 
@@ -1700,7 +1708,7 @@ def work_mobility_plot(region='ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"Workplaces",
+        title={'text':f"Workplaces<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.95,
                 'x':0.5,
                'xanchor': 'center',
