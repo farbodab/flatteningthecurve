@@ -734,7 +734,7 @@ def getideamodel():
                     db.session.add(p)
             db.session.commit()
         except:
-            print('Failed to get idea model for source {}'.format(source), sys.exc_info())
+            print('Failed to get IDEA model for source {}'.format(source), sys.exc_info())
 
 
 ########################################
