@@ -76,7 +76,7 @@ def new_tests_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"New Tests<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -91,7 +91,7 @@ def new_tests_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",)
@@ -133,7 +133,7 @@ def total_tests_plot():
                          }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Total Tested<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -148,7 +148,7 @@ def total_tests_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -192,7 +192,7 @@ def tested_positve_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text': f"New Positive %<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -207,7 +207,7 @@ def tested_positve_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -246,7 +246,7 @@ def under_investigation_plot():
                              }})
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Under Investigation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -261,7 +261,7 @@ def under_investigation_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",)
@@ -298,7 +298,7 @@ def in_hospital_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"COVID-19 Patients In Hospital<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -313,7 +313,7 @@ def in_hospital_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",)
@@ -350,7 +350,7 @@ def in_icu_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"COVID-19 Patients In ICU<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -365,7 +365,7 @@ def in_icu_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",)
@@ -395,7 +395,7 @@ def in_icu_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':"",
                     'y':0.90,
@@ -410,7 +410,7 @@ def in_icu_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -450,7 +450,7 @@ def on_ventilator_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True,'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':False},
             title={'text':f"COVID-19 Patients On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -465,7 +465,7 @@ def on_ventilator_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -495,7 +495,7 @@ def on_ventilator_plot(region='ontario'):
                                  }})
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"COVID-19 Patients On Ventilator<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -510,7 +510,7 @@ def on_ventilator_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -557,7 +557,7 @@ def new_cases_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -572,7 +572,7 @@ def new_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h")
@@ -619,7 +619,7 @@ def new_cases_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"New Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -634,7 +634,7 @@ def new_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -642,6 +642,67 @@ def new_cases_plot(region='ontario'):
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="new cases",phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def active_cases_plot(region='ontario'):
+
+    if region == 'ontario':
+        df = vis.get_testresults()
+        df['Date'] = pd.to_datetime(df['Date'])
+        df = df.loc[df['Active'].notna()]
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = df['Active'].tail(1).values[0],
+            number = {'font': {'size': 60}}
+        ),
+                     )
+
+        fig.update_layout(
+            template = {'data' : {'indicator': [{
+                'mode' : "number+delta+gauge",
+                'delta' : {'reference': df['Active'].iloc[-2],
+                          'increasing': {'color':'red'},
+                          'decreasing': {'color':'green'}}},
+                ]
+                                 }})
+
+
+
+        fig.add_trace(go.Scatter(x=df.Date,y=df['Active'],line=dict(color='red', width=3), visible=True, opacity=0.5, name="Value"))
+        # fig.add_trace(go.Scatter(x=df.Date,y=df['Active'].rolling(7).mean(),line=dict(color='red', width=3), opacity=0.5,name="7 Day Average"))
+
+
+        fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"Active Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                    'y':0.90,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+
+                color="#FFF"
+            )
+        )
+
+        fig.update_layout(
+            margin=dict(l=0, r=20, t=30, b=50),
+            plot_bgcolor="#343332",
+            paper_bgcolor="#343332",
+            legend_orientation="h")
+
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="active cases",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -682,7 +743,7 @@ def total_cases_plot(region='ontario'):
         # fig.add_trace(go.Scatter(x=df.Date,y=df['Positives'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -697,7 +758,7 @@ def total_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -746,7 +807,7 @@ def total_cases_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"Total Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -761,7 +822,7 @@ def total_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -803,7 +864,7 @@ def recovered_plot(region='ontario'):
     # fig.add_trace(go.Scatter(x=df.Date,y=df['Resolved'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Recovered Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -818,7 +879,7 @@ def recovered_plot(region='ontario'):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h")
@@ -862,7 +923,7 @@ def total_deaths_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -877,7 +938,7 @@ def total_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -919,7 +980,7 @@ def total_deaths_plot(region='ontario'):
         # fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"Total Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -934,7 +995,7 @@ def total_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -983,7 +1044,7 @@ def new_deaths_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -998,7 +1059,7 @@ def new_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1045,7 +1106,7 @@ def new_deaths_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"New Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -1060,7 +1121,7 @@ def new_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
             plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1105,7 +1166,7 @@ def ltc_cases_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"Total LTC Cases<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -1119,7 +1180,7 @@ def ltc_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1173,7 +1234,7 @@ def ltc_cases_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1223,7 +1284,7 @@ def ltc_deaths_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"Total LTC Deaths<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -1237,7 +1298,7 @@ def ltc_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1290,7 +1351,7 @@ def ltc_deaths_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1341,7 +1402,7 @@ def ltc_outbreaks_plot(region='ontario'):
 
 
         fig.update_layout(
-            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+            xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
             yaxis = {'showgrid': False,'visible':True},
             title={'text':f"# of LTC Homes with Outbreaks<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                     'y':0.90,
@@ -1355,7 +1416,7 @@ def ltc_outbreaks_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1408,7 +1469,7 @@ def ltc_outbreaks_plot(region='ontario'):
         )
 
         fig.update_layout(
-            margin=dict(l=0, r=10, t=30, b=50),
+            margin=dict(l=0, r=20, t=30, b=50),
            plot_bgcolor="#343332",
             paper_bgcolor="#343332",
             legend_orientation="h",
@@ -1453,11 +1514,11 @@ def rt_analysis_plot(region='Ontario'):
     fig.add_trace(go.Scatter(x=df.date,y=df.Low,
         fill=None,
         mode='lines',
-        line_color='red',opacity=0.1
+        line_color='grey',opacity=0.1
         ))
     fig.add_trace(go.Scatter(x=df.date,y=df.High,
         fill='tonexty',
-        mode='lines', line_color='red',opacity=0.1))
+        mode='lines', line_color='grey',opacity=0.1))
 
 
     fig.update_layout(
@@ -1474,7 +1535,7 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"<span style='font-size:0.5em>Basic Reproduction Number (<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a>)</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a></span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -1500,7 +1561,7 @@ def rt_analysis_plot(region='Ontario'):
         )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1517,22 +1578,26 @@ def rt_analysis_plot(region='Ontario'):
 
 ## Mobility
 
-def apple_mobility_plot():
+def apple_mobility_plot(region='ontario'):
     df = vis.get_mobility_transportation()
 
     df = df.loc[df.region=='Ontario']
     fig = go.Figure()
 
     df = df.loc[df.transportation_type == 'driving']
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.sort_values(['date'])
+
+
 
     fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='#FFF', dash='dot'),opacity=0.5,name="Value"))
     fig.add_trace(go.Scatter(x=df.date,y=df['value'].rolling(7).mean(),line=dict(color='red', width=3),opacity=1,name="7 Day Average"))
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'tickformat':'%d-%b'},
         yaxis = {'showgrid': False},
-        title={'text':f"Ontario Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"Driving Mobility<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -1559,7 +1624,7 @@ def apple_mobility_plot():
 
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=40, b=50),
+        margin=dict(l=0, r=20, t=40, b=50),
        plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1573,79 +1638,96 @@ def apple_mobility_plot():
 
     return
 
-def retail_mobility_plot():
+def retail_mobility_plot(region='ontario'):
     df = vis.get_mobility()
+
     df = df.loc[df.region == 'Ontario']
-    df = df.sort_values(['region', 'category', 'date'])
+    df = df.loc[df.category == "Retail & recreation"]
+    df['date'] = pd.to_datetime(df['date'])
+    df['day'] = df['date'].dt.day_name()
+    df = df.sort_values(['date'])
+    date_include = datetime.strptime("2020-02-18","%Y-%m-%d")
+    df = df.loc[df['date'] > date_include]
 
     fig = go.Figure()
 
-    ttype = df.category.unique()
+    df = df.loc[df.category == "Retail & recreation"]
 
-    fig.add_trace(go.Scatter(name=ttype[0],x=df.loc[df.category == ttype[0]].date,y=df.loc[df.category == ttype[0]]['value']))
-
-    for item in ttype[1:]:
-        fig.add_trace(go.Scatter(name=item,x=df.loc[df.category == item].date,y=df.loc[df.category == item]['value'],visible=True, opacity=0.5))
+    fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='red', width=3),visible=True,opacity=0.5,name="Value"))
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False},
-        yaxis = {'showgrid': False},
-        title={'text':f"{ttype[0]} {int(df.loc[df.category == ttype[0]]['value'].tail(1))}%",
-                'y':0.99,
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
+        title={'text':f"Retail and Recreation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.95,
                 'x':0.5,
                'xanchor': 'center',
                 'yanchor': 'top'},
         font=dict(
             family="Roboto",
             color="#FFF"
-        ),
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="right",
-            active=0,
-            x=1,
-            y=-0.1,
-            buttons=list([
-                dict(label="Grocery",
-                     method="update",
-                     args=[{"visible": [True, False, False, False, False, False]},
-                           {"title": f"{ttype[0]} {int(df.loc[df.category == ttype[0]]['value'].tail(1))}%"}]),
-                dict(label="Parks",
-                     method="update",
-                     args=[{"visible": [False, True, False, False, False, False]},
-                           {"title": f"{ttype[1]} {int(df.loc[df.category == ttype[1]]['value'].tail(1))}%"}]),
-                dict(label="Residential",
-                     method="update",
-                     args=[{"visible": [False, False, True, False, False, False]},
-                           {"title": f"{ttype[2]} {int(df.loc[df.category == ttype[2]]['value'].tail(1))}%"}]),
-                dict(label="Retail",
-                     method="update",
-                     args=[{"visible": [False, False, False, True, False, False]},
-                           {"title": f"{ttype[3]} {int(df.loc[df.category == ttype[3]]['value'].tail(1))}%"}]),
-
-                dict(label="Transit",
-                     method="update",
-                     args=[{"visible": [False, False, False, False, True, False]},
-                           {"title": f"{ttype[4]} {int(df.loc[df.category == ttype[4]]['value'].tail(1))}%"}]),
-
-                dict(label="Work",
-                     method="update",
-                     args=[{"visible": [False, False, False, False, False, True]},
-                           {"title": f"{ttype[5]} {int(df.loc[df.category == ttype[5]]['value'].tail(1))}%"}]),
-            ]),
         )
-    ])
+    )
 
     fig.update_layout(
-        margin=dict(l=0, r=20, t=40, b=50),
-       plot_bgcolor="#343332",
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#343332',
         paper_bgcolor="#343332",
+        legend_orientation="h",
     )
 
     div = fig.to_json()
-    p = Viz.query.filter_by(header="retail mobility").first()
+    p = Viz.query.filter_by(header="retail mobility",phu=region).first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
+
+    return
+
+def work_mobility_plot(region='ontario'):
+    df = vis.get_mobility()
+    df = df.loc[df.region == 'Ontario']
+
+    df['date'] = pd.to_datetime(df['date'])
+    df['day'] = df['date'].dt.day_name()
+
+    df = df.loc[df.category == "Workplace"]
+    df = df.loc[~df.day.isin(["Saturday", "Sunday"])]
+    df = df.sort_values(['date'])
+    date_include = datetime.strptime("2020-02-18","%Y-%m-%d")
+    df = df.loc[df['date'] > date_include]
+
+    fig = go.Figure()
+
+
+
+    fig.add_trace(go.Scatter(x=df.date,y=df['value'],line=dict(color='red', width=3),visible=True,opacity=0.5,name="Value"))
+
+
+    fig.update_layout(
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        yaxis = {'showgrid': False,'visible':True},
+        title={'text':f"Workplaces<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+                'y':0.95,
+                'x':0.5,
+               'xanchor': 'center',
+                'yanchor': 'top'},
+        font=dict(
+            family="Roboto",
+            color="#FFF"
+        )
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=30, b=50),
+        plot_bgcolor='#343332',
+        paper_bgcolor="#343332",
+        legend_orientation="h",
+    )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="work mobility",phu=region).first()
     p.html = div
     db.session.add(p)
     db.session.commit()
@@ -1688,7 +1770,7 @@ def icu_ontario_plot(region='ontario'):
     # fig.add_trace(go.Scatter(x=df.Date,y=df['residual_beds'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"ICU Beds Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -1703,7 +1785,7 @@ def icu_ontario_plot(region='ontario'):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1755,7 +1837,7 @@ def ventilator_ontario_plot(region='ontario'):
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Ventilators Left<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -1770,7 +1852,7 @@ def ventilator_ontario_plot(region='ontario'):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1821,7 +1903,7 @@ def icu_projections_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor='#FFF',
         paper_bgcolor="#FFF",
         legend_orientation="h"
@@ -1910,7 +1992,7 @@ def ltc_staff_plot(region="ontario"):
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"LTC Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -1924,7 +2006,7 @@ def ltc_staff_plot(region="ontario"):
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",
@@ -1974,7 +2056,7 @@ def hospital_staff_plot():
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Hospital Staff Infected<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -1988,7 +2070,7 @@ def hospital_staff_plot():
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=10, t=30, b=50),
+        margin=dict(l=0, r=20, t=30, b=50),
         plot_bgcolor="#343332",
         paper_bgcolor="#343332",
         legend_orientation="h",

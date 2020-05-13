@@ -281,3 +281,35 @@ class LongTermCare(db.Model):
     resident_deaths = db.Column(db.Integer)
     confirmed_staff_cases = db.Column(db.Integer)
     phu = db.Column(db.String)
+
+
+class PredictiveModel(db.Model):
+    __tablename__ = 'predictivemodel'
+    id = db.Column(db.Integer, primary_key=True)
+    region = db.Column(db.String, index=True)
+    date = db.Column(db.DateTime, index=True)
+    cumulative_incidence = db.Column(db.Integer)
+    required_hospW = db.Column(db.Integer)
+    required_hospNonVentICU = db.Column(db.Integer)
+    required_hospVentICU = db.Column(db.Integer)
+    available_hospW = db.Column(db.Integer)
+    available_hospNonVentICU = db.Column(db.Integer)
+    available_hospVentICU = db.Column(db.Integer)
+    waiting_hospW = db.Column(db.Integer)
+    waiting_hospNonVentICU = db.Column(db.Integer)
+    waiting_hospVentICU = db.Column(db.Integer)
+
+class IDEAModel(db.Model):
+    __tablename__ = 'ideamodel'
+    id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String, index=True)
+    date = db.Column(db.DateTime, index=True)
+    reported_cases = db.Column(db.Integer)
+    model_incident_cases = db.Column(db.Float)
+    model_incident_cases_lower_PI = db.Column(db.Float)
+    model_incident_cases_upper_PI = db.Column(db.Float)
+    reported_cumulative_cases = db.Column(db.Integer)
+    model_cumulative_cases = db.Column(db.Float)
+    model_cumulative_cases_lower_PI = db.Column(db.Float)
+    model_cumulative_cases_upper_PI = db.Column(db.Float)
+

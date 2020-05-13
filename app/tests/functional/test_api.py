@@ -30,7 +30,7 @@ def test_dataout(test_client, endpoint):
     response = test_client.get(endpoint)
     elapsed = int((time.time() - start)*1000)
     assert response.status_code == 200
-    assert response.content_type == 'text/csv'
+    assert response.content_type == 'text/csv' or response.content_type == 'text/xlsx'
     assert response.content_length > 0
     assert elapsed < responseThresold, "({} > {}) Request time exceeded threshold".format(elapsed, responseThresold)
 
@@ -60,7 +60,7 @@ def test_viz(test_client):
     for i in range(len(data)):
         for attr in attrs:
             assert attr in data[i]
-        assert 'div' in data[0]['text'] 
+        assert 'div' in data[0]['text']
 
 def test_plots(test_client):
     response = test_client.get('/api/plots')
@@ -71,7 +71,7 @@ def test_plots(test_client):
     for i in range(len(data)):
         for attr in attrs:
             assert attr in data[i]
-        assert 'data' in data[0]['html'] 
+        assert 'data' in data[0]['html']
 
 def test_source(test_client):
     response = test_client.get('/api/source')

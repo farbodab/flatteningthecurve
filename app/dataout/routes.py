@@ -291,7 +291,7 @@ def sendmobility():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=mobility.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    return resp
 
 @bp.route('/data/mobilitytransportation', methods=['GET'])
 def sendmobilitytransportation():
@@ -308,11 +308,21 @@ def sendmobilitytransportation():
                     schema:
                         type: string
     """
+    output = io.BytesIO()
+
     df = pd.read_sql_table('mobilitytransportation', db.engine)
-    resp = make_response(df.to_csv(index=False))
-    resp.headers["Content-Disposition"] = "attachment; filename=mobilitytransportation.csv"
-    resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    df_apple = df.loc[df.source == 'Apple']
+    df_google = df.loc[df.source == 'Google']
+
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df_apple.to_excel(writer, sheet_name='Apple', index=False)
+    df_google.to_excel(writer, sheet_name='Google', index=False)
+
+    writer.save()
+    resp = make_response(output.getvalue())
+    resp.headers["Content-Disposition"] = "attachment; filename=mobilitytransportation.xlsx"
+    resp.headers["Content-Type"] = "text/xlsx"
+    return resp
 
 @bp.route('/data/governmentresponse', methods=['GET'])
 def sendgovernmentresponse():
@@ -333,7 +343,7 @@ def sendgovernmentresponse():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=governmentresponse.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    return resp
 
 @bp.route('/data/npiinterventions_usa', methods=['GET'])
 def sendnpiinterventions_usa():
@@ -354,11 +364,11 @@ def sendnpiinterventions_usa():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=npi_usa.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    return resp
 
 
 @bp.route('/data/longtermcare', methods=['GET'])
-def longtermcare_ontario():
+def sendlongtermcare_ontario():
     """
     Ontario Long-term Care Home data
     ---
@@ -375,5 +385,48 @@ def longtermcare_ontario():
     df = pd.read_sql_table('longtermcare', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=longtermcare.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
+
+@bp.route('/data/predictivemodel', methods=['GET'])
+def sendpredictivemodel():
+    """
+    Predictive model from https://pechlilab.shinyapps.io/output/
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('predictivemodel', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp 
+
+
+@bp.route('/data/ideamodel', methods=['GET'])
+def sendideamodel():
+    """
+    IDEA model from https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('ideamodel', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=ideamodel.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp 

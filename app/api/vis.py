@@ -432,6 +432,7 @@ def get_testresults():
         'Ventilator': ventilators
     }
     df = pd.DataFrame(data, columns=['Date', 'Deaths', 'New deaths','Under Investigation', 'Positives', 'New positives','Negatives', 'Total tested', 'New tests', 'Resolved', 'Positive pct', 'Negative pct', 'Investigation pct', 'New Positive pct', 'Hospitalized','ICU', 'Ventilator'])
+    df['Active'] = df['Positives'] - df['Deaths'] - df['Resolved']
     return  df
 
 def get_icu_capacity():
@@ -495,7 +496,9 @@ def get_icu_case_status_province():
     return df_final
 
 def get_mobility():
-    df = pd.read_sql_table('mobility', db.engine)
+    df = pd.read_sql_table('mobilitytransportation', db.engine)
+    df = df.loc[df.source == 'Google']
+    df['category'] = df['transportation_type']
     return df
 
 def get_mobility_transportation():
