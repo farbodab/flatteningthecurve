@@ -1075,7 +1075,8 @@ def new_viz():
         else:
             c.category = category
             c.content = content
-            c.viz = viz
+            if viz_type == 'Tableau':
+                c.viz = viz
             c.mobileHeight = mobileHeight
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
