@@ -180,6 +180,8 @@ class Viz(db.Model):
     html = db.Column(db.String)
     phu = db.Column(db.String)
     tab_order = db.Column(db.Integer)
+    viz_type = db.Column(db.String)
+
 
 
 
@@ -312,4 +314,3 @@ class IDEAModel(db.Model):
     model_cumulative_cases = db.Column(db.Float)
     model_cumulative_cases_lower_PI = db.Column(db.Float)
     model_cumulative_cases_upper_PI = db.Column(db.Float)
-
