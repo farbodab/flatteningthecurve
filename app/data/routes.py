@@ -165,8 +165,8 @@ def testsnew_faster():
                 key = row_values[0]
                 value = row_values[1]
                 # strip extras
-                key = ''.join([i for i in key if not i.isdigit()]) 
-                value = ''.join([i for i in value if i.isdigit()]) 
+                key = ''.join([i for i in key if not i.isdigit()])
+                value = ''.join([i for i in value if i.isdigit()])
                 if row_values[0]:
                     values[key] = value
 
@@ -1062,13 +1062,14 @@ def new_viz():
         column = row['column']
         phu = row['phu']
         tab_order = row['tab_order']
+        viz_type = row['viz_type']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
-            column=column, phu=phu, tab_order=tab_order)
+            column=column, phu=phu, tab_order=tab_order,viz_type=viz_type)
             db.session.add(c)
             db.session.commit()
         else:
@@ -1084,6 +1085,7 @@ def new_viz():
             c.row = row_z
             c.column = column
             c.tab_order = tab_order
+            c.viz_type = viz_type
             db.session.add(c)
             db.session.commit()
     return 'success',200

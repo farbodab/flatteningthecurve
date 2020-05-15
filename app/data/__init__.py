@@ -119,6 +119,11 @@ def getontario():
     routes.cases_status()
     print('Ontario data refreshed')
 
+@bp.cli.command('pred')
+def getpred():
+    plots.predictive_plots()
+    print('Predictive plots refreshed')
+
 
 @bp.cli.command('mobility')
 def getcanada():

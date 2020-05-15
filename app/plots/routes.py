@@ -2377,9 +2377,9 @@ def predictive_plots():
 
     #f.show()
 
-    div = fig.to_json()
-    p = Viz.query.filter_by(header="predictive").first()
-    p.html = div
+    div = f.to_json()
+    p = Viz.query.filter_by(header="Forecasted Cases").first()
+    p.viz = div
     db.session.add(p)
     db.session.commit()
     return 'success'
