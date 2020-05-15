@@ -51,8 +51,6 @@ def sendcovid():
                     schema:
                         type: string
     """
-    df = pd.read_sql_table('covidtests', db.engine)
-    resp = make_response(df.to_csv(index=False))
     df = pd.read_sql_table('covid', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=test_data_canada.csv"

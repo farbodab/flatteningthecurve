@@ -136,6 +136,99 @@ def testsnew():
     else:
         return 'Same'
 
+def testsnew_faster():
+
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    url= "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
+    driver.implicitly_wait(100)
+    driver.get(url)
+    tables = driver.find_elements_by_tag_name("table")
+
+    new = False
+    try:
+        for table in tables:
+            caption = table.find_element_by_tag_name('caption')
+            if not 'Summary of cases' in caption.text:
+                continue
+
+            headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
+            rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
+            values = {}
+
+            for row in rows:
+                row_values = [x.text for x in row.find_elements_by_tag_name('td')]
+
+                key = row_values[0]
+                value = row_values[1]
+                # strip extras
+                key = ''.join([i for i in key if not i.isdigit()]) 
+                value = ''.join([i for i in value if i.isdigit()]) 
+                if row_values[0]:
+                    values[key] = value
+
+            def getValue(key):
+                try:
+                    return int(values[key])
+                except:
+                    return None
+
+            date = datetime.strftime(datetime.today(), "%Y-%m-%d")
+            negative = getValue('Confirmed Negative')
+            investigation = getValue('Currently under investigation')
+            positive = getValue('Number of cases')
+            resolved = getValue('Resolved')
+            deaths = getValue('Deceased')
+            hospitalized = getValue('Number of patients hospitalized with COVID-') #Needed to strip the reference numbers thats why only COVID-
+            icu = getValue('Number of patients in ICU with COVID-')
+            ventilator = getValue('Number of patients in ICU on a ventilator with COVID-')
+            total = getValue('Total tests completed')
+
+            if negative == None:
+                negative = total - positive - investigation
+
+            c = CovidTests.query.filter_by(date=date).first()
+            if not c:
+                c = CovidTests(date=date, negative=negative, investigation=investigation, positive=positive, resolved=resolved, deaths=deaths, total=total)
+                if hospitalized==hospitalized:
+                    c.hospitalized = hospitalized
+                if icu==icu:
+                    c.icu = icu
+                if ventilator==ventilator:
+                    c.ventilator = ventilator
+                db.session.add(c)
+                db.session.commit()
+                new = True
+            else:
+                if ((c.negative == negative) and (c.positive == positive) and (c.investigation == investigation) and (c.resolved == resolved) and (c.deaths == deaths) and (c.total == total) and (c.hospitalized == hospitalized) and (c.icu == icu) and (c.ventilator == ventilator)):
+                    pass
+                else:
+                    c.negative = negative
+                    c.positive = positive
+                    c.investigation = investigation
+                    c.resolved = resolved
+                    c.deaths = deaths
+                    c.total = total
+                    if hospitalized==hospitalized:
+                        c.hospitalized = hospitalized
+                    if icu==icu:
+                        c.icu = icu
+                    if ventilator==ventilator:
+                        c.ventilator = ventilator
+                    db.session.add(c)
+                    db.session.commit()
+            break
+    except:
+        print("Failed to get ontario alt data", sys.exc_info())
+
+    if new:
+        return 'New'
+    else:
+        return 'Same'
+
 def getnpis():
     url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"
     s=requests.get(url).content
