@@ -10,6 +10,7 @@ from app.export import kaggleHelper
 from app.plots import routes as plots
 from app.tools.pdfparse import extract
 from datetime import datetime
+import time
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -116,6 +117,7 @@ def getontario():
     routes.getpredictivemodel()
     routes.getideamodel()
     print('Ontario data refreshed')
+
 
 @bp.cli.command('mobility')
 def getcanada():
@@ -282,6 +284,48 @@ def getontario():
          print("Plot htmls updated")
      else:
          print("No new data")
+
+@bp.cli.command('newest_faster')
+def getontario_faster():
+    timeout = 60*60
+    interval = 60
+    while timeout >= 0:
+        timeout = timeout - interval
+        resp = routes.testsnew_faster()
+        if resp == 'Same':
+            time.sleep(interval)
+            continue
+
+        if resp == 'New':
+            # Commented out ones that don't use table covidtests
+            #plots.map()
+            #plots.apple_mobility_plot()
+            plots.total_cases_plot()
+            plots.new_tests_plot()
+            plots.on_ventilator_plot()
+            plots.in_icu_plot()
+            plots.in_hospital_plot()
+            plots.recovered_plot()
+            plots.new_cases_plot()
+            plots.total_tests_plot()
+            plots.total_deaths_plot()
+            #plots.retail_mobility_plot()
+            #plots.icu_ontario_plot()
+            #plots.ventilator_ontario_plot()
+            #plots.icu_projections_plot()
+            plots.tested_positve_plot()
+            plots.under_investigation_plot()
+            plots.new_deaths_plot()
+            #plots.ventilator_ontario_plot()
+            plots.new_deaths_plot()
+            plots.total_tests_plot()
+            #plots.ltc_deaths_plot()
+            #plots.ltc_cases_plot()
+            #plots.ltc_outbreaks_plot()
+            #plots.ltc_staff_plot()
+            #plots.hospital_staff_plot()
+            #plots.rt_analysis_plot()
+            break
 
 # Required for pytest don't change
 @bp.cli.command('test')
