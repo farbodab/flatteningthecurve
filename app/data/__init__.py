@@ -282,6 +282,7 @@ def getontario():
 
          plots.hospital_staff_plot()
          plots.rt_analysis_plot()
+         plots.predictive_plots()
          print("Plot htmls updated")
      else:
          print("No new data")

@@ -10,6 +10,9 @@ import pandas as pd
 import io
 from app.api import vis
 from sqlalchemy import sql
+import numpy as np
+from app.tools.curvefit.core.model import CurveModel
+from app.tools.curvefit.core.functions import gaussian_cdf, gaussian_pdf
 
 PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'brant_county':'Brant County Health Unit',
@@ -2214,11 +2217,6 @@ def map():
 ## predictive models
 
 def predictive_plots():
-    !git clone https://github.com/ihmeuw-msca/CurveFit.git
-    !make install
-    from curvefit.core.model import CurveModel
-    from curvefit.core.functions import gaussian_cdf, gaussian_pdf
-
     modcollab = pd.read_csv('http://flatteningthecurve-staging.herokuapp.com/data/predictivemodel').sort_values(['region', 'date'])
     modcollab = modcollab[modcollab['region'] == 'base_on'].copy().reset_index(drop=True)
     modcollab['New Cases'] = modcollab['cumulative_incidence'].diff()
@@ -2377,7 +2375,11 @@ def predictive_plots():
                         color="#303030")
     )
 
+    #f.show()
 
-    f.show()
-
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="predictive").first()
+    p.html = div
+    db.session.add(p)
+    db.session.commit()
     return 'success'
