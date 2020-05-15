@@ -117,6 +117,10 @@ def getontario():
     routes.getideamodel()
     print('Ontario data refreshed')
 
+@bp.cli.command('ontario_faster')
+def getontario_faster():
+    routes.testsnew_faster()
+
 @bp.cli.command('mobility')
 def getcanada():
     routes.getcanadamobility_google()
