@@ -2209,3 +2209,11 @@ def map():
     db.session.commit()
 
     return
+
+
+## predictive models
+
+def predictive_plots():
+
+
+    return 'success'
