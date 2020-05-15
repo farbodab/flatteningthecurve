@@ -116,6 +116,7 @@ def getontario():
     routes.getlongtermcare()
     routes.getpredictivemodel()
     routes.getideamodel()
+    routes.cases_status()
     print('Ontario data refreshed')
 
 
