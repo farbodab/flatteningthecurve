@@ -154,7 +154,8 @@ def get_api_viz():
         data.append({"header": row["header"], "category": row["category"],
         "content": row["content"], "text": row["text"],
         "viz": row["viz"], "thumbnail": row["thumbnail"],
-        "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"]})
+        "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"],
+        "viz_type": row["viz_type"]})
     return data
 
 @bp.route('/api/plots', methods=['GET'])

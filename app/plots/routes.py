@@ -10,6 +10,9 @@ import pandas as pd
 import io
 from app.api import vis
 from sqlalchemy import sql
+import numpy as np
+from app.tools.curvefit.core.model import CurveModel
+from app.tools.curvefit.core.functions import gaussian_cdf, gaussian_pdf
 
 PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'brant_county':'Brant County Health Unit',
@@ -2209,3 +2212,174 @@ def map():
     db.session.commit()
 
     return
+
+
+## predictive models
+
+def predictive_plots():
+    modcollab = pd.read_csv('http://flatteningthecurve-staging.herokuapp.com/data/predictivemodel').sort_values(['region', 'date'])
+    modcollab = modcollab[modcollab['region'] == 'base_on'].copy().reset_index(drop=True)
+    modcollab['New Cases'] = modcollab['cumulative_incidence'].diff()
+
+    fisman = pd.read_csv('http://flatteningthecurve-staging.herokuapp.com/data/ideamodel')
+    fisman['date'] = pd.to_datetime(fisman['date']).dt.round('d')
+    fisman = fisman[fisman['source'] == 'on'].copy().sort_values(by='date').reset_index(drop=True)
+    fisman['date'] = pd.to_datetime(fisman['date']).dt.round('d')
+    fisman = fisman[fisman['source'] == 'on'].copy().sort_values(by='date').reset_index(drop=True)
+
+    berry_case = pd.read_csv('https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv')
+    isha_case_counts = berry_case[berry_case['province']=='Ontario'].reset_index(drop=True)
+    isha_case_counts['date'] = pd.to_datetime(isha_case_counts['date_report'], dayfirst=True)
+
+    url = 'https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv'
+    on = pd.read_csv(url)
+    on['Accurate_Episode_Date'] = pd.to_datetime(on['Accurate_Episode_Date'])
+    on = on.sort_values(by='Accurate_Episode_Date')
+    counts = on.set_index('Accurate_Episode_Date')
+
+    cases_per_day = on['Accurate_Episode_Date'].value_counts().to_frame()
+    cases_per_day = cases_per_day.sort_index()
+    counts = on.groupby(['Accurate_Episode_Date', 'Outcome1']).size().unstack()
+
+    n = modcollab[modcollab['New Cases'].diff() > 1].index.max()
+
+    cases_on = on['Accurate_Episode_Date'].value_counts().rename('New Cases').to_frame()
+    cases_on = cases_on.sort_index().reset_index().rename(columns={'index': 'Episode Date'})
+    df = cases_on.copy()
+
+    recent_rows_to_drop = 7
+
+    df = df.iloc[:-recent_rows_to_drop]
+
+    start = df.iloc[0]['Episode Date']
+    end = df.iloc[-1]['Episode Date']
+
+    df = (df.set_index('Episode Date')
+            .reindex(pd.date_range(start=start,
+                                   end=end,
+                                   freq='d'))
+            .fillna(0))
+
+    df = (df.reindex(pd.date_range(start=start,
+                               end=end + pd.offsets.DateOffset(months=1),
+                               freq='d'))
+        .reset_index()
+        .rename(columns={'index': 'Episode Date'}))
+
+    df['days since first case'] = list(range(1, df.shape[0] + 1))
+    df['province'] = 'ON'
+    df['intercept'] = 1
+
+    model = CurveModel(
+        df=df.dropna(subset=['New Cases']),
+        col_t='days since first case',
+        col_obs='New Cases',
+        col_group='province',
+        col_covs=[['intercept'], ['intercept'], ['intercept']],
+        param_names=['alpha', 'beta', 'p'],
+        link_fun=[lambda x: x, lambda x: x, lambda x: x],
+        var_link_fun=[lambda x: x, lambda x: x, lambda x: x],
+        fun=gaussian_pdf
+    )
+
+    model.fit_params([3.6e-02, 9.6e+01, 2.5e+04],
+                fe_gprior=[[0, np.inf],
+                           [0, np.inf],
+                           [0, np.inf]])
+
+    df['IHME fit'] = model.predict(df['days since first case'])
+
+    model2meta = {'IDEA': [fisman.dropna(subset=['reported_cases']).iloc[-1]['date'], 'rgb(200, 0, 200)'],
+              'ModCollab': [modcollab.iloc[n-1]['date'], 'orange'],
+              'IHME': [df.dropna(subset=['New Cases']).iloc[-recent_rows_to_drop]['Episode Date'], '#009900']}
+
+    model2meta = pd.DataFrame(model2meta, index=['cutoff_date', 'color']).T
+
+    f = go.Figure()
+
+    f.add_trace(go.Scatter(
+    x=df['Episode Date'],
+    y=df['New Cases'],
+    name='Cases by Episode Date (ON confirmed positive)',
+    mode='markers',
+    marker_symbol='square',
+    marker_color='#80b0ff', # '#009900',
+    marker_size=8,
+    legendgroup='Ontario-data'
+    ))
+
+    f.add_trace(go.Scatter(
+        x=fisman['date'],
+        y=fisman['reported_cases'],
+        name='Cases by Report Date (Berry et al.)',
+        mode='markers',
+        marker_color='#3070ff',# 'rgb(200, 0, 200)',
+        showlegend=True,
+        marker_size=7,
+        legendgroup='Fisman-data'
+    ))
+
+    df_before = df[df['Episode Date'] <= model2meta.loc['IHME', 'cutoff_date']]
+    df_after = df[df['Episode Date'] >= model2meta.loc['IHME', 'cutoff_date']]
+
+    for data, opacity, showlegend in zip([df_before, df_after], [0.2, 1], [False, True]):
+        f.add_trace(go.Scatter(
+            x=data['Episode Date'],
+            y=data['IHME fit'],
+            name='Forecast (IHME-style)',
+            mode='lines',
+            marker_color='#009900',
+            marker_size=5,
+            showlegend=showlegend,
+            opacity=opacity,
+            legendgroup='Ontario-forecast'
+        ))
+
+    fisman_before = fisman[fisman['date'] <= model2meta.loc['IDEA', 'cutoff_date']]
+    fisman_after = fisman[fisman['date'] >= model2meta.loc['IDEA', 'cutoff_date']]
+
+    for data, opacity, showlegend in zip([fisman_before, fisman_after], [0.2, 1], [False, True]):
+        f.add_trace(go.Scatter(
+                x=data['date'],
+                y=data['model_incident_cases'],
+                name='Forecast (IDEA)',
+                mode="lines",
+                line=go.scatter.Line(color=("rgb(200, 0, 200)")),
+                showlegend=showlegend,
+                legendgroup='Fisman-forecast',
+                opacity=opacity
+        ))
+
+    f.add_trace(go.Scatter(
+        x=modcollab.loc[n:, 'date'],
+        y=modcollab.loc[n:, 'New Cases'],
+        name='Forecast (ModCollab - Expected Scenario)',
+        mode='lines',
+        marker_color='orange',
+        marker_size=5,
+        legendgroup='ModCollab-forecast'
+    ))
+
+    f.update_layout(template='plotly_white',
+                    showlegend=True,
+                    legend_x=0,
+                    legend_y=1.1,
+                    legend_orientation='v',
+                    legend_font_size = 13, # magic underscore notation ftw
+                    xaxis_title='Report date (Fisman, Berry); accurate episode date (ModCollab, ON)',
+                    yaxis_title='Daily cases',
+                   # hovermode="x unified",
+                    font=dict(
+                        family='Helvetica',
+                        size=15,
+                        color="#303030")
+    )
+
+    #f.show()
+
+    div = f.to_json()
+    p = Viz.query.filter_by(header="Forecasted Cases").first()
+    p.viz = div
+    db.session.add(p)
+    db.session.commit()
+    return 'success'

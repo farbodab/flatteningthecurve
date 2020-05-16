@@ -116,7 +116,13 @@ def getontario():
     routes.getlongtermcare()
     routes.getpredictivemodel()
     routes.getideamodel()
+    routes.cases_status()
     print('Ontario data refreshed')
+
+@bp.cli.command('pred')
+def getpred():
+    plots.predictive_plots()
+    print('Predictive plots refreshed')
 
 
 @bp.cli.command('mobility')
@@ -281,6 +287,7 @@ def getontario():
 
          plots.hospital_staff_plot()
          plots.rt_analysis_plot()
+         plots.predictive_plots()
          print("Plot htmls updated")
      else:
          print("No new data")

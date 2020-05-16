@@ -31,6 +31,43 @@ import sys
 ############ONTARIO DATA################
 ########################################
 
+def cases_status():
+    field_map = {
+        "_id":"id",
+        "Reported Date": "reported_date",
+        "Confirmed Negative":"confirmed_negative",
+        "Presumptive Negative":"presumptive_negative",
+        "Presumptive Positive": "presumptive_positive",
+        "Confirmed Positive": "confirmed_positive",
+        "Resolved": "resolved",
+        "Deaths": "deaths",
+        "Total Cases": "total_cases",
+        "Total patients approved for testing as of Reporting Date": "patients_approved",
+        "Total tests completed in the last day": "tests_today",
+        "Under Investigation": "under_investigation",
+        "Number of patients hospitalized with COVID-19":"hospitalized",
+        "Number of patients in ICU with COVID-19": "icu",
+        "Number of patients in ICU on a ventilator with COVID-19": "icu_ventilator",
+    }
+    url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
+    daily_reports = {report.reported_date:report for report in CasesStatus.query.all()}
+    req = requests.get(url, stream=True)
+
+    for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
+        if row["Reported Date"] in daily_reports:
+            daily_status = daily_reports.get(row["Reported Date"])
+            for header in row.keys():
+                setattr(daily_status,field_map[header],row[header])
+        else:
+            db.session.add(
+                CasesStatus(**dict(zip(
+                    map(field_map.get,row.keys()),
+                    map(lambda x: x if x else None,row.values())
+                )))
+            )
+
+    db.session.commit()
+
 
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
@@ -118,6 +155,13 @@ def testsnew_faster():
             if not 'Summary of cases' in caption.text:
                 continue
 
+            # Get date from table header
+            pattern = 'Summary of cases.*to (.*)'
+            match = re.search(pattern, caption.text)
+            date = match.group(1)
+            date = datetime.strptime(date, '%B %d, %Y')
+            date = datetime.strftime(date, '%Y-%m-%d')
+
             headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
             rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
             values = {}
@@ -128,8 +172,8 @@ def testsnew_faster():
                 key = row_values[0]
                 value = row_values[1]
                 # strip extras
-                key = ''.join([i for i in key if not i.isdigit()]) 
-                value = ''.join([i for i in value if i.isdigit()]) 
+                key = ''.join([i for i in key if not i.isdigit()])
+                value = ''.join([i for i in value if i.isdigit()])
                 if row_values[0]:
                     values[key] = value
 
@@ -139,7 +183,7 @@ def testsnew_faster():
                 except:
                     return None
 
-            date = datetime.strftime(datetime.today(), "%Y-%m-%d")
+            # Get most recent data
             negative = getValue('Confirmed Negative')
             investigation = getValue('Currently under investigation')
             positive = getValue('Number of cases')
@@ -1025,19 +1069,21 @@ def new_viz():
         column = row['column']
         phu = row['phu']
         tab_order = row['tab_order']
+        viz_type = row['viz_type']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
-            column=column, phu=phu, tab_order=tab_order)
+            column=column, phu=phu, tab_order=tab_order,viz_type=viz_type)
             db.session.add(c)
             db.session.commit()
         else:
             c.category = category
             c.content = content
-            c.viz = viz
+            if viz_type == 'Tableau':
+                c.viz = viz
             c.mobileHeight = mobileHeight
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
@@ -1047,6 +1093,7 @@ def new_viz():
             c.row = row_z
             c.column = column
             c.tab_order = tab_order
+            c.viz_type = viz_type
             db.session.add(c)
             db.session.commit()
     return 'success',200
