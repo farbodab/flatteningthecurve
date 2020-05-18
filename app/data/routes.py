@@ -231,6 +231,8 @@ def testsnew_faster():
     except:
         print("Failed to get ontario alt data", sys.exc_info())
 
+    driver.quit()
+
     if new:
         return 'New'
     else:
