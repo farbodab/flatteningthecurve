@@ -155,6 +155,13 @@ def testsnew_faster():
             if not 'Summary of cases' in caption.text:
                 continue
 
+            # Get date from table header
+            pattern = 'Summary of cases.*to (.*)'
+            match = re.search(pattern, caption.text)
+            date = match.group(1)
+            date = datetime.strptime(date, '%B %d, %Y')
+            date = datetime.strftime(date, '%Y-%m-%d')
+
             headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
             rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
             values = {}
@@ -176,7 +183,7 @@ def testsnew_faster():
                 except:
                     return None
 
-            date = datetime.strftime(datetime.today(), "%Y-%m-%d")
+            # Get most recent data
             negative = getValue('Confirmed Negative')
             investigation = getValue('Currently under investigation')
             positive = getValue('Number of cases')
@@ -223,6 +230,8 @@ def testsnew_faster():
             break
     except:
         print("Failed to get ontario alt data", sys.exc_info())
+
+    driver.quit()
 
     if new:
         return 'New'
