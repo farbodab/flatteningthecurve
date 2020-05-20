@@ -1062,7 +1062,8 @@ def new_viz():
         content = row['content']
         viz = row['viz']
         thumbnail = row['thumbnail']
-        text = row['text']
+        text_top = row['text_top']
+        text_bottom = row['text_bottom']
         mobileHeight = row['mobileHeight']
         desktopHeight = row['desktopHeight']
         page = row['page']
@@ -1089,7 +1090,8 @@ def new_viz():
             c.mobileHeight = mobileHeight
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
-            c.text=text
+            c.text_bottom=text_bottom
+            c.text_top = text_top
             c.page=page
             c.order = order
             c.row = row_z

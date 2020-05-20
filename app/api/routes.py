@@ -152,7 +152,7 @@ def get_api_viz():
     data = []
     for index, row in df.iterrows():
         data.append({"header": row["header"], "category": row["category"],
-        "content": row["content"], "text": row["text"],
+        "content": row["content"], "text_top": row["text_top"], "text_bottom": row["text_bottom"],
         "viz": row["viz"], "thumbnail": row["thumbnail"],
         "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"],
         "viz_type": row["viz_type"]})
