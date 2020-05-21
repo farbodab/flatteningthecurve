@@ -1078,7 +1078,7 @@ def new_viz():
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
-            viz=viz, thumbnail=thumbnail, text=text, mobileHeight=mobileHeight,
+            viz=viz, thumbnail=thumbnail, mobileHeight=mobileHeight,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
             column=column, phu=phu, tab_order=tab_order,viz_type=viz_type)
             db.session.add(c)
