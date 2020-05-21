@@ -181,17 +181,17 @@ def testsnew_faster():
                 try:
                     return int(values[key])
                 except:
-                    return None
+                    raise Exception("Couldnt find column {}, double check column names haven't changed at https://www.ontario.ca/page/how-ontario-is-responding-covid-19".format(key))
 
             # Get most recent data
-            negative = getValue('Confirmed Negative')
+            negative = None#getValue('Confirmed Negative')
             investigation = getValue('Currently under investigation')
             positive = getValue('Number of cases')
             resolved = getValue('Resolved')
-            deaths = getValue('Deceased')
-            hospitalized = getValue('Number of patients hospitalized with COVID-') #Needed to strip the reference numbers thats why only COVID-
-            icu = getValue('Number of patients in ICU with COVID-')
-            ventilator = getValue('Number of patients in ICU on a ventilator with COVID-')
+            deaths = getValue('Total number of deaths')
+            hospitalized = getValue('Number of patients currently hospitalized with COVID-') #Needed to strip the reference numbers thats why only COVID-
+            icu = getValue('Number of patients currently in ICU with COVID-')
+            ventilator = getValue('Number of patients currently in ICU on a ventilator with COVID-')
             total = getValue('Total tests completed')
 
             if negative == None:
@@ -228,8 +228,9 @@ def testsnew_faster():
                     db.session.add(c)
                     db.session.commit()
             break
-    except:
-        print("Failed to get ontario alt data", sys.exc_info())
+    except Exception as e:
+        driver.quit()
+        raise
 
     driver.quit()
 
