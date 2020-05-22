@@ -5,6 +5,7 @@ import requests
 from app import db
 from app.models import *
 from app.api import bp
+from app.api.helpers import *
 import pandas as pd
 import io
 import requests
@@ -1172,3 +1173,95 @@ def get_phu_map():
 
 
     return df_final
+
+def get_npi_heatmap():
+    # Load the main dataset
+    full_npi = pd.read_sql_table('npiinterventions', db.engine)
+    # full_npi = pd.read_csv('npi_canada.csv')
+
+
+    # Clean missing information and typos
+    full_npi['oxford_government_response_category'] = full_npi['oxford_government_response_category'].replace({'S13 Contact Tracing': 'S13 Contact tracing',
+                                                                                                               'S13 Contact-tracing': 'S13 Contact tracing'})
+
+    full_npi['subregion'].fillna('', inplace=True)
+    full_npi['oxford_geographic_target_code'].fillna(0, inplace=True)
+    full_npi['oxford_closure_code'].fillna(0, inplace=True)
+    full_npi['oxford_public_info_code'].fillna(0, inplace=True)
+
+
+    # Generate temporal stringency index per province
+    on = generate_cases_province('Ontario', 'Ontario', full_npi)
+    qb = generate_cases_province('Quebec', 'Quebec', full_npi)
+    bc = generate_cases_province('British Columbia', 'BC', full_npi)
+    sk = generate_cases_province('Saskatchewan', 'Saskatchewan', full_npi)
+    nb = generate_cases_province('New Brunswick', 'New Brunswick', full_npi)
+    ns = generate_cases_province('Nova Scotia', 'Nova Scotia', full_npi)
+    mb = generate_cases_province('Manitoba', 'Manitoba', full_npi)
+    ab = generate_cases_province('Alberta', 'Alberta', full_npi)
+    nv = generate_cases_province('Nunavut', 'Nunavut', full_npi)
+    pei = generate_cases_province('Prince Edward Island', 'PEI', full_npi)
+    nwt = generate_cases_province('Northwest Territories', 'NWT', full_npi)
+    nl = generate_cases_province('Newfoundland and Labrador', 'NL', full_npi)
+    yt = generate_cases_province('Yukon', 'Yukon', full_npi)
+
+    prov_dict = {'Ontario': on,
+                'Quebec': qb,
+                'British Columbia': bc,
+                'Saskatchewan': sk,
+                'New Brunswick': nb,
+                'Nova Scotia': ns,
+                'Manitoba' : mb,
+                'Alberta' : ab,
+                'Prince Edward Island': pei,
+                'Nunavut': nv,
+                'Northwest Territories' : nwt,
+                'Newfoundland and Labrador' : nl,
+                'Yukon': yt}
+
+    interv_string = ['S1 School Closing',
+                    'S2 Workplace closing',
+                    'S3 Cancel public events',
+                    'S4 Close public transport',
+                    'S5 Public info campaigns',
+                    'S6 Restrictions on internal movements',
+                    'S7 International travel controls']
+
+    full_npi['start_date'] =  pd.to_datetime(full_npi['start_date'], infer_datetime_format='%Y-%m-%d')
+    full_npi['end_date'] =  pd.to_datetime(full_npi['end_date'], infer_datetime_format='%Y-%m-%d')
+
+
+    canada = pd.DataFrame({"PRENAME":[
+    'Newfoundland and Labrador',
+    'Prince Edward Island',
+    'Nova Scotia',
+    'New Brunswick',
+    'Quebec',
+    'Ontario',
+    'Manitoba',
+    'Saskatchewan',
+    'Alberta',
+    'British Columbia',
+    'Yukon',
+    'Northwest Territories',
+    'Nunavut']})
+
+    canada_overall = canada.copy(deep=True)
+
+    final_df = {'PRENAME': [], 'Stringency': [], 'Date': []}
+
+    today = datetime.today().strftime('%Y-%m-%d')
+
+    # Generate heatmap for each date
+    for date in np.arange(np.datetime64('2020-04-10'), np.datetime64(today)):
+        canada_overall[date] = 0
+        for k, v in prov_dict.items():
+            idx = canada[canada['PRENAME'] == k].index[0]
+            val = string_idx(v, date)
+            final_df['PRENAME'] += [k]
+            final_df['Stringency'] += [val]
+            final_df['Date'] += [date]
+
+    df = pd.DataFrame(final_df)
+
+    return df
