@@ -51,7 +51,7 @@ def cases_status():
     }
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
     daily_reports = {report.reported_date:report for report in CasesStatus.query.all()}
-    req = requests.get(url, stream=True)
+    req = requests.get(url)
 
     for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
         if row["Reported Date"] in daily_reports:
@@ -68,6 +68,43 @@ def cases_status():
 
     db.session.commit()
 
+def confirmed_ontario():
+    field_map = {
+        "Row_ID":"row_id",
+        "Accurate_Episode_Date": "accurate_episode_date",
+        "Age_Group":"age_group",
+        "Client_Gender":"client_gender",
+        "Case_AcquisitionInfo": "case_acquisitionInfo",
+        "Outcome1": "outcome1",
+        "Outbreak_Related": "outbreak_related",
+        "Reporting_PHU": "reporting_phu",
+        "Reporting_PHU_Address": "reporting_phu_address",
+        "Reporting_PHU_City": "reporting_phu_city",
+        "Reporting_PHU_Postal_Code": "reporting_phu_postal_code",
+        "Reporting_PHU_Website": "reporting_phu_website",
+        "Reporting_PHU_Latitude":"reporting_phu_latitude",
+        "Reporting_PHU_Longitude": "reporting_phu_longitude",
+    }
+    url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
+    cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
+    req = requests.get(url)
+
+    print('ontario case data being refreshed')
+    for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
+        if int(row["Row_ID"]) in cases:
+            daily_status = cases.get(int(row["Row_ID"]))
+            for header in row.keys():
+                setattr(daily_status,field_map[header],row[header])
+        else:
+            db.session.add(
+                ConfirmedOntario(**dict(zip(
+                    map(field_map.get,row.keys()),
+                    map(lambda x: x if x else None,row.values())
+                )))
+            )
+            db.session.commit()
+
+    db.session.commit()
 
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"

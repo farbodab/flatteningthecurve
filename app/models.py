@@ -315,3 +315,21 @@ class IDEAModel(db.Model):
     model_cumulative_cases = db.Column(db.Float)
     model_cumulative_cases_lower_PI = db.Column(db.Float)
     model_cumulative_cases_upper_PI = db.Column(db.Float)
+
+class ConfirmedOntario(db.Model):
+    __tablename__ = 'confirmedontario'
+    id = db.Column(db.Integer, primary_key=True)
+    row_id = db.Column(db.Integer, index=True)
+    accurate_episode_date = db.Column(db.DateTime, index=True)
+    age_group = db.Column(db.String)
+    client_gender = db.Column(db.String)
+    case_acquisitionInfo = db.Column(db.String)
+    outcome1 = db.Column(db.String)
+    outbreak_related = db.Column(db.String)
+    reporting_phu = db.Column(db.String)
+    reporting_phu_address = db.Column(db.String)
+    reporting_phu_city = db.Column(db.String)
+    reporting_phu_postal_code = db.Column(db.String)
+    reporting_phu_website = db.Column(db.String)
+    reporting_phu_latitude = db.Column(db.String)
+    reporting_phu_longitude = db.Column(db.String)
