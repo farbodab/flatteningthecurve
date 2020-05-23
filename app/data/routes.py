@@ -372,6 +372,40 @@ def capacityicu(date):
         db.session.commit()
     return
 
+def capacityicu_auto():
+    df = pd.read_sql_table('icucapacity', db.engine)
+    maxdate = df.iloc[df['date'].idxmax()]['date']
+    
+    # Look from last date on
+    start_date = maxdate + timedelta(days=1)
+    end_date = datetime.today()
+
+    def daterange(start_date, end_date):
+        for n in range(int ((end_date - start_date).days)):
+            yield start_date + timedelta(n)
+
+    for single_date in daterange(start_date, end_date):
+        csv = 'CCSO_{}.csv'.format(single_date.strftime('%Y%m%d'))
+        if not os.path.exists(csv):
+            continue
+
+        date = single_date.strftime('%Y-%m-%d')
+
+        df = pd.read_csv(csv)
+        for index, row in df.iterrows():
+            region = row['Region']
+            lhin = row['LHIN']
+            critical_care_beds = row['# Critical Care Beds']
+            critical_care_patients = row['# Critical Care Patients']
+            vented_beds = row['# Expanded Vented Beds']
+            vented_patients = row['# Vented Patients']
+            suspected_covid = row['# Suspected COVID-19']
+            confirmed_positive = row['# Confirmed Positive COVID-19']
+            confirmed_positive_ventilator = row['# Confirmed Positive COVID-19 Patients with Invasive Ventilation']
+            c = ICUCapacity(date=date, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator)
+            db.session.add(c)
+            db.session.commit()
+
 def capacity():
     # data source Petr Smirnov
     url = "https://docs.google.com/spreadsheets/d/1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8/export?format=csv&id=1l6dyKXB0k2c5X13Lsfvy6I6g10Uh8ias1P7mLTAqxT8&gid=1666640270"

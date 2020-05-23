@@ -11,6 +11,7 @@ from app.plots import routes as plots
 from app.tools.pdfparse import extract
 from datetime import datetime
 import time
+import sys
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -158,6 +159,10 @@ def geticu(arg):
 
     routes.capacityicu(date)
     print('ICU data refreshed')
+
+@bp.cli.command('icu_auto')
+def geticu_auto():
+    routes.capacityicu_auto()
 
 @bp.cli.command('canada')
 def getcanada():
