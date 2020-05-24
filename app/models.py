@@ -182,6 +182,7 @@ class Viz(db.Model):
     phu = db.Column(db.String)
     tab_order = db.Column(db.Integer)
     viz_type = db.Column(db.String)
+    viz_title = db.Column(db.String)
 
 
 
