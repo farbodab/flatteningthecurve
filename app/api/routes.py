@@ -172,7 +172,8 @@ def get_api_plots():
         "tab": row["content"],"tab_order": row["tab_order"],
         "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]),
         "html": row["html"],"category": row["page"], "group": row["category"],
-        "phu": row["phu"], "viz_title": row["viz_title"]})
+        "phu": row["phu"], "viz_title": row["viz_title"],
+        "text_top": row["text_top"], "text_bottom": row["text_bottom"]})
     return data
 
 @bp.route('/api/source', methods=['GET'])
