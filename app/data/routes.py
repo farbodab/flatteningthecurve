@@ -375,7 +375,7 @@ def capacityicu(date):
 def capacityicu_auto():
     df = pd.read_sql_table('icucapacity', db.engine)
     maxdate = df.iloc[df['date'].idxmax()]['date']
-    
+
     # Look from last date on
     start_date = maxdate + timedelta(days=1)
     end_date = datetime.today()
@@ -1145,13 +1145,15 @@ def new_viz():
         phu = row['phu']
         tab_order = row['tab_order']
         viz_type = row['viz_type']
+        viz_title = row['title']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, mobileHeight=mobileHeight,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
-            column=column, phu=phu, tab_order=tab_order,viz_type=viz_type)
+            column=column, phu=phu, tab_order=tab_order,viz_type=viz_type,
+            viz_title=viz_title)
             db.session.add(c)
             db.session.commit()
         else:
@@ -1170,6 +1172,7 @@ def new_viz():
             c.column = column
             c.tab_order = tab_order
             c.viz_type = viz_type
+            c.viz_title = viz_title
             db.session.add(c)
             db.session.commit()
     return 'success',200

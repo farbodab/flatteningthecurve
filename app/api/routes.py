@@ -168,8 +168,11 @@ def get_api_plots():
     df = df.sort_values(by=['order'])
     data = []
     for index, row in df.iterrows():
-        data.append({"header": row["header"], "order": row["order"], "tab": row["content"],"tab_order": row["tab_order"],
-        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"], "group": row["category"], "phu": row["phu"]})
+        data.append({"header": row["header"], "order": row["order"],
+        "tab": row["content"],"tab_order": row["tab_order"],
+        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]),
+        "html": row["html"],"category": row["page"], "group": row["category"],
+        "phu": row["phu"], "viz_title": row["viz_title"]})
     return data
 
 @bp.route('/api/source', methods=['GET'])
