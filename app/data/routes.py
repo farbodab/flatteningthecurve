@@ -1230,6 +1230,42 @@ def new_source():
             db.session.commit()
     return 'success',200
 
+@bp.route('/covid/team', methods=['GET'])
+@as_json
+def new_team():
+    url = "https://docs.google.com/spreadsheets/d/1Sq_KtGI1v4ABLVnJUVRGPi-hOjupSpThL9dNeeVVis0/export?format=csv&id=1Sq_KtGI1v4ABLVnJUVRGPi-hOjupSpThL9dNeeVVis0&gid=0"
+    s=requests.get(url).content
+    data = io.StringIO(s.decode('utf-8'))
+    df = pd.read_csv(data)
+    for index, row in df.iterrows():
+        team = row['Team']
+        title = row['Title']
+        first_name = row['First Name']
+        last_name = row['Last Name']
+        education = row['Highest Ed.']
+        affiliation = row['Affiliation']
+        role = row['Role (Maintainers Only)']
+        team_status = row['Team Status']
+        if first_name == first_name and first_name != '':
+            c = Member.query.filter_by(first_name=first_name, last_name=last_name).first()
+            if not c:
+                c = Member(team=team, title=title, first_name=first_name,
+                last_name=last_name, education=education, affiliation=affiliation,
+                role=role, team_status=team_status)
+                db.session.add(c)
+                db.session.commit()
+            else:
+                c.team = team
+                c.title = title
+                c.education = education
+                c.affiliation = affiliation
+                c.role = role
+                c.team_status = team_status
+                db.session.add(c)
+                db.session.commit()
+    return 'success',200
+
+
 
 ########################################
 ###########UPDATE DATA##################
