@@ -191,6 +191,19 @@ def get_api_source():
         "download": row["download"]})
     return data
 
+@bp.route('/api/team', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_api_team():
+    df = pd.read_sql_table('members', db.engine)
+    df = df.sort_values(by=['team_status'])
+    data = []
+    for index, row in df.iterrows():
+        data.append({"team": row["team"],"title": row["title"],
+        "first_name": row["first_name"], "last_name": row["last_name"],
+        "education": row["education"], "affiliation": row["affiliation"],
+        "role": row["role"], "team_status": row["team_status"]})
+    return data
 
 @as_json
 def get_testresults():

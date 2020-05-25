@@ -203,6 +203,17 @@ class Source(db.Model):
     contact = db.Column(db.String)
     download = db.Column(db.String)
 
+class Member(db.Model):
+    __tablename__ = 'members'
+    id = db.Column(db.Integer(), primary_key=True)
+    team = db.Column(db.String, index=True)
+    title = db.Column(db.String)
+    first_name = db.Column(db.String,index=True)
+    last_name = db.Column(db.String, index=True)
+    education = db.Column(db.String)
+    affiliation = db.Column(db.String)
+    role = db.Column(db.String)
+    team_status = db.Column(db.String)
 
 class Mobility(db.Model):
     __tablename__ = 'mobility'
