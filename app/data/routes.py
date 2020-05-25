@@ -1146,14 +1146,18 @@ def new_viz():
         tab_order = row['tab_order']
         viz_type = row['viz_type']
         viz_title = row['title']
+        date = row['date']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, mobileHeight=mobileHeight,
+            text_top=text_top, text_bottom=text_bottom,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
             column=column, phu=phu, tab_order=tab_order,viz_type=viz_type,
             viz_title=viz_title)
+            if page == 'Analysis':
+                c.date = date
             db.session.add(c)
             db.session.commit()
         else:
@@ -1161,6 +1165,8 @@ def new_viz():
             c.content = content
             if viz_type == 'Tableau':
                 c.viz = viz
+            if page == 'Analysis':
+                c.date = date
             c.mobileHeight = mobileHeight
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail

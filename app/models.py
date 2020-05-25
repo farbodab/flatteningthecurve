@@ -183,6 +183,7 @@ class Viz(db.Model):
     tab_order = db.Column(db.Integer)
     viz_type = db.Column(db.String)
     viz_title = db.Column(db.String)
+    date = db.Column(db.DateTime)
 
 
 
