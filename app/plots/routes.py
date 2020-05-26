@@ -2309,8 +2309,8 @@ def predictive_plots():
     ))
 
     f.add_trace(go.Scatter(
-        x=fisman['date'],
-        y=fisman['reported_cases'],
+        x=isha_case_counts['date'],
+        y=isha_case_counts['cases'],
         name='Cases by Report Date (Berry et al.)',
         mode='markers',
         marker_color='#3070ff',# 'rgb(200, 0, 200)',
