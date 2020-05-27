@@ -97,7 +97,7 @@ def impute_intervention(prov):
 
 
 def generate_cases_province(pn, pn_short, full_npi):
-    prov = full_npi[(full_npi['region'] == pn) & (full_npi['subregion'] == '')]
+    prov = full_npi[(full_npi['region'] == pn) & (full_npi['subregion'] != '')]
 
     prov = prov[['start_date', 'region', 'end_date', 'oxford_government_response_category', 'oxford_closure_code',
        'oxford_public_info_code', 'oxford_travel_code',
@@ -114,6 +114,13 @@ def generate_cases_province(pn, pn_short, full_npi):
 
     return prov
 
+interv_string = ['S1 School Closing',
+                'S2 Workplace closing',
+                'S3 Cancel public events',
+                'S4 Close public transport',
+                'S5 Public info campaigns',
+                'S6 Restrictions on internal movements',
+                'S7 International travel controls']
 
 def string_idx(df, date):
     sub = df[df['start_date'] <= date]

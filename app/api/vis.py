@@ -1183,12 +1183,11 @@ def get_npi_heatmap():
     # Clean missing information and typos
     full_npi['oxford_government_response_category'] = full_npi['oxford_government_response_category'].replace({'S13 Contact Tracing': 'S13 Contact tracing',
                                                                                                                'S13 Contact-tracing': 'S13 Contact tracing'})
-
-    full_npi['subregion'].fillna('', inplace=True)
-    full_npi['oxford_geographic_target_code'].fillna(0, inplace=True)
-    full_npi['oxford_closure_code'].fillna(0, inplace=True)
-    full_npi['oxford_public_info_code'].fillna(0, inplace=True)
-
+    full_npi['subregion'] = full_npi['subregion'].replace('NULL', '')
+    full_npi['oxford_geographic_target_code'] = pd.to_numeric(full_npi['oxford_geographic_target_code'], errors='coerce').fillna(0)
+    full_npi['oxford_closure_code'] = pd.to_numeric(full_npi['oxford_closure_code'], errors='coerce').fillna(0)
+    full_npi['oxford_public_info_code'] = pd.to_numeric(full_npi['oxford_public_info_code'], errors='coerce').fillna(0)
+    full_npi['oxford_travel_code'] = pd.to_numeric(full_npi['oxford_travel_code'], errors='coerce').fillna(0)
 
     # Generate temporal stringency index per province
     on = generate_cases_province('Ontario', 'Ontario', full_npi)
@@ -1219,17 +1218,8 @@ def get_npi_heatmap():
                 'Newfoundland and Labrador' : nl,
                 'Yukon': yt}
 
-    interv_string = ['S1 School Closing',
-                    'S2 Workplace closing',
-                    'S3 Cancel public events',
-                    'S4 Close public transport',
-                    'S5 Public info campaigns',
-                    'S6 Restrictions on internal movements',
-                    'S7 International travel controls']
-
     full_npi['start_date'] =  pd.to_datetime(full_npi['start_date'], infer_datetime_format='%Y-%m-%d')
     full_npi['end_date'] =  pd.to_datetime(full_npi['end_date'], infer_datetime_format='%Y-%m-%d')
-
 
     canada = pd.DataFrame({"PRENAME":[
     'Newfoundland and Labrador',
