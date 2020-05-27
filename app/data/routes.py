@@ -799,7 +799,7 @@ def getlongtermcare():
 
             for row in rows:
                 row_values = [x.text for x in row.find_elements_by_tag_name('td')]
-                date = datetime.now().strftime("%Y-%m-%d")
+                date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
                 home = row_values[0].replace('""','')
                 city = row_values[1]
                 beds = parseNum(row_values[2])
@@ -826,6 +826,130 @@ def getlongtermcare():
     except:
         print('Failed to extract LTC data from ontario.ca')
         values = []
+
+    driver.quit()
+
+def getlongtermcare_summary():
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
+    driver.implicitly_wait(30)
+    driver.get(urlpage)
+    tables = driver.find_elements_by_tag_name("table")
+
+    def parseNum(num):
+        return int(num.replace('<', ''))
+
+    date = None
+    # Find the date from the header
+    for h3 in driver.find_elements_by_tag_name('h3'):
+        if "Summary of long-term care cases" in h3.text:
+            # Get date from table header
+            pattern = 'Summary of long-term care cases.*to (.*, 20[0-9][0-9]).*'
+            match = re.search(pattern, h3.text)
+            if match:
+                date = match.group(1) 
+                date = datetime.strptime(date, '%B %d, %Y')
+                date = datetime.strftime(date, '%Y-%m-%d')
+
+    if date is None:
+        driver.quit()
+        raise "Could not find date for LTC summary table"
+
+    try:
+        for table in tables:
+            headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
+
+            # Isolate table we care about
+            # Match first 3 headers we know
+            if headers[0] != 'Report' or headers[1] != 'Number' or headers[2] != 'Previous Day Number':
+                continue
+
+            rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
+
+            for row in rows:
+                report = row.find_element_by_tag_name('th').text.replace('""','')
+                row_values = [x.text for x in row.find_elements_by_tag_name('td')]
+                number = parseNum(row_values[0])
+                #print('Date', date, 'Report', report, 'Cases', number)
+                l = LongTermCareSummary.query.filter_by(date=date, report=report).first()
+                if not l:
+                    l = LongTermCareSummary(
+                        date=date,
+                        report=report,
+                        number=number)
+                    db.session.add(l)
+            db.session.commit()
+            break
+    except Exception as e:
+        driver.quit()
+        raise Exception('Failed to extract LTC summary data from ontario.ca: {}'.format(str(e)))
+
+    driver.quit()
+
+
+def getlongtermcare_nolongerinoutbreak():
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
+    driver.implicitly_wait(30)
+    driver.get(urlpage)
+    tables = driver.find_elements_by_tag_name("table")
+
+    def parseNum(num):
+        return int(num.replace('<', ''))
+
+    ltc_mapping = {}
+    #https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/edit?usp=sharing
+    #https://www.phdapps.health.gov.on.ca/PHULocator/Results.aspx
+    for row in sheetsHelper.readSheet('HowsMyFlattening - Mappings', 'CityToPHU'):
+        city = row[0]
+        phu = row[1]
+        ltc_mapping[city] = phu
+
+    try:
+        for table in tables:
+            headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
+
+            # Isolate table we care about
+            # Match first 3 headers we know
+            if headers[0] != 'LTC Home' or headers[1] != 'City' or headers[2] != 'Beds':
+                continue
+
+            rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
+
+            for row in rows:
+                row_values = [x.text for x in row.find_elements_by_tag_name('td')]
+                date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+                home = row.find_element_by_tag_name('th').text.replace('""','')
+                city = row_values[0]
+                beds = parseNum(row_values[1])
+                resident_deaths = parseNum(row_values[2])
+                phu = ''
+                if city in ltc_mapping:
+                    phu = ltc_mapping[city]
+                #print('Date', date, 'Home', home, 'City', city, 'Beds', beds, 'Resident deaths', resident_deaths, 'PHU', phu)
+                l = LongTermCareNoLongerInOutbreak.query.filter_by(date=date, home=home).first()
+                if not l:
+                    l = LongTermCareNoLongerInOutbreak(
+                        date=date,
+                        home=home,
+                        city=city,
+                        beds=beds,
+                        resident_deaths=resident_deaths,
+                        phu=phu)
+                    db.session.add(l)
+            db.session.commit()
+            break
+    except Exception as e:
+        driver.quit()
+        raise Exception('Failed to extract LTC summary data from ontario.ca: {}'.format(str(e)))
 
     driver.quit()
 
