@@ -506,6 +506,13 @@ def get_mobility_transportation():
     df = pd.read_sql_table('mobilitytransportation', db.engine)
     return df
 
+def get_outbreaks():
+    df = pd.read_sql_table('confirmedontario', db.engine)
+    df['outbreak_related'] = df['outbreak_related'].fillna('No')
+    df = df.groupby(['accurate_episode_date', 'outbreak_related']).row_id.count().reset_index()
+    return df
+
+
 def get_tested():
     df = pd.read_sql_table('canadatesting', db.engine)
     provinces = ['Ontario', 'Quebec', 'BC', 'Alberta']

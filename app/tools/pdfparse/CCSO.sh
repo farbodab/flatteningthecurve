@@ -1,1 +1,3 @@
-python ./extract.py ./CCSO.pdf 1 188 600 519 959
+# top left bottom right
+python ./extract.py "$1" 1 184 647 506 965
+

@@ -33,6 +33,27 @@ def sendcovidtests():
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
+@bp.route('/data/caselevel', methods=['GET'])
+def sendcaselevel():
+    """
+    Compiled daily reported data from public health units on confirmed positive cases of COVID-19 in Ontario.
+    Case data is as initially reported.
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('confirmedontario', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=confirmed_positive_on.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
 
 @bp.route('/data/covid', methods=['GET'])
 def sendcovid():
@@ -384,7 +405,51 @@ def sendlongtermcare_ontario():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=longtermcare.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    return resp
+
+
+@bp.route('/data/longtermcare_summary', methods=['GET'])
+def sendlongtermcare_summary_ontario():
+    """
+    Ontario Long-term Care Home summary data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('longtermcare_summary', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=longtermcare_summary.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@bp.route('/data/longtermcare_nolongerinoutbreak', methods=['GET'])
+def sendlongtermcare_nolongerinoutbreak_ontario():
+    """
+    Ontario Long-term Care Home summary data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('longtermcare_nolongerinoutbreak', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=longtermcare_nolongerinoutbreak.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
 
 @bp.route('/data/predictivemodel', methods=['GET'])
 def sendpredictivemodel():
@@ -405,7 +470,7 @@ def sendpredictivemodel():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    return resp
 
 
 @bp.route('/data/ideamodel', methods=['GET'])
@@ -427,4 +492,4 @@ def sendideamodel():
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=ideamodel.csv"
     resp.headers["Content-Type"] = "text/csv"
-    return resp 
+    return resp

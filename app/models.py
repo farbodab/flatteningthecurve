@@ -182,9 +182,8 @@ class Viz(db.Model):
     phu = db.Column(db.String)
     tab_order = db.Column(db.Integer)
     viz_type = db.Column(db.String)
-
-
-
+    viz_title = db.Column(db.String)
+    date = db.Column(db.DateTime)
 
 class Source(db.Model):
     __tablename__ = 'source'
@@ -201,6 +200,17 @@ class Source(db.Model):
     contact = db.Column(db.String)
     download = db.Column(db.String)
 
+class Member(db.Model):
+    __tablename__ = 'members'
+    id = db.Column(db.Integer(), primary_key=True)
+    team = db.Column(db.String, index=True)
+    title = db.Column(db.String)
+    first_name = db.Column(db.String,index=True)
+    last_name = db.Column(db.String, index=True)
+    education = db.Column(db.String)
+    affiliation = db.Column(db.String)
+    role = db.Column(db.String)
+    team_status = db.Column(db.String)
 
 class Mobility(db.Model):
     __tablename__ = 'mobility'
@@ -285,6 +295,22 @@ class LongTermCare(db.Model):
     confirmed_staff_cases = db.Column(db.Integer)
     phu = db.Column(db.String)
 
+class LongTermCareSummary(db.Model):
+    __tablename__ = 'longtermcare_summary'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    report = db.Column(db.String)
+    number = db.Column(db.Integer)
+    
+class LongTermCareNoLongerInOutbreak(db.Model):
+    __tablename__ = 'longtermcare_nolongerinoutbreak'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    home = db.Column(db.String)
+    city = db.Column(db.String)
+    beds = db.Column(db.Integer)
+    resident_deaths = db.Column(db.Integer)
+    phu = db.Column(db.String)
 
 class PredictiveModel(db.Model):
     __tablename__ = 'predictivemodel'
@@ -315,3 +341,21 @@ class IDEAModel(db.Model):
     model_cumulative_cases = db.Column(db.Float)
     model_cumulative_cases_lower_PI = db.Column(db.Float)
     model_cumulative_cases_upper_PI = db.Column(db.Float)
+
+class ConfirmedOntario(db.Model):
+    __tablename__ = 'confirmedontario'
+    id = db.Column(db.Integer, primary_key=True)
+    row_id = db.Column(db.Integer, index=True)
+    accurate_episode_date = db.Column(db.DateTime, index=True)
+    age_group = db.Column(db.String)
+    client_gender = db.Column(db.String)
+    case_acquisitionInfo = db.Column(db.String)
+    outcome1 = db.Column(db.String)
+    outbreak_related = db.Column(db.String)
+    reporting_phu = db.Column(db.String)
+    reporting_phu_address = db.Column(db.String)
+    reporting_phu_city = db.Column(db.String)
+    reporting_phu_postal_code = db.Column(db.String)
+    reporting_phu_website = db.Column(db.String)
+    reporting_phu_latitude = db.Column(db.String)
+    reporting_phu_longitude = db.Column(db.String)

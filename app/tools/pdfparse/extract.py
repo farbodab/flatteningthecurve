@@ -22,21 +22,34 @@ def extractCCSO(argv):
     # The table is weirdly formatted so some manual tweaking is required
     header = ["Region",
             "LHIN",
-            "# Critical Care Beds",
-            "# Critical Care Patients",
-            "# Baseline Vented Beds",
-            "# Expanded Vented Beds",
-            "# Vented Patients",
-            "% Ventilator Capacity Remaining",
-            "# Suspected COVID-19",
-            "# Confirmed Positive COVID-19",
-            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation",
-            "# Patients in Expanded ICU",
+            "# Critical Care Beds", #Baseline Critical care Beds
+            "# Critical Care Patients", #Critical Care census
+            "# Baseline Vented Beds", #Baseline Vented Beds
+            "# Expanded Vented Beds", #Expanded Vented Beds
+            "# Vented Patients", #Critical Care Census Vented
+            "% Ventilator Capacity Remaining", #Occupancy of Expanded Vented Beds
+            "# Suspected COVID-19", #Critical Care PUI Census
+            "# Confirmed Positive COVID-19", #Critical Care COVID+ Census
+            "# Confirmed Positive COVID-19 Patients with Invasive Ventilation", #Census COVID+ Vented
+            "# Patients in Expanded ICU", #Census PUI Vented
             "# COVID Positive Patients in Expanded ICU"]
 
-    prepend = ['West,L1: ESC','West,L2: SW','West,L3: WW','West,L4: HNHB','Central,L5: CW','Central,L6: MH','Central,L8: Central',
-    'Central,L12: NSM','Toronto,L7: Toronto','East,L9: CE', 'East,L10: SE', 'East,L11: Champlain',
-    'North,L13: NE', 'North,L14: NW']
+    prepend = [
+        'West,L1: ESC',
+        'West,L2: SW',
+        'West,L3: WW',
+        'West,L4: HNHB',
+        'Central,L5: CW',
+        'Central,L6: MH',
+        'Central,L8: Central',
+        'Central,L12: NSM',
+        'Toronto,L7: Toronto',
+        'East,L9: CE', 
+        'East,L10: SE', 
+        'East,L11: Champlain',
+        'North,L13: NE', 
+        'North,L14: NW'
+    ]
 
 
     def parsenum(value):
