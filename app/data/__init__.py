@@ -22,6 +22,7 @@ import sys
 
 
 sheetsConfig = [
+    {'name': 'Heat Map', 'function': vis.get_npi_heatmap, 'col':16},
     {'name': 'Outbreak Tracker', 'function': vis.get_outbreaks, 'col':3},
     {'name': 'PHU Map', 'function': vis.get_phu_map, 'col':16},
     {'name':'Results','function':vis.get_results, 'col':3},
