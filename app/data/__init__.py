@@ -192,7 +192,7 @@ def export_kaggle():
 
 @bp.cli.command('plots')
 def updateplots():
-
+    plots.acceleration_plot()
     plots.map()
     plots.predictive_plots()
     plots.apple_mobility_plot()
