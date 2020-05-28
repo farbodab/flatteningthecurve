@@ -1577,6 +1577,12 @@ def rt_analysis_plot(region='Ontario'):
     db.session.add(p)
     db.session.commit()
 
+    if region == 'Ontario':
+        p = Viz.query.filter_by(header="Estimation of the Time-Varying Reproductive Number from Case Counts").first()
+        p.viz = div
+        db.session.add(p)
+        db.session.commit()
+
     return
 
 ## Mobility
