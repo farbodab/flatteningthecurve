@@ -91,19 +91,21 @@ def confirmed_ontario():
 
     print('ontario case data being refreshed')
     for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
-        if int(row["Row_ID"]) in cases:
-            daily_status = cases.get(int(row["Row_ID"]))
-            for header in row.keys():
-                setattr(daily_status,field_map[header],row[header])
-        else:
-            db.session.add(
-                ConfirmedOntario(**dict(zip(
-                    map(field_map.get,row.keys()),
-                    map(lambda x: x if x else None,row.values())
-                )))
-            )
-            db.session.commit()
-
+        try:
+            if int(row["Row_ID"]) in cases:
+                daily_status = cases.get(int(row["Row_ID"]))
+                for header in row.keys():
+                    setattr(daily_status,field_map[header],row[header])
+            else:
+                db.session.add(
+                    ConfirmedOntario(**dict(zip(
+                        map(field_map.get,row.keys()),
+                        map(lambda x: x if x else None,row.values())
+                    )))
+                )
+                db.session.commit()
+        except:
+            print(f'failed to update case {Row_ID}')
     db.session.commit()
 
 def testsnew():
@@ -851,7 +853,7 @@ def getlongtermcare_summary():
             pattern = 'Summary of long-term care cases.*to (.*, 20[0-9][0-9]).*'
             match = re.search(pattern, h3.text)
             if match:
-                date = match.group(1) 
+                date = match.group(1)
                 date = datetime.strptime(date, '%B %d, %Y')
                 date = datetime.strftime(date, '%Y-%m-%d')
 
