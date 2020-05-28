@@ -407,6 +407,50 @@ def sendlongtermcare_ontario():
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
+
+@bp.route('/data/longtermcare_summary', methods=['GET'])
+def sendlongtermcare_summary_ontario():
+    """
+    Ontario Long-term Care Home summary data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('longtermcare_summary', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=longtermcare_summary.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@bp.route('/data/longtermcare_nolongerinoutbreak', methods=['GET'])
+def sendlongtermcare_nolongerinoutbreak_ontario():
+    """
+    Ontario Long-term Care Home summary data
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('longtermcare_nolongerinoutbreak', db.engine)
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=longtermcare_nolongerinoutbreak.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+
 @bp.route('/data/predictivemodel', methods=['GET'])
 def sendpredictivemodel():
     """

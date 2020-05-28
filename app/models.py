@@ -185,9 +185,6 @@ class Viz(db.Model):
     viz_title = db.Column(db.String)
     date = db.Column(db.DateTime)
 
-
-
-
 class Source(db.Model):
     __tablename__ = 'source'
     id = db.Column(db.Integer(), primary_key=True)
@@ -298,6 +295,22 @@ class LongTermCare(db.Model):
     confirmed_staff_cases = db.Column(db.Integer)
     phu = db.Column(db.String)
 
+class LongTermCareSummary(db.Model):
+    __tablename__ = 'longtermcare_summary'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    report = db.Column(db.String)
+    number = db.Column(db.Integer)
+    
+class LongTermCareNoLongerInOutbreak(db.Model):
+    __tablename__ = 'longtermcare_nolongerinoutbreak'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    home = db.Column(db.String)
+    city = db.Column(db.String)
+    beds = db.Column(db.Integer)
+    resident_deaths = db.Column(db.Integer)
+    phu = db.Column(db.String)
 
 class PredictiveModel(db.Model):
     __tablename__ = 'predictivemodel'
