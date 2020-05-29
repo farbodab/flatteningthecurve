@@ -198,7 +198,7 @@ def get_api_source():
 @as_json
 def get_api_team():
     df = pd.read_sql_table('members', db.engine)
-    df = df.sort_values(by=['team_status'])
+    df = df.sort_values(by=['team_status','last_name'])
     data = []
     for index, row in df.iterrows():
         data.append({"team": row["team"],"title": row["title"],
