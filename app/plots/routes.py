@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 import plotly.graph_objects as go
 from datetime import datetime
+from datetime import timedelta
 import requests
 from app import db
 from app.models import *
@@ -1577,6 +1578,12 @@ def rt_analysis_plot(region='Ontario'):
     db.session.add(p)
     db.session.commit()
 
+    if region == 'Ontario':
+        p = Viz.query.filter_by(header="Estimation of the Time-Varying Reproductive Number from Case Counts").first()
+        p.viz = div
+        db.session.add(p)
+        db.session.commit()
+
     return
 
 ## Mobility
@@ -2309,8 +2316,8 @@ def predictive_plots():
     ))
 
     f.add_trace(go.Scatter(
-        x=fisman['date'],
-        y=fisman['reported_cases'],
+        x=isha_case_counts['date'],
+        y=isha_case_counts['cases'],
         name='Cases by Report Date (Berry et al.)',
         mode='markers',
         marker_color='#3070ff',# 'rgb(200, 0, 200)',
@@ -2379,6 +2386,137 @@ def predictive_plots():
 
     div = f.to_json()
     p = Viz.query.filter_by(header="Forecasted Cases").first()
+    p.viz = div
+    db.session.add(p)
+    db.session.commit()
+    return 'success'
+
+def to_date(datetime_str):
+    datetime_object =  np.datetime64(datetime.strptime(datetime_str, '%Y-%m-%d'))
+    return datetime_object
+
+def acceleration_plot():
+    today = datetime.today().strftime('%Y-%m-%d')
+    canada_cases_df = pd.read_csv('https://flatteningthecurve.herokuapp.com/data/covid')
+    canada_cases_df['date'] = canada_cases_df['date'].apply(to_date)   # Convert dates from str to datetime
+    days = sorted(list(set(canada_cases_df['date'].values)))
+
+    ontario_cases_df = canada_cases_df.loc[canada_cases_df['province'].isin(['Ontario'])]
+    ontario_counts = ontario_cases_df.groupby(['date']).nunique()['case_id']
+
+    current_day = days[0]- np.timedelta64(1,'D')
+
+    all_dates = [current_day]
+    while current_day != np.datetime64(to_date("2020-12-31")):
+        current_day = current_day + np.timedelta64(1,'D')
+        all_dates.append(current_day)
+    incident_cases = [ontario_counts.get(date,0) if date in np.arange(datetime(2020,1,24), today, timedelta(days=1)) else np.nan for date in all_dates]
+
+
+    # cumulative cases
+    cumulative_cases = []
+    for index in range(len(incident_cases)):
+        if index-1 < 0:
+            cumulative_cases.append(0)
+        elif np.isnan(cumulative_cases[index-1]):
+            cumulative_cases.append(incident_cases[index])
+        else:
+            cumulative_cases.append(incident_cases[index]+cumulative_cases[index-1])
+
+    first_deriv = []
+    for index in range(len(incident_cases)):
+        if index-1 < 0 or index +1 >= len(cumulative_cases) or np.isnan(cumulative_cases[index+1]):
+            first_deriv.append(np.nan)
+        else:
+            value_next_date = all_dates[index+1]
+            value_prev_date = all_dates[index-1]
+            difference_date = np.timedelta64(value_next_date- value_prev_date,"D") / np.timedelta64(1,"D")
+
+            value_next_cumulative = cumulative_cases[index+1]
+            value_prev_cumulative = cumulative_cases[index-1]
+            difference_cumulative = value_next_cumulative - value_prev_cumulative
+
+            first_deriv.append(difference_cumulative/difference_date)
+
+    # Second derivative
+    second_deriv = []
+    for index in range(len(incident_cases)):
+        if index-1 < 0 or index +1 >= len(cumulative_cases) or np.isnan(cumulative_cases[index+1]) or np.isnan(cumulative_cases[index-1]):
+            second_deriv.append(np.nan)
+        else:
+            value_next_date = all_dates[index+1]
+            value_prev_date = all_dates[index-1]
+            difference_date = np.timedelta64(value_next_date- value_prev_date,"D") / np.timedelta64(1,"D")
+
+            value_next_firstdev = first_deriv[index+1]
+            value_prev_firstdev = first_deriv[index-1]
+            difference_firstdev = value_next_firstdev - value_prev_firstdev
+
+            second_deriv.append(difference_firstdev/difference_date)
+
+    # 7-day moving average
+    moving_average = []
+    std_plus = []
+    std_minus = []
+    for index in range(len(incident_cases)):
+        start_index = index-5
+        end_index = index+1
+
+        if start_index < 0:
+            moving_average.append(np.nan)
+            std_plus.append(np.nan)
+            std_minus.append(np.nan)
+        else:
+            window = second_deriv[start_index:end_index+1]
+            if np.any(np.isnan(window)):
+                moving_average.append(np.nan)
+                std_plus.append(np.nan)
+                std_minus.append(np.nan)
+            else:
+                mean = np.mean(window)
+                stdplus = mean + np.std(window)
+                stdminus = mean - np.std(window)
+
+                moving_average.append(mean)
+                std_plus.append(stdplus)
+                std_minus.append(stdminus)
+    final_df = pd.DataFrame({"date":all_dates, "incident_count":incident_cases, "cumulative_count":cumulative_cases, "first_derivative":first_deriv, "second_derivative":second_deriv, "moving_average":moving_average, "std_plus": std_plus, "std_minus":std_minus})
+    final_df.dropna(how='any',inplace=True)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=final_df.date,y=final_df.moving_average,line=dict(color='#205D86', width=3),visible=True, name="Acceleration"))
+
+    fig.add_trace(go.Scatter(x=final_df.date,y=final_df.std_minus,
+        fill=None,
+        mode='lines',name="Lower bound",
+        line_color='#9AADD0',opacity=0.1
+        ))
+
+    fig.add_trace(go.Scatter(x=final_df.date,y=final_df.std_plus,
+        fill='tonexty', name="Upper bound",
+        mode='lines', line_color='#9AADD0',opacity=0.1))
+
+    fig.update_layout(
+            xaxis =  {'showgrid': False,'visible':True},
+            yaxis = {'showgrid': False,'visible':True},
+            title={'text':f"Acceleration of Cases",
+                    'y':0.90,
+                    'x':0.5,
+                   'xanchor': 'center',
+                    'yanchor': 'top'},
+            font=dict(
+                family="Roboto",
+                color="#000"
+            )
+        )
+
+    fig.update_layout(
+        margin=dict(l=0, r=20, t=30, b=50),
+        legend_orientation="h",
+        )
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Acceleration of cumulative COVID-19 case counts in Ontario").first()
     p.viz = div
     db.session.add(p)
     db.session.commit()

@@ -11,6 +11,7 @@ from app.plots import routes as plots
 from app.tools.pdfparse import extract
 from datetime import datetime
 import time
+import sys
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -21,6 +22,8 @@ import time
 
 
 sheetsConfig = [
+    {'name': 'Heat Map', 'function': vis.get_npi_heatmap, 'col':16},
+    {'name': 'Outbreak Tracker', 'function': vis.get_outbreaks, 'col':3},
     {'name': 'PHU Map', 'function': vis.get_phu_map, 'col':16},
     {'name':'Results','function':vis.get_results, 'col':3},
     {'name':'PHU','function':vis.get_phus, 'col':3, 'timeseries':'date'},
@@ -112,16 +115,17 @@ PHU = ['the_district_of_algoma',
 
 @bp.cli.command('ontario')
 def getontario():
+    routes.confirmed_ontario()
     routes.testsnew()
     routes.getlongtermcare()
     routes.getpredictivemodel()
     routes.getideamodel()
     routes.cases_status()
+    routes.confirmed_ontario()
     print('Ontario data refreshed')
 
 @bp.cli.command('pred')
 def getpred():
-    plots.predictive_plots()
     print('Predictive plots refreshed')
 
 
@@ -158,6 +162,10 @@ def geticu(arg):
     routes.capacityicu(date)
     print('ICU data refreshed')
 
+@bp.cli.command('icu_auto')
+def geticu_auto():
+    routes.capacityicu_auto()
+
 @bp.cli.command('canada')
 def getcanada():
     routes.cases()
@@ -185,26 +193,9 @@ def export_kaggle():
 
 @bp.cli.command('plots')
 def updateplots():
-
-    for region in PHU:
-        ## Cases
-        plots.total_cases_plot(region=region)
-        plots.new_cases_plot(region=region)
-        plots.new_deaths_plot(region=region)
-        plots.total_deaths_plot(region=region)
-        ## Hospitalization
-        plots.on_ventilator_plot(region=region)
-        plots.in_icu_plot(region=region)
-        ## Capacity
-        plots.icu_ontario_plot(region=region)
-        plots.ventilator_ontario_plot(region=region)
-        plots.rt_analysis_plot(region=region)
-        ## ltc_cases_plot
-        plots.ltc_deaths_plot(region=region)
-        plots.ltc_cases_plot(region=region)
-        plots.ltc_outbreaks_plot(region=region)
-
+    plots.acceleration_plot()
     plots.map()
+    plots.predictive_plots()
     plots.apple_mobility_plot()
     plots.retail_mobility_plot()
     plots.work_mobility_plot()
@@ -232,107 +223,72 @@ def updateplots():
     plots.ltc_cases_plot()
     plots.ltc_outbreaks_plot()
     plots.ltc_staff_plot()
-
     plots.hospital_staff_plot()
     plots.rt_analysis_plot()
+
+
+    for region in PHU:
+        ## Cases
+        plots.total_cases_plot(region=region)
+        plots.new_cases_plot(region=region)
+        plots.new_deaths_plot(region=region)
+        plots.total_deaths_plot(region=region)
+        ## Hospitalization
+        plots.on_ventilator_plot(region=region)
+        plots.in_icu_plot(region=region)
+        ## Capacity
+        plots.icu_ontario_plot(region=region)
+        plots.ventilator_ontario_plot(region=region)
+        plots.rt_analysis_plot(region=region)
+        ## ltc_cases_plot
+        plots.ltc_deaths_plot(region=region)
+        plots.ltc_cases_plot(region=region)
+        plots.ltc_outbreaks_plot(region=region)
+
     print("Plot htmls updated")
 
-# @bp.cli.command('newest')
-# def getontario():
-#      resp = routes.testsnew()
-#      if resp == 'New':
-#          print("New data")
-#          for region in PHU:
-#              ## Cases
-#              plots.total_cases_plot(region=region)
-#              plots.new_cases_plot(region=region)
-#              plots.new_deaths_plot(region=region)
-#              plots.total_deaths_plot(region=region)
-#              ## Hospitalization
-#              plots.on_ventilator_plot(region=region)
-#              plots.in_icu_plot(region=region)
-#              ## Capacity
-#              plots.icu_ontario_plot(region=region)
-#              plots.ventilator_ontario_plot(region=region)
-#              plots.rt_analysis_plot(region=region)
-#              ## ltc_cases_plot
-#              plots.ltc_deaths_plot(region=region)
-#              plots.ltc_cases_plot(region=region)
-#              plots.ltc_outbreaks_plot(region=region)
-#          plots.map()
-#          plots.apple_mobility_plot()
-#          plots.total_cases_plot()
-#          plots.new_tests_plot()
-#          plots.on_ventilator_plot()
-#          plots.in_icu_plot()
-#          plots.in_hospital_plot()
-#          plots.recovered_plot()
-#          plots.new_cases_plot()
-#          plots.total_tests_plot()
-#          plots.total_deaths_plot()
-#          plots.retail_mobility_plot()
-#          plots.icu_ontario_plot()
-#          plots.ventilator_ontario_plot()
-#          plots.icu_projections_plot()
-#          plots.tested_positve_plot()
-#          plots.under_investigation_plot()
-#          plots.new_deaths_plot()
-#          plots.ventilator_ontario_plot()
-#          plots.new_deaths_plot()
-#          plots.total_tests_plot()
-#          plots.ltc_deaths_plot()
-#          plots.ltc_cases_plot()
-#          plots.ltc_outbreaks_plot()
-#          plots.ltc_staff_plot()
-#
-#          plots.hospital_staff_plot()
-#          plots.rt_analysis_plot()
-#          plots.predictive_plots()
-#          print("Plot htmls updated")
-#      else:
-#          print("No new data")
-#
-# @bp.cli.command('newest_faster')
-# def getontario_faster():
-#     timeout = 60*60
-#     interval = 60
-#     while timeout >= 0:
-#         timeout = timeout - interval
-#         resp = routes.testsnew_faster()
-#         if resp == 'Same':
-#             time.sleep(interval)
-#             continue
-#
-#         if resp == 'New':
-#             # Commented out ones that don't use table covidtests
-#             #plots.map()
-#             #plots.apple_mobility_plot()
-#             plots.total_cases_plot()
-#             plots.new_tests_plot()
-#             plots.on_ventilator_plot()
-#             plots.in_icu_plot()
-#             plots.in_hospital_plot()
-#             plots.recovered_plot()
-#             plots.new_cases_plot()
-#             plots.total_tests_plot()
-#             plots.total_deaths_plot()
-#             #plots.retail_mobility_plot()
-#             #plots.icu_ontario_plot()
-#             #plots.ventilator_ontario_plot()
-#             #plots.icu_projections_plot()
-#             plots.tested_positve_plot()
-#             plots.under_investigation_plot()
-#             plots.new_deaths_plot()
-#             #plots.ventilator_ontario_plot()
-#             plots.new_deaths_plot()
-#             plots.total_tests_plot()
-#             #plots.ltc_deaths_plot()
-#             #plots.ltc_cases_plot()
-#             #plots.ltc_outbreaks_plot()
-#             #plots.ltc_staff_plot()
-#             #plots.hospital_staff_plot()
-#             #plots.rt_analysis_plot()
-#             break
+
+@bp.cli.command('first')
+def getontario_faster():
+    timeout = 60*60
+    interval = 60
+    while timeout >= 0:
+        timeout = timeout - interval
+        resp = routes.testsnew_faster()
+        if resp == 'Same':
+            time.sleep(interval)
+            continue
+
+        if resp == 'New':
+            # Commented out ones that don't use table covidtests
+            #plots.map()
+            #plots.apple_mobility_plot()
+            plots.total_cases_plot()
+            plots.new_tests_plot()
+            plots.on_ventilator_plot()
+            plots.in_icu_plot()
+            plots.in_hospital_plot()
+            plots.recovered_plot()
+            plots.new_cases_plot()
+            plots.total_tests_plot()
+            plots.total_deaths_plot()
+            #plots.retail_mobility_plot()
+            #plots.icu_ontario_plot()
+            #plots.ventilator_ontario_plot()
+            #plots.icu_projections_plot()
+            plots.tested_positve_plot()
+            plots.under_investigation_plot()
+            plots.new_deaths_plot()
+            #plots.ventilator_ontario_plot()
+            plots.new_deaths_plot()
+            plots.total_tests_plot()
+            #plots.ltc_deaths_plot()
+            #plots.ltc_cases_plot()
+            #plots.ltc_outbreaks_plot()
+            #plots.ltc_staff_plot()
+            #plots.hospital_staff_plot()
+            #plots.rt_analysis_plot()
+            break
 
 # Required for pytest don't change
 @bp.cli.command('test')

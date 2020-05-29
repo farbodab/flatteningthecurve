@@ -148,6 +148,7 @@ def get_growth():
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.viz != 'NaN']
+    df = df.loc[df.visible == True]
     df = df.sort_values(by=['category', 'header'])
     data = []
     for index, row in df.iterrows():
@@ -155,7 +156,7 @@ def get_api_viz():
         "content": row["content"], "text_top": row["text_top"], "text_bottom": row["text_bottom"],
         "viz": row["viz"], "thumbnail": row["thumbnail"],
         "mobileHeight": row["mobileHeight"],"desktopHeight": row["desktopHeight"],
-        "viz_type": row["viz_type"]})
+        "viz_type": row["viz_type"], "date": row["date"]})
     return data
 
 @bp.route('/api/plots', methods=['GET'])
@@ -165,11 +166,16 @@ def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.html.notna()]
     df = df.loc[df.order > 0]
+    df = df.loc[df.visible == True]
     df = df.sort_values(by=['order'])
     data = []
     for index, row in df.iterrows():
-        data.append({"header": row["header"], "order": row["order"], "tab": row["content"],"tab_order": row["tab_order"],
-        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]), "html": row["html"],"category": row["page"], "group": row["category"], "phu": row["phu"]})
+        data.append({"header": row["header"], "order": row["order"],
+        "tab": row["content"],"tab_order": row["tab_order"],
+        "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]),
+        "html": row["html"],"category": row["page"], "group": row["category"],
+        "phu": row["phu"], "viz_title": row["viz_title"],
+        "text_top": row["text_top"], "text_bottom": row["text_bottom"]})
     return data
 
 @bp.route('/api/source', methods=['GET'])
@@ -187,6 +193,19 @@ def get_api_source():
         "download": row["download"]})
     return data
 
+@bp.route('/api/team', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_api_team():
+    df = pd.read_sql_table('members', db.engine)
+    df = df.sort_values(by=['team_status','last_name'])
+    data = []
+    for index, row in df.iterrows():
+        data.append({"team": row["team"],"title": row["title"],
+        "first_name": row["first_name"], "last_name": row["last_name"],
+        "education": row["education"], "affiliation": row["affiliation"],
+        "role": row["role"], "team_status": row["team_status"]})
+    return data
 
 @as_json
 def get_testresults():

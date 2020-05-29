@@ -51,7 +51,7 @@ def cases_status():
     }
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
     daily_reports = {report.reported_date:report for report in CasesStatus.query.all()}
-    req = requests.get(url, stream=True)
+    req = requests.get(url)
 
     for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
         if row["Reported Date"] in daily_reports:
@@ -68,6 +68,45 @@ def cases_status():
 
     db.session.commit()
 
+def confirmed_ontario():
+    field_map = {
+        "Row_ID":"row_id",
+        "Accurate_Episode_Date": "accurate_episode_date",
+        "Age_Group":"age_group",
+        "Client_Gender":"client_gender",
+        "Case_AcquisitionInfo": "case_acquisitionInfo",
+        "Outcome1": "outcome1",
+        "Outbreak_Related": "outbreak_related",
+        "Reporting_PHU": "reporting_phu",
+        "Reporting_PHU_Address": "reporting_phu_address",
+        "Reporting_PHU_City": "reporting_phu_city",
+        "Reporting_PHU_Postal_Code": "reporting_phu_postal_code",
+        "Reporting_PHU_Website": "reporting_phu_website",
+        "Reporting_PHU_Latitude":"reporting_phu_latitude",
+        "Reporting_PHU_Longitude": "reporting_phu_longitude",
+    }
+    url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
+    cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
+    req = requests.get(url)
+
+    print('ontario case data being refreshed')
+    for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
+        try:
+            if int(row["Row_ID"]) in cases:
+                daily_status = cases.get(int(row["Row_ID"]))
+                for header in row.keys():
+                    setattr(daily_status,field_map[header],row[header])
+            else:
+                db.session.add(
+                    ConfirmedOntario(**dict(zip(
+                        map(field_map.get,row.keys()),
+                        map(lambda x: x if x else None,row.values())
+                    )))
+                )
+                db.session.commit()
+        except:
+            print(f'failed to update case {row["Row_ID"]}')
+    db.session.commit()
 
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
@@ -334,6 +373,40 @@ def capacityicu(date):
         db.session.add(c)
         db.session.commit()
     return
+
+def capacityicu_auto():
+    df = pd.read_sql_table('icucapacity', db.engine)
+    maxdate = df.iloc[df['date'].idxmax()]['date']
+
+    # Look from last date on
+    start_date = maxdate + timedelta(days=1)
+    end_date = datetime.today()
+
+    def daterange(start_date, end_date):
+        for n in range(int ((end_date - start_date).days)):
+            yield start_date + timedelta(n)
+
+    for single_date in daterange(start_date, end_date):
+        csv = 'CCSO_{}.csv'.format(single_date.strftime('%Y%m%d'))
+        if not os.path.exists(csv):
+            continue
+
+        date = single_date.strftime('%Y-%m-%d')
+
+        df = pd.read_csv(csv)
+        for index, row in df.iterrows():
+            region = row['Region']
+            lhin = row['LHIN']
+            critical_care_beds = row['# Critical Care Beds']
+            critical_care_patients = row['# Critical Care Patients']
+            vented_beds = row['# Expanded Vented Beds']
+            vented_patients = row['# Vented Patients']
+            suspected_covid = row['# Suspected COVID-19']
+            confirmed_positive = row['# Confirmed Positive COVID-19']
+            confirmed_positive_ventilator = row['# Confirmed Positive COVID-19 Patients with Invasive Ventilation']
+            c = ICUCapacity(date=date, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator)
+            db.session.add(c)
+            db.session.commit()
 
 def capacity():
     # data source Petr Smirnov
@@ -728,7 +801,7 @@ def getlongtermcare():
 
             for row in rows:
                 row_values = [x.text for x in row.find_elements_by_tag_name('td')]
-                date = datetime.now().strftime("%Y-%m-%d")
+                date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
                 home = row_values[0].replace('""','')
                 city = row_values[1]
                 beds = parseNum(row_values[2])
@@ -755,6 +828,130 @@ def getlongtermcare():
     except:
         print('Failed to extract LTC data from ontario.ca')
         values = []
+
+    driver.quit()
+
+def getlongtermcare_summary():
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
+    driver.implicitly_wait(30)
+    driver.get(urlpage)
+    tables = driver.find_elements_by_tag_name("table")
+
+    def parseNum(num):
+        return int(num.replace('<', ''))
+
+    date = None
+    # Find the date from the header
+    for h3 in driver.find_elements_by_tag_name('h3'):
+        if "Summary of long-term care cases" in h3.text:
+            # Get date from table header
+            pattern = 'Summary of long-term care cases.*to (.*, 20[0-9][0-9]).*'
+            match = re.search(pattern, h3.text)
+            if match:
+                date = match.group(1)
+                date = datetime.strptime(date, '%B %d, %Y')
+                date = datetime.strftime(date, '%Y-%m-%d')
+
+    if date is None:
+        driver.quit()
+        raise "Could not find date for LTC summary table"
+
+    try:
+        for table in tables:
+            headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
+
+            # Isolate table we care about
+            # Match first 3 headers we know
+            if headers[0] != 'Report' or headers[1] != 'Number' or headers[2] != 'Previous Day Number':
+                continue
+
+            rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
+
+            for row in rows:
+                report = row.find_element_by_tag_name('th').text.replace('""','')
+                row_values = [x.text for x in row.find_elements_by_tag_name('td')]
+                number = parseNum(row_values[0])
+                #print('Date', date, 'Report', report, 'Cases', number)
+                l = LongTermCareSummary.query.filter_by(date=date, report=report).first()
+                if not l:
+                    l = LongTermCareSummary(
+                        date=date,
+                        report=report,
+                        number=number)
+                    db.session.add(l)
+            db.session.commit()
+            break
+    except Exception as e:
+        driver.quit()
+        raise Exception('Failed to extract LTC summary data from ontario.ca: {}'.format(str(e)))
+
+    driver.quit()
+
+
+def getlongtermcare_nolongerinoutbreak():
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
+    driver.implicitly_wait(30)
+    driver.get(urlpage)
+    tables = driver.find_elements_by_tag_name("table")
+
+    def parseNum(num):
+        return int(num.replace('<', ''))
+
+    ltc_mapping = {}
+    #https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/edit?usp=sharing
+    #https://www.phdapps.health.gov.on.ca/PHULocator/Results.aspx
+    for row in sheetsHelper.readSheet('HowsMyFlattening - Mappings', 'CityToPHU'):
+        city = row[0]
+        phu = row[1]
+        ltc_mapping[city] = phu
+
+    try:
+        for table in tables:
+            headers = [x.text for x in table.find_element_by_tag_name('thead').find_elements_by_tag_name('th')]
+
+            # Isolate table we care about
+            # Match first 3 headers we know
+            if headers[0] != 'LTC Home' or headers[1] != 'City' or headers[2] != 'Beds':
+                continue
+
+            rows = table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
+
+            for row in rows:
+                row_values = [x.text for x in row.find_elements_by_tag_name('td')]
+                date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+                home = row.find_element_by_tag_name('th').text.replace('""','')
+                city = row_values[0]
+                beds = parseNum(row_values[1])
+                resident_deaths = parseNum(row_values[2])
+                phu = ''
+                if city in ltc_mapping:
+                    phu = ltc_mapping[city]
+                #print('Date', date, 'Home', home, 'City', city, 'Beds', beds, 'Resident deaths', resident_deaths, 'PHU', phu)
+                l = LongTermCareNoLongerInOutbreak.query.filter_by(date=date, home=home).first()
+                if not l:
+                    l = LongTermCareNoLongerInOutbreak(
+                        date=date,
+                        home=home,
+                        city=city,
+                        beds=beds,
+                        resident_deaths=resident_deaths,
+                        phu=phu)
+                    db.session.add(l)
+            db.session.commit()
+            break
+    except Exception as e:
+        driver.quit()
+        raise Exception('Failed to extract LTC summary data from ontario.ca: {}'.format(str(e)))
 
     driver.quit()
 
@@ -1074,13 +1271,20 @@ def new_viz():
         phu = row['phu']
         tab_order = row['tab_order']
         viz_type = row['viz_type']
+        viz_title = row['title']
+        date = row['date']
+        visible = row['visible']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
             c = Viz(header=header, category=category, content=content,
             viz=viz, thumbnail=thumbnail, mobileHeight=mobileHeight,
+            text_top=text_top, text_bottom=text_bottom,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
-            column=column, phu=phu, tab_order=tab_order,viz_type=viz_type)
+            column=column, phu=phu, tab_order=tab_order,viz_type=viz_type,
+            viz_title=viz_title, visible=visible)
+            if page == 'Analysis':
+                c.date = date
             db.session.add(c)
             db.session.commit()
         else:
@@ -1088,6 +1292,8 @@ def new_viz():
             c.content = content
             if viz_type == 'Tableau':
                 c.viz = viz
+            if page == 'Analysis':
+                c.date = date
             c.mobileHeight = mobileHeight
             c.desktopHeight = desktopHeight
             c.thumbnail = thumbnail
@@ -1099,6 +1305,8 @@ def new_viz():
             c.column = column
             c.tab_order = tab_order
             c.viz_type = viz_type
+            c.viz_title = viz_title
+            c.visible = visible
             db.session.add(c)
             db.session.commit()
     return 'success',200
@@ -1149,6 +1357,42 @@ def new_source():
             db.session.add(c)
             db.session.commit()
     return 'success',200
+
+@bp.route('/covid/team', methods=['GET'])
+@as_json
+def new_team():
+    url = "https://docs.google.com/spreadsheets/d/1Sq_KtGI1v4ABLVnJUVRGPi-hOjupSpThL9dNeeVVis0/export?format=csv&id=1Sq_KtGI1v4ABLVnJUVRGPi-hOjupSpThL9dNeeVVis0&gid=0"
+    s=requests.get(url).content
+    data = io.StringIO(s.decode('utf-8'))
+    df = pd.read_csv(data)
+    for index, row in df.iterrows():
+        team = row['Team']
+        title = row['Title']
+        first_name = row['First Name']
+        last_name = row['Last Name']
+        education = row['Highest Ed.']
+        affiliation = row['Affiliation']
+        role = row['Role (Maintainers Only)']
+        team_status = row['Team Status']
+        if first_name == first_name and first_name != '':
+            c = Member.query.filter_by(first_name=first_name, last_name=last_name).first()
+            if not c:
+                c = Member(team=team, title=title, first_name=first_name,
+                last_name=last_name, education=education, affiliation=affiliation,
+                role=role, team_status=team_status)
+                db.session.add(c)
+                db.session.commit()
+            else:
+                c.team = team
+                c.title = title
+                c.education = education
+                c.affiliation = affiliation
+                c.role = role
+                c.team_status = team_status
+                db.session.add(c)
+                db.session.commit()
+    return 'success',200
+
 
 
 ########################################

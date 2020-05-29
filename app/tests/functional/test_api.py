@@ -55,12 +55,15 @@ def test_viz(test_client):
     response = test_client.get('/api/viz')
     data = json.loads(response.get_data(as_text=True))
 
-    attrs = ['category', 'content', 'desktopHeight', 'header', 'mobileHeight', 'text', 'thumbnail', 'viz']
+    attrs = ['category', 'content', 'desktopHeight', 'header', 'mobileHeight', 'text_top', 'text_bottom', 'thumbnail', 'viz']
     assert len(data) > 0
     for i in range(len(data)):
         for attr in attrs:
             assert attr in data[i]
-        assert 'div' in data[0]['text']
+        if data[i]['text_top'] != 'NaN':
+            assert 'div' in data[i]['text_top']
+        if data[i]['text_bottom'] != 'NaN':
+            assert 'div' in data[i]['text_bottom']
 
 def test_plots(test_client):
     response = test_client.get('/api/plots')
@@ -71,7 +74,7 @@ def test_plots(test_client):
     for i in range(len(data)):
         for attr in attrs:
             assert attr in data[i]
-        assert 'data' in data[0]['html']
+        assert 'data' in data[i]['html']
 
 def test_source(test_client):
     response = test_client.get('/api/source')

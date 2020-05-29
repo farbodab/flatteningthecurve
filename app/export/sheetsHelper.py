@@ -68,7 +68,7 @@ def getSheet(document, sheetName):
     sheet = sh.worksheet(sheetName)
     return sheet
 
-def readSheet(document, sheetName, lazy=False):   
+def readSheet(document, sheetName, lazy=False):
     sheet = getSheet(document, sheetName)
 
     if lazy:
@@ -77,4 +77,3 @@ def readSheet(document, sheetName, lazy=False):
     else:
         for line in sheet.get_all_values()[1:]:
             yield line
-
