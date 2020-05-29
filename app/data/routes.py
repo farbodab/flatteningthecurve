@@ -105,7 +105,7 @@ def confirmed_ontario():
                 )
                 db.session.commit()
         except:
-            print(f'failed to update case {Row_ID}')
+            print(f'failed to update case {row["Row_ID"]}')
     db.session.commit()
 
 def testsnew():
@@ -1273,6 +1273,7 @@ def new_viz():
         viz_type = row['viz_type']
         viz_title = row['title']
         date = row['date']
+        visible = row['visible']
 
         c = Viz.query.filter_by(header=header, phu=phu).first()
         if not c:
@@ -1281,7 +1282,7 @@ def new_viz():
             text_top=text_top, text_bottom=text_bottom,
             desktopHeight=desktopHeight, page=page, order=order, row=row_z,
             column=column, phu=phu, tab_order=tab_order,viz_type=viz_type,
-            viz_title=viz_title)
+            viz_title=viz_title, visible=visible)
             if page == 'Analysis':
                 c.date = date
             db.session.add(c)
@@ -1305,6 +1306,7 @@ def new_viz():
             c.tab_order = tab_order
             c.viz_type = viz_type
             c.viz_title = viz_title
+            c.visible = visible
             db.session.add(c)
             db.session.commit()
     return 'success',200

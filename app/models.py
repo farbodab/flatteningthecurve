@@ -184,6 +184,7 @@ class Viz(db.Model):
     viz_type = db.Column(db.String)
     viz_title = db.Column(db.String)
     date = db.Column(db.DateTime)
+    visible = db.Column(db.Boolean)
 
 class Source(db.Model):
     __tablename__ = 'source'
@@ -301,7 +302,7 @@ class LongTermCareSummary(db.Model):
     date = db.Column(db.DateTime, index=True)
     report = db.Column(db.String)
     number = db.Column(db.Integer)
-    
+
 class LongTermCareNoLongerInOutbreak(db.Model):
     __tablename__ = 'longtermcare_nolongerinoutbreak'
     id = db.Column(db.Integer(), primary_key=True)

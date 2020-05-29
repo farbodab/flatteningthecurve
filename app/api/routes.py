@@ -148,6 +148,7 @@ def get_growth():
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.viz != 'NaN']
+    df = df.loc[df.visible == True]
     df = df.sort_values(by=['category', 'header'])
     data = []
     for index, row in df.iterrows():
@@ -165,6 +166,7 @@ def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.html.notna()]
     df = df.loc[df.order > 0]
+    df = df.loc[df.visible == True]
     df = df.sort_values(by=['order'])
     data = []
     for index, row in df.iterrows():
