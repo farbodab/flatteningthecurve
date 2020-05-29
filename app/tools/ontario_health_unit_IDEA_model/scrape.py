@@ -9,6 +9,7 @@ import pandas as pd
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
 
 import time
 
@@ -32,7 +33,10 @@ async def test(source):
     driver.implicitly_wait(10)
     driver.get(target_url)
 
-    button = driver.find_element_by_id(get_id_for_source(source))
+    try:
+        button = driver.find_element_by_id(get_id_for_source(source))
+    except NoSuchElementException:
+        button = driver.find_element_by_link_text(get_text_for_source(source))
     # Button href is set by a script so have to wait
     time.sleep(5)
     data_endpoint = button.get_attribute('href')
@@ -50,6 +54,9 @@ async def test(source):
 
 def get_id_for_source(source):
     return {'on':'downloadONData', 'health_unit':'downloadData'}[source]
+
+def get_text_for_source(source):
+    return {'on':'Download Ontario Projections', 'health_unit':'Download Health Unit Projections'}[source]
 
 def get_permitted_sources():
     return ['on', 'health_unit']
