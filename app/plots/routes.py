@@ -1146,6 +1146,7 @@ def ltc_cases_plot(region='ontario'):
         s=requests.get(url).content
         df = pd.read_csv(io.StringIO(s.decode('utf-8')))
         df['Date'] = pd.to_datetime(df['Date'])
+        df = df.dropna(how='any')
 
         fig = go.Figure()
 
@@ -1258,6 +1259,7 @@ def ltc_deaths_plot(region='ontario'):
         s=requests.get(url).content
         df = pd.read_csv(io.StringIO(s.decode('utf-8')))
         df['Date'] = pd.to_datetime(df['Date'])
+        df = df.dropna(how='any')
 
         fig = go.Figure()
 
@@ -1376,6 +1378,7 @@ def ltc_outbreaks_plot(region='ontario'):
         s=requests.get(url).content
         df = pd.read_csv(io.StringIO(s.decode('utf-8')))
         df['Date'] = pd.to_datetime(df['Date'])
+        df = df.dropna(how='any')
 
         fig = go.Figure()
 
@@ -1972,6 +1975,7 @@ def ltc_staff_plot(region="ontario"):
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['Date'] = pd.to_datetime(df['Date'])
+    df = df.dropna(how='any')
 
     fig = go.Figure()
 
