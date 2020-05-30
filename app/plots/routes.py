@@ -2224,11 +2224,11 @@ def map():
 ## predictive models
 
 def predictive_plots():
-    modcollab = pd.read_csv('http://flatteningthecurve-staging.herokuapp.com/data/predictivemodel').sort_values(['region', 'date'])
+    modcollab = pd.read_sql_table('predictivemodel', db.engine).sort_values(['region', 'date'])
     modcollab = modcollab[modcollab['region'] == 'base_on'].copy().reset_index(drop=True)
     modcollab['New Cases'] = modcollab['cumulative_incidence'].diff()
 
-    fisman = pd.read_csv('http://flatteningthecurve-staging.herokuapp.com/data/ideamodel')
+    fisman = pd.read_sql_table('ideamodel', db.engine)
     fisman['date'] = pd.to_datetime(fisman['date']).dt.round('d')
     fisman = fisman[fisman['source'] == 'on'].copy().sort_values(by='date').reset_index(drop=True)
     fisman['date'] = pd.to_datetime(fisman['date']).dt.round('d')
@@ -2238,15 +2238,14 @@ def predictive_plots():
     isha_case_counts = berry_case[berry_case['province']=='Ontario'].reset_index(drop=True)
     isha_case_counts['date'] = pd.to_datetime(isha_case_counts['date_report'], dayfirst=True)
 
-    url = 'https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv'
-    on = pd.read_csv(url)
-    on['Accurate_Episode_Date'] = pd.to_datetime(on['Accurate_Episode_Date'])
+    on = pd.read_sql_table('confirmedontario', db.engine)
+    on['Accurate_Episode_Date'] = pd.to_datetime(on['accurate_episode_date'])
     on = on.sort_values(by='Accurate_Episode_Date')
     counts = on.set_index('Accurate_Episode_Date')
 
     cases_per_day = on['Accurate_Episode_Date'].value_counts().to_frame()
     cases_per_day = cases_per_day.sort_index()
-    counts = on.groupby(['Accurate_Episode_Date', 'Outcome1']).size().unstack()
+    counts = on.groupby(['Accurate_Episode_Date', 'outcome1']).size().unstack()
 
     n = modcollab[modcollab['New Cases'].diff() > 1].index.max()
 
@@ -2397,8 +2396,8 @@ def to_date(datetime_str):
 
 def acceleration_plot():
     today = datetime.today().strftime('%Y-%m-%d')
-    canada_cases_df = pd.read_csv('https://flatteningthecurve.herokuapp.com/data/covid')
-    canada_cases_df['date'] = canada_cases_df['date'].apply(to_date)   # Convert dates from str to datetime
+    canada_cases_df = pd.read_sql_table('covid', db.engine)
+
     days = sorted(list(set(canada_cases_df['date'].values)))
 
     ontario_cases_df = canada_cases_df.loc[canada_cases_df['province'].isin(['Ontario'])]

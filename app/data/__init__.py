@@ -119,7 +119,6 @@ def getontario():
     routes.getlongtermcare()
     routes.getpredictivemodel()
     routes.getideamodel()
-    routes.cases_status()
     routes.confirmed_ontario()
     print('Ontario data refreshed')
 
@@ -192,9 +191,6 @@ def export_kaggle():
 
 @bp.cli.command('plots')
 def updateplots():
-    plots.acceleration_plot()
-    plots.map()
-    plots.predictive_plots()
     plots.apple_mobility_plot()
     plots.retail_mobility_plot()
     plots.work_mobility_plot()
@@ -224,6 +220,8 @@ def updateplots():
     plots.ltc_staff_plot()
     plots.hospital_staff_plot()
     plots.rt_analysis_plot()
+    plots.acceleration_plot()
+    plots.predictive_plots()
 
 
     for region in PHU:
