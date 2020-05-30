@@ -580,7 +580,7 @@ def getcanadamobility_apple():
     tries = 3
     while url == None and tries > 0:
         tries -= 1
-        driver.implicitly_wait(100)
+        driver.implicitly_wait(1000)
         try:
             button = driver.find_elements_by_class_name("download-button-container")[0]
             url = button.find_element_by_tag_name('a').get_attribute('href')
@@ -594,20 +594,20 @@ def getcanadamobility_apple():
 
     regions = ['Ontario', 'Canada', 'Toronto', 'Ottawa']
 
-    try:
-        s = requests.get(url).content
-        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-        df = df[df['region'].isin(regions)]
+    s = requests.get(url).content
+    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df = df[df['region'].isin(regions)]
 
-        # Get all date columns (i.e. not kind, name, category) and insert record for each
-        date_columns = [x for x in list(df.columns) if x not in ['geo_type', 'region', 'transportation_type']]
-        print('Apple mobility data being refreshed')
-        for index, row in df.iterrows():
-            if (index % 100) == 0:
-                print(f'{index} / {df.tail(1).index.values[0]} passed')
-            region = row['region']
-            transport = row['transportation_type']
-            for col in date_columns:
+    # Get all date columns (i.e. not kind, name, category) and insert record for each
+    date_columns = [x for x in list(df.columns) if x not in ['geo_type', 'region', 'transportation_type']]
+    print('Apple mobility data being refreshed')
+    for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
+        region = row['region']
+        transport = row['transportation_type']
+        for col in date_columns:
+            try:
                 value = row[col]
                 if math.isnan(value):
                     continue
@@ -618,8 +618,9 @@ def getcanadamobility_apple():
                         print("Add transport mobility data for region: {}, transport: {}, date: {}, value: {}".format(region, transport, col, value))
                         db.session.add(m)
                         db.session.commit()
-    except Exception as err:
-        print("failed to get apple data", err)
+            except Exception as err:
+                print("failed to get apple data", err)
+
     driver.quit()
     return
 
