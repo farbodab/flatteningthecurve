@@ -1105,8 +1105,8 @@ def new_deaths_plot(region='ontario'):
 
 
 
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='red', width=3), visible=True, opacity=0.5, name="Value"))
-        fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='#FFF', dash='dot'), opacity=0.5,name="7 Day Average"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'],line=dict(color='#FFF', dash='dot'), visible=True, opacity=0.5, name="Value"))
+        fig.add_trace(go.Scatter(x=df.Date,y=df['value'].rolling(7).mean(),line=dict(color='red', width=3), opacity=0.5,name="7 Day Average"))
 
 
         fig.update_layout(
