@@ -115,7 +115,6 @@ PHU = ['the_district_of_algoma',
 
 @bp.cli.command('ontario')
 def getontario():
-    routes.confirmed_ontario()
     routes.testsnew()
     routes.getlongtermcare()
     routes.getpredictivemodel()
