@@ -795,7 +795,6 @@ def get_top_causes():
     causes_df['Cause'] = causes_df['Cause'].apply(cause_to_friendly)
     return causes_df
 
-
 def get_rt_est():
     # Source Alf Whitehead Kaggle Notebook
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
@@ -1267,6 +1266,13 @@ def get_source_infection():
     df = pd.read_sql_table('confirmedontario', db.engine)
 
     df = df.groupby(['accurate_episode_date','case_acquisitionInfo']).row_id.count().reset_index()
+
+    return df
+
+def get_source_infection_pct():
+    df = pd.read_sql_table('confirmedontario', db.engine)
+    df = df.groupby(['accurate_episode_date','case_acquisitionInfo']).row_id.count().reset_index()
+    df['%'] = 100 * df['row_id'] / df.groupby('accurate_episode_date')['row_id'].transform('sum')
 
     return df
 
