@@ -22,6 +22,8 @@ import sys
 
 
 sheetsConfig = [
+    {'name': 'Age Trend', 'function': vis.get_age_trend, 'col':3},
+    {'name': 'Infection Source', 'function': vis.get_source_infection, 'col':3},
     {'name': 'Heat Map', 'function': vis.get_npi_heatmap, 'col':16},
     {'name': 'Outbreak Tracker', 'function': vis.get_outbreaks, 'col':3},
     {'name': 'PHU Map', 'function': vis.get_phu_map, 'col':16},

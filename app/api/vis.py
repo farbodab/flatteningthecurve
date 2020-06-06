@@ -1262,3 +1262,18 @@ def get_npi_heatmap():
     df = pd.DataFrame(final_df)
 
     return df
+
+def get_source_infection():
+    df = pd.read_sql_table('confirmedontario', db.engine)
+
+    df = df.groupby(['accurate_episode_date','case_acquisitionInfo']).row_id.count().reset_index()
+
+    return df
+
+def get_age_trend():
+    df = pd.read_sql_table('confirmedontario', db.engine)
+    map = {"20s":"20-40", "30s": "20-40", "40s": "40-60", "50s": "40-60", "60s": "60-80", "70s": "60-80", "80s": "80+", "90s": "80+"}
+    df['age_group'] = df['age_group'].replace(map)
+    df = df.groupby(['accurate_episode_date','age_group']).row_id.count().reset_index()
+
+    return df
