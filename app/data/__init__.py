@@ -22,6 +22,7 @@ import sys
 
 
 sheetsConfig = [
+    {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':3},
     {'name': 'Age Trend Outbreak', 'function': vis.get_age_trend_outbreak, 'col':3},
     {'name': 'Age Trend', 'function': vis.get_age_trend, 'col':3},
     {'name': 'Infection Source', 'function': vis.get_source_infection, 'col':3},
