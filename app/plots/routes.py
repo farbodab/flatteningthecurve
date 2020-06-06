@@ -2244,6 +2244,8 @@ def predictive_plots():
 
     on = pd.read_sql_table('confirmedontario', db.engine)
     on['Accurate_Episode_Date'] = pd.to_datetime(on['accurate_episode_date'])
+    date_include = datetime.strptime("2020-01-01","%Y-%m-%d")
+    on = df.loc[df['Accurate_Episode_Date Date'] > date_include]
     on = on.sort_values(by='Accurate_Episode_Date')
     counts = on.set_index('Accurate_Episode_Date')
 

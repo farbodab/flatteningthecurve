@@ -795,7 +795,6 @@ def get_top_causes():
     causes_df['Cause'] = causes_df['Cause'].apply(cause_to_friendly)
     return causes_df
 
-
 def get_rt_est():
     # Source Alf Whitehead Kaggle Notebook
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
