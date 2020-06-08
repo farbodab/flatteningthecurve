@@ -125,6 +125,6 @@ def getkaggle():
 
 
 sched = BlockingScheduler()
-sched.add_job(getgoogle, 'interval',next_run_time=datetime.now(), hour=16)
-sched.add_job(getkaggle, 'interval',next_run_time=datetime.now(), hour=18)
+sched.add_job(getgoogle, 'cron',next_run_time=datetime.now(), hour=16)
+sched.add_job(getkaggle, 'cron',next_run_time=datetime.now(), hour=18)
 sched.start()
