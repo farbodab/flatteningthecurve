@@ -1,25 +1,17 @@
-from flask import Blueprint
-import click
+from dotenv import load_dotenv
+load_dotenv()
 
-bp = Blueprint('data', __name__,cli_group='data')
-
+import os
+from app import create_app, db
+from app.models import *
+from flask_migrate import Migrate
+from apscheduler.schedulers.blocking import BlockingScheduler
 from app.data import routes
 from app.api import vis
 from app.export import sheetsHelper
 from app.export import kaggleHelper
 from app.plots import routes as plots
-from app.tools.pdfparse import extract
 from datetime import datetime
-import time
-import sys
-
-# TO ADD NEW DATA
-# 1. Add function in routes.py
-# 1.5 Add function in /app/api/vis.py if we need a visualization transform
-# 2. Call function in appropriate cli command below
-# 3. Add google sheets config with either table or vis function
-# 4. Add kaggle config with either table or vis function
-
 
 sheetsConfig = [
     {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':3},
@@ -116,183 +108,23 @@ PHU = ['the_district_of_algoma',
  'southwestern',
  'city_of_toronto']
 
-
-@bp.cli.command('ontario')
-def getontario():
-    routes.testsnew()
-    routes.getlongtermcare()
-    routes.getpredictivemodel()
-    routes.getideamodel()
-    routes.confirmed_ontario()
-    print('Ontario data refreshed')
-
-@bp.cli.command('pred')
-def getpred():
-    print('Predictive plots refreshed')
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+migrate = Migrate(app, db)
 
 
-@bp.cli.command('mobility')
-def getcanada():
-    routes.getcanadamobility_google()
-    routes.getcanadamobility_apple()
-    print('Mobility data refreshed')
-
-@bp.cli.command('npi')
-def getcanada():
-    routes.getnpis()
-    routes.getgovernmentresponse()
-    routes.getnpiusa()
-    print('NPI data refreshed')
-
-@bp.cli.command('icu')
-@click.argument("arg")
-def geticu(arg):
-    if arg == 'extract':
-        # Extract csv from pdf
-        extract.extractCCSO(['', './CCSO.pdf', 1, 188, 600, 519, 959])
-        print('CCSO data extracted')
-        return
-
-    date = None
+def getgoogle():
+    with app.app_context():
+        sheetsHelper.exportToSheets(sheetsConfig)
+        print('Google sheets updated')
 
 
-    date = datetime.strptime(arg,"%d-%m-%Y")
-    # except:
-    #     print("Date format incorrect, should be DD-MM-YYYY")
-    #     return
-
-    routes.capacityicu(date)
-    print('ICU data refreshed')
-
-@bp.cli.command('icu_auto')
-def geticu_auto():
-    routes.capacityicu_auto()
-
-@bp.cli.command('canada')
-def getcanada():
-    routes.cases()
-    routes.getcanadamortality()
-    routes.getcanadarecovered()
-    routes.getcanadatested()
-    print('Canada data refreshed')
-
-@bp.cli.command('international')
-def getinternational():
-    routes.getinternationaltested()
-    routes.international()
-    routes.getinternationalmortality()
-    routes.getinternationalrecovered()
-    print('International data refreshed')
-
-@bp.cli.command('google')
-def export_sheets():
-    sheetsHelper.exportToSheets(sheetsConfig)
-    print('Google sheets updated')
-
-@bp.cli.command('kaggle')
-def export_kaggle():
-    kaggleHelper.exportToKaggle(kaggleConfig, 'covid19-challenges', 'HowsMyFlattening COVID-19 Challenges')
-    print('Kaggle data exported')
-
-@bp.cli.command('plots')
-def updateplots():
-    plots.apple_mobility_plot()
-    plots.retail_mobility_plot()
-    plots.work_mobility_plot()
-    plots.active_cases_plot()
-    plots.total_cases_plot()
-    plots.new_tests_plot()
-    plots.on_ventilator_plot()
-    plots.in_icu_plot()
-    plots.in_hospital_plot()
-    plots.recovered_plot()
-    plots.new_cases_plot()
-    plots.total_tests_plot()
-    plots.total_deaths_plot()
-    plots.retail_mobility_plot()
-    plots.icu_ontario_plot()
-    plots.ventilator_ontario_plot()
-    plots.icu_projections_plot()
-    plots.tested_positve_plot()
-    plots.under_investigation_plot()
-    plots.new_deaths_plot()
-    plots.ventilator_ontario_plot()
-    plots.new_deaths_plot()
-    plots.total_tests_plot()
-    plots.ltc_deaths_plot()
-    plots.ltc_cases_plot()
-    plots.ltc_outbreaks_plot()
-    plots.ltc_staff_plot()
-    plots.hospital_staff_plot()
-    plots.rt_analysis_plot()
-    plots.acceleration_plot()
-    plots.predictive_plots()
+def getkaggle():
+    with app.app_context():
+        kaggleHelper.exportToKaggle(kaggleConfig, 'covid19-challenges', 'HowsMyFlattening COVID-19 Challenges')
+        print('Kaggle data exported')
 
 
-    for region in PHU:
-        ## Cases
-        plots.total_cases_plot(region=region)
-        plots.new_cases_plot(region=region)
-        plots.new_deaths_plot(region=region)
-        plots.total_deaths_plot(region=region)
-        ## Hospitalization
-        plots.on_ventilator_plot(region=region)
-        plots.in_icu_plot(region=region)
-        ## Capacity
-        plots.icu_ontario_plot(region=region)
-        plots.ventilator_ontario_plot(region=region)
-        plots.rt_analysis_plot(region=region)
-        ## ltc_cases_plot
-        plots.ltc_deaths_plot(region=region)
-        plots.ltc_cases_plot(region=region)
-        plots.ltc_outbreaks_plot(region=region)
-
-    print("Plot htmls updated")
-
-
-@bp.cli.command('first')
-def getontario_faster():
-    timeout = 60*60
-    interval = 60
-    while timeout >= 0:
-        timeout = timeout - interval
-        resp = routes.testsnew_faster()
-        if resp == 'Same':
-            time.sleep(interval)
-            continue
-
-        if resp == 'New':
-            # Commented out ones that don't use table covidtests
-            #plots.map()
-            #plots.apple_mobility_plot()
-            plots.total_cases_plot()
-            plots.new_tests_plot()
-            plots.on_ventilator_plot()
-            plots.in_icu_plot()
-            plots.in_hospital_plot()
-            plots.recovered_plot()
-            plots.new_cases_plot()
-            plots.total_tests_plot()
-            plots.total_deaths_plot()
-            #plots.retail_mobility_plot()
-            #plots.icu_ontario_plot()
-            #plots.ventilator_ontario_plot()
-            #plots.icu_projections_plot()
-            plots.tested_positve_plot()
-            plots.under_investigation_plot()
-            plots.new_deaths_plot()
-            #plots.ventilator_ontario_plot()
-            plots.new_deaths_plot()
-            plots.total_tests_plot()
-            #plots.ltc_deaths_plot()
-            #plots.ltc_cases_plot()
-            #plots.ltc_outbreaks_plot()
-            #plots.ltc_staff_plot()
-            #plots.hospital_staff_plot()
-            #plots.rt_analysis_plot()
-            break
-
-# Required for pytest don't change
-@bp.cli.command('test')
-def test():
-    print('Hello World')
+sched = BlockingScheduler()
+sched.add_job(getgoogle, 'interval',next_run_time=datetime.now(), hour=16)
+sched.add_job(getkaggle, 'interval',next_run_time=datetime.now(), hour=18)
+sched.start()
