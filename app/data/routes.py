@@ -50,25 +50,31 @@ def confirmed_ontario():
     }
     url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
     cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
+    cases_max = [int(case.row_id) for case in ConfirmedOntario.query.all()]
+    cases_max = max(cases_max)
     req = requests.get(url)
 
     print('ontario case data being refreshed')
-    for row in csv.DictReader(req.iter_lines(decode_unicode=True)):
+    df = pd.read_csv(url)
+    # df = df.loc[df.Row_ID > cases_max]
+    for index, row in df.iterrows():
         try:
             if int(row["Row_ID"]) in cases:
                 daily_status = cases.get(int(row["Row_ID"]))
-                for header in row.keys():
+                for header in df.columns:
                     setattr(daily_status,field_map[header],row[header])
+                db.session.add(daily_status)
             else:
-                db.session.add(
-                    ConfirmedOntario(**dict(zip(
-                        map(field_map.get,row.keys()),
-                        map(lambda x: x if x else None,row.values())
-                    )))
-                )
-                db.session.commit()
-        except:
+                c = ConfirmedOntario()
+                for header in df.columns:
+                    setattr(c,field_map[header],row[header])
+                db.session.add(c)
+        except Exception as e:
+            print(e)
             print(f'failed to update case {row["Row_ID"]}')
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
+            db.session.commit()
     db.session.commit()
 
 def testsnew():
@@ -747,7 +753,8 @@ def getlongtermcare():
     ltc_mapping = {}
     #https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/edit?usp=sharing
     #https://www.phdapps.health.gov.on.ca/PHULocator/Results.aspx
-    for row in sheetsHelper.readSheet('HowsMyFlattening - Mappings', 'CityToPHU'):
+    df = pd.read_csv('https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/export?format=csv&id=1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A&gid=0')
+    for index, row in df.iterrows():
         city = row[0]
         phu = row[1]
         ltc_mapping[city] = phu
