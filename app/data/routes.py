@@ -982,6 +982,26 @@ def getpredictivemodel():
                             waiting_hospNonVentICU=waiting_hospNonVentICU,
                             waiting_hospVentICU=waiting_hospVentICU)
                     db.session.add(p)
+
+                date_retrieved = date.today()
+                p2 = PredictiveModelTimeline.query.filter_by(date=date, date_retrieved=today, region=region).first()
+                if not p2:
+                    p2 = PredictiveModelTimeline(
+                            date_retrieved=date_retrieved,
+                            region=region,
+                            date=date,
+                            cumulative_incidence=cumulative_incidence,
+                            required_hospW=required_hospW,
+                            required_hospNonVentICU=required_hospNonVentICU,
+                            required_hospVentICU=required_hospVentICU,
+                            available_hospW=available_hospW,
+                            available_hospNonVentICU=available_hospNonVentICU,
+                            available_hospVentICU=available_hospVentICU,
+                            waiting_hospW=waiting_hospW,
+                            waiting_hospNonVentICU=waiting_hospNonVentICU,
+                            waiting_hospVentICU=waiting_hospVentICU)
+                    db.session.add(p2)
+
             db.session.commit()
         except:
             print('Failed to get predictive model for source {}'.format(source), sys.exc_info())
@@ -1042,6 +1062,23 @@ def getideamodel():
                             model_cumulative_cases_lower_PI=model_incident_cases_lower_PI,
                             model_cumulative_cases_upper_PI=model_cumulative_cases_upper_PI)
                     db.session.add(p)
+
+                date_retrieved = date.today()
+                p2 = IDEAModelTimeline.query.filter_by(date_retrieved=date_retrieved, date=date, source=source).first()
+                if not p2:
+                    p2 = IDEAModelTimeline(
+                            date_retrieved=date_retrieved,
+                            source=source,
+                            date=date,
+                            reported_cases=reported_cases,
+                            model_incident_cases=model_incident_cases,
+                            model_incident_cases_lower_PI=model_incident_cases_lower_PI,
+                            model_incident_cases_upper_PI=model_incident_cases_upper_PI,
+                            reported_cumulative_cases=reported_cumulative_cases,
+                            model_cumulative_cases=model_cumulative_cases,
+                            model_cumulative_cases_lower_PI=model_incident_cases_lower_PI,
+                            model_cumulative_cases_upper_PI=model_cumulative_cases_upper_PI)
+                    db.session.add(p2)
             db.session.commit()
         except:
             print('Failed to get IDEA model for source {}'.format(source), sys.exc_info())
