@@ -56,7 +56,7 @@ def confirmed_ontario():
 
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
-    df = df.loc[df.Row_ID > cases_max]
+    # df = df.loc[df.Row_ID > cases_max]
     for index, row in df.iterrows():
         try:
             if int(row["Row_ID"]) in cases:
