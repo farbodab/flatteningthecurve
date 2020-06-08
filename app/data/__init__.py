@@ -178,6 +178,7 @@ def getcanada():
 
 @bp.cli.command('international')
 def getinternational():
+    routes.getinternationaltested()
     routes.international()
     routes.getinternationalmortality()
     routes.getinternationalrecovered()
