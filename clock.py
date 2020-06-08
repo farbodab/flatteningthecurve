@@ -124,7 +124,37 @@ def getkaggle():
         print('Kaggle data exported')
 
 
+def getontario_faster():
+    with app.app_context():
+        timeout = 60*60
+        interval = 60
+        while timeout >= 0:
+            timeout = timeout - interval
+            resp = routes.testsnew_faster()
+            if resp == 'Same':
+                time.sleep(interval)
+                continue
+
+            if resp == 'New':
+                plots.total_cases_plot()
+                plots.new_tests_plot()
+                plots.on_ventilator_plot()
+                plots.in_icu_plot()
+                plots.in_hospital_plot()
+                plots.recovered_plot()
+                plots.new_cases_plot()
+                plots.total_tests_plot()
+                plots.total_deaths_plot()
+                plots.tested_positve_plot()
+                plots.under_investigation_plot()
+                plots.new_deaths_plot()
+                plots.new_deaths_plot()
+                plots.total_tests_plot()
+                break
+
+
 sched = BlockingScheduler()
-sched.add_job(getgoogle, 'interval',next_run_time=datetime.now(), hour=16)
-sched.add_job(getkaggle, 'interval',next_run_time=datetime.now(), hour=18)
+sched.add_job(getgoogle, 'cron', next_run_time=datetime.now(), hour=16)
+sched.add_job(getkaggle, 'cron', hour=18)
+sched.add_job(getontario_faster, 'cron', hour=14)
 sched.start()

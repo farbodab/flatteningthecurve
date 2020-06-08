@@ -10,6 +10,8 @@ from gspread_dataframe import get_as_dataframe, set_with_dataframe
 from app import api
 from flask import current_app as app
 import json
+from dotenv import load_dotenv
+load_dotenv()
 
 scopes = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
@@ -43,16 +45,16 @@ def updateCollection(dataSource, sh):
 
 def getVizDocument():
     items = {
-      "type": os.environ['type'],
-      "project_id": os.environ['project_id'],
-      "private_key_id": os.environ['private_key_id'],
-      "private_key": os.environ['private_key'],
-      "client_id": os.environ['client_id'],
-      "client_email": os.environ['client_email'],
-      "auth_uri": os.environ['auth_uri'],
-      "token_uri": os.environ['token_uri'],
-      "auth_provider_x509_cert_url": os.environ['auth_provider_x509_cert_url'],
-      "client_x509_cert_url": os.environ['client_x509_cert_url']
+      "type": os.getenv('type'),
+      "project_id": os.getenv('project_id'),
+      "private_key_id": os.getenv('private_key_id'),
+      "private_key": os.getenv('private_key'),
+      "client_id": os.getenv('client_id'),
+      "client_email": os.getenv('client_email'),
+      "auth_uri": os.getenv('auth_uri'),
+      "token_uri": os.getenv('token_uri'),
+      "auth_provider_x509_cert_url": os.getenv('auth_provider_x509_cert_url'),
+      "client_x509_cert_url": os.getenv('client_x509_cert_url')
     }
     creds = ServiceAccountCredentials.from_json_keyfile_dict(items, scopes)
     client = gspread.authorize(creds)

@@ -64,17 +64,19 @@ def confirmed_ontario():
                 for header in df.columns:
                     setattr(daily_status,field_map[header],row[header])
                 db.session.add(daily_status)
+                db.session.commit()
             else:
                 c = ConfirmedOntario()
                 for header in df.columns:
                     setattr(c,field_map[header],row[header])
                 db.session.add(c)
+                db.session.commit()
         except Exception as e:
             print(e)
             print(f'failed to update case {row["Row_ID"]}')
         if (index % 100) == 0:
             print(f'{index} / {df.tail(1).index.values[0]} passed')
-            db.session.commit()
+
     db.session.commit()
 
 def testsnew():

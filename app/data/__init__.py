@@ -262,9 +262,6 @@ def getontario_faster():
             continue
 
         if resp == 'New':
-            # Commented out ones that don't use table covidtests
-            #plots.map()
-            #plots.apple_mobility_plot()
             plots.total_cases_plot()
             plots.new_tests_plot()
             plots.on_ventilator_plot()
@@ -274,22 +271,11 @@ def getontario_faster():
             plots.new_cases_plot()
             plots.total_tests_plot()
             plots.total_deaths_plot()
-            #plots.retail_mobility_plot()
-            #plots.icu_ontario_plot()
-            #plots.ventilator_ontario_plot()
-            #plots.icu_projections_plot()
             plots.tested_positve_plot()
             plots.under_investigation_plot()
             plots.new_deaths_plot()
-            #plots.ventilator_ontario_plot()
             plots.new_deaths_plot()
             plots.total_tests_plot()
-            #plots.ltc_deaths_plot()
-            #plots.ltc_cases_plot()
-            #plots.ltc_outbreaks_plot()
-            #plots.ltc_staff_plot()
-            #plots.hospital_staff_plot()
-            #plots.rt_analysis_plot()
             break
 
 # Required for pytest don't change

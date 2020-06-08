@@ -1771,7 +1771,7 @@ def icu_ontario_plot(region='ontario'):
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['residual_beds'].iloc[-2],
+            'delta' : {'valueformat':"d",'reference': df['residual_beds'].iloc[-2],
                   'increasing': {'color':'green'},
                   'decreasing': {'color':'red'}}},
         ]
@@ -1837,7 +1837,7 @@ def ventilator_ontario_plot(region='ontario'):
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['residual_ventilators'].iloc[-2],
+            'delta' : {'valueformat':"d",'reference': df['residual_ventilators'].iloc[-2],
                   'increasing': {'color':'green'},
                   'decreasing': {'color':'red'}}},
         ]
@@ -1993,7 +1993,7 @@ def ltc_staff_plot(region="ontario"):
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Staff'].iloc[-2],
+            'delta' : {'valueformat':"d",'reference': df['Staff'].iloc[-2],
                       'increasing': {'color':'red'},
                       'decreasing': {'color':'green'}}},
             ]
@@ -2039,6 +2039,7 @@ def hospital_staff_plot():
     url = "https://docs.google.com/spreadsheets/d/1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U/export?format=csv&id=1pWmFfseTzrTX06Ay2zCnfdCG0VEJrMVWh-tAU9anZ9U&gid=0"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df = df.dropna(how='any')
     df['Date'] = pd.to_datetime(df['Date'])
 
     fig = go.Figure()
@@ -2057,7 +2058,7 @@ def hospital_staff_plot():
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Hospital Staff'].iloc[-2],
+            'delta' : {'valueformat':"d",'reference': df['Hospital Staff'].iloc[-2],
                       'increasing': {'color':'red'},
                       'decreasing': {'color':'green'}}},
             ]
