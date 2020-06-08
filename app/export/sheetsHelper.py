@@ -1,4 +1,3 @@
-
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
@@ -43,7 +42,19 @@ def updateCollection(dataSource, sh):
         print("Failed to update google sheet", dataSource['name'], sys.exc_info())
 
 def getVizDocument():
-    creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
+    items = {
+      "type": os.environ['type'],
+      "project_id": os.environ['project_id'],
+      "private_key_id": os.environ['private_key_id'],
+      "private_key": os.environ['private_key'],
+      "client_id": os.environ['client_id'],
+      "client_email": os.environ['client_email'],
+      "auth_uri": os.environ['auth_uri'],
+      "token_uri": os.environ['token_uri'],
+      "auth_provider_x509_cert_url": os.environ['auth_provider_x509_cert_url'],
+      "client_x509_cert_url": os.environ['client_x509_cert_url']
+    }
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(items, scopes)
     client = gspread.authorize(creds)
     if os.getenv('FLASK_CONFIG') == 'production':
         return client.open("COVID-19 Data")
@@ -62,7 +73,19 @@ def getVizSheet(sheetName):
     return sheet
 
 def getSheet(document, sheetName):
-    creds = ServiceAccountCredentials.from_json_keyfile_name('googleapi_client_secret.json', scopes)
+
+    items = {
+      "type": os.environ['type'],
+      "project_id": os.environ['project_id'],
+      "private_key_id": os.environ['private_key_id'],
+      "private_key": os.environ['private_key'],
+      "client_id": os.environ['client_id'],
+      "auth_uri": os.environ['auth_uri'],
+      "token_uri": os.environ['token_uri'],
+      "auth_provider_x509_cert_url": os.environ['auth_provider_x509_cert_url'],
+      "client_x509_cert_url": os.environ['client_x509_cert_url']
+    }
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(items, scopes)
     client = gspread.authorize(creds)
     sh = client.open(document)
     sheet = sh.worksheet(sheetName)
