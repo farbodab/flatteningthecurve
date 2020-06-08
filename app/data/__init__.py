@@ -120,10 +120,10 @@ PHU = ['the_district_of_algoma',
 @bp.cli.command('ontario')
 def getontario():
     routes.testsnew()
+    routes.confirmed_ontario()
     routes.getlongtermcare()
     routes.getpredictivemodel()
     routes.getideamodel()
-    routes.confirmed_ontario()
     print('Ontario data refreshed')
 
 @bp.cli.command('pred')
