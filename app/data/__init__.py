@@ -22,11 +22,11 @@ import sys
 
 
 sheetsConfig = [
-    {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':3},
-    {'name': 'Age Trend Outbreak', 'function': vis.get_age_trend_outbreak, 'col':3},
+    {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':4},
+    {'name': 'Age Trend Outbreak', 'function': vis.get_age_trend_outbreak, 'col':4},
     {'name': 'Age Trend', 'function': vis.get_age_trend, 'col':3},
     {'name': 'Infection Source', 'function': vis.get_source_infection, 'col':3},
-    {'name': 'Heat Map', 'function': vis.get_npi_heatmap, 'col':16},
+    {'name': 'Heat Map', 'function': vis.get_npi_heatmap, 'col':3},
     {'name': 'Outbreak Tracker', 'function': vis.get_outbreaks, 'col':3},
     {'name': 'PHU Map', 'function': vis.get_phu_map, 'col':16},
     {'name':'Results','function':vis.get_results, 'col':3},

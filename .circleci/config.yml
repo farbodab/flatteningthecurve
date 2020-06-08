@@ -8,6 +8,8 @@ jobs:
         environment:
           FLASK_CONFIG: testing
           FLASK_APP: server.py
+          KAGGLE_USERNAME: howsmyflattening
+          KAGGLE_KEY: f5a7e667ceafa9ed694adc02b1696f78
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -43,7 +45,6 @@ jobs:
       # other common Python testing frameworks include pytest and nose
       # https://pytest.org
       # https://nose.readthedocs.io
-      - run: chmod 600 ./kaggle.json
       - run:
           name: run tests
           command: |
