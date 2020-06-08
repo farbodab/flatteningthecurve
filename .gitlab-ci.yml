@@ -1,0 +1,112 @@
+image: ebits/openshift-client
+  
+stages:
+  - development
+  - staging
+  - production
+  - cleanup
+       
+variables:
+  TEMPLATE_FILE: "./ocp_template/hmf-backend-template.yaml"
+  TEMPLATE_NAME: hmf-backend
+  COMPONENT_NAME: hmf-backend
+ 
+.deploy: &deploy
+  before_script:
+    - oc login --server="$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN" --insecure-skip-tls-verify
+  script:
+    - RESULT=0
+    - oc get services $APP 2> /dev/null || RESULT=$?
+    - echo $RESULT
+    - (if [ "$RESULT" == 1 ]; then 
+            oc process -f $TEMPLATE_FILE -p APP_HOST=$APP_HOST -p APP_NAME=$APP | oc apply -f -;
+            oc new-build --name=$APP --image-stream=python:3.6 --binary=true -l app=$APP;
+       fi);
+    - oc start-build $APP --from-dir=. && oc set env --from=secret/$DB_SECRET_NAME dc/$APP  
+    # Annotate the backend service so certificate can be generated for internal service communication 
+    # from the hmf-frontend <service.name>.<service.namespace>.svc
+    - oc annotate service $APP service.beta.openshift.io/serving-cert-secret-name=$APP --overwrite=true && exit 0
+    # use the command below to create secret whenever .env files are stored encrypted in Gitlab beefore exit.
+    # /*- oc create secret generic $APP-secret --from-env-file=db_staging.env -l app=$APP */
+  tags: [hmf]
+
+review:
+  <<: *deploy
+  stage: development
+  script:
+    - oc delete all -l app=$APP && sleep 10s
+    - oc process -f $TEMPLATE_FILE -p APP_HOST=$APP_HOST -p APP_NAME=$APP | oc apply -f -
+    - oc new-build --name=$APP --image-stream=python:3.6 --binary=true -l app=$APP
+    - oc start-build $APP --from-dir=.
+    ##########################
+    # set the config for DB DEV Enviroment #
+    # since .env are stored outside of Gitlab, the secret is created outside of OSD #
+    # make sure the secret names exist in the respective enviroments on Opemshift Dedicated Cluster  #
+    ##########################
+    - oc set env --from=secret/$DB_SECRET_NAME dc/$APP
+  variables:
+    OPENSHIFT_TOKEN: $OPENSHIFT_REVIEW_TOKEN
+    APP: review-$CI_COMMIT_REF_NAME
+    APP_HOST: $CI_PROJECT_NAME-$CI_ENVIRONMENT_SLUG.$OPENSHIFT_DOMAIN
+    DB_SECRET_NAME: backend-devdb-secret
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_PROJECT_NAME-$CI_ENVIRONMENT_SLUG.$OPENSHIFT_DOMAIN
+    on_stop: stop-review
+  only:
+    - branches
+  except:
+    - master
+    - staging
+  tags: [hmf]
+  
+stop-review:
+  <<: *deploy
+  stage: cleanup
+  script:
+    - oc delete all -l app=$APP
+  when: manual
+  variables:
+    OPENSHIFT_TOKEN: $OPENSHIFT_REVIEW_TOKEN
+    APP: review-$CI_COMMIT_REF_NAME
+    GIT_STRATEGY: none
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  only:
+    - branches
+  except:
+    - master
+    - staging
+  tags: [hmf]
+  
+staging:
+  <<: *deploy
+  stage: staging
+  variables:
+    APP: $COMPONENT_NAME
+    APP_HOST: $CI_PROJECT_NAME-staging.$OPENSHIFT_DOMAIN
+    OPENSHIFT_TOKEN: $OPENSHIFT_STAGING_TOKEN
+    DB_SECRET_NAME: backend-testdb-secret
+  environment:
+    name: staging
+    url: http://$CI_PROJECT_NAME-staging.$OPENSHIFT_DOMAIN
+  only:
+    - staging
+  tags: [hmf]
+  
+production:
+  <<: *deploy
+  stage: production
+  variables:
+    APP: $COMPONENT_NAME
+    APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+    OPENSHIFT_TOKEN: $OPENSHIFT_PROD_TOKEN
+    DB_SECRET_NAME: backend-proddb-secret
+  when: manual
+  environment:
+    name: production
+    url: http://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+  only:
+    - master
+  tags: [hmf]
