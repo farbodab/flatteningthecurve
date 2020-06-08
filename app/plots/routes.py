@@ -548,7 +548,7 @@ def new_cases_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['New positives'].iloc[-2],
+                'delta' : {'valueformat':"d",'reference': df['New positives'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -610,7 +610,7 @@ def new_cases_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['value'].iloc[-2],
+                'delta' : {'valueformat':"d",'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -671,7 +671,7 @@ def active_cases_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['Active'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['Active'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -735,7 +735,7 @@ def total_cases_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['Positives'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['Positives'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -798,7 +798,7 @@ def total_cases_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['value'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -856,7 +856,7 @@ def recovered_plot(region='ontario'):
     fig.update_layout(
         template = {'data' : {'indicator': [{
             'mode' : "number+delta+gauge",
-            'delta' : {'reference': df['Resolved'].iloc[-2],
+            'delta' : {'valueformat':"d", 'reference': df['Resolved'].iloc[-2],
                   'increasing': {'color':'green'},
                   'decreasing': {'color':'red'}}},
         ]
@@ -914,7 +914,7 @@ def total_deaths_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['Deaths'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['Deaths'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -972,7 +972,7 @@ def total_deaths_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['value'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -1035,7 +1035,7 @@ def new_deaths_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['New deaths'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['New deaths'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -1097,7 +1097,7 @@ def new_deaths_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['value'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['value'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -1160,7 +1160,7 @@ def ltc_cases_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['LTC Cases Total'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['LTC Cases Total'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -1277,7 +1277,7 @@ def ltc_deaths_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['LTC Deaths'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['LTC Deaths'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -1396,7 +1396,7 @@ def ltc_outbreaks_plot(region='ontario'):
         fig.update_layout(
             template = {'data' : {'indicator': [{
                 'mode' : "number+delta+gauge",
-                'delta' : {'reference': df['LTC Homes'].iloc[-2],
+                'delta' : {'valueformat':"d", 'reference': df['LTC Homes'].iloc[-2],
                           'increasing': {'color':'red'},
                           'decreasing': {'color':'green'}}},
                 ]
@@ -1540,7 +1540,7 @@ def rt_analysis_plot(region='Ontario'):
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a></span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
@@ -1670,7 +1670,7 @@ def retail_mobility_plot(region='ontario'):
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Retail and Recreation<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.95,
@@ -1719,7 +1719,7 @@ def work_mobility_plot(region='ontario'):
 
 
     fig.update_layout(
-        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%B'},
+        xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
         title={'text':f"Workplaces<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.95,
