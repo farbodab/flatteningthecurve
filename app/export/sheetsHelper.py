@@ -10,6 +10,8 @@ from gspread_dataframe import get_as_dataframe, set_with_dataframe
 from app import api
 from flask import current_app as app
 import json
+from dotenv import load_dotenv
+load_dotenv()
 
 scopes = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
