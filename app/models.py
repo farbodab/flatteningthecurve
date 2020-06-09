@@ -360,3 +360,23 @@ class ConfirmedOntario(db.Model):
     reporting_phu_website = db.Column(db.String)
     reporting_phu_latitude = db.Column(db.String)
     reporting_phu_longitude = db.Column(db.String)
+
+class HealthRegion(db.Model):
+    __tablename__ = 'healthregions'
+    id = db.Column(db.Integer, primary_key=True)
+    province = db.Column(db.String)
+    eng_name = db.Column(db.String,index=True)
+    fr_name = db.Column(db.String, index=True)
+    population = db.Column(db.Integer)
+    region_id = db.Column(db.Integer,index=True)
+    data = db.relationship('HealthRegionData', backref='healthregion', lazy='dynamic')
+
+class HealthRegionData(db.Model):
+    __tablename__ = 'healthregionsdata'
+    id = db.Column(db.Integer, primary_key=True)
+    region_id = db.Column(db.Integer, db.ForeignKey('healthregions.id'))
+    cases_cumulative = db.Column(db.Integer)
+    deaths_cumulative = db.Column(db.Integer)
+    recovered_cumulative = db.Column(db.Integer)
+    tests_cumulative = db.Column(db.Integer)
+    date = db.Column(db.DateTime, index=True)
