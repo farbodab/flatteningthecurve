@@ -393,6 +393,50 @@ def capacity():
         db.session.commit()
     return
 
+def health_regions():
+
+    field_map = {
+        "Province": "province",
+        "English Name": "eng_name",
+        "French Name":"fr_name",
+        "2019 Total Population":"population",
+    }
+
+    df = pd.read_csv('C:/Users/Farbod Abolhassani/Desktop/RegionalHealthBoundaries_0.csv')
+
+    for index, row in df.iterrows():
+        hrd = HealthRegion(id=row["Region ID"])
+        for header in field_map.keys():
+            setattr(hrd,field_map[header],row[header])
+        db.session.add(hrd)
+        db.session.commit()
+
+def health_regions_data():
+
+    field_map = {
+        "CaseCount" : "cases_cumulative",
+        "Deaths" : "deaths_cumulative",
+        "Recovered" : "recovered_cumulative",
+        "Tests" : "tests_cumulative",
+        "Last_Updated" : "date"
+    }
+
+    healthregions = {region.id:region for region in HealthRegion.query.all()}
+
+    url = 'https://prod-hub-indexer.s3.amazonaws.com/files/3aa9f7b1428642998fa399c57dad8045/1/full/4326/3aa9f7b1428642998fa399c57dad8045_1_full_4326.csv'
+    df = pd.read_csv(url)
+    df = df.fillna(sql.null())
+
+    for index, row in df.iterrows():
+        hrd = HealthRegionData.query.filter_by(region_id=row["HR_UID"],date=row["Last_Updated"]).first()
+        if not hrd:
+            hrd = HealthRegionData(region_id=row["HR_UID"])
+            for header in field_map.keys():
+                setattr(hrd,field_map[header],row[header])
+            db.session.add(hrd)
+            db.session.commit()
+
+
 ########################################
 ############CANADA DATA################
 ########################################
@@ -1283,8 +1327,6 @@ def new_viz():
             db.session.add(c)
             db.session.commit()
     return 'success',200
-
-
 
 @bp.route('/covid/source', methods=['GET'])
 @as_json
