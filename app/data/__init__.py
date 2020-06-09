@@ -126,9 +126,10 @@ def getontario():
     routes.getideamodel()
     print('Ontario data refreshed')
 
-@bp.cli.command('pred')
+@bp.cli.command('health')
 def getpred():
-    print('Predictive plots refreshed')
+    # routes.health_regions()
+    routes.health_regions_data()
 
 
 @bp.cli.command('mobility')

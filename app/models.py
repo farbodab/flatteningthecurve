@@ -363,12 +363,11 @@ class ConfirmedOntario(db.Model):
 
 class HealthRegion(db.Model):
     __tablename__ = 'healthregions'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer,primary_key=True)
     province = db.Column(db.String)
     eng_name = db.Column(db.String,index=True)
     fr_name = db.Column(db.String, index=True)
     population = db.Column(db.Integer)
-    region_id = db.Column(db.Integer,index=True)
     data = db.relationship('HealthRegionData', backref='healthregion', lazy='dynamic')
 
 class HealthRegionData(db.Model):
