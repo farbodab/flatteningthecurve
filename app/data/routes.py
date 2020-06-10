@@ -953,6 +953,7 @@ def getpredictivemodel():
                 if len(row) == 0 or row['date'] == None:
                     continue
 
+                date_retrieved = datetime.today()
                 region = source
                 date = start_date + timedelta(days=parseInt(row['date']))
                 cumulative_incidence = parseInt(row['cum_incidence'])
@@ -966,9 +967,10 @@ def getpredictivemodel():
                 waiting_hospNonVentICU = parseInt(row['waiting_hospNonVentICU'])
                 waiting_hospVentICU = parseInt(row['waiting_hospVentICU'])
 
-                p = PredictiveModel.query.filter_by(date=date, region=region).first()
+                p = PredictiveModel.query.filter_by(date_retrieved=date_retrieved, date=date, region=region).first()
                 if not p:
                     p = PredictiveModel(
+                            date_retrieved=date_retrieved,
                             region=region,
                             date=date,
                             cumulative_incidence=cumulative_incidence,
@@ -1018,6 +1020,7 @@ def getideamodel():
                     continue
 
                 source = source
+                date_retrieved = datetime.today()
                 date = datetime.strptime(row['Date'],"%Y-%m-%d")
                 reported_cases = parseInt(row['Reported cases'])
                 model_incident_cases = parseFloat(row['Model incident cases'])
@@ -1028,9 +1031,10 @@ def getideamodel():
                 model_cumulative_cases_lower_PI = parseFloat(row['Model cumulative cases lower PI'])
                 model_cumulative_cases_upper_PI = parseFloat(row['Model cumulative cases upper PI'])
 
-                p = IDEAModel.query.filter_by(date=date, source=source).first()
+                p = IDEAModel.query.filter_by(date_retrieved=date_retrieved, date=date, source=source).first()
                 if not p:
                     p = IDEAModel(
+                            date_retrieved=date_retrieved,
                             source=source,
                             date=date,
                             reported_cases=reported_cases,

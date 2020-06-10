@@ -2228,12 +2228,26 @@ def map():
 
 ## predictive models
 
-def predictive_plots():
+def predictive_plots(day=None):
     modcollab = pd.read_sql_table('predictivemodel', db.engine).sort_values(['region', 'date'])
+    modcollab['date_retrieved'] = pd.to_datetime(modcollab['date_retrieved'])  
+    if day:
+        modcollab = modcollab[modcollab.date_retrieved == day].drop(['date_retrieved'], axis=1)
+    else:
+        maxdate = modcollab.loc[modcollab['date_retrieved'].idxmax()]['date_retrieved']
+        modcollab = modcollab[modcollab['date_retrieved'] == maxdate]
+
     modcollab = modcollab[modcollab['region'] == 'base_on'].copy().reset_index(drop=True)
     modcollab['New Cases'] = modcollab['cumulative_incidence'].diff()
 
     fisman = pd.read_sql_table('ideamodel', db.engine)
+    fisman['date_retrieved'] = pd.to_datetime(fisman['date_retrieved'])  
+    if day:
+        fisman = fisman[fisman.date_retrieved == day].drop(['date_retrieved'], axis=1)
+    else:
+        maxdate = fisman.loc[fisman['date_retrieved'].idxmax()]['date_retrieved']
+        fisman = fisman[fisman['date_retrieved'] == maxdate]
+
     fisman['date'] = pd.to_datetime(fisman['date']).dt.round('d')
     fisman = fisman[fisman['source'] == 'on'].copy().sort_values(by='date').reset_index(drop=True)
     fisman['date'] = pd.to_datetime(fisman['date']).dt.round('d')

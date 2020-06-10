@@ -467,11 +467,37 @@ def sendpredictivemodel():
                         type: string
     """
     df = pd.read_sql_table('predictivemodel', db.engine)
+    # Select most recent date
+    maxdate = df.loc[df['date_retrieved'].idxmax()]['date_retrieved']
+    if maxdate:
+        df = df[df['date_retrieved'] == maxdate]
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
+@bp.route('/data/predictivemodel/<int:year>/<int:month>/<int:day>', methods=['GET'])
+def sendpredictivemodel_timeline(year, month, day):
+    """
+    Predictive model from https://pechlilab.shinyapps.io/output/ by day
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('predictivemodel', db.engine)
+    date = date.datetime(year, month, day)
+    df = df[df.date_retrieved == date]
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel-{}-{}-{}.csv".format(year, month, day)
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
 
 @bp.route('/data/ideamodel', methods=['GET'])
 def sendideamodel():
@@ -489,7 +515,34 @@ def sendideamodel():
                         type: string
     """
     df = pd.read_sql_table('ideamodel', db.engine)
+    # Select most recent date
+    maxdate = df.loc[df['date_retrieved'].idxmax()]['date_retrieved']
+    if maxdate:
+        df = df[df['date_retrieved'] == maxdate]
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=ideamodel.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@bp.route('/data/ideamodel/<int:year>/<int:month>/<int:day>', methods=['GET'])
+def sendideamodel_timeline(year, month, day):
+    """
+    IDEA model from https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/ by day
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('ideamodel', db.engine)
+    date = date.datetime(year, month, day)
+    df = df[df.date_retrieved == date]
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=ideamodel-{}-{}-{}.csv".format(year, month, day)
     resp.headers["Content-Type"] = "text/csv"
     return resp

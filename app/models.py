@@ -332,6 +332,7 @@ class PredictiveModel(db.Model):
 class IDEAModel(db.Model):
     __tablename__ = 'ideamodel'
     id = db.Column(db.Integer, primary_key=True)
+    date_retrieved = db.Column(db.DateTime, index=True)
     source = db.Column(db.String, index=True)
     date = db.Column(db.DateTime, index=True)
     reported_cases = db.Column(db.Integer)
@@ -346,6 +347,7 @@ class IDEAModel(db.Model):
 class ConfirmedOntario(db.Model):
     __tablename__ = 'confirmedontario'
     id = db.Column(db.Integer, primary_key=True)
+    date_retrieved = db.Column(db.DateTime, index=True)
     row_id = db.Column(db.Integer, index=True)
     accurate_episode_date = db.Column(db.DateTime, index=True)
     age_group = db.Column(db.String)
