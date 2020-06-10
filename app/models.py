@@ -360,3 +360,37 @@ class ConfirmedOntario(db.Model):
     reporting_phu_website = db.Column(db.String)
     reporting_phu_latitude = db.Column(db.String)
     reporting_phu_longitude = db.Column(db.String)
+
+
+## History tables
+class PredictiveModelTimeline(db.Model):
+    __tablename__ = 'predictivemodel_timeline'
+    id = db.Column(db.Integer, primary_key=True)
+    date_retrieved = db.Column(db.DateTime, index=True)
+    region = db.Column(db.String, index=True)
+    date = db.Column(db.DateTime, index=True)
+    cumulative_incidence = db.Column(db.Integer)
+    required_hospW = db.Column(db.Integer)
+    required_hospNonVentICU = db.Column(db.Integer)
+    required_hospVentICU = db.Column(db.Integer)
+    available_hospW = db.Column(db.Integer)
+    available_hospNonVentICU = db.Column(db.Integer)
+    available_hospVentICU = db.Column(db.Integer)
+    waiting_hospW = db.Column(db.Integer)
+    waiting_hospNonVentICU = db.Column(db.Integer)
+    waiting_hospVentICU = db.Column(db.Integer)
+
+class IDEAModelTimeline(db.Model):
+    __tablename__ = 'ideamodel_timeline'
+    id = db.Column(db.Integer, primary_key=True)
+    date_retrieved = db.Column(db.DateTime, index=True)
+    source = db.Column(db.String, index=True)
+    date = db.Column(db.DateTime, index=True)
+    reported_cases = db.Column(db.Integer)
+    model_incident_cases = db.Column(db.Float)
+    model_incident_cases_lower_PI = db.Column(db.Float)
+    model_incident_cases_upper_PI = db.Column(db.Float)
+    reported_cumulative_cases = db.Column(db.Integer)
+    model_cumulative_cases = db.Column(db.Float)
+    model_cumulative_cases_lower_PI = db.Column(db.Float)
+    model_cumulative_cases_upper_PI = db.Column(db.Float)
