@@ -119,11 +119,26 @@ PHU = ['the_district_of_algoma',
 
 @bp.cli.command('ontario')
 def getontario():
-    routes.testsnew()
-    routes.confirmed_ontario()
-    routes.getlongtermcare()
-    routes.getpredictivemodel()
-    routes.getideamodel()
+    try:
+        routes.testsnew()
+    except Exception as e:
+        print(e)
+    try:
+        routes.confirmed_ontario()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getlongtermcare()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getpredictivemodel()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getideamodel()
+    except Exception as e:
+        print(e)
     print('Ontario data refreshed')
 
 @bp.cli.command('pred')
@@ -226,7 +241,11 @@ def updateplots():
     plots.hospital_staff_plot()
     plots.rt_analysis_plot()
     plots.acceleration_plot()
-    plots.predictive_plots()
+    try:
+        plots.predictive_plots()
+    except Exception as e:
+        print(e)
+
 
 
     for region in PHU:
