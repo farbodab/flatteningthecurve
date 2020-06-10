@@ -929,7 +929,6 @@ def getlongtermcare_nolongerinoutbreak():
     driver.quit()
 
 def getpredictivemodel():
-    PredictiveModel.query.delete()
     sources = interactiveScraper.get_permitted_sources()
     #['base_on', 'base_sk', 'base_on', 'base_italy', 'expanded_sk', 'expanded_on_expected', 'expanded_italy', 'base_on_n', 'base_on_e', 'base_on_w', 'base_on_c', 'base_toronto']
 
@@ -953,6 +952,7 @@ def getpredictivemodel():
                 if len(row) == 0 or row['date'] == None:
                     continue
 
+                date_retrieved = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 region = source
                 date = start_date + timedelta(days=parseInt(row['date']))
                 cumulative_incidence = parseInt(row['cum_incidence'])
@@ -969,6 +969,7 @@ def getpredictivemodel():
                 p = PredictiveModel.query.filter_by(date=date, region=region).first()
                 if not p:
                     p = PredictiveModel(
+                            date_retrieved=date_retrieved,
                             region=region,
                             date=date,
                             cumulative_incidence=cumulative_incidence,
@@ -1007,6 +1008,7 @@ def getideamodel():
         except:
             return sql.null()
         return val
+
     for source in sources:
         print("Getting IDEA model data from source {}".format(source))
         try:
@@ -1017,6 +1019,7 @@ def getideamodel():
                 if len(row) == 0 or row['Date'] is None:
                     continue
 
+                date_retrieved = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 source = source
                 date = datetime.strptime(row['Date'],"%Y-%m-%d")
                 reported_cases = parseInt(row['Reported cases'])
@@ -1031,6 +1034,7 @@ def getideamodel():
                 p = IDEAModel.query.filter_by(date=date, source=source).first()
                 if not p:
                     p = IDEAModel(
+                            date_retrieved=date_retrieved,
                             source=source,
                             date=date,
                             reported_cases=reported_cases,
