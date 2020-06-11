@@ -51,11 +51,11 @@ def confirmed_ontario():
     url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
     cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
     cases_max = [int(case.row_id) for case in ConfirmedOntario.query.all()]
-    cases_max = max(cases_max)
     req = requests.get(url)
 
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
+    # cases_max = max(cases_max)
     # df = df.loc[df.Row_ID > cases_max]
     for index, row in df.iterrows():
         try:

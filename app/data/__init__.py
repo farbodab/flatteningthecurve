@@ -116,6 +116,28 @@ PHU = ['the_district_of_algoma',
  'southwestern',
  'city_of_toronto']
 
+@bp.cli.command('init')
+def initdb():
+    routes.testsnew()
+    routes.confirmed_ontario()
+    routes.getlongtermcare()
+    routes.getpredictivemodel()
+    routes.getideamodel()
+    routes.getcanadamobility_google()
+    routes.getcanadamobility_apple()
+    routes.getnpis()
+    routes.getgovernmentresponse()
+    routes.getnpiusa()
+    routes.cases()
+    routes.getcanadamortality()
+    routes.getcanadarecovered()
+    routes.getcanadatested()
+    routes.getinternationaltested()
+    routes.international()
+    routes.getinternationalmortality()
+    routes.getinternationalrecovered()
+
+
 
 @bp.cli.command('ontario')
 def getontario():
