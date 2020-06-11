@@ -118,24 +118,78 @@ PHU = ['the_district_of_algoma',
 
 @bp.cli.command('init')
 def initdb():
-    routes.testsnew()
-    routes.confirmed_ontario()
-    routes.getlongtermcare()
-    routes.getpredictivemodel()
-    routes.getideamodel()
-    routes.getcanadamobility_google()
-    routes.getcanadamobility_apple()
-    routes.getnpis()
-    routes.getgovernmentresponse()
-    routes.getnpiusa()
-    routes.cases()
-    routes.getcanadamortality()
-    routes.getcanadarecovered()
-    routes.getcanadatested()
-    routes.getinternationaltested()
-    routes.international()
-    routes.getinternationalmortality()
-    routes.getinternationalrecovered()
+    try:
+        routes.testsnew()
+    except Exception as e:
+        print(e)
+    try:
+        routes.confirmed_ontario()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getlongtermcare()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getpredictivemodel()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getideamodel()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getcanadamobility_google()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getcanadamobility_apple()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getnpis()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getgovernmentresponse()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getnpiusa()
+    except Exception as e:
+        print(e)
+    try:
+        routes.cases()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getcanadamortality()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getcanadarecovered()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getcanadatested()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getinternationaltested()
+    except Exception as e:
+        print(e)
+    try:
+        routes.international()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getinternationalmortality()
+    except Exception as e:
+        print(e)
+    try:
+        routes.getinternationalrecovered()
+    except Exception as e:
+        print(e)
 
 
 
