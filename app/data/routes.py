@@ -36,7 +36,7 @@ def confirmed_ontario():
         "Row_ID":"row_id",
         "Accurate_Episode_Date": "accurate_episode_date",
         "Case_Reported_Date": "case_reported_date",
-        "Specimen_Date": "specimen_date",
+        "Specimen_Date": "specimen_reported_date",
         "Test_Reported_Date": "test_reported_date",
         "Age_Group":"age_group",
         "Client_Gender":"client_gender",
