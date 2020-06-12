@@ -37,6 +37,7 @@ def confirmed_ontario():
         "Accurate_Episode_Date": "accurate_episode_date",
         "Case_Reported_Date": "case_reported_date",
         "Specimen_Date": "specimen_date",
+        "Test_Reported_Date": "test_reported_date",
         "Age_Group":"age_group",
         "Client_Gender":"client_gender",
         "Case_AcquisitionInfo": "case_acquisitionInfo",
@@ -57,21 +58,20 @@ def confirmed_ontario():
 
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
-    for column in ['Accurate_Episode_Date', 'Case_Reported_Date', 'Test_Reported_Date', 'Specimen_Date']:
-        df[column] = pd.to_datetime(df[column], format="%Y-%m-%d")
+
     # cases_max = max(cases_max)
     # df = df.loc[df.Row_ID > cases_max]
     for index, row in df.iterrows():
         try:
             if int(row["Row_ID"]) in cases:
                 daily_status = cases.get(int(row["Row_ID"]))
-                for header in df.columns:
+                for header in field_map.keys():
                     setattr(daily_status,field_map[header],row[header])
                 db.session.add(daily_status)
                 db.session.commit()
             else:
                 c = ConfirmedOntario()
-                for header in df.columns:
+                for header in field_map.keys():
                     setattr(c,field_map[header],row[header])
                 db.session.add(c)
                 db.session.commit()
