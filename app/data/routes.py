@@ -58,7 +58,7 @@ def confirmed_ontario():
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
     for column in ['Accurate_Episode_Date', 'Case_Reported_Date', 'Test_Reported_Date', 'Specimen_Date']:
-        df[column] = pd.Datetime(df[column], format="%Y-%m-%d")
+        df[column] = pd.to_datetime(df[column], format="%Y-%m-%d")
     # cases_max = max(cases_max)
     # df = df.loc[df.Row_ID > cases_max]
     for index, row in df.iterrows():
