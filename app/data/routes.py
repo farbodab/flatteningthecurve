@@ -35,6 +35,9 @@ def confirmed_ontario():
     field_map = {
         "Row_ID":"row_id",
         "Accurate_Episode_Date": "accurate_episode_date",
+        "Case_Reported_Date": "case_reported_date",
+        "Specimen_Date": "specimen_date",
+        "Test_Reported_Date": "test_reported_date",
         "Age_Group":"age_group",
         "Client_Gender":"client_gender",
         "Case_AcquisitionInfo": "case_acquisitionInfo",
@@ -51,23 +54,25 @@ def confirmed_ontario():
     url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
     cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
     cases_max = [int(case.row_id) for case in ConfirmedOntario.query.all()]
-    cases_max = max(cases_max)
     req = requests.get(url)
 
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
+    df = df.fillna(sql.null())
+
+    # cases_max = max(cases_max)
     # df = df.loc[df.Row_ID > cases_max]
     for index, row in df.iterrows():
         try:
             if int(row["Row_ID"]) in cases:
                 daily_status = cases.get(int(row["Row_ID"]))
-                for header in df.columns:
+                for header in field_map.keys():
                     setattr(daily_status,field_map[header],row[header])
                 db.session.add(daily_status)
                 db.session.commit()
             else:
                 c = ConfirmedOntario()
-                for header in df.columns:
+                for header in field_map.keys():
                     setattr(c,field_map[header],row[header])
                 db.session.add(c)
                 db.session.commit()
@@ -929,7 +934,6 @@ def getlongtermcare_nolongerinoutbreak():
     driver.quit()
 
 def getpredictivemodel():
-    PredictiveModel.query.delete()
     sources = interactiveScraper.get_permitted_sources()
     #['base_on', 'base_sk', 'base_on', 'base_italy', 'expanded_sk', 'expanded_on_expected', 'expanded_italy', 'base_on_n', 'base_on_e', 'base_on_w', 'base_on_c', 'base_toronto']
 
@@ -953,6 +957,7 @@ def getpredictivemodel():
                 if len(row) == 0 or row['date'] == None:
                     continue
 
+                date_retrieved = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 region = source
                 date = start_date + timedelta(days=parseInt(row['date']))
                 cumulative_incidence = parseInt(row['cum_incidence'])
@@ -969,6 +974,7 @@ def getpredictivemodel():
                 p = PredictiveModel.query.filter_by(date=date, region=region).first()
                 if not p:
                     p = PredictiveModel(
+                            date_retrieved=date_retrieved,
                             region=region,
                             date=date,
                             cumulative_incidence=cumulative_incidence,
@@ -1007,6 +1013,7 @@ def getideamodel():
         except:
             return sql.null()
         return val
+
     for source in sources:
         print("Getting IDEA model data from source {}".format(source))
         try:
@@ -1017,6 +1024,7 @@ def getideamodel():
                 if len(row) == 0 or row['Date'] is None:
                     continue
 
+                date_retrieved = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 source = source
                 date = datetime.strptime(row['Date'],"%Y-%m-%d")
                 reported_cases = parseInt(row['Reported cases'])
@@ -1031,6 +1039,7 @@ def getideamodel():
                 p = IDEAModel.query.filter_by(date=date, source=source).first()
                 if not p:
                     p = IDEAModel(
+                            date_retrieved=date_retrieved,
                             source=source,
                             date=date,
                             reported_cases=reported_cases,
