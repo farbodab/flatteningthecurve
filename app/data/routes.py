@@ -58,6 +58,7 @@ def confirmed_ontario():
 
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
+    df = df.fillna(sql.null())
 
     # cases_max = max(cases_max)
     # df = df.loc[df.Row_ID > cases_max]
