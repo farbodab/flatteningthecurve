@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, g, render_template, make_response
 from flask_json import FlaskJSON, JsonError, json_response, as_json
-from datetime import datetime
+import datetime
 import requests
 from app import db
 from app.models import *
@@ -450,7 +450,6 @@ def sendlongtermcare_nolongerinoutbreak_ontario():
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
-
 @bp.route('/data/predictivemodel', methods=['GET'])
 def sendpredictivemodel():
     """
@@ -467,11 +466,37 @@ def sendpredictivemodel():
                         type: string
     """
     df = pd.read_sql_table('predictivemodel', db.engine)
+    # Select most recent date
+    maxdate = df.loc[df['date_retrieved'].idxmax()]['date_retrieved']
+    if maxdate:
+        df = df[df['date_retrieved'] == maxdate]
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel.csv"
     resp.headers["Content-Type"] = "text/csv"
     return resp
 
+@bp.route('/data/predictivemodel/<int:year>/<int:month>/<int:day>', methods=['GET'])
+def sendpredictivemodel_timeline(year, month, day):
+    """
+    Predictive model from https://pechlilab.shinyapps.io/output/ by day
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('predictivemodel', db.engine)
+    req_date = datetime.datetime(year, month, day)
+    df = df[df['date_retrieved'] == req_date]
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=predictivemodel-{}.csv".format(req_date.date())
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
 
 @bp.route('/data/ideamodel', methods=['GET'])
 def sendideamodel():
@@ -489,7 +514,34 @@ def sendideamodel():
                         type: string
     """
     df = pd.read_sql_table('ideamodel', db.engine)
+    # Select most recent date
+    maxdate = df.loc[df['date_retrieved'].idxmax()]['date_retrieved']
+    if maxdate:
+        df = df[df['date_retrieved'] == maxdate]
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=ideamodel.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@bp.route('/data/ideamodel/<int:year>/<int:month>/<int:day>', methods=['GET'])
+def sendideamodel_timeline(year, month, day):
+    """
+    IDEA model from https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/ by day
+    ---
+    tags:
+        - Data
+    responses:
+        200:
+            description: '.csv'
+            content:
+                text/plain:
+                    schema:
+                        type: string
+    """
+    df = pd.read_sql_table('ideamodel', db.engine)
+    req_date = datetime.date(year, month, day)
+    df = df[df.date_retrieved == req_date]
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename=ideamodel-{}.csv".format(req_date.date())
     resp.headers["Content-Type"] = "text/csv"
     return resp

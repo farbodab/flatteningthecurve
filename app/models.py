@@ -316,6 +316,7 @@ class LongTermCareNoLongerInOutbreak(db.Model):
 class PredictiveModel(db.Model):
     __tablename__ = 'predictivemodel'
     id = db.Column(db.Integer, primary_key=True)
+    date_retrieved = db.Column(db.DateTime, index=True)
     region = db.Column(db.String, index=True)
     date = db.Column(db.DateTime, index=True)
     cumulative_incidence = db.Column(db.Integer)
@@ -332,6 +333,7 @@ class PredictiveModel(db.Model):
 class IDEAModel(db.Model):
     __tablename__ = 'ideamodel'
     id = db.Column(db.Integer, primary_key=True)
+    date_retrieved = db.Column(db.DateTime, index=True)
     source = db.Column(db.String, index=True)
     date = db.Column(db.DateTime, index=True)
     reported_cases = db.Column(db.Integer)
