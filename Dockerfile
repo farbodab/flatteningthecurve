@@ -1,16 +1,12 @@
 FROM registry.access.redhat.com/ubi8/python-38
-ENV KAGGLE_CONFIG_DIR=/opt/app-root/app
-WORKDIR ${KAGGLE_CONFIG_DIR}
+EXPOSE 8080
+ENV CONFIG_DIR=/opt/app-root/app
+WORKDIR ${CONFIG_DIR}
 
 USER root
-RUN mkdir -p ${KAGGLE_CONFIG_DIR}/.kaggle
-COPY . ${KAGGLE_CONFIG_DIR}
-COPY kaggle.json ${KAGGLE_CONFIG_DIR}/.kaggle/kaggle.json
+COPY . ${CONFIG_DIR}
 RUN pip install --upgrade pip && \
-    pip install -r ${KAGGLE_CONFIG_DIR}/requirements.txt && \
-    chmod 600 ${KAGGLE_CONFIG_DIR}/.kaggle/kaggle.json &&
-    chmod +x ${KAGGLE_CONFIG_DIR}/app.sh
-    #chmod 600 /opt/app-root/app/kaggle.json
+    pip install -r ${CONFIG_DIR}/requirements.txt
+
 USER 1001
-EXPOSE 8080
-CMD ["gunicorn", "server:app"]
+CMD ["gunicorn","-b 0.0.0.0:8080","--workers=12","server:app"]
