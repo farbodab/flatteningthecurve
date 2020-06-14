@@ -8,7 +8,8 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN curl -s -L ${url} | tar -xz && \
+RUN yum upgrade firefox && \
+    curl -s -L ${url} | tar -xz && \
     chmod +x geckodriver && \
     mv geckodriver ${install_dir} && \
     pip install --upgrade pip && \
