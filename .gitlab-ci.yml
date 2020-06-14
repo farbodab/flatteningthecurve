@@ -36,7 +36,7 @@ review:
   script:
     - oc delete all -l app=$APP && sleep 10s
     - oc process -f $TEMPLATE_FILE -p APP_HOST=$APP_HOST -p APP_NAME=$APP | oc apply -f -
-    - oc new-build --name=$APP --from-file=Dockerfile -l app=$APP
+    - oc new-build --name=$APP --from-file='./Dockerfile' -l app=$APP
     - oc start-build $APP --from-dir=.
     ##########################
     # set the config for DB DEV Enviroment #
