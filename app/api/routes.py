@@ -204,7 +204,8 @@ def get_api_team():
         data.append({"team": row["team"],"title": row["title"],
         "first_name": row["first_name"], "last_name": row["last_name"],
         "education": row["education"], "affiliation": row["affiliation"],
-        "role": row["role"], "team_status": row["team_status"]})
+        "role": row["role"], "team_status": row["team_status"],
+        "linkedin": row["linkedin"]})
     return data
 
 @as_json
