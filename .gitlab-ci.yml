@@ -28,7 +28,6 @@ variables:
     - oc annotate service $APP service.beta.openshift.io/serving-cert-secret-name=$APP --overwrite=true && exit 0
     # use the command below to create secret whenever .env files are stored encrypted in Gitlab beefore exit.
     # /*- oc create secret generic $APP-secret --from-env-file=db_staging.env -l app=$APP */
-    - curl https://intoli.com/install-google-chrome.sh | bash
   tags: [hmf]
 
 review:

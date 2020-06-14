@@ -1286,6 +1286,7 @@ def get_age_trend():
 
 def get_age_trend_outbreak():
     df = pd.read_sql_table('confirmedontario', db.engine)
+    df['outbreak_related'] = df['outbreak_related'].fillna('No')
     map = {"20s":"20-40", "30s": "20-40", "40s": "40-60", "50s": "40-60", "60s": "60-80", "70s": "60-80", "80s": "80+", "90s": "80+"}
     df['age_group'] = df['age_group'].replace(map)
     df = df.groupby(['accurate_episode_date','outbreak_related','age_group']).row_id.count().reset_index()
