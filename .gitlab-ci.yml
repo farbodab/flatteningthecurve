@@ -1,16 +1,16 @@
 image: ebits/openshift-client
-  
+
 stages:
   - development
   - staging
   - production
   - cleanup
-       
+
 variables:
   TEMPLATE_FILE: "./ocp_template/hmf-backend-template.yaml"
   TEMPLATE_NAME: hmf-backend
   COMPONENT_NAME: hmf-backend
- 
+
 .deploy: &deploy
   before_script:
     - oc login --server="$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN" --insecure-skip-tls-verify
@@ -18,12 +18,12 @@ variables:
     - RESULT=0
     - oc get services $APP 2> /dev/null || RESULT=$?
     - echo $RESULT
-    - (if [ "$RESULT" == 1 ]; then 
+    - (if [ "$RESULT" == 1 ]; then
             oc process -f $TEMPLATE_FILE -p APP_HOST=$APP_HOST -p APP_NAME=$APP | oc apply -f -;
             oc new-build --name=$APP --image-stream=python:3.6 --binary=true -l app=$APP;
        fi);
-    - oc start-build $APP --from-dir=. && oc set env --from=secret/$DB_SECRET_NAME dc/$APP  
-    # Annotate the backend service so certificate can be generated for internal service communication 
+    - oc start-build $APP --from-dir=. && oc set env --from=secret/$DB_SECRET_NAME dc/$APP
+    # Annotate the backend service so certificate can be generated for internal service communication
     # from the hmf-frontend <service.name>.<service.namespace>.svc
     - oc annotate service $APP service.beta.openshift.io/serving-cert-secret-name=$APP --overwrite=true && exit 0
     # use the command below to create secret whenever .env files are stored encrypted in Gitlab beefore exit.
@@ -59,7 +59,7 @@ review:
     - master
     - staging
   tags: [hmf]
-  
+
 stop-review:
   <<: *deploy
   stage: cleanup
@@ -79,7 +79,7 @@ stop-review:
     - master
     - staging
   tags: [hmf]
-  
+
 staging:
   <<: *deploy
   stage: staging
@@ -94,7 +94,7 @@ staging:
   only:
     - staging
   tags: [hmf]
-  
+
 production:
   <<: *deploy
   stage: production
