@@ -212,6 +212,7 @@ class Member(db.Model):
     affiliation = db.Column(db.String)
     role = db.Column(db.String)
     team_status = db.Column(db.String)
+    linkedin = db.Column(db.String)
 
 class Mobility(db.Model):
     __tablename__ = 'mobility'
