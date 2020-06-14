@@ -553,7 +553,7 @@ def getcanadamobility_google():
             subregion = row['sub_region_1']
             date = row['date']
             if region == 'Canada':
-                if subregion is not '':
+                if subregion != '':
                     region = subregion
 
                 def add_transport(date, region, transportation_type, value):
