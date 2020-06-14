@@ -1356,12 +1356,13 @@ def new_team():
         affiliation = row['Affiliation']
         role = row['Role (Maintainers Only)']
         team_status = row['Team Status']
+        linkedin =  row['LinkedIn URL']
         if first_name == first_name and first_name != '':
             c = Member.query.filter_by(first_name=first_name, last_name=last_name).first()
             if not c:
                 c = Member(team=team, title=title, first_name=first_name,
                 last_name=last_name, education=education, affiliation=affiliation,
-                role=role, team_status=team_status)
+                role=role, team_status=team_status,linkedin=linkedin)
                 db.session.add(c)
                 db.session.commit()
             else:
@@ -1371,6 +1372,7 @@ def new_team():
                 c.affiliation = affiliation
                 c.role = role
                 c.team_status = team_status
+                c.linkedin = linkedin
                 db.session.add(c)
                 db.session.commit()
     return 'success',200
