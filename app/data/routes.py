@@ -14,7 +14,6 @@ import os
 import urllib.request
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 from app.tools.covidpdftocsv import covidpdftocsv
 from app.tools.covid_19_mc_interactive_model import scrape as interactiveScraper
 from app.tools.ontario_health_unit_IDEA_model import scrape as ideaScraper
@@ -152,12 +151,7 @@ def testsnew():
         return 'Same'
 
 def testsnew_faster():
-
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     url= "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(100)
     driver.get(url)
@@ -580,11 +574,7 @@ def getcanadamobility_google():
     return
 
 def getcanadamobility_apple():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.apple.com/covid19/mobility"
     driver.implicitly_wait(100)
     driver.get(urlpage)
@@ -744,11 +734,7 @@ def getgovernmentresponse():
     return
 
 def getlongtermcare():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)
@@ -810,11 +796,7 @@ def getlongtermcare():
     driver.quit()
 
 def getlongtermcare_summary():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)
@@ -872,11 +854,7 @@ def getlongtermcare_summary():
 
 
 def getlongtermcare_nolongerinoutbreak():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)

@@ -8,10 +8,10 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN yum upgrade firefox && \
-    curl -s -L ${url} | tar -xz && \
-    chmod +x geckodriver && \
-    mv geckodriver ${install_dir} && \
+RUN dnf install glibc fontconfig && \
+    wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    tar -xvf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    mv phantomjs-2.1.1-linux-x86_64/bin/phantomjs ${install_dir} && \
     pip install --upgrade pip && \
     pip install -r ${CONFIG_DIR}/requirements.txt
 
