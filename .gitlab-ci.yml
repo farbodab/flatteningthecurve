@@ -20,7 +20,7 @@ variables:
     - echo $RESULT
     - (if [ "$RESULT" == 1 ]; then
             oc process -f $TEMPLATE_FILE -p APP_HOST=$APP_HOST -p APP_NAME=$APP | oc apply -f -;
-            oc new-build --name=$APP --image-stream=python:3.6 --binary=true -l app=$APP;
+            oc new-build --name=$APP -l app=$APP;
        fi);
     - oc start-build $APP --from-dir=. && oc set env --from=secret/$DB_SECRET_NAME dc/$APP
     # Annotate the backend service so certificate can be generated for internal service communication
@@ -36,7 +36,7 @@ review:
   script:
     - oc delete all -l app=$APP && sleep 10s
     - oc process -f $TEMPLATE_FILE -p APP_HOST=$APP_HOST -p APP_NAME=$APP | oc apply -f -
-    - oc new-build --name=$APP --image-stream=python:3.6 --binary=true -l app=$APP
+    - oc new-build --binary=true --name=$APP -l app=$APP
     - oc start-build $APP --from-dir=.
     ##########################
     # set the config for DB DEV Enviroment #
