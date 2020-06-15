@@ -14,7 +14,6 @@ import os
 import urllib.request
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from app.tools.covidpdftocsv import covidpdftocsv
 from app.tools.covid_19_mc_interactive_model import scrape as interactiveScraper
 from app.tools.ontario_health_unit_IDEA_model import scrape as ideaScraper
@@ -152,12 +151,7 @@ def testsnew():
         return 'Same'
 
 def testsnew_faster():
-
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     url= "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(100)
     driver.get(url)
@@ -256,79 +250,42 @@ def testsnew_faster():
 
 def getnpis():
     url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"
+
+    field_map = ["start_date","end_date","country","region","subregion",
+    "intervention_summary","intervention_category","target_population_category",
+    "enforcement_category","oxford_government_response_category",
+    "oxford_closure_code","oxford_public_info_code","oxford_travel_code",
+    "oxford_geographic_target_code","oxford_fiscal_measure_cad",
+    "oxford_testing_code","oxford_tracing_code","oxford_restriction_code",
+    "oxford_income_amount","oxford_income_target","oxford_debt_relief_code",
+    "source_url","source_organization","source_organization_2","source_category",
+    "source_title","source_full_text","note","end_source_url",
+    "end_source_organization","end_source_organization_2","end_source_category",
+    "end_source_title","end_source_full_text"]
+
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['start_date'] = pd.to_datetime(df['start_date'])
     df['end_date'] = pd.to_datetime(df['end_date'])
+    df = df.fillna(sql.null())
     df.dropna(subset=['start_date'],inplace=True)
-    df = df.fillna("NULL")
+
     print('npi canada data being refreshed')
     for index, row in df.iterrows():
         if (index % 100) == 0:
             print(f'{index} / {df.tail(1).index.values[0]} passed')
-        start_date = row['start_date']
-        end_date = row['end_date']
-        country = row['country']
-        region = row['region']
-        subregion = row['subregion']
-        intervention_summary = row['intervention_summary']
-        intervention_category = row['intervention_category']
-        target_population_category = row['target_population_category']
-        enforcement_category = row['enforcement_category']
-        oxford_government_response_category = row['oxford_government_response_category']
-        oxford_closure_code = row['oxford_closure_code']
-        oxford_public_info_code = row['oxford_public_info_code']
-        oxford_travel_code = row['oxford_travel_code']
-        oxford_geographic_target_code = row['oxford_geographic_target_code']
-        oxford_fiscal_measure_cad = row['oxford_fiscal_measure_cad']
-        oxford_monetary_measure = row['oxford_monetary_measure']
-        oxford_testing_code = row['oxford_testing_code']
-        oxford_tracing_code = row['oxford_tracing_code']
-        source_url = row['source_url']
-        source_organization = row['source_organization']
-        source_organization_two = row['source_organization_2']
-        source_category = row['source_category']
-        source_title = row['source_title']
-        source_full_text = row['source_full_text']
-        c = NPIInterventions.query.filter_by(start_date=start_date, region=region, intervention_summary=intervention_summary).first()
-        if not c:
-            c = NPIInterventions(start_date=start_date,
-            country=country, region=region, subregion=subregion, intervention_summary=intervention_summary,
-            intervention_category=intervention_category, target_population_category=target_population_category,
-            enforcement_category=enforcement_category, oxford_government_response_category=oxford_government_response_category,
-            oxford_closure_code=oxford_closure_code, oxford_public_info_code=oxford_public_info_code,
-            oxford_travel_code=oxford_travel_code, oxford_geographic_target_code=oxford_geographic_target_code,
-            oxford_fiscal_measure_cad=oxford_fiscal_measure_cad, oxford_monetary_measure=oxford_monetary_measure,
-            source_url=source_url, source_organization=source_organization, source_organization_two=source_organization_two,
-            source_category=source_category, source_title=source_title, source_full_text=source_full_text, oxford_testing_code=oxford_testing_code,
-            oxford_tracing_code=oxford_tracing_code)
-            if end_date != "NULL":
-                c.end_date = end_date
+        n = NPIInterventions.query.filter_by(start_date=row["start_date"], region=row["region"], intervention_summary=row["intervention_summary"]).first()
+        if n:
+            for header in field_map:
+                setattr(n,header,row[header])
+            db.session.add(n)
+            db.session.commit()
         else:
-            c.start_date = start_date
-            if end_date != "NULL":
-                c.end_date = end_date
-            c.country = country
-            c.region = region
-            c.subregion = subregion
-            c.intervention_summary = intervention_summary
-            c.intervention_category = intervention_category
-            c.target_population_category = target_population_category
-            c.enforcement_category = enforcement_category
-            c.oxford_government_response_category = oxford_government_response_category
-            c.oxford_closure_code = oxford_closure_code
-            c.oxford_public_info_code = oxford_public_info_code
-            c.oxford_travel_code = oxford_travel_code
-            c.oxford_geographic_target_code = oxford_geographic_target_code
-            c.oxford_fiscal_measure_cad = oxford_fiscal_measure_cad
-            c.oxford_testing_code = oxford_testing_code
-            c.oxford_tracing_code = oxford_tracing_code
-            c.source_url = source_url
-            c.source_organization = source_organization
-            c.source_organization_two = source_organization_two
-            c.source_category = source_category
-            c.source_title = source_title
-            c.source_full_text = source_full_text
+            c = NPIInterventions()
+            for header in field_map:
+                setattr(c,header,row[header])
+            db.session.add(c)
+            db.session.commit()
         db.session.add(c)
         db.session.commit()
     return
@@ -553,7 +510,7 @@ def getcanadamobility_google():
             subregion = row['sub_region_1']
             date = row['date']
             if region == 'Canada':
-                if subregion is not '':
+                if subregion != '':
                     region = subregion
 
                 def add_transport(date, region, transportation_type, value):
@@ -580,11 +537,7 @@ def getcanadamobility_google():
     return
 
 def getcanadamobility_apple():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.apple.com/covid19/mobility"
     driver.implicitly_wait(100)
     driver.get(urlpage)
@@ -638,117 +591,72 @@ def getcanadamobility_apple():
     return
 
 def getgovernmentresponse():
-    url = "https://ocgptweb.azurewebsites.net/CSVDownload"
+    field_map = {
+        "CountryName": "country",
+        "CountryCode": "country_code",
+        "Date": "date",
+        "C1_School closing":"c1_school_closing",
+        "C1_Flag":"c1_flag",
+        "C2_Workplace closing":"c2_workplace_closing",
+        "C2_Flag":"c2_flag",
+        "C3_Cancel public events":"c3_cancel_public_events",
+        "C3_Flag":"c3_flag",
+        "C4_Restrictions on gatherings":"c4_restrictions_on_gatherings",
+        "C4_Flag":"c4_flag",
+        "C5_Close public transport":"c5_close_public_transport",
+        "C5_Flag":"c5_flag",
+        "C6_Stay at home requirements":"c6_stay_at_home_requirements",
+        "C6_Flag":"c6_flag",
+        "C7_Restrictions on internal movement":"c7_restrictions_on_internal_movement",
+        "C7_Flag":"c7_flag",
+        "C8_International travel controls":"c8_international_travel_controls",
+        "E1_Income support":"e1_income_support",
+        "E1_Flag":"e1_flag",
+        "E2_Debt/contract relief":"e2_debt_contract_relief",
+        "E3_Fiscal measures":"e3_fiscal_measures",
+        "E4_International support":"e4_international_support",
+        "H1_Public information campaigns":"h1_public_information_campaigns",
+        "H1_Flag":"h1_flag",
+        "H2_Testing policy":"h2_testing_policy",
+        "H3_Contact tracing":"h3_contact_tracing",
+        "H4_Emergency investment in healthcare":"h4_emergency_investment_in_healthcare",
+        "H5_Investment in vaccines":"h5_investment_in_vaccines",
+        "M1_Wildcard":"m1_wildcard",
+        "ConfirmedCases":"confirmed_cases",
+        "ConfirmedDeaths":"confirmed_deaths",
+        "StringencyIndex":"stringency_index",
+        "StringencyIndexForDisplay":"stringency_index_for_display",
+        "StringencyLegacyIndex":"stringency_legacy_index",
+        "StringencyLegacyIndexForDisplay":"stringency_legacy_index_for_display",
+        "GovernmentResponseIndex":"government_response_index",
+        "GovernmentResponseIndexForDisplay":"government_response_index_for_display",
+        "ContainmentHealthIndex":"containment_health_index",
+        "ContainmentHealthIndexForDisplay":"containment_health_index_for_display",
+        "EconomicSupportIndex":"economic_support_index",
+        "EconomicSupportIndexForDisplay":"economic_support_index_for_display"
+    }
+
+    url = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['Date'] = pd.to_datetime(df.Date,format="%Y%m%d")
+    df = df.fillna(sql.null())
 
-
-    def parse_val(val):
-        if val == -1:
-            return sql.null()
-        elif val != val:
-            return sql.null()
-        else:
-            return val
     print('international npi data being refreshed')
     for index, row in df.iterrows():
         if (index % 100) == 0:
             print(f'{index} / {df.tail(1).index.values[0]} passed')
-    # for index, row in df.iterrows():
-        date = row['Date']
-        country = row['CountryName']
-        country_code = row['CountryCode']
-        s1_school_closing = parse_val(row['S1_School closing'])
-        s1_is_general = parse_val(row['S1_IsGeneral'])
-        s1_notes = parse_val(row['S1_Notes'])
-        s2_workplace_closing = parse_val(row['S2_Workplace closing'])
-        s2_is_general = parse_val(row['S2_IsGeneral'])
-        s2_notes = parse_val(row['S2_Notes'])
-        s3_cancel_public_events = parse_val(row['S3_Cancel public events'])
-        s3_is_general = parse_val(row['S3_IsGeneral'])
-        s3_notes = parse_val(row['S3_Notes'])
-        s4_close_public_transport = parse_val(row['S4_Close public transport'])
-        s4_is_general = parse_val(row['S4_IsGeneral'])
-        s4_notes = parse_val(row['S4_Notes'])
-        s5_public_information_campaigns = parse_val(row['S5_Public information campaigns'])
-        s5_is_general = parse_val(row['S5_IsGeneral'])
-        s5_notes = parse_val(row['S5_Notes'])
-        s6_restrictions_on_internal_movement = parse_val(row['S6_Restrictions on internal movement'])
-        s6_is_general = parse_val(row['S6_IsGeneral'])
-        s6_notes = parse_val(row['S6_Notes'])
-        s7_international_travel_controls = parse_val(row['S7_International travel controls'])
-        s7_notes = parse_val(row['S7_Notes'])
-        s8_fiscal_measures = parse_val(row['S8_Fiscal measures'])
-        s8_notes = parse_val(row['S8_Notes'])
-        s9_monetary_measures = parse_val(row['S9_Monetary measures'])
-        s9_notes = parse_val(row['S9_Notes'])
-        s10_emergency_investment_in_healthcare = parse_val(row['S10_Emergency investment in health care'])
-        s10_notes = parse_val(row['S10_Notes'])
-        s11_investement_in_vaccines = parse_val(row['S11_Investment in Vaccines'])
-        s11_notes = parse_val(row['S11_Notes'])
-        s12_testing_framework = parse_val(row['S12_Testing framework'])
-        s12_notes = parse_val(row['S12_Notes'])
-        s13_contact_tracing = parse_val(row['S13_Contact tracing'])
-        s13_notes = parse_val(row['S13_Notes'])
-        confirmed_cases = parse_val(row['ConfirmedCases'])
-        confirmed_deaths = parse_val(row['ConfirmedDeaths'])
-        stringency_index = parse_val(row['StringencyIndex'])
-        stringency_index_for_display = parse_val(row['StringencyIndexForDisplay'])
-
-        g = GovernmentResponse.query.filter_by(date=date, country=country).first()
+        g = GovernmentResponse.query.filter_by(date=row["Date"], country=row["CountryName"]).first()
         if not g:
-            g = GovernmentResponse(
-                date=date,
-                country=country,
-                country_code=country_code,
-                s1_school_closing=s1_school_closing,
-                s2_workplace_closing=s2_workplace_closing,
-                s3_cancel_public_events=s3_cancel_public_events,
-                s4_close_public_transport=s4_close_public_transport,
-                s5_public_information_campaigns=s5_public_information_campaigns,
-                s6_restrictions_on_internal_movement=s6_restrictions_on_internal_movement,
-                s7_international_travel_controls=s7_international_travel_controls,
-                s8_fiscal_measures=s8_fiscal_measures,
-                s9_monetary_measures=s9_monetary_measures,
-                s10_emergency_investment_in_healthcare=s10_emergency_investment_in_healthcare,
-                s11_investement_in_vaccines=s11_investement_in_vaccines,
-                s12_testing_framework=s12_testing_framework,
-                s13_contact_tracing=s13_contact_tracing,
-                s1_is_general=s1_is_general,
-                s1_notes=s1_notes,
-                s2_is_general=s2_is_general,
-                s2_notes=s2_notes,
-                s3_is_general=s3_is_general,
-                s3_notes=s3_notes,
-                s4_is_general=s4_is_general,
-                s4_notes=s4_notes,
-                s5_is_general=s5_is_general,
-                s5_notes=s5_notes,
-                s6_is_general=s6_is_general,
-                s6_notes=s6_notes,
-                s7_notes=s7_notes,
-                s8_notes=s8_notes,
-                s9_notes=s9_notes,
-                s10_notes=s10_notes,
-                s11_notes=s11_notes,
-                s12_notes=s12_notes,
-                s13_notes=s13_notes,
-                confirmed_cases=confirmed_cases,
-                confirmed_deaths=confirmed_deaths,
-                stringency_index=stringency_index,
-                stringency_index_for_display=stringency_index_for_display)
-
+            g = GovernmentResponse()
+            for header in field_map.keys():
+                setattr(g,field_map[header],row[header])
             db.session.add(g)
             db.session.commit()
     return
 
 def getlongtermcare():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)
@@ -810,11 +718,7 @@ def getlongtermcare():
     driver.quit()
 
 def getlongtermcare_summary():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)
@@ -870,13 +774,8 @@ def getlongtermcare_summary():
 
     driver.quit()
 
-
 def getlongtermcare_nolongerinoutbreak():
-    options = Options()
-    options.headless = True
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
     urlpage = "https://www.ontario.ca/page/how-ontario-is-responding-covid-19"
     driver.implicitly_wait(30)
     driver.get(urlpage)
