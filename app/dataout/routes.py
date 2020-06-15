@@ -93,7 +93,7 @@ def sendnpi():
                     schema:
                         type: string
     """
-    df = pd.read_sql_table('npiinterventions', db.engine)
+    df = pd.read_sql_table('npiintervention', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=npi_canada.csv"
     resp.headers["Content-Type"] = "text/csv"
@@ -358,7 +358,7 @@ def sendgovernmentresponse():
                     schema:
                         type: string
     """
-    df = pd.read_sql_table('governmentresponse', db.engine)
+    df = pd.read_sql_table('npiinterventions_world', db.engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename=governmentresponse.csv"
     resp.headers["Content-Type"] = "text/csv"
