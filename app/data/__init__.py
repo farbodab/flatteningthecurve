@@ -225,7 +225,7 @@ def updateplots():
     plots.hospital_staff_plot()
     plots.rt_analysis_plot()
     plots.acceleration_plot()
-    plots.predictive_plots()
+    # plots.predictive_plots()
 
 
     for region in PHU:
