@@ -250,79 +250,42 @@ def testsnew_faster():
 
 def getnpis():
     url = "https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"
+
+    field_map = ["start_date","end_date","country","region","subregion",
+    "intervention_summary","intervention_category","target_population_category",
+    "enforcement_category","oxford_government_response_category",
+    "oxford_closure_code","oxford_public_info_code","oxford_travel_code",
+    "oxford_geographic_target_code","oxford_fiscal_measure_cad",
+    "oxford_testing_code","oxford_tracing_code","oxford_restriction_code",
+    "oxford_income_amount","oxford_income_target","oxford_debt_relief_code",
+    "source_url","source_organization","source_organization_2","source_category",
+    "source_title","source_full_text","note","end_source_url",
+    "end_source_organization","end_source_organization_2","end_source_category",
+    "end_source_title","end_source_full_text"]
+
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['start_date'] = pd.to_datetime(df['start_date'])
     df['end_date'] = pd.to_datetime(df['end_date'])
+    df = df.fillna(sql.null())
     df.dropna(subset=['start_date'],inplace=True)
-    df = df.fillna("NULL")
+
     print('npi canada data being refreshed')
     for index, row in df.iterrows():
         if (index % 100) == 0:
             print(f'{index} / {df.tail(1).index.values[0]} passed')
-        start_date = row['start_date']
-        end_date = row['end_date']
-        country = row['country']
-        region = row['region']
-        subregion = row['subregion']
-        intervention_summary = row['intervention_summary']
-        intervention_category = row['intervention_category']
-        target_population_category = row['target_population_category']
-        enforcement_category = row['enforcement_category']
-        oxford_government_response_category = row['oxford_government_response_category']
-        oxford_closure_code = row['oxford_closure_code']
-        oxford_public_info_code = row['oxford_public_info_code']
-        oxford_travel_code = row['oxford_travel_code']
-        oxford_geographic_target_code = row['oxford_geographic_target_code']
-        oxford_fiscal_measure_cad = row['oxford_fiscal_measure_cad']
-        oxford_monetary_measure = row['oxford_monetary_measure']
-        oxford_testing_code = row['oxford_testing_code']
-        oxford_tracing_code = row['oxford_tracing_code']
-        source_url = row['source_url']
-        source_organization = row['source_organization']
-        source_organization_two = row['source_organization_2']
-        source_category = row['source_category']
-        source_title = row['source_title']
-        source_full_text = row['source_full_text']
-        c = NPIInterventions.query.filter_by(start_date=start_date, region=region, intervention_summary=intervention_summary).first()
-        if not c:
-            c = NPIInterventions(start_date=start_date,
-            country=country, region=region, subregion=subregion, intervention_summary=intervention_summary,
-            intervention_category=intervention_category, target_population_category=target_population_category,
-            enforcement_category=enforcement_category, oxford_government_response_category=oxford_government_response_category,
-            oxford_closure_code=oxford_closure_code, oxford_public_info_code=oxford_public_info_code,
-            oxford_travel_code=oxford_travel_code, oxford_geographic_target_code=oxford_geographic_target_code,
-            oxford_fiscal_measure_cad=oxford_fiscal_measure_cad, oxford_monetary_measure=oxford_monetary_measure,
-            source_url=source_url, source_organization=source_organization, source_organization_two=source_organization_two,
-            source_category=source_category, source_title=source_title, source_full_text=source_full_text, oxford_testing_code=oxford_testing_code,
-            oxford_tracing_code=oxford_tracing_code)
-            if end_date != "NULL":
-                c.end_date = end_date
+        n = NPIInterventions.query.filter_by(start_date=row["start_date"], region=row["region"], intervention_summary=row["intervention_summary"]).first()
+        if n:
+            for header in field_map:
+                setattr(n,header,row[header])
+            db.session.add(n)
+            db.session.commit()
         else:
-            c.start_date = start_date
-            if end_date != "NULL":
-                c.end_date = end_date
-            c.country = country
-            c.region = region
-            c.subregion = subregion
-            c.intervention_summary = intervention_summary
-            c.intervention_category = intervention_category
-            c.target_population_category = target_population_category
-            c.enforcement_category = enforcement_category
-            c.oxford_government_response_category = oxford_government_response_category
-            c.oxford_closure_code = oxford_closure_code
-            c.oxford_public_info_code = oxford_public_info_code
-            c.oxford_travel_code = oxford_travel_code
-            c.oxford_geographic_target_code = oxford_geographic_target_code
-            c.oxford_fiscal_measure_cad = oxford_fiscal_measure_cad
-            c.oxford_testing_code = oxford_testing_code
-            c.oxford_tracing_code = oxford_tracing_code
-            c.source_url = source_url
-            c.source_organization = source_organization
-            c.source_organization_two = source_organization_two
-            c.source_category = source_category
-            c.source_title = source_title
-            c.source_full_text = source_full_text
+            c = NPIInterventions()
+            for header in field_map:
+                setattr(c,header,row[header])
+            db.session.add(c)
+            db.session.commit()
         db.session.add(c)
         db.session.commit()
     return
@@ -628,7 +591,7 @@ def getcanadamobility_apple():
     return
 
 def getgovernmentresponse():
-    url = "https://ocgptweb.azurewebsites.net/CSVDownload"
+    url = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['Date'] = pd.to_datetime(df.Date,format="%Y%m%d")
@@ -851,7 +814,6 @@ def getlongtermcare_summary():
         raise Exception('Failed to extract LTC summary data from ontario.ca: {}'.format(str(e)))
 
     driver.quit()
-
 
 def getlongtermcare_nolongerinoutbreak():
     driver = webdriver.PhantomJS(service_log_path=os.path.devnull)

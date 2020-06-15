@@ -135,7 +135,7 @@ class InternationalTesting(db.Model):
     cumulative_testing = db.Column(db.Integer())
 
 class NPIInterventions(db.Model):
-    __tablename__ = 'npiinterventions'
+    __tablename__ = 'npiintervention'
     id = db.Column(db.Integer(), primary_key=True)
     start_date = db.Column(db.DateTime, index=True)
     end_date = db.Column(db.DateTime, index=True)
@@ -152,15 +152,24 @@ class NPIInterventions(db.Model):
     oxford_travel_code	= db.Column(db.String)
     oxford_geographic_target_code	= db.Column(db.String)
     oxford_fiscal_measure_cad = db.Column(db.String)
-    oxford_monetary_measure	= db.Column(db.String)
     oxford_testing_code	= db.Column(db.String)
     oxford_tracing_code	= db.Column(db.String)
+    oxford_restriction_code	= db.Column(db.String)
+    oxford_income_amount = db.Column(db.String)
+    oxford_debt_relief_code = db.Column(db.String)
     source_url = db.Column(db.String)
     source_organization	 = db.Column(db.String)
-    source_organization_two = db.Column(db.String)
+    source_organization_2 = db.Column(db.String)
     source_category= db.Column(db.String)
     source_title= db.Column(db.String)
     source_full_text = db.Column(db.String)
+    note = db.Column(db.String)
+    end_source_url = db.Column(db.String)
+    end_source_organization	= db.Column(db.String)
+    end_source_organization_2 = db.Column(db.String)
+    end_source_category	= db.Column(db.String)
+    end_source_title = db.Column(db.String)
+    end_source_full_text = db.Column(db.String)
 
 class Viz(db.Model):
     __tablename__ = 'viz'
