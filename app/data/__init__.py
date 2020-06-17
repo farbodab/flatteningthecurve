@@ -22,6 +22,8 @@ import sys
 
 
 sheetsConfig = [
+    {'name': 'Test Turn Around Distribution', 'function': vis.get_test_turn_around_distrib, 'col':4},
+    {'name': 'Test Turn Around Time', 'function': vis.get_test_turn_around, 'col':4},
     {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':4},
     {'name': 'Age Trend Outbreak', 'function': vis.get_age_trend_outbreak, 'col':4},
     {'name': 'Age Trend', 'function': vis.get_age_trend, 'col':3},

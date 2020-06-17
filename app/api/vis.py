@@ -795,12 +795,11 @@ def get_top_causes():
     causes_df['Cause'] = causes_df['Cause'].apply(cause_to_friendly)
     return causes_df
 
+
 def get_rt_est():
     # Source Alf Whitehead Kaggle Notebook
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
-    prov_name = 'Ontario'
-    c = Covid.query.filter_by(province="Ontario")
-    cases_df = pd.read_sql(c.statement, db.engine)
+    cases_df = pd.read_sql_table('covid', db.engine)
     replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
     "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
      "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
@@ -812,6 +811,7 @@ def get_rt_est():
       "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
       "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit", "Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
       "Thunder Bay": "Thunder Bay District Health Unit", "Southwestern":"Southwestern Public Health Unit"}
+
     cases_df.region = cases_df.region.replace(replace)
     cases_df['date'] = pd.to_datetime(cases_df['date'])
     province_df = cases_df.groupby(['province', 'date'])['id'].count()
@@ -906,19 +906,22 @@ def get_rt_est():
 
     results = None
     for prov_name, cases in provinces_to_process.groupby(level='region'):
-        new, smoothed = prepare_cases(cases)
         try:
-            posteriors = get_posteriors(smoothed)
-        except Exception as e:
-            print(e)
-            continue
-        hdis = highest_density_interval(posteriors)
-        most_likely = posteriors.idxmax().rename('ML')
-        result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['region', 'date'])
-        if results is None:
-            results = result
-        else:
-            results = results.append(result)
+            new, smoothed = prepare_cases(cases)
+            try:
+                posteriors = get_posteriors(smoothed)
+            except Exception as e:
+                print(e)
+                continue
+            hdis = highest_density_interval(posteriors)
+            most_likely = posteriors.idxmax().rename('ML')
+            result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['region', 'date'])
+            if results is None:
+                results = result
+            else:
+                results = results.append(result)
+        except:
+            print(f'error in getting value for f{prov_name}')
     return results
 
 def get_phudeath():
@@ -1291,4 +1294,18 @@ def get_age_trend_outbreak():
     df['age_group'] = df['age_group'].replace(map)
     df = df.groupby(['accurate_episode_date','outbreak_related','age_group']).row_id.count().reset_index()
 
+    return df
+
+def get_test_turn_around():
+    df = pd.read_sql_table('confirmedontario', db.engine)
+    df['test_turn_around'] = df['test_reported_date'] - df['specimen_reported_date']
+    df['test_turn_around'] = df['test_turn_around'].dt.days
+    df = df.groupby(['test_reported_date']).test_turn_around.mean().reset_index()
+    return df
+
+def get_test_turn_around_distrib():
+    df = pd.read_sql_table('confirmedontario', db.engine)
+    df['test_turn_around'] = df['test_reported_date'] - df['specimen_reported_date']
+    df['test_turn_around'] = df['test_turn_around'].dt.days
+    df = df[['test_turn_around']]
     return df
