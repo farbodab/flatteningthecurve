@@ -22,6 +22,14 @@ import sys
 
 
 sheetsConfig = [
+    {'name':'Reopening - Rt','function':vis.get_rt, 'col':5, 'timeseries':'date'},
+    {'name':'Reopening - ICU','function':vis.get_icu_bed_occupied, 'col':5, 'timeseries':'date'},
+    {'name':'Reopening - Testing','function':vis.get_testing_24_hours, 'col':5, 'timeseries':'date'},
+    {'name':'Reopening - Weekly','function':vis.get_weekly_new_cases, 'col':5, 'timeseries':'date'},
+
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
+    {'name': 'Test Turn Around Distribution', 'function': vis.get_test_turn_around_distrib, 'col':4},
+    {'name': 'Test Turn Around Time', 'function': vis.get_test_turn_around, 'col':4},
     {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':4},
     {'name': 'Age Trend Outbreak', 'function': vis.get_age_trend_outbreak, 'col':4},
     {'name': 'Age Trend', 'function': vis.get_age_trend, 'col':3},
@@ -47,7 +55,6 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes, 'col':3},
     {'name':'PHU Death','function':vis.get_phudeath, 'col':3, 'timeseries':'date'},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu, 'col':14, 'timeseries':'date'},
-    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
     {'name':'Long-term Care Homes','table':'longtermcare', 'timeseries':'date'},
     {'name':'Predictive Model','table':'predictivemodel', 'timeseries':'date'},
     {'name':'IDEA Model','table':'ideamodel', 'timeseries':'date'},

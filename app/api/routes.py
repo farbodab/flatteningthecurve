@@ -6,10 +6,46 @@ import requests
 from app import db, cache
 from app.models import *
 from app.api import bp
+from app.api import vis
 import pandas as pd
 import io
 import requests
 
+PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
+ 'Brant County Health Unit':'Brant County Health Unit',
+ 'Durham Regional Health Unit':'Durham Region Health Department',
+ 'Grey Bruce Health Unit':'Grey Bruce Health Unit',
+ 'Haldimand-Norfolk Health Unit':'Haldimand-Norfolk Health Unit',
+ 'Haliburton, Kawartha, Pine Ridge District Health Unit':'Haliburton, Kawartha, Pine Ridge District Health Unit',
+ 'Halton Regional Health Unit':'Halton Region Health Department',
+ 'City of Hamilton Health Unit':'Hamilton Public Health Services',
+ 'Hastings and Prince Edward Counties Health Unit':'Hastings and Prince Edward Counties Health Unit',
+ 'Huron County Health Unit':'Huron Perth District Health Unit',
+ 'Chatham-Kent Health Unit':'Chatham-Kent Health Unit',
+ 'Kingston, Frontenac, and Lennox and Addington Health Unit':'Kingston, Frontenac and Lennox & Addington Public Health',
+ 'Lambton Health Unit':'Lambton Public Health',
+ 'Leeds, Grenville and Lanark District Health Unit':'Leeds, Grenville and Lanark District Health Unit',
+ 'Middlesex-London Health Unit':'Middlesex-London Health Unit',
+ 'Niagara Regional Area Health Unit':'Niagara Region Public Health Department',
+ 'North Bay Parry Sound District Health Unit':'North Bay Parry Sound District Health Unit',
+ 'Northwestern Health Unit':'Northwestern Health Unit',
+ 'City of Ottawa Health Unit':'Ottawa Public Health',
+ 'Peel Regional Health Unit':'Peel Public Health',
+ 'Perth District Health Unit':'Huron Perth District Health Unit',
+ 'Peterborough County–City Health Unit':'Peterborough Public Health',
+ 'Porcupine Health Unit':'Porcupine Health Unit',
+ 'Renfrew County and District Health Unit':'Renfrew County and District Health Unit',
+ 'The Eastern Ontario Health Unit':'Eastern Ontario Health Unit',
+ 'Simcoe Muskoka District Health Unit':'Simcoe Muskoka District Health Unit',
+ 'Sudbury and District Health Unit':'Sudbury & District Health Unit',
+ 'Thunder Bay District Health Unit':'Thunder Bay District Health Unit',
+ 'Timiskaming Health Unit':'Timiskaming Health Unit',
+ 'Waterloo Health Unit':'Region of Waterloo, Public Health',
+ 'Wellington-Dufferin-Guelph Health Unit':'Wellington-Dufferin-Guelph Public Health',
+ 'Windsor-Essex County Health Unit':'Windsor-Essex County Health Unit',
+ 'York Regional Health Unit':'York Region Public Health Services',
+ 'Southwestern Public Health Unit':'Southwestern Public Health',
+ 'City of Toronto Health Unit':'Toronto Public Health'}
 
 def get_results():
     items = request.get_json()
@@ -207,6 +243,60 @@ def get_api_team():
         "role": row["role"], "team_status": row["team_status"],
         "linkedin": row["linkedin"]})
     return data
+
+@bp.route('/api/reopening', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_reopening_metrics():
+    weekly_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1053507889")
+    testing_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1206518301")
+    rt_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=428679599")
+    icu_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1132863788")
+
+    data = []
+    for phu_select in PHU:
+        temp_dict = {}
+        temp_dict["phu"] = phu_select
+        temp_dict["tracing"] = "nan"
+
+        if phu_select in ['Windsor-Essex County Health Unit', 'Peel Regional Health Unit', 'City of Toronto Health Unit']:
+            temp_dict["stage"] = "1"
+        else:
+            temp_dict["stage"] = "2"
+
+        temp = weekly_df.loc[weekly_df.PHU == PHU[phu_select]]
+        temp = temp.sort_values('Date')
+        try:
+            temp_dict["weekly"] = str(temp.tail(1)['Cases'].values[0])
+        except:
+            temp_dict["weekly"] = "nan"
+
+        temp = testing_df.loc[testing_df.PHU == PHU[phu_select]]
+        temp = temp.sort_values('Date')
+        temp = temp.dropna(how='any')
+        try:
+            temp_dict["testing"] = str(int(temp.tail(1)['Percentage in 24 hours_7dayrolling'].values[0] * 100))
+        except:
+            temp_dict["testing"] = "nan"
+
+        temp = rt_df.loc[rt_df.PHU == phu_select]
+        temp = temp.sort_values('date')
+        try:
+            temp_dict["rt"] = str(temp.tail(1)['ML'].values[0])
+        except:
+            temp_dict["rt"] = "nan"
+
+        temp = icu_df.loc[icu_df.PHU == phu_select]
+        temp = temp.sort_values('date')
+        try:
+            temp_dict["icu"] = str(int(temp.tail(1)['critical_care_pct'].values[0] * 100))
+        except:
+            temp_dict["icu"] = "nan"
+
+        data.append(temp_dict)
+
+    return data
+
 
 @as_json
 def get_testresults():
