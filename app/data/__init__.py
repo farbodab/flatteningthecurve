@@ -22,6 +22,11 @@ import sys
 
 
 sheetsConfig = [
+    {'name':'Reopening - Rt','function':vis.get_rt, 'col':5, 'timeseries':'date'},
+    {'name':'Reopening - ICU','function':vis.get_icu_bed_occupied, 'col':5, 'timeseries':'date'},
+    {'name':'Reopening - Testing','function':vis.get_testing_24_hours, 'col':5, 'timeseries':'date'},
+    {'name':'Reopening - Weekly','function':vis.get_weekly_new_cases, 'col':5, 'timeseries':'date'},
+
     {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
     {'name': 'Test Turn Around Distribution', 'function': vis.get_test_turn_around_distrib, 'col':4},
     {'name': 'Test Turn Around Time', 'function': vis.get_test_turn_around, 'col':4},

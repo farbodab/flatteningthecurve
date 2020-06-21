@@ -1296,7 +1296,6 @@ def get_test_turn_around_distrib():
     df = df[['test_turn_around']]
     return df
 
-
 def get_weekly_new_cases():
     ont_data = pd.read_sql_table('confirmedontario', db.engine)
     start_date = datetime(2020,1,1)
@@ -1493,7 +1492,7 @@ def get_rt():
         except:
             print(f'error in getting value for f{prov_name}')
 
-    result['PHU'] = results['region']
+    results['PHU'] = results['region']
     return results
 
 def get_icu_bed_occupied():
@@ -1557,15 +1556,3 @@ def get_icu_bed_occupied():
         data = data.append(temp)
 
     return data
-
-@bp.cli.command('open')
-def get_reopening_metrics():
-    weekly_df = get_weekly_new_cases()
-    testing_df = get_testing_24_hours()
-    rt_df = get_rt()
-    icu_df = get_icu_bed_occupied()
-
-    print(weekly_df.head())
-    print(testing_df.head())
-    print(rt_df.head())
-    print(icu_df.head())
