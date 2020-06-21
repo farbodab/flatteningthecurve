@@ -257,6 +257,7 @@ def get_reopening_metrics():
     for phu_select in PHU:
         temp_dict = {}
         temp_dict["phu"] = phu_select
+        temp_dict["tracing"] = "nan"
 
         if phu_select in ['Windsor-Essex County Health Unit', 'Peel Regional Health Unit', 'City of Toronto Health Unit']:
             temp_dict["stage"] = "1"
@@ -268,28 +269,28 @@ def get_reopening_metrics():
         try:
             temp_dict["weekly"] = str(temp.tail(1)['Cases'].values[0])
         except:
-            temp_dict["weekly"] = "NaN"
+            temp_dict["weekly"] = "nan"
 
         temp = testing_df.loc[testing_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
         try:
             temp_dict["testing"] = str(temp.tail(1)['Percentage in 24 hours_7dayrolling'].values[0])
         except:
-            temp_dict["testing"] = "NaN"
+            temp_dict["testing"] = "nan"
 
         temp = rt_df.loc[rt_df.PHU == phu_select]
         temp = temp.sort_values('date')
         try:
             temp_dict["rt"] = str(temp.tail(1)['ML'].values[0])
         except:
-            temp_dict["rt"] = "NaN"
+            temp_dict["rt"] = "nan"
 
         temp = icu_df.loc[icu_df.PHU == phu_select]
         temp = temp.sort_values('date')
         try:
-            temp_dict["icu"] = str(temp.tail(1)['critical_care_pct'].values[0])
+            temp_dict["icu"] = str(int(temp.tail(1)['critical_care_pct'].values[0] * 100))
         except:
-            temp_dict["icu"] = "NaN"
+            temp_dict["icu"] = "nan"
 
         data.append(temp_dict)
 
