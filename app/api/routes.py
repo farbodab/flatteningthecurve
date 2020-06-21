@@ -45,7 +45,8 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Windsor-Essex County Health Unit':'Windsor-Essex County Health Unit',
  'York Regional Health Unit':'York Region Public Health Services',
  'Southwestern Public Health Unit':'Southwestern Public Health',
- 'City of Toronto Health Unit':'Toronto Public Health'}
+ 'City of Toronto Health Unit':'Toronto Public Health',
+ 'Ontario': 'Ontario'}
 
 def get_results():
     items = request.get_json()
