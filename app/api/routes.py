@@ -11,41 +11,41 @@ import pandas as pd
 import io
 import requests
 
-PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
- 'brant_county':'Brant County Health Unit',
- 'durham_regional':'Durham Regional Health Unit',
- 'grey_bruce':'Grey Bruce Health Unit',
- 'haldimand_norfolk':'Haldimand-Norfolk Health Unit',
- 'haliburton_kawartha_pine_ridge_district':'Haliburton, Kawartha, Pine Ridge District Health Unit',
- 'halton_regional':'Halton Regional Health Unit',
- 'city_of_hamilton':'City of Hamilton Health Unit',
- 'hastings_and_prince_edward_counties':'Hastings and Prince Edward Counties Health Unit',
- 'huron_county':'Huron County Health Unit',
- 'chatham_kent':'Chatham-Kent Health Unit',
- 'kingston_frontenac_and_lennox_and_addington':'Kingston, Frontenac, and Lennox and Addington Health Unit',
- 'lambton':'Lambton Health Unit',
- 'leeds_grenville_and_lanark_district':'Leeds, Grenville and Lanark District Health Unit',
- 'middlesex_london':'Middlesex-London Health Unit',
- 'niagara_regional_area':'Niagara Regional Area Health Unit',
- 'north_bay_parry_sound_district':'North Bay Parry Sound District Health Unit',
- 'northwestern':'Northwestern Health Unit',
- 'city_of_ottawa':'City of Ottawa Health Unit',
- 'peel_regional':'Peel Regional Health Unit',
- 'perth_district':'Perth District Health Unit',
- 'peterborough_county_city':'Peterborough County–City Health Unit',
- 'porcupine':'Porcupine Health Unit',
- 'renfrew_county_and_district':'Renfrew County and District Health Unit',
- 'the_eastern_ontario':'The Eastern Ontario Health Unit',
- 'simcoe_muskoka_district':'Simcoe Muskoka District Health Unit',
- 'sudbury_and_district':'Sudbury and District Health Unit',
- 'thunder_bay_district':'Thunder Bay District Health Unit',
- 'timiskaming':'Timiskaming Health Unit',
- 'waterloo':'Waterloo Health Unit',
- 'wellington_dufferin_guelph':'Wellington-Dufferin-Guelph Health Unit',
- 'windsor_essex_county':'Windsor-Essex County Health Unit',
- 'york_regional':'York Regional Health Unit',
- 'southwestern':'Southwestern Public Health Unit',
- 'city_of_toronto':'City of Toronto Health Unit'}
+PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
+ 'Brant County Health Unit':'Brant County Health Unit',
+ 'Durham Regional Health Unit':'Durham Region Health Department',
+ 'Grey Bruce Health Unit':'Grey Bruce Health Unit',
+ 'Haldimand-Norfolk Health Unit':'Haldimand-Norfolk Health Unit',
+ 'Haliburton, Kawartha, Pine Ridge District Health Unit':'Haliburton, Kawartha, Pine Ridge District Health Unit',
+ 'Halton Regional Health Unit':'Halton Region Health Department',
+ 'City of Hamilton Health Unit':'Hamilton Public Health Services',
+ 'Hastings and Prince Edward Counties Health Unit':'Hastings and Prince Edward Counties Health Unit',
+ 'Huron County Health Unit':'Huron Perth District Health Unit',
+ 'Chatham-Kent Health Unit':'Chatham-Kent Health Unit',
+ 'Kingston, Frontenac, and Lennox and Addington Health Unit':'Kingston, Frontenac and Lennox & Addington Public Health',
+ 'Lambton Health Unit':'Lambton Public Health',
+ 'Leeds, Grenville and Lanark District Health Unit':'Leeds, Grenville and Lanark District Health Unit',
+ 'Middlesex-London Health Unit':'Middlesex-London Health Unit',
+ 'Niagara Regional Area Health Unit':'Niagara Region Public Health Department',
+ 'North Bay Parry Sound District Health Unit':'North Bay Parry Sound District Health Unit',
+ 'Northwestern Health Unit':'Northwestern Health Unit',
+ 'City of Ottawa Health Unit':'Ottawa Public Health',
+ 'Peel Regional Health Unit':'Peel Public Health',
+ 'Perth District Health Unit':'Huron Perth District Health Unit',
+ 'Peterborough County–City Health Unit':'Peterborough Public Health',
+ 'Porcupine Health Unit':'Porcupine Health Unit',
+ 'Renfrew County and District Health Unit':'Renfrew County and District Health Unit',
+ 'The Eastern Ontario Health Unit':'Eastern Ontario Health Unit',
+ 'Simcoe Muskoka District Health Unit':'Simcoe Muskoka District Health Unit',
+ 'Sudbury and District Health Unit':'Sudbury & District Health Unit',
+ 'Thunder Bay District Health Unit':'Thunder Bay District Health Unit',
+ 'Timiskaming Health Unit':'Timiskaming Health Unit',
+ 'Waterloo Health Unit':'Region of Waterloo, Public Health',
+ 'Wellington-Dufferin-Guelph Health Unit':'Wellington-Dufferin-Guelph Public Health',
+ 'Windsor-Essex County Health Unit':'Windsor-Essex County Health Unit',
+ 'York Regional Health Unit':'York Region Public Health Services',
+ 'Southwestern Public Health Unit':'Southwestern Public Health',
+ 'City of Toronto Health Unit':'Toronto Public Health'}
 
 def get_results():
     items = request.get_json()
@@ -254,17 +254,23 @@ def get_reopening_metrics():
     icu_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1132863788")
 
     data = []
-    for phu_select in PHU.values():
+    for phu_select in PHU:
         temp_dict = {}
-        temp_dict["PHU"] = phu_select
-        temp = weekly_df.loc[weekly_df.PHU == phu_select]
+        temp_dict["phu"] = phu_select
+
+        if phu_select in ['Windsor-Essex County Health Unit', 'Peel Regional Health Unit', 'City of Toronto Health Unit']:
+            temp_dict["stage"] = "1"
+        else:
+            temp_dict["stage"] = "2"
+
+        temp = weekly_df.loc[weekly_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
         try:
             temp_dict["weekly"] = str(temp.tail(1)['Cases'].values[0])
         except:
             temp_dict["weekly"] = "NaN"
 
-        temp = testing_df.loc[testing_df.PHU == phu_select]
+        temp = testing_df.loc[testing_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
         try:
             temp_dict["testing"] = str(temp.tail(1)['Percentage in 24 hours_7dayrolling'].values[0])
