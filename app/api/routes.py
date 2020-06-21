@@ -273,8 +273,9 @@ def get_reopening_metrics():
 
         temp = testing_df.loc[testing_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
+        temp = temp.dropna(how='any')
         try:
-            temp_dict["testing"] = str(temp.tail(1)['Percentage in 24 hours_7dayrolling'].values[0])
+            temp_dict["testing"] = str(int(temp.tail(1)['Percentage in 24 hours_7dayrolling'].values[0] * 100))
         except:
             temp_dict["testing"] = "nan"
 
