@@ -6,6 +6,7 @@ import requests
 from app import db, cache
 from app.models import *
 from app.api import bp
+from app.api import vis
 import pandas as pd
 import io
 import requests
@@ -207,6 +208,14 @@ def get_api_team():
         "role": row["role"], "team_status": row["team_status"],
         "linkedin": row["linkedin"]})
     return data
+
+@bp.route('/api/reopening', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_reopening_metrics():
+    
+    return thing
+
 
 @as_json
 def get_testresults():

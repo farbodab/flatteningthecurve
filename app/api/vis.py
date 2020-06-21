@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import requests
-from app import db
+from app import db, cache
 from app.models import *
 from app.api import bp
 from app.api.helpers import *
@@ -12,6 +12,7 @@ import requests
 import numpy as np
 from scipy import stats as sps
 from scipy.interpolate import interp1d
+from dateutil import rrule
 
 PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'brant_county':'Brant County Health Unit',
@@ -83,21 +84,6 @@ def get_results():
     df_final = pd.DataFrame(data, columns=['region', 'date', 'value'])
 
     return df_final
-
-'''@bp.route('/covid/results/date', methods=['GET'])
-def get_date():
-    c = Covid.query.filter_by(province="Ontario")
-    df = pd.read_sql(c.statement, db.engine)
-    case_count = df.groupby("date").case_id.count().cumsum().reset_index()
-    case_count = case_count.loc[case_count.case_id > 100]
-    df = df.groupby("date").case_id.count().reset_index()
-    df['case_id'] = df['case_id']*0.05
-    df['case_id'] = df['case_id'].rolling(min_periods=1, window=8).sum()
-    df = df.loc[df.date.isin(case_count.date.values)].reset_index()
-    provines_dict = {}
-    province_dict = df['date'].to_dict()
-    provines_dict["Ontario"] = province_dict
-    return jsonify(provines_dict)'''
 
 def get_phus():
     c = Covid.query.filter_by(province="Ontario")
@@ -795,7 +781,6 @@ def get_top_causes():
     causes_df['Cause'] = causes_df['Cause'].apply(cause_to_friendly)
     return causes_df
 
-
 def get_rt_est():
     # Source Alf Whitehead Kaggle Notebook
     # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
@@ -923,6 +908,7 @@ def get_rt_est():
         except:
             print(f'error in getting value for f{prov_name}')
     return results
+
 
 def get_phudeath():
     c = CanadaMortality.query.filter_by(province="Ontario")
@@ -1309,3 +1295,277 @@ def get_test_turn_around_distrib():
     df['test_turn_around'] = df['test_turn_around'].dt.days
     df = df[['test_turn_around']]
     return df
+
+
+def get_weekly_new_cases():
+    ont_data = pd.read_sql_table('confirmedontario', db.engine)
+    start_date = datetime(2020,1,1)
+    phus = {}
+
+    for phu in set(ont_data["reporting_phu"].values):
+        tmp_data = ont_data[ont_data["reporting_phu"]==phu]
+        tmp_data = tmp_data.groupby(['accurate_episode_date']).count()
+        tmp_data = tmp_data[['id']]
+        tmp_data = tmp_data.reset_index()
+        tmp_data['date_week'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[1])
+        tmp_data['date_year'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[0])
+        #ont_data
+
+        week_count_dict = {}
+        for dtime in rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=date.today()):
+            dt_week = dtime.isocalendar()[1]
+            dt_year = dtime.isocalendar()[0]
+            d = f'{dt_year}-W{dt_week-1}'
+            r = datetime.strptime(d + '-1', "%Y-W%W-%w")
+            week_count_dict[r] = sum(tmp_data[(tmp_data["date_year"]==dt_year)&(tmp_data["date_week"]==dt_week)]["id"].values)
+
+            #print(r, week_count_dict[r])
+        phus[phu] = week_count_dict
+    phu_weekly = pd.DataFrame(phus)
+    phu_weekly = phu_weekly.reset_index()
+    phu_weekly = pd.melt(phu_weekly, id_vars=['index'])
+    phu_weekly = phu_weekly.rename(columns={"index": "Date", "variable": "PHU", "value": "Cases"})
+    return phu_weekly
+
+def get_testing_24_hours():
+    ont_data = pd.read_sql_table('confirmedontario', db.engine)
+    phus = set(ont_data["reporting_phu"].values)
+    #phus = ['Toronto Public Health']
+    # output array
+    output_arrays = {}
+
+    # for each day in year from start date
+    start_date = date(2020, 5, 1)
+    end_date = date.today()
+    delta = timedelta(days=1)
+    while start_date <= end_date:
+        #print (start_date.strftime("%Y-%m-%d"))
+        for phu in phus:
+            tmp = ont_data[(ont_data["reporting_phu"]==phu)&(ont_data["accurate_episode_date"]==np.datetime64(start_date))]
+            counter = 0
+            total = 0
+            for index,row in tmp.iterrows():
+                specimen_reported_date = row["specimen_reported_date"]
+                test_reported_date = row["test_reported_date"]
+                if specimen_reported_date == "nan" or test_reported_date == "nan":
+                    difference = -1 # what do we do when one of the dates is not avaible? I treat it as not less than 24 hours.
+                else:
+                    difference = (test_reported_date-specimen_reported_date).days
+                if difference == 0:
+                    counter += 1
+                total += 1
+            output_arrays[phu] = output_arrays.get(phu,[]) + [[start_date,phu,counter,total]]
+        start_date += delta
+    phu_dfs = []
+    for phu in phus:
+        df = pd.DataFrame(output_arrays[phu], columns=["Date","PHU","Number of Tests Within 24 Hours", "Number of Tests"])
+        df["Percentage in 24 hours"] = df["Number of Tests Within 24 Hours"]/df["Number of Tests"]
+        df['Percentage in 24 hours_7dayrolling'] = df['Percentage in 24 hours'].rolling(7).mean()
+        phu_dfs.append(df)
+    final_dataframe = pd.concat(phu_dfs)
+    return final_dataframe
+
+def get_rt():
+    # Source Alf Whitehead Kaggle Notebook
+    # https://www.kaggle.com/freealf/estimation-of-rt-from-cases
+    cases_df = pd.read_sql_table('covid', db.engine)
+    cases_df = cases_df.loc[cases_df.province == 'Ontario']
+    replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
+    "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+     "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+     "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+      "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
+      "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
+      "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+      "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
+      "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+      "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit", "Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
+      "Thunder Bay": "Thunder Bay District Health Unit", "Southwestern":"Southwestern Public Health Unit"}
+
+    cases_df.region = cases_df.region.replace(replace)
+    cases_df['date'] = pd.to_datetime(cases_df['date'])
+    province_df = cases_df.groupby(['province', 'date'])['id'].count()
+    province_df.index.rename(['region', 'date'], inplace=True)
+    hr_df = cases_df.groupby(['region', 'date'])['id'].count()
+    canada_df = pd.concat((province_df, hr_df))
+
+    def prepare_cases(cases):
+        # modification - Isha Berry et al.'s data already come in daily
+        #new_cases = cases.diff()
+        new_cases = cases
+
+        smoothed = new_cases.rolling(7,
+            win_type='gaussian',
+            min_periods=1,
+            # Alf: switching to right-aligned instead of centred to prevent leakage of
+            # information from the future
+            #center=True).mean(std=2).round()
+            center=False).mean(std=2).round()
+
+        zeros = smoothed.index[smoothed.eq(0)]
+        if len(zeros) == 0:
+            idx_start = 0
+        else:
+            last_zero = zeros.max()
+            idx_start = smoothed.index.get_loc(last_zero) + 1
+        smoothed = smoothed.iloc[idx_start:]
+        original = new_cases.loc[smoothed.index]
+        return original, smoothed
+
+    # We create an array for every possible value of Rt
+    R_T_MAX = 12
+    r_t_range = np.linspace(0, R_T_MAX, R_T_MAX*100+1)
+
+    # Gamma is 1/serial interval
+    # https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article
+    GAMMA = 1/4
+
+    def get_posteriors(sr, window=7, min_periods=1):
+        lam = sr[:-1].values * np.exp(GAMMA * (r_t_range[:, None] - 1))
+
+        # Note: if you want to have a Uniform prior you can use the following line instead.
+        # I chose the gamma distribution because of our prior knowledge of the likely value
+        # of R_t.
+
+        # prior0 = np.full(len(r_t_range), np.log(1/len(r_t_range)))
+        prior0 = np.log(sps.gamma(a=3).pdf(r_t_range) + 1e-14)
+
+        likelihoods = pd.DataFrame(
+            # Short-hand way of concatenating the prior and likelihoods
+            data = np.c_[prior0, sps.poisson.logpmf(sr[1:].values, lam)],
+            index = r_t_range,
+            columns = sr.index)
+
+        # Perform a rolling sum of log likelihoods. This is the equivalent
+        # of multiplying the original distributions. Exponentiate to move
+        # out of log.
+        posteriors = likelihoods.rolling(window,
+                                         axis=1,
+                                         min_periods=min_periods).sum()
+        posteriors = np.exp(posteriors)
+
+        # Normalize to 1.0
+        posteriors = posteriors.div(posteriors.sum(axis=0), axis=1)
+
+        return posteriors
+
+    def highest_density_interval(pmf, p=.95):
+        # If we pass a DataFrame, just call this recursively on the columns
+        if(isinstance(pmf, pd.DataFrame)):
+            return pd.DataFrame([highest_density_interval(pmf[col]) for col in pmf],
+                                index=pmf.columns)
+
+        cumsum = np.cumsum(pmf.values)
+        best = None
+        for i, value in enumerate(cumsum):
+            for j, high_value in enumerate(cumsum[i+1:]):
+                if (high_value-value > p) and (not best or j<best[1]-best[0]):
+                    best = (i, i+j+1)
+                    break
+
+        low = pmf.index[best[0]]
+        high = pmf.index[best[1]]
+        return pd.Series([low, high], index=['Low', 'High'])
+
+
+    target_regions = []
+    for reg, cases in canada_df.groupby(level='region'):
+        if cases.max() >= 30:
+            target_regions.append(reg)
+    provinces_to_process = canada_df.loc[target_regions]
+
+    results = None
+    for prov_name, cases in provinces_to_process.groupby(level='region'):
+        try:
+            new, smoothed = prepare_cases(cases)
+            try:
+                posteriors = get_posteriors(smoothed)
+            except Exception as e:
+                print(e)
+                continue
+            hdis = highest_density_interval(posteriors)
+            most_likely = posteriors.idxmax().rename('ML')
+            result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['region', 'date'])
+            if results is None:
+                results = result
+            else:
+                results = results.append(result)
+        except:
+            print(f'error in getting value for f{prov_name}')
+
+    result['PHU'] = results['region']
+    return results
+
+def get_icu_bed_occupied():
+
+    df = pd.read_sql_table('icucapacity', db.engine)
+
+    replace = {"1. ESC":"Erie St. Clair", "2. SW": "South West", "3. WW": "Waterloo Wellington", "4. HNHB": "Hamilton Niagara Haldimand Brant", "5. CW": "Central West", "6. MH": "Mississauga Halton", "7. TC": "Toronto Central", "8. Central": "Central", "9. CE": "Central East", "10. SE": "South East", "11. Champlain": "Champlain", "12. NSM": "North Simcoe Muskoka", "13. NE": "North East", "14. NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+    replace = {"L1: ESC":"Erie St. Clair", "L2: SW": "South West", "L3: WW": "Waterloo Wellington", "L4: HNHB": "Hamilton Niagara Haldimand Brant", "L5: CW": "Central West", "L6: MH": "Mississauga Halton", "L7: Toronto": "Toronto Central", "L8: Central": "Central", "L9: CE": "Central East", "L10: SE": "South East", "L11: Champlain": "Champlain", "L12: NSM": "North Simcoe Muskoka", "L13: NE": "North East", "L14: NW": "North West"}
+    df.lhin = df.lhin.replace(replace)
+
+    mapping = {
+           "The District of Algoma Health Unit": ["North East"],
+           "Brant County Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "Durham Regional Health Unit": ["Central East"],
+           "Grey Bruce Health Unit": ["South West"],
+           "Haldimand-Norfolk Health Unit": ["Hamilton Niagara Haldimand Brant", "South West"],
+           "Haliburton, Kawartha, Pine Ridge District Health Unit": ["Central East"],
+           "Halton Regional Health Unit": ["Mississauga Halton", "Hamilton Niagara Haldimand Brant"],
+           "City of Hamilton Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "Hastings and Prince Edward Counties Health Unit": ["South East"],
+           "Huron County Health Unit": ["South West"],
+           "Chatham-Kent Health Unit": ["Erie St. Clair"],
+           "Kingston, Frontenac, and Lennox and Addington Health Unit": ["South East"],
+           "Lambton Health Unit": ["Erie St. Clair"],
+           "Leeds, Grenville and Lanark District Health Unit": ["South East", "Champlain"],
+           "Middlesex-London Health Unit": ["South West"],
+           "Niagara Regional Area Health Unit": ["Hamilton Niagara Haldimand Brant"],
+           "North Bay Parry Sound District Health Unit": ["North East"],
+           "Northwestern Health Unit": ["North West"],
+           "City of Ottawa Health Unit": ["Champlain"],
+           "Peel Regional Health Unit": ["Central West", "Mississauga Halton"],
+           "Perth District Health Unit": ["South West"],
+           "Peterborough County–City Health Unit": ["Central East"],
+           "Porcupine Health Unit": ["North East"],
+           "Renfrew County and District Health Unit": ["North East","Champlain"],
+           "The Eastern Ontario Health Unit": ["Champlain"],
+           "Simcoe Muskoka District Health Unit": ["North Simcoe Muskoka"],
+           "Sudbury and District Health Unit": ["North East"],
+           "Thunder Bay District Health Unit": ["North West"],
+           "Timiskaming Health Unit": ["North East"],
+           "Waterloo Health Unit": ["Waterloo Wellington"],
+           "Wellington-Dufferin-Guelph Health Unit": ["Waterloo Wellington", "Central West"],
+           "Windsor-Essex County Health Unit": ["Erie St. Clair"],
+           "York Regional Health Unit": ["Central"],
+           "Southwestern Public Health Unit": ["South West"],
+           "City of Toronto Health Unit": ["Toronto Central", "Central East", "Central"]
+           }
+
+    df = df.groupby(['date', 'lhin']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
+
+    df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
+
+    data = pd.DataFrame(columns=['date','critical_care_pct','PHU'])
+    for item in mapping:
+        temp = df.loc[df.lhin.isin(mapping[item])].groupby(['date']).sum().reset_index()
+        temp['PHU'] = item
+        temp = temp[['date', 'critical_care_pct', 'PHU']]
+        data = data.append(temp)
+
+    return data
+
+@bp.cli.command('open')
+def get_reopening_metrics():
+    weekly_df = get_weekly_new_cases()
+    testing_df = get_testing_24_hours()
+    rt_df = get_rt()
+    icu_df = get_icu_bed_occupied()
+
+    print(weekly_df.head())
+    print(testing_df.head())
+    print(rt_df.head())
+    print(icu_df.head())
