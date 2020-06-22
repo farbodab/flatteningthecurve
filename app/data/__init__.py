@@ -22,6 +22,8 @@ import sys
 
 
 sheetsConfig = [
+    {'name':'Jobs Data','function':vis.get_job_data, 'col':5, 'timeseries':'date'},
+
     {'name':'Reopening - ICU','function':vis.get_icu_bed_occupied, 'col':5, 'timeseries':'date'},
     {'name':'Reopening - Testing','function':vis.get_testing_24_hours, 'col':5, 'timeseries':'date'},
     {'name':'Reopening - Weekly','function':vis.get_weekly_new_cases, 'col':5, 'timeseries':'date'},

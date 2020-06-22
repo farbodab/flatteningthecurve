@@ -1122,8 +1122,11 @@ def getnpiusa():
     return
 
 def getjobsdata():
+    print('jobs data being refreshed')
     df = pd.read_csv('industry_weekly_2020.csv')
     for index, row in df.iterrows():
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
         w = WeeklyJobPosting.query.filter_by(country=row['country'], geography=row['geography'], group_name=row['group_name'], start_date=row['start_date']).first()
         if not w:
             w = WeeklyJobPosting()
