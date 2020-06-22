@@ -1599,3 +1599,11 @@ def get_icu_bed_occupied():
     data = data.append(temp)
 
     return data
+
+def get_job_data():
+    df = pd.read_sql_table('weeklyjobposting', db.engine)
+    df = df.loc[df.geography == 'Ontario']
+    df['job_postings_count'] = df['job_postings_count'].astype(int)
+    df = df.groupby(['end_date', 'group_name']).job_postings_count.mean().reset_index()
+
+    return df
