@@ -379,3 +379,17 @@ class ConfirmedOntario(db.Model):
     reporting_phu_website = db.Column(db.String)
     reporting_phu_latitude = db.Column(db.String)
     reporting_phu_longitude = db.Column(db.String)
+
+class WeeklyJobPosting(db.Model):
+    __tablename__ = 'weeklyjobposting'
+    id = db.Column(db.Integer, primary_key=True)
+    country_code = db.Column(db.String)
+    country = db.Column(db.String)
+    geography = db.Column(db.String)
+    geography_type = db.Column(db.String)
+    geography_code = db.Column(db.String)
+    group_name = db.Column(db.String)
+    start_date = db.Column(db.DateTime, index=True)
+    end_date = db.Column(db.DateTime, index=True)
+    job_postings_count = db.Column(db.String)
+    population = db.Column(db.String)
