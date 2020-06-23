@@ -1320,6 +1320,25 @@ def get_weekly_new_cases():
 
             #print(r, week_count_dict[r])
         phus[phu] = week_count_dict
+
+    tmp_data = ont_data
+    tmp_data = tmp_data.groupby(['accurate_episode_date']).count()
+    tmp_data = tmp_data[['id']]
+    tmp_data = tmp_data.reset_index()
+    tmp_data['date_week'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[1])
+    tmp_data['date_year'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[0])
+    #ont_data
+
+    week_count_dict = {}
+    for dtime in rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=date.today()):
+        dt_week = dtime.isocalendar()[1]
+        dt_year = dtime.isocalendar()[0]
+        d = f'{dt_year}-W{dt_week-1}'
+        r = datetime.strptime(d + '-1', "%Y-W%W-%w")
+        week_count_dict[r] = sum(tmp_data[(tmp_data["date_year"]==dt_year)&(tmp_data["date_week"]==dt_week)]["id"].values)
+
+        #print(r, week_count_dict[r])
+    phus["Ontario"] = week_count_dict
     phu_weekly = pd.DataFrame(phus)
     phu_weekly = phu_weekly.reset_index()
     phu_weekly = pd.melt(phu_weekly, id_vars=['index'])
@@ -1354,7 +1373,22 @@ def get_testing_24_hours():
                     counter += 1
                 total += 1
             output_arrays[phu] = output_arrays.get(phu,[]) + [[start_date,phu,counter,total]]
+        tmp = ont_data[(ont_data["accurate_episode_date"]==np.datetime64(start_date))]
+        counter = 0
+        total = 0
+        for index,row in tmp.iterrows():
+            specimen_reported_date = row["specimen_reported_date"]
+            test_reported_date = row["test_reported_date"]
+            if specimen_reported_date == "nan" or test_reported_date == "nan":
+                difference = -1 # what do we do when one of the dates is not avaible? I treat it as not less than 24 hours.
+            else:
+                difference = (test_reported_date-specimen_reported_date).days
+            if difference == 0:
+                counter += 1
+            total += 1
+        output_arrays["Ontario"] = output_arrays.get("Ontario",[]) + [[start_date,"Ontario",counter,total]]
         start_date += delta
+    phus.add("Ontario")
     phu_dfs = []
     for phu in phus:
         df = pd.DataFrame(output_arrays[phu], columns=["Date","PHU","Number of Tests Within 24 Hours", "Number of Tests"])
@@ -1555,4 +1589,21 @@ def get_icu_bed_occupied():
         temp = temp[['date', 'critical_care_pct', 'PHU']]
         data = data.append(temp)
 
+    df = pd.read_sql_table('icucapacity', db.engine)
+    df = df.groupby(['date']).sum().reset_index()
+    df = df.drop(['id'],axis=1)
+    df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
+    temp = df
+    temp['PHU'] = "Ontario"
+    temp = temp[['date', 'critical_care_pct', 'PHU']]
+    data = data.append(temp)
+
     return data
+
+def get_job_data():
+    df = pd.read_sql_table('weeklyjobposting', db.engine)
+    df = df.loc[df.geography == 'Ontario']
+    df['job_postings_count'] = df['job_postings_count'].astype(int)
+    df = df.groupby(['end_date', 'group_name']).job_postings_count.mean().reset_index()
+
+    return df
