@@ -362,8 +362,10 @@ def capacity():
 def cases():
     # Data source Open Data Collab
     url = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"
+    cases = {case.case_id:case for case in Covid.query.all()}
     s=requests.get(url).content
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    to_add = []
     print('canada case data being refreshed')
     for index, row in df.iterrows():
         if (index % 100) == 0:
@@ -379,12 +381,11 @@ def cases():
         date = datetime.strptime(date,"%d-%m-%Y")
         travel = row['travel_yn']
         travelh = row['travel_history_country']
-        c = Covid.query.filter_by(case_id=case_id).first()
-        if not c:
+        if case_id not in cases:
             c = Covid(case_id=case_id, age=age, sex=sex, region=region, province=province, country=country, date=date, travel=travel, travelh=travelh)
-            db.session.add(c)
-            db.session.commit()
+            to_add.append(c)
         else:
+            c = cases.get(case_id)
             if not all((
                 (c.age == age),
                 (c.sex == sex),
@@ -403,8 +404,11 @@ def cases():
                 c.date = date
                 c.travel = travel
                 c.travelh = travelh
-                db.session.add(c)
-                db.session.commit()
+                to_add.append(c)
+
+    print("to add {} records".format(len(to_add)))
+    db.session.add_all(to_add)
+    db.session.commit
     return
 
 def getcanadamortality():
@@ -641,18 +645,22 @@ def getgovernmentresponse():
     df = pd.read_csv(io.StringIO(s.decode('utf-8')))
     df['Date'] = pd.to_datetime(df.Date,format="%Y%m%d")
     df = df.fillna(sql.null())
+    gov_responses = {(gr.date,gr.country):gr for gr in GovernmentResponse.query.all()}
+    to_add = []
 
     print('international npi data being refreshed')
     for index, row in df.iterrows():
         if (index % 100) == 0:
             print(f'{index} / {df.tail(1).index.values[0]} passed')
-        g = GovernmentResponse.query.filter_by(date=row["Date"], country=row["CountryName"]).first()
-        if not g:
+        if (row["Date"],row["CountryName"]) not in gov_responses:
             g = GovernmentResponse()
             for header in field_map.keys():
                 setattr(g,field_map[header],row[header])
-            db.session.add(g)
-            db.session.commit()
+            to_add.append(g)
+
+    print("to add {} records".format(len(to_add)))
+    db.session.add_all(to_add)
+    db.session.commit()
     return
 
 def getlongtermcare():
