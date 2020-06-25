@@ -12,6 +12,8 @@ from app.tools.pdfparse import extract
 from datetime import datetime
 import time
 import sys
+from ftplib import FTP_TLS
+import os
 
 # TO ADD NEW DATA
 # 1. Add function in routes.py
@@ -58,6 +60,7 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes, 'col':3},
     {'name':'PHU Death','function':vis.get_phudeath, 'col':3, 'timeseries':'date'},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu, 'col':14, 'timeseries':'date'},
+    {'name':'Duration Percentiles', 'function':vis.get_duration_percentiles, 'col':21},
     {'name':'Long-term Care Homes','table':'longtermcare', 'timeseries':'date'},
     {'name':'Predictive Model','table':'predictivemodel', 'timeseries':'date'},
     {'name':'IDEA Model','table':'ideamodel', 'timeseries':'date'},
@@ -290,6 +293,20 @@ def getontario_faster():
 @bp.cli.command('burning-glass')
 def get_jobs_data():
     routes.getjobsdata()
+
+@bp.cli.command('ftp')
+def get_jobs_data():
+    ftp = FTP_TLS('ontario.files.com',timeout=10)
+    ftp.login(user=os.environ['211_username'], passwd=os.environ['211_password'])
+    ftp.cwd('/211projects/BensTeam')
+    ftp.prot_p()
+    files = ftp.nlst()
+    for filename in files:
+        if not os.path.isfile('211_data/'+filename):
+            print(f"Getting file {filename}")
+            ftp.retrbinary("RETR " + filename ,open('211_data/'+filename, 'wb').write)
+    ftp.quit()
+    return 'Done'
 
 # Required for pytest don't change
 @bp.cli.command('test')
