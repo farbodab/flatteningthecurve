@@ -1647,5 +1647,4 @@ def get_duration_percentiles():
     for cm in combo_metrics:
         sentinel_delay_df[cm] = sentinel_delay_df[cm].apply(correct_sentinel)
 
-    data = latest_sentinel[latest_sentinel['accurate_episode_date']>=pd.to_datetime('2020-03-01')].groupby('reporting_phu')[metrics].quantile([0.5, 0.9, 0.95, 1.0]).unstack().applymap(correct_sentinel)
-    return data
+    return sentinel_delay_df
