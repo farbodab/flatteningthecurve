@@ -1635,7 +1635,6 @@ def get_duration_percentiles():
         for m in metrics:
             for p in percentiles:
                 sentinel_delay_df.loc[crd, '%s_%d' % (m, p)] = grp[m].quantile(p/100)
-    sentinel_delay_df.tail()
 
     def correct_sentinel(val_in_days):
         # if it's off by more than 2 years, it's due to missing data
@@ -1647,4 +1646,5 @@ def get_duration_percentiles():
     for cm in combo_metrics:
         sentinel_delay_df[cm] = sentinel_delay_df[cm].apply(correct_sentinel)
 
+    sentinel_delay_df = sentinel_delay_df.reset_index().rename(columns={'index':'date'})
     return sentinel_delay_df
