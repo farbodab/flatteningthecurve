@@ -15,7 +15,7 @@ parameters:
   - name: APP_HOST
     description: The name of the Route
     displayName: Application Route
-    required: true    
+    required: true
 objects:
 - apiVersion: v1
   kind: ImageStream
@@ -51,6 +51,10 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           image: ${APP_NAME}
+          volumes:
+          - name: iphis-data
+            persistentVolumeClaim:
+              claimName: jupyterhub-shared-data-secret-iphis
           imagePullPolicy: IfNotPresent
           name: ${APP_NAME}
           ports:

@@ -1615,7 +1615,7 @@ def get_duration_percentiles():
     metrics = ['Episode_to_Report', 'Episode_to_Specimen', 'Specimen_to_Result', 'Result_to_Report']
     percentiles = [50,80,90,95,99]
     combo_metrics = ['%s_%d' % (m, p) for m in metrics for p in percentiles]
-    
+
     latest_sentinel = pd.read_sql_table('confirmedontario', db.engine)
     latest_date = latest_sentinel[DATE_FIELDS].max().max()
 
@@ -1647,4 +1647,5 @@ def get_duration_percentiles():
         sentinel_delay_df[cm] = sentinel_delay_df[cm].apply(correct_sentinel)
 
     sentinel_delay_df = sentinel_delay_df.reset_index().rename(columns={'index':'date'})
-    return sentinel_delay_df
+    df = pd.melt(sentinel_delay_df, id_vars=['date'])
+    return df
