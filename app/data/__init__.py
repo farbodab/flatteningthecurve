@@ -24,6 +24,8 @@ import os
 
 
 sheetsConfig = [
+    {'name':'Duration Percentiles', 'function':vis.get_duration_percentiles, 'col':21},
+
     {'name':'Jobs Data','function':vis.get_job_data, 'col':5, 'timeseries':'date'},
 
     {'name':'Reopening - ICU','function':vis.get_icu_bed_occupied, 'col':5, 'timeseries':'date'},
@@ -60,7 +62,6 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes, 'col':3},
     {'name':'PHU Death','function':vis.get_phudeath, 'col':3, 'timeseries':'date'},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu, 'col':14, 'timeseries':'date'},
-    {'name':'Duration Percentiles', 'function':vis.get_duration_percentiles, 'col':21},
     {'name':'Long-term Care Homes','table':'longtermcare', 'timeseries':'date'},
     {'name':'Predictive Model','table':'predictivemodel', 'timeseries':'date'},
     {'name':'IDEA Model','table':'ideamodel', 'timeseries':'date'},
