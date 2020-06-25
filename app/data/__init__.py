@@ -58,6 +58,7 @@ sheetsConfig = [
     {'name':'Top Causes','function':vis.get_top_causes, 'col':3},
     {'name':'PHU Death','function':vis.get_phudeath, 'col':3, 'timeseries':'date'},
     {'name':'PHU ICU Capacity','function':vis.get_icu_capacity_phu, 'col':14, 'timeseries':'date'},
+    {'name':'Duration Percentiles', 'function':vis.get_duration_percentiles, 'col':17},
     {'name':'Long-term Care Homes','table':'longtermcare', 'timeseries':'date'},
     {'name':'Predictive Model','table':'predictivemodel', 'timeseries':'date'},
     {'name':'IDEA Model','table':'ideamodel', 'timeseries':'date'},

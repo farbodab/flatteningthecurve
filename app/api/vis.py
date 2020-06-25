@@ -1607,3 +1607,45 @@ def get_job_data():
     df = df.groupby(['end_date', 'group_name']).job_postings_count.mean().reset_index()
 
     return df
+
+def get_duration_percentiles():
+    # Author: Alf Whitehead https://www.kaggle.com/freealf/ontario-covid-19-duration-descriptive-stats
+
+    DATE_FIELDS = ['accurate_episode_date','case_reported_date','test_reported_date','specimen_reported_date']
+    metrics = ['Episode_to_Report', 'Episode_to_Specimen', 'Specimen_to_Result', 'Result_to_Report']
+    percentiles = [50,80,90,95,100]
+    combo_metrics = ['%s_%d' % (m, p) for m in metrics for p in percentiles]
+    
+    latest_sentinel = pd.read_sql_table('confirmedontario', db.engine)
+    latest_date = latest_sentinel[DATE_FIELDS].max().max()
+
+    # Correct for missing dates
+    sentinel_date = pd.Timestamp.max
+    for d_f in DATE_FIELDS:
+        latest_sentinel[d_f] = latest_sentinel[d_f].fillna(sentinel_date)
+
+    # Compute percentiles
+    latest_sentinel['Episode_to_Report'] = (latest_sentinel['case_reported_date'] - latest_sentinel['accurate_episode_date']).dt.days
+    latest_sentinel['Episode_to_Specimen'] = (latest_sentinel['specimen_reported_date'] - latest_sentinel['accurate_episode_date']).dt.days
+    latest_sentinel['Specimen_to_Result'] = (latest_sentinel['test_reported_date'] - latest_sentinel['specimen_reported_date']).dt.days
+    latest_sentinel['Result_to_Report'] = (latest_sentinel['case_reported_date'] - latest_sentinel['test_reported_date']).dt.days
+
+    sentinel_delay_df = pd.DataFrame(index=pd.date_range('2020-03-01', latest_date), columns=combo_metrics)
+    for crd, grp in latest_sentinel[latest_sentinel['accurate_episode_date']>=pd.to_datetime('2020-03-01')].groupby('case_reported_date'):
+        for m in metrics:
+            for p in percentiles:
+                sentinel_delay_df.loc[crd, '%s_%d' % (m, p)] = grp[m].quantile(p/100)
+    sentinel_delay_df.tail()
+
+    def correct_sentinel(val_in_days):
+        # if it's off by more than 2 years, it's due to missing data
+        if (val_in_days > 730) or (val_in_days < -730):
+            return np.nan
+        else:
+            return val_in_days
+
+    for cm in combo_metrics:
+        sentinel_delay_df[cm] = sentinel_delay_df[cm].apply(correct_sentinel)
+
+    data = latest_sentinel[latest_sentinel['accurate_episode_date']>=pd.to_datetime('2020-03-01')].groupby('reporting_phu')[metrics].quantile([0.5, 0.9, 0.95, 1.0]).unstack().applymap(correct_sentinel)
+    return data

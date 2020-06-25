@@ -9,7 +9,7 @@ from app.export import sheetsHelper
 
 outofdate_threshold = 2
 
-configs = [x for x in sheetsConfig]
+configs = [x for x in sheetsConfig if 'col' in x]
 @pytest.mark.parametrize('config', configs)
 def test_google_basic(test_client, config):
     name = config['name']
