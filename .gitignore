@@ -7,6 +7,7 @@ __pycache__/
 *.so
 
 open_data/
+/211_data
 
 # Distribution / packaging
 .Python
