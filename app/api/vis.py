@@ -1613,7 +1613,7 @@ def get_duration_percentiles():
 
     DATE_FIELDS = ['accurate_episode_date','case_reported_date','test_reported_date','specimen_reported_date']
     metrics = ['Episode_to_Report', 'Episode_to_Specimen', 'Specimen_to_Result', 'Result_to_Report']
-    percentiles = [50,80,90,95,100]
+    percentiles = [50,80,90,95,99]
     combo_metrics = ['%s_%d' % (m, p) for m in metrics for p in percentiles]
     
     latest_sentinel = pd.read_sql_table('confirmedontario', db.engine)
