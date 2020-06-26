@@ -56,7 +56,7 @@ objects:
                 fieldPath: metadata.namespace
           image: ${APP_NAME}
           volumeMounts:
-          - mountPath: "/opt/app-root/app"
+          - mountPath: "/opt/app-root/app/iphis"
             name: jupyterhub-shared-data-secret-iphis
           imagePullPolicy: IfNotPresent
           name: ${APP_NAME}
