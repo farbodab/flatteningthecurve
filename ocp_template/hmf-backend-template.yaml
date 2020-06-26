@@ -44,6 +44,10 @@ objects:
         labels:
           app: ${APP_NAME}
       spec:
+        volumes:
+        - name: jupyterhub-shared-data-secret-iphis
+          persistentVolumeClaim:
+            claimName: jupyterhub-shared-data-secret-iphis
         containers:
         - env:
           - name: KUBERNETES_NAMESPACE
@@ -51,10 +55,6 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           image: ${APP_NAME}
-          volumes:
-          - name: jupyterhub-shared-data-secret-iphis
-            persistentVolumeClaim:
-              claimName: jupyterhub-shared-data-secret-iphis
           volumeMounts:
           - mountPath: "/opt/app-root/app"
             name: jupyterhub-shared-data-secret-iphis
