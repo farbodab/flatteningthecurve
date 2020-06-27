@@ -139,6 +139,15 @@ def getontario():
     routes.getideamodel()
     print('Ontario data refreshed')
 
+@bp.cli.command('moh')
+def getmoh():
+    routes.iphis()
+    routes.ccso()
+
+@bp.cli.command('out')
+def getdataout():
+    routes.out()
+
 @bp.cli.command('pred')
 def getpred():
     print('Predictive plots refreshed')

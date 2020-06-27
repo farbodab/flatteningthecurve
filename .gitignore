@@ -6,8 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-open_data/
-/211_data
+/data
 
 # Distribution / packaging
 .Python
