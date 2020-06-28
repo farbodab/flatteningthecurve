@@ -1,0 +1,766 @@
+country_code,country,geography_code,geography,geography_type,group_code,group_name,group_type,start_date,end_date,job_postings_count,population
+AU,Australia,,Adelaide,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,2705,1345777.0
+AU,Australia,,Adelaide,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,3083,1345777.0
+AU,Australia,,Adelaide,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,2518,1345777.0
+AU,Australia,,Adelaide,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,1837,1345777.0
+AU,Australia,,Adelaide,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,1991,1345777.0
+AU,Australia,,Brisbane,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,6561,2462637.0
+AU,Australia,,Brisbane,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,9315,2462637.0
+AU,Australia,,Brisbane,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,10694,2462637.0
+AU,Australia,,Brisbane,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,5295,2462637.0
+AU,Australia,,Brisbane,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,5026,2462637.0
+AU,Australia,,Melbourne,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,14657,4963349.0
+AU,Australia,,Melbourne,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,17729,4963349.0
+AU,Australia,,Melbourne,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,13161,4963349.0
+AU,Australia,,Melbourne,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,8610,4963349.0
+AU,Australia,,Melbourne,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,8420,4963349.0
+AU,Australia,,Perth,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,5227,2059484.0
+AU,Australia,,Perth,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,6051,2059484.0
+AU,Australia,,Perth,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,4895,2059484.0
+AU,Australia,,Perth,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,3418,2059484.0
+AU,Australia,,Perth,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,3992,2059484.0
+AU,Australia,,Sydney,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,20392,5230330.0
+AU,Australia,,Sydney,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,25525,5230330.0
+AU,Australia,,Sydney,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,19545,5230330.0
+AU,Australia,,Sydney,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,15984,5230330.0
+AU,Australia,,Sydney,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,12866,5230330.0
+AU,Australia,AU,Australia,Nationwide,Total,Total,Total,2020-01-01,2020-01-31,75712,24992860.0
+AU,Australia,AU,Australia,Nationwide,Total,Total,Total,2020-02-01,2020-02-29,93559,24992860.0
+AU,Australia,AU,Australia,Nationwide,Total,Total,Total,2020-03-01,2020-03-31,78944,24992860.0
+AU,Australia,AU,Australia,Nationwide,Total,Total,Total,2020-04-01,2020-04-30,56674,24992860.0
+AU,Australia,AU,Australia,Nationwide,Total,Total,Total,2020-05-01,2020-05-31,56545,24992860.0
+AU,Australia,AU-ACT,Australian Capital Territory,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,3754,420960.0
+AU,Australia,AU-ACT,Australian Capital Territory,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,4919,420960.0
+AU,Australia,AU-ACT,Australian Capital Territory,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,3914,420960.0
+AU,Australia,AU-ACT,Australian Capital Territory,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,3311,420960.0
+AU,Australia,AU-ACT,Australian Capital Territory,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,3695,420960.0
+AU,Australia,AU-NSW,New South Wales,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,26599,7988241.0
+AU,Australia,AU-NSW,New South Wales,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,32861,7988241.0
+AU,Australia,AU-NSW,New South Wales,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,26215,7988241.0
+AU,Australia,AU-NSW,New South Wales,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,21469,7988241.0
+AU,Australia,AU-NSW,New South Wales,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,18481,7988241.0
+AU,Australia,AU-NT,Northern Territory,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,1165,247327.0
+AU,Australia,AU-NT,Northern Territory,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,1371,247327.0
+AU,Australia,AU-NT,Northern Territory,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,1137,247327.0
+AU,Australia,AU-NT,Northern Territory,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,1005,247327.0
+AU,Australia,AU-NT,Northern Territory,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,1145,247327.0
+AU,Australia,AU-QLD,Queensland,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,12544,5011216.0
+AU,Australia,AU-QLD,Queensland,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,17347,5011216.0
+AU,Australia,AU-QLD,Queensland,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,19141,5011216.0
+AU,Australia,AU-QLD,Queensland,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,10877,5011216.0
+AU,Australia,AU-QLD,Queensland,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,11908,5011216.0
+AU,Australia,AU-SA,South Australia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,3337,1736422.0
+AU,Australia,AU-SA,South Australia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,3952,1736422.0
+AU,Australia,AU-SA,South Australia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,3354,1736422.0
+AU,Australia,AU-SA,South Australia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,2550,1736422.0
+AU,Australia,AU-SA,South Australia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,2723,1736422.0
+AU,Australia,AU-TAS,Tasmania,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,1089,528201.0
+AU,Australia,AU-TAS,Tasmania,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,1281,528201.0
+AU,Australia,AU-TAS,Tasmania,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,1371,528201.0
+AU,Australia,AU-TAS,Tasmania,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,1018,528201.0
+AU,Australia,AU-TAS,Tasmania,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,1044,528201.0
+AU,Australia,AU-VIC,Victoria,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,20320,6460675.0
+AU,Australia,AU-VIC,Victoria,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,23867,6460675.0
+AU,Australia,AU-VIC,Victoria,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,17214,6460675.0
+AU,Australia,AU-VIC,Victoria,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,11542,6460675.0
+AU,Australia,AU-VIC,Victoria,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,11826,6460675.0
+AU,Australia,AU-WA,Western Australia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,6904,2595192.0
+AU,Australia,AU-WA,Western Australia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,7960,2595192.0
+AU,Australia,AU-WA,Western Australia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,6597,2595192.0
+AU,Australia,AU-WA,Western Australia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,4901,2595192.0
+AU,Australia,AU-WA,Western Australia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,5723,2595192.0
+CA,Canada,825,Calgary,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,5834,1514723.0
+CA,Canada,825,Calgary,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,5704,1514723.0
+CA,Canada,825,Calgary,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,4705,1514723.0
+CA,Canada,825,Calgary,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,2783,1514723.0
+CA,Canada,825,Calgary,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,4338,1514723.0
+CA,Canada,835,Edmonton,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,5744,1447143.0
+CA,Canada,835,Edmonton,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,6154,1447143.0
+CA,Canada,835,Edmonton,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,5061,1447143.0
+CA,Canada,835,Edmonton,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,2856,1447143.0
+CA,Canada,835,Edmonton,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,5010,1447143.0
+CA,Canada,462,Montreal,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,11540,4318505.0
+CA,Canada,462,Montreal,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,12138,4318505.0
+CA,Canada,462,Montreal,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,7808,4318505.0
+CA,Canada,462,Montreal,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,5021,4318505.0
+CA,Canada,462,Montreal,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,5500,4318505.0
+CA,Canada,505,Ottawa - Gatineau,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,4324,1441118.0
+CA,Canada,505,Ottawa - Gatineau,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,4509,1441118.0
+CA,Canada,505,Ottawa - Gatineau,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,3795,1441118.0
+CA,Canada,505,Ottawa - Gatineau,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,2358,1441118.0
+CA,Canada,505,Ottawa - Gatineau,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,3304,1441118.0
+CA,Canada,535,Toronto,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,27690,6471850.0
+CA,Canada,535,Toronto,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,31453,6471850.0
+CA,Canada,535,Toronto,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,25297,6471850.0
+CA,Canada,535,Toronto,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,16519,6471850.0
+CA,Canada,535,Toronto,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,21726,6471850.0
+CA,Canada,933,Vancouver,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,14198,2691351.0
+CA,Canada,933,Vancouver,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,15231,2691351.0
+CA,Canada,933,Vancouver,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,13349,2691351.0
+CA,Canada,933,Vancouver,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,8005,2691351.0
+CA,Canada,933,Vancouver,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,11359,2691351.0
+CA,Canada,CA,Canada,Nationwide,Total,Total,Total,2020-01-01,2020-01-31,125988,37589262.0
+CA,Canada,CA,Canada,Nationwide,Total,Total,Total,2020-02-01,2020-02-29,134274,37589262.0
+CA,Canada,CA,Canada,Nationwide,Total,Total,Total,2020-03-01,2020-03-31,103761,37589262.0
+CA,Canada,CA,Canada,Nationwide,Total,Total,Total,2020-04-01,2020-04-30,64037,37589262.0
+CA,Canada,CA,Canada,Nationwide,Total,Total,Total,2020-05-01,2020-05-31,86886,37589262.0
+CA,Canada,CA-AB,Alberta,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,14608,4371316.0
+CA,Canada,CA-AB,Alberta,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,14585,4371316.0
+CA,Canada,CA-AB,Alberta,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,11808,4371316.0
+CA,Canada,CA-AB,Alberta,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,7250,4371316.0
+CA,Canada,CA-AB,Alberta,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,11069,4371316.0
+CA,Canada,CA-BC,British Columbia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,22182,5071336.0
+CA,Canada,CA-BC,British Columbia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,23034,5071336.0
+CA,Canada,CA-BC,British Columbia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,19852,5071336.0
+CA,Canada,CA-BC,British Columbia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,11382,5071336.0
+CA,Canada,CA-BC,British Columbia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,16355,5071336.0
+CA,Canada,CA-MB,Manitoba,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,4920,1369465.0
+CA,Canada,CA-MB,Manitoba,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,4538,1369465.0
+CA,Canada,CA-MB,Manitoba,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,3769,1369465.0
+CA,Canada,CA-MB,Manitoba,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,2332,1369465.0
+CA,Canada,CA-MB,Manitoba,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,3822,1369465.0
+CA,Canada,CA-NB,New Brunswick,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,2217,776827.0
+CA,Canada,CA-NB,New Brunswick,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,2661,776827.0
+CA,Canada,CA-NB,New Brunswick,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,1446,776827.0
+CA,Canada,CA-NB,New Brunswick,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,952,776827.0
+CA,Canada,CA-NB,New Brunswick,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,1318,776827.0
+CA,Canada,CA-NL,Newfoundland and Labrador,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,1047,521542.0
+CA,Canada,CA-NL,Newfoundland and Labrador,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,1312,521542.0
+CA,Canada,CA-NL,Newfoundland and Labrador,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,1031,521542.0
+CA,Canada,CA-NL,Newfoundland and Labrador,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,477,521542.0
+CA,Canada,CA-NL,Newfoundland and Labrador,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,804,521542.0
+CA,Canada,CA-NT,Northwest Territories,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,123,44826.0
+CA,Canada,CA-NT,Northwest Territories,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,124,44826.0
+CA,Canada,CA-NT,Northwest Territories,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,120,44826.0
+CA,Canada,CA-NT,Northwest Territories,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,75,44826.0
+CA,Canada,CA-NT,Northwest Territories,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,96,44826.0
+CA,Canada,CA-NS,Nova Scotia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,3956,971395.0
+CA,Canada,CA-NS,Nova Scotia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,4872,971395.0
+CA,Canada,CA-NS,Nova Scotia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,3366,971395.0
+CA,Canada,CA-NS,Nova Scotia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,1984,971395.0
+CA,Canada,CA-NS,Nova Scotia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,3162,971395.0
+CA,Canada,CA-NU,Nunavut,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,71,38780.0
+CA,Canada,CA-NU,Nunavut,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,72,38780.0
+CA,Canada,CA-NU,Nunavut,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,70,38780.0
+CA,Canada,CA-NU,Nunavut,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,50,38780.0
+CA,Canada,CA-NU,Nunavut,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,42,38780.0
+CA,Canada,CA-ON,Ontario,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,45744,14566547.0
+CA,Canada,CA-ON,Ontario,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,51410,14566547.0
+CA,Canada,CA-ON,Ontario,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,41476,14566547.0
+CA,Canada,CA-ON,Ontario,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,26239,14566547.0
+CA,Canada,CA-ON,Ontario,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,35869,14566547.0
+CA,Canada,CA-PE,Prince Edward Island,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,529,156947.0
+CA,Canada,CA-PE,Prince Edward Island,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,618,156947.0
+CA,Canada,CA-PE,Prince Edward Island,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,429,156947.0
+CA,Canada,CA-PE,Prince Edward Island,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,216,156947.0
+CA,Canada,CA-PE,Prince Edward Island,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,354,156947.0
+CA,Canada,CA-QC,Quebec,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,24500,8484965.0
+CA,Canada,CA-QC,Quebec,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,25564,8484965.0
+CA,Canada,CA-QC,Quebec,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,16059,8484965.0
+CA,Canada,CA-QC,Quebec,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,10380,8484965.0
+CA,Canada,CA-QC,Quebec,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,10117,8484965.0
+CA,Canada,CA-SK,Saskatchewan,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,5804,1174462.0
+CA,Canada,CA-SK,Saskatchewan,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,5276,1174462.0
+CA,Canada,CA-SK,Saskatchewan,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,4216,1174462.0
+CA,Canada,CA-SK,Saskatchewan,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,2619,1174462.0
+CA,Canada,CA-SK,Saskatchewan,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,3788,1174462.0
+CA,Canada,CA-YT,Yukon,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,287,40854.0
+CA,Canada,CA-YT,Yukon,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,208,40854.0
+CA,Canada,CA-YT,Yukon,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,119,40854.0
+CA,Canada,CA-YT,Yukon,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,81,40854.0
+CA,Canada,CA-YT,Yukon,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,90,40854.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Birmingham,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,23914,1741000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Birmingham,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,20387,1741000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Birmingham,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,17687,1741000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Birmingham,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,7070,1741000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Birmingham,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,8181,1741000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Glasgow,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,11099,1256000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Glasgow,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,9882,1256000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Glasgow,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,10226,1256000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Glasgow,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,3074,1256000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Glasgow,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,3574,1256000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,London,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,139287,8369000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,London,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,118823,8369000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,London,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,109425,8369000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,London,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,53685,8369000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,London,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,61980,8369000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Manchester,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,31416,2664000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Manchester,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,25575,2664000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Manchester,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,25499,2664000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Manchester,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,12123,2664000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Manchester,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,13268,2664000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Newcastle,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,6608,1057000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Newcastle,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,5330,1057000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Newcastle,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,5627,1057000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Newcastle,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,2772,1057000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Newcastle,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,3201,1057000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Slough & Heathrow,Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,9394,1662000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Slough & Heathrow,Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,8082,1662000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Slough & Heathrow,Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,7028,1662000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Slough & Heathrow,Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,3495,1662000.0
+GB,United Kingdom of Great Britain and Northern Ireland,,Slough & Heathrow,Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,3904,1662000.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB,United Kingdom of Great Britain and Northern Ireland,Nationwide,Total,Total,Total,2020-01-01,2020-01-31,760434,66435550.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB,United Kingdom of Great Britain and Northern Ireland,Nationwide,Total,Total,Total,2020-02-01,2020-02-29,655570,66435550.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB,United Kingdom of Great Britain and Northern Ireland,Nationwide,Total,Total,Total,2020-03-01,2020-03-31,625993,66435550.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB,United Kingdom of Great Britain and Northern Ireland,Nationwide,Total,Total,Total,2020-04-01,2020-04-30,308253,66435550.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB,United Kingdom of Great Britain and Northern Ireland,Nationwide,Total,Total,Total,2020-05-01,2020-05-31,361641,66435550.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-ENG,England,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,623047,55977178.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-ENG,England,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,538561,55977178.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-ENG,England,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,504938,55977178.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-ENG,England,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,254966,55977178.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-ENG,England,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,300541,55977178.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-NIR,Northern Ireland,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,13949,1881641.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-NIR,Northern Ireland,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,11669,1881641.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-NIR,Northern Ireland,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,10778,1881641.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-NIR,Northern Ireland,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,4193,1881641.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-NIR,Northern Ireland,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,4443,1881641.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-SCT,Scotland,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,44020,5438100.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-SCT,Scotland,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,39522,5438100.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-SCT,Scotland,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,40175,5438100.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-SCT,Scotland,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,13610,5438100.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-SCT,Scotland,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,17026,5438100.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-WLS,Wales,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,21463,3138631.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-WLS,Wales,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,18926,3138631.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-WLS,Wales,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,19918,3138631.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-WLS,Wales,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,9504,3138631.0
+GB,United Kingdom of Great Britain and Northern Ireland,GB-WLS,Wales,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,10736,3138631.0
+NZ,New Zealand,NZ,New Zealand,Nationwide,Total,Total,Total,2020-01-01,2020-01-31,29456,4951500.0
+NZ,New Zealand,NZ,New Zealand,Nationwide,Total,Total,Total,2020-02-01,2020-02-29,22338,4951500.0
+NZ,New Zealand,NZ,New Zealand,Nationwide,Total,Total,Total,2020-03-01,2020-03-31,24676,4951500.0
+NZ,New Zealand,NZ,New Zealand,Nationwide,Total,Total,Total,2020-04-01,2020-04-30,16420,4951500.0
+NZ,New Zealand,NZ,New Zealand,Nationwide,Total,Total,Total,2020-05-01,2020-05-31,16550,4951500.0
+SG,Singapore,SG,Singapore,Nationwide,Total,Total,Total,2020-01-01,2020-01-31,59321,5703600.0
+SG,Singapore,SG,Singapore,Nationwide,Total,Total,Total,2020-02-01,2020-02-29,62951,5703600.0
+SG,Singapore,SG,Singapore,Nationwide,Total,Total,Total,2020-03-01,2020-03-31,69925,5703600.0
+SG,Singapore,SG,Singapore,Nationwide,Total,Total,Total,2020-04-01,2020-04-30,52550,5703600.0
+SG,Singapore,SG,Singapore,Nationwide,Total,Total,Total,2020-05-01,2020-05-31,50612,5703600.0
+US,United States of America,12060,"Atlanta-Sandy Springs-Roswell, GA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,74548,6020364.0
+US,United States of America,12060,"Atlanta-Sandy Springs-Roswell, GA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,77110,6020364.0
+US,United States of America,12060,"Atlanta-Sandy Springs-Roswell, GA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,70539,6020364.0
+US,United States of America,12060,"Atlanta-Sandy Springs-Roswell, GA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,50007,6020364.0
+US,United States of America,12060,"Atlanta-Sandy Springs-Roswell, GA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,47288,6020364.0
+US,United States of America,12420,"Austin-Round Rock, TX",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,40092,2227083.0
+US,United States of America,12420,"Austin-Round Rock, TX",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,38924,2227083.0
+US,United States of America,12420,"Austin-Round Rock, TX",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,38517,2227083.0
+US,United States of America,12420,"Austin-Round Rock, TX",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,25361,2227083.0
+US,United States of America,12420,"Austin-Round Rock, TX",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,27100,2227083.0
+US,United States of America,12580,"Baltimore-Columbia-Towson, MD",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,39599,2800053.0
+US,United States of America,12580,"Baltimore-Columbia-Towson, MD",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,42917,2800053.0
+US,United States of America,12580,"Baltimore-Columbia-Towson, MD",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,39751,2800053.0
+US,United States of America,12580,"Baltimore-Columbia-Towson, MD",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,29070,2800053.0
+US,United States of America,12580,"Baltimore-Columbia-Towson, MD",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,29033,2800053.0
+US,United States of America,13820,"Birmingham-Hoover, AL",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,10181,1153956.0
+US,United States of America,13820,"Birmingham-Hoover, AL",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,11847,1153956.0
+US,United States of America,13820,"Birmingham-Hoover, AL",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,11131,1153956.0
+US,United States of America,13820,"Birmingham-Hoover, AL",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,7025,1153956.0
+US,United States of America,13820,"Birmingham-Hoover, AL",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,7970,1153956.0
+US,United States of America,71650,"Boston-Cambridge-Nashua, MA-NH",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,82520,4937737.0
+US,United States of America,71650,"Boston-Cambridge-Nashua, MA-NH",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,92348,4937737.0
+US,United States of America,71650,"Boston-Cambridge-Nashua, MA-NH",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,85797,4937737.0
+US,United States of America,71650,"Boston-Cambridge-Nashua, MA-NH",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,58221,4937737.0
+US,United States of America,71650,"Boston-Cambridge-Nashua, MA-NH",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,60648,4937737.0
+US,United States of America,15380,"Buffalo-Cheektowaga-Niagara Falls, NY",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,13125,1127983.0
+US,United States of America,15380,"Buffalo-Cheektowaga-Niagara Falls, NY",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,12289,1127983.0
+US,United States of America,15380,"Buffalo-Cheektowaga-Niagara Falls, NY",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,14360,1127983.0
+US,United States of America,15380,"Buffalo-Cheektowaga-Niagara Falls, NY",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,9210,1127983.0
+US,United States of America,15380,"Buffalo-Cheektowaga-Niagara Falls, NY",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,8807,1127983.0
+US,United States of America,16740,"Charlotte-Concord-Gastonia, NC-SC",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,47857,2612437.0
+US,United States of America,16740,"Charlotte-Concord-Gastonia, NC-SC",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,42510,2612437.0
+US,United States of America,16740,"Charlotte-Concord-Gastonia, NC-SC",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,43402,2612437.0
+US,United States of America,16740,"Charlotte-Concord-Gastonia, NC-SC",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,28225,2612437.0
+US,United States of America,16740,"Charlotte-Concord-Gastonia, NC-SC",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,30332,2612437.0
+US,United States of America,16980,"Chicago-Naperville-Elgin, IL-IN-WI",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,123365,9458539.0
+US,United States of America,16980,"Chicago-Naperville-Elgin, IL-IN-WI",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,117483,9458539.0
+US,United States of America,16980,"Chicago-Naperville-Elgin, IL-IN-WI",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,115497,9458539.0
+US,United States of America,16980,"Chicago-Naperville-Elgin, IL-IN-WI",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,76103,9458539.0
+US,United States of America,16980,"Chicago-Naperville-Elgin, IL-IN-WI",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,72906,9458539.0
+US,United States of America,17140,"Cincinnati, OH-KY-IN",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,25856,2198450.0
+US,United States of America,17140,"Cincinnati, OH-KY-IN",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,25852,2198450.0
+US,United States of America,17140,"Cincinnati, OH-KY-IN",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,29132,2198450.0
+US,United States of America,17140,"Cincinnati, OH-KY-IN",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,20493,2198450.0
+US,United States of America,17140,"Cincinnati, OH-KY-IN",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,19805,2198450.0
+US,United States of America,17460,"Cleveland-Elyria, OH",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,41403,2048449.0
+US,United States of America,17460,"Cleveland-Elyria, OH",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,29778,2048449.0
+US,United States of America,17460,"Cleveland-Elyria, OH",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,27575,2048449.0
+US,United States of America,17460,"Cleveland-Elyria, OH",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,17859,2048449.0
+US,United States of America,17460,"Cleveland-Elyria, OH",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,19041,2048449.0
+US,United States of America,18140,"Columbus, OH",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,34728,2122271.0
+US,United States of America,18140,"Columbus, OH",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,32955,2122271.0
+US,United States of America,18140,"Columbus, OH",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,31910,2122271.0
+US,United States of America,18140,"Columbus, OH",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,20952,2122271.0
+US,United States of America,18140,"Columbus, OH",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,22687,2122271.0
+US,United States of America,19100,"Dallas-Fort Worth-Arlington, TX",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,120801,7643907.0
+US,United States of America,19100,"Dallas-Fort Worth-Arlington, TX",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,116721,7643907.0
+US,United States of America,19100,"Dallas-Fort Worth-Arlington, TX",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,115832,7643907.0
+US,United States of America,19100,"Dallas-Fort Worth-Arlington, TX",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,75379,7643907.0
+US,United States of America,19100,"Dallas-Fort Worth-Arlington, TX",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,80165,7643907.0
+US,United States of America,19740,"Denver-Aurora-Lakewood, CO",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,68028,2967239.0
+US,United States of America,19740,"Denver-Aurora-Lakewood, CO",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,63263,2967239.0
+US,United States of America,19740,"Denver-Aurora-Lakewood, CO",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,63240,2967239.0
+US,United States of America,19740,"Denver-Aurora-Lakewood, CO",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,43240,2967239.0
+US,United States of America,19740,"Denver-Aurora-Lakewood, CO",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,41477,2967239.0
+US,United States of America,19820,"Detroit-Warren-Dearborn, MI",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,56443,4319629.0
+US,United States of America,19820,"Detroit-Warren-Dearborn, MI",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,54141,4319629.0
+US,United States of America,19820,"Detroit-Warren-Dearborn, MI",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,52885,4319629.0
+US,United States of America,19820,"Detroit-Warren-Dearborn, MI",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,32810,4319629.0
+US,United States of America,19820,"Detroit-Warren-Dearborn, MI",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,35379,4319629.0
+US,United States of America,24340,"Grand Rapids-Wyoming, MI",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,11162,1074223.0
+US,United States of America,24340,"Grand Rapids-Wyoming, MI",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,10255,1074223.0
+US,United States of America,24340,"Grand Rapids-Wyoming, MI",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,10694,1074223.0
+US,United States of America,24340,"Grand Rapids-Wyoming, MI",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,7259,1074223.0
+US,United States of America,24340,"Grand Rapids-Wyoming, MI",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,7225,1074223.0
+US,United States of America,73450,"Hartford-West Hartford-East Hartford, CT",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,12401,1081875.0
+US,United States of America,73450,"Hartford-West Hartford-East Hartford, CT",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,13012,1081875.0
+US,United States of America,73450,"Hartford-West Hartford-East Hartford, CT",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,13690,1081875.0
+US,United States of America,73450,"Hartford-West Hartford-East Hartford, CT",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,9857,1081875.0
+US,United States of America,73450,"Hartford-West Hartford-East Hartford, CT",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,8857,1081875.0
+US,United States of America,26420,"Houston-The Woodlands-Sugar Land, TX",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,69381,7066141.0
+US,United States of America,26420,"Houston-The Woodlands-Sugar Land, TX",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,65918,7066141.0
+US,United States of America,26420,"Houston-The Woodlands-Sugar Land, TX",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,60104,7066141.0
+US,United States of America,26420,"Houston-The Woodlands-Sugar Land, TX",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,37089,7066141.0
+US,United States of America,26420,"Houston-The Woodlands-Sugar Land, TX",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,41409,7066141.0
+US,United States of America,26900,"Indianapolis-Carmel-Anderson, IN",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,31868,2074537.0
+US,United States of America,26900,"Indianapolis-Carmel-Anderson, IN",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,33102,2074537.0
+US,United States of America,26900,"Indianapolis-Carmel-Anderson, IN",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,33525,2074537.0
+US,United States of America,26900,"Indianapolis-Carmel-Anderson, IN",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,22641,2074537.0
+US,United States of America,26900,"Indianapolis-Carmel-Anderson, IN",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,22368,2074537.0
+US,United States of America,27260,"Jacksonville, FL",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,22134,1559514.0
+US,United States of America,27260,"Jacksonville, FL",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,20934,1559514.0
+US,United States of America,27260,"Jacksonville, FL",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,20225,1559514.0
+US,United States of America,27260,"Jacksonville, FL",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,13361,1559514.0
+US,United States of America,27260,"Jacksonville, FL",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,15882,1559514.0
+US,United States of America,28140,"Kansas City, MO-KS",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,32538,2157990.0
+US,United States of America,28140,"Kansas City, MO-KS",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,32451,2157990.0
+US,United States of America,28140,"Kansas City, MO-KS",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,32598,2157990.0
+US,United States of America,28140,"Kansas City, MO-KS",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,22682,2157990.0
+US,United States of America,28140,"Kansas City, MO-KS",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,22586,2157990.0
+US,United States of America,29820,"Las Vegas-Henderson-Paradise, NV",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,28677,2266715.0
+US,United States of America,29820,"Las Vegas-Henderson-Paradise, NV",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,27862,2266715.0
+US,United States of America,29820,"Las Vegas-Henderson-Paradise, NV",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,25845,2266715.0
+US,United States of America,29820,"Las Vegas-Henderson-Paradise, NV",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,14048,2266715.0
+US,United States of America,29820,"Las Vegas-Henderson-Paradise, NV",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,17065,2266715.0
+US,United States of America,31080,"Los Angeles-Long Beach-Anaheim, CA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,165895,13214799.0
+US,United States of America,31080,"Los Angeles-Long Beach-Anaheim, CA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,159319,13214799.0
+US,United States of America,31080,"Los Angeles-Long Beach-Anaheim, CA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,159729,13214799.0
+US,United States of America,31080,"Los Angeles-Long Beach-Anaheim, CA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,95905,13214799.0
+US,United States of America,31080,"Los Angeles-Long Beach-Anaheim, CA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,99909,13214799.0
+US,United States of America,31140,"Louisville/Jefferson County, KY-IN",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,18108,1297452.0
+US,United States of America,31140,"Louisville/Jefferson County, KY-IN",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,18401,1297452.0
+US,United States of America,31140,"Louisville/Jefferson County, KY-IN",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,19449,1297452.0
+US,United States of America,31140,"Louisville/Jefferson County, KY-IN",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,13524,1297452.0
+US,United States of America,31140,"Louisville/Jefferson County, KY-IN",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,13045,1297452.0
+US,United States of America,32820,"Memphis, TN-MS-AR",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,17391,1354304.0
+US,United States of America,32820,"Memphis, TN-MS-AR",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,16490,1354304.0
+US,United States of America,32820,"Memphis, TN-MS-AR",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,16684,1354304.0
+US,United States of America,32820,"Memphis, TN-MS-AR",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,11173,1354304.0
+US,United States of America,32820,"Memphis, TN-MS-AR",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,11963,1354304.0
+US,United States of America,33100,"Miami-Fort Lauderdale-West Palm Beach, FL",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,67769,6166488.0
+US,United States of America,33100,"Miami-Fort Lauderdale-West Palm Beach, FL",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,64919,6166488.0
+US,United States of America,33100,"Miami-Fort Lauderdale-West Palm Beach, FL",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,59406,6166488.0
+US,United States of America,33100,"Miami-Fort Lauderdale-West Palm Beach, FL",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,34271,6166488.0
+US,United States of America,33100,"Miami-Fort Lauderdale-West Palm Beach, FL",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,39530,6166488.0
+US,United States of America,33340,"Milwaukee-Waukesha-West Allis, WI",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,27330,1575179.0
+US,United States of America,33340,"Milwaukee-Waukesha-West Allis, WI",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,27252,1575179.0
+US,United States of America,33340,"Milwaukee-Waukesha-West Allis, WI",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,26980,1575179.0
+US,United States of America,33340,"Milwaukee-Waukesha-West Allis, WI",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,18758,1575179.0
+US,United States of America,33340,"Milwaukee-Waukesha-West Allis, WI",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,17000,1575179.0
+US,United States of America,33460,"Minneapolis-St. Paul-Bloomington, MN-WI",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,55855,3654908.0
+US,United States of America,33460,"Minneapolis-St. Paul-Bloomington, MN-WI",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,56675,3654908.0
+US,United States of America,33460,"Minneapolis-St. Paul-Bloomington, MN-WI",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,60067,3654908.0
+US,United States of America,33460,"Minneapolis-St. Paul-Bloomington, MN-WI",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,40423,3654908.0
+US,United States of America,33460,"Minneapolis-St. Paul-Bloomington, MN-WI",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,40943,3654908.0
+US,United States of America,34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,34022,1959495.0
+US,United States of America,34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,33500,1959495.0
+US,United States of America,34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,30514,1959495.0
+US,United States of America,34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,21095,1959495.0
+US,United States of America,34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,21498,1959495.0
+US,United States of America,35380,"New Orleans-Metairie, LA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,13789,1270530.0
+US,United States of America,35380,"New Orleans-Metairie, LA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,13019,1270530.0
+US,United States of America,35380,"New Orleans-Metairie, LA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,16813,1270530.0
+US,United States of America,35380,"New Orleans-Metairie, LA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,9326,1270530.0
+US,United States of America,35380,"New Orleans-Metairie, LA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,11711,1270530.0
+US,United States of America,35620,"New York-Newark-Jersey City, NY-NJ-PA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,186452,19895340.0
+US,United States of America,35620,"New York-Newark-Jersey City, NY-NJ-PA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,189234,19895340.0
+US,United States of America,35620,"New York-Newark-Jersey City, NY-NJ-PA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,178899,19895340.0
+US,United States of America,35620,"New York-Newark-Jersey City, NY-NJ-PA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,125679,19895340.0
+US,United States of America,35620,"New York-Newark-Jersey City, NY-NJ-PA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,122304,19895340.0
+US,United States of America,36420,"Oklahoma City, OK",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,18010,1408950.0
+US,United States of America,36420,"Oklahoma City, OK",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,16182,1408950.0
+US,United States of America,36420,"Oklahoma City, OK",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,18495,1408950.0
+US,United States of America,36420,"Oklahoma City, OK",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,13025,1408950.0
+US,United States of America,36420,"Oklahoma City, OK",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,12729,1408950.0
+US,United States of America,36740,"Orlando-Kissimmee-Sanford, FL",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,29071,2608147.0
+US,United States of America,36740,"Orlando-Kissimmee-Sanford, FL",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,31350,2608147.0
+US,United States of America,36740,"Orlando-Kissimmee-Sanford, FL",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,31061,2608147.0
+US,United States of America,36740,"Orlando-Kissimmee-Sanford, FL",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,17306,2608147.0
+US,United States of America,36740,"Orlando-Kissimmee-Sanford, FL",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,20345,2608147.0
+US,United States of America,37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,86404,6102434.0
+US,United States of America,37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,83181,6102434.0
+US,United States of America,37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,76586,6102434.0
+US,United States of America,37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,53573,6102434.0
+US,United States of America,37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,48857,6102434.0
+US,United States of America,38060,"Phoenix-Mesa-Scottsdale, AZ",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,79655,4948203.0
+US,United States of America,38060,"Phoenix-Mesa-Scottsdale, AZ",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,76091,4948203.0
+US,United States of America,38060,"Phoenix-Mesa-Scottsdale, AZ",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,77769,4948203.0
+US,United States of America,38060,"Phoenix-Mesa-Scottsdale, AZ",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,50630,4948203.0
+US,United States of America,38060,"Phoenix-Mesa-Scottsdale, AZ",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,54540,4948203.0
+US,United States of America,38300,"Pittsburgh, PA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,27061,2317600.0
+US,United States of America,38300,"Pittsburgh, PA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,27758,2317600.0
+US,United States of America,38300,"Pittsburgh, PA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,29258,2317600.0
+US,United States of America,38300,"Pittsburgh, PA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,22221,2317600.0
+US,United States of America,38300,"Pittsburgh, PA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,19937,2317600.0
+US,United States of America,38900,"Portland-Vancouver-Hillsboro, OR-WA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,35512,2492412.0
+US,United States of America,38900,"Portland-Vancouver-Hillsboro, OR-WA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,34340,2492412.0
+US,United States of America,38900,"Portland-Vancouver-Hillsboro, OR-WA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,34269,2492412.0
+US,United States of America,38900,"Portland-Vancouver-Hillsboro, OR-WA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,24381,2492412.0
+US,United States of America,38900,"Portland-Vancouver-Hillsboro, OR-WA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,23196,2492412.0
+US,United States of America,77200,"Providence-Warwick, RI-MA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,11990,1318858.0
+US,United States of America,77200,"Providence-Warwick, RI-MA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,12526,1318858.0
+US,United States of America,77200,"Providence-Warwick, RI-MA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,12166,1318858.0
+US,United States of America,77200,"Providence-Warwick, RI-MA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,10012,1318858.0
+US,United States of America,77200,"Providence-Warwick, RI-MA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,9810,1318858.0
+US,United States of America,39580,"Raleigh, NC",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,26144,1390785.0
+US,United States of America,39580,"Raleigh, NC",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,22436,1390785.0
+US,United States of America,39580,"Raleigh, NC",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,26146,1390785.0
+US,United States of America,39580,"Raleigh, NC",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,17113,1390785.0
+US,United States of America,39580,"Raleigh, NC",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,19337,1390785.0
+US,United States of America,40060,"Richmond, VA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,18029,1315600.0
+US,United States of America,40060,"Richmond, VA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,19515,1315600.0
+US,United States of America,40060,"Richmond, VA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,22924,1315600.0
+US,United States of America,40060,"Richmond, VA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,14593,1315600.0
+US,United States of America,40060,"Richmond, VA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,14805,1315600.0
+US,United States of America,40140,"Riverside-San Bernardino-Ontario, CA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,34288,4650631.0
+US,United States of America,40140,"Riverside-San Bernardino-Ontario, CA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,34127,4650631.0
+US,United States of America,40140,"Riverside-San Bernardino-Ontario, CA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,36080,4650631.0
+US,United States of America,40140,"Riverside-San Bernardino-Ontario, CA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,23251,4650631.0
+US,United States of America,40140,"Riverside-San Bernardino-Ontario, CA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,27462,4650631.0
+US,United States of America,40380,"Rochester, NY",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,8908,1069644.0
+US,United States of America,40380,"Rochester, NY",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,8536,1069644.0
+US,United States of America,40380,"Rochester, NY",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,9376,1069644.0
+US,United States of America,40380,"Rochester, NY",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,6545,1069644.0
+US,United States of America,40380,"Rochester, NY",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,7058,1069644.0
+US,United States of America,40900,"Sacramento--Roseville--Arden-Arcade, CA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,27865,2363730.0
+US,United States of America,40900,"Sacramento--Roseville--Arden-Arcade, CA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,28374,2363730.0
+US,United States of America,40900,"Sacramento--Roseville--Arden-Arcade, CA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,28852,2363730.0
+US,United States of America,40900,"Sacramento--Roseville--Arden-Arcade, CA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,19823,2363730.0
+US,United States of America,40900,"Sacramento--Roseville--Arden-Arcade, CA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,21307,2363730.0
+US,United States of America,41620,"Salt Lake City, UT",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,17505,1232696.0
+US,United States of America,41620,"Salt Lake City, UT",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,16916,1232696.0
+US,United States of America,41620,"Salt Lake City, UT",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,18732,1232696.0
+US,United States of America,41620,"Salt Lake City, UT",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,11249,1232696.0
+US,United States of America,41620,"Salt Lake City, UT",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,11903,1232696.0
+US,United States of America,41700,"San Antonio-New Braunfels, TX",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,27733,2550960.0
+US,United States of America,41700,"San Antonio-New Braunfels, TX",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,27734,2550960.0
+US,United States of America,41700,"San Antonio-New Braunfels, TX",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,26073,2550960.0
+US,United States of America,41700,"San Antonio-New Braunfels, TX",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,16828,2550960.0
+US,United States of America,41700,"San Antonio-New Braunfels, TX",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,19053,2550960.0
+US,United States of America,41740,"San Diego-Carlsbad, CA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,52939,3338330.0
+US,United States of America,41740,"San Diego-Carlsbad, CA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,48798,3338330.0
+US,United States of America,41740,"San Diego-Carlsbad, CA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,49434,3338330.0
+US,United States of America,41740,"San Diego-Carlsbad, CA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,28226,3338330.0
+US,United States of America,41740,"San Diego-Carlsbad, CA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,32234,3338330.0
+US,United States of America,41860,"San Francisco-Oakland-Hayward, CA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,100681,4731803.0
+US,United States of America,41860,"San Francisco-Oakland-Hayward, CA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,100834,4731803.0
+US,United States of America,41860,"San Francisco-Oakland-Hayward, CA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,103345,4731803.0
+US,United States of America,41860,"San Francisco-Oakland-Hayward, CA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,69264,4731803.0
+US,United States of America,41860,"San Francisco-Oakland-Hayward, CA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,66448,4731803.0
+US,United States of America,41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,45337,1990660.0
+US,United States of America,41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,45247,1990660.0
+US,United States of America,41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,46624,1990660.0
+US,United States of America,41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,31496,1990660.0
+US,United States of America,41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,30170,1990660.0
+US,United States of America,41980,"San Juan-Carolina-Caguas, PR",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,964,2023227.0
+US,United States of America,41980,"San Juan-Carolina-Caguas, PR",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,1037,2023227.0
+US,United States of America,41980,"San Juan-Carolina-Caguas, PR",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,905,2023227.0
+US,United States of America,41980,"San Juan-Carolina-Caguas, PR",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,519,2023227.0
+US,United States of America,41980,"San Juan-Carolina-Caguas, PR",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,545,2023227.0
+US,United States of America,42660,"Seattle-Tacoma-Bellevue, WA",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,68465,3979845.0
+US,United States of America,42660,"Seattle-Tacoma-Bellevue, WA",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,67237,3979845.0
+US,United States of America,42660,"Seattle-Tacoma-Bellevue, WA",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,60283,3979845.0
+US,United States of America,42660,"Seattle-Tacoma-Bellevue, WA",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,46148,3979845.0
+US,United States of America,42660,"Seattle-Tacoma-Bellevue, WA",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,43265,3979845.0
+US,United States of America,41180,"St. Louis, MO-IL",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,32255,2803228.0
+US,United States of America,41180,"St. Louis, MO-IL",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,32655,2803228.0
+US,United States of America,41180,"St. Louis, MO-IL",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,36299,2803228.0
+US,United States of America,41180,"St. Louis, MO-IL",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,25843,2803228.0
+US,United States of America,41180,"St. Louis, MO-IL",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,24259,2803228.0
+US,United States of America,45300,"Tampa-St. Petersburg-Clearwater, FL",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,39408,3194831.0
+US,United States of America,45300,"Tampa-St. Petersburg-Clearwater, FL",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,41196,3194831.0
+US,United States of America,45300,"Tampa-St. Petersburg-Clearwater, FL",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,41628,3194831.0
+US,United States of America,45300,"Tampa-St. Petersburg-Clearwater, FL",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,27419,3194831.0
+US,United States of America,45300,"Tampa-St. Petersburg-Clearwater, FL",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,29509,3194831.0
+US,United States of America,46060,"Tucson, AZ",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,12090,1047279.0
+US,United States of America,46060,"Tucson, AZ",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,12143,1047279.0
+US,United States of America,46060,"Tucson, AZ",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,12371,1047279.0
+US,United States of America,46060,"Tucson, AZ",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,7991,1047279.0
+US,United States of America,46060,"Tucson, AZ",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,8195,1047279.0
+US,United States of America,47260,"Virginia Beach-Norfolk-Newport News, VA-NC",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,25091,1732436.0
+US,United States of America,47260,"Virginia Beach-Norfolk-Newport News, VA-NC",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,24922,1732436.0
+US,United States of America,47260,"Virginia Beach-Norfolk-Newport News, VA-NC",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,28628,1732436.0
+US,United States of America,47260,"Virginia Beach-Norfolk-Newport News, VA-NC",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,18139,1732436.0
+US,United States of America,47260,"Virginia Beach-Norfolk-Newport News, VA-NC",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,20716,1732436.0
+US,United States of America,47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",Metropolitan Area,Total,Total,Total,2020-01-01,2020-01-31,103883,6267226.0
+US,United States of America,47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",Metropolitan Area,Total,Total,Total,2020-02-01,2020-02-29,106626,6267226.0
+US,United States of America,47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",Metropolitan Area,Total,Total,Total,2020-03-01,2020-03-31,107303,6267226.0
+US,United States of America,47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",Metropolitan Area,Total,Total,Total,2020-04-01,2020-04-30,76892,6267226.0
+US,United States of America,47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",Metropolitan Area,Total,Total,Total,2020-05-01,2020-05-31,71654,6267226.0
+US,United States of America,US,United States of America,Nationwide,Total,Total,Total,2020-01-01,2020-01-31,3538961,328239523.0
+US,United States of America,US,United States of America,Nationwide,Total,Total,Total,2020-02-01,2020-02-29,3486960,328239523.0
+US,United States of America,US,United States of America,Nationwide,Total,Total,Total,2020-03-01,2020-03-31,3429066,328239523.0
+US,United States of America,US,United States of America,Nationwide,Total,Total,Total,2020-04-01,2020-04-30,2356472,328239523.0
+US,United States of America,US,United States of America,Nationwide,Total,Total,Total,2020-05-01,2020-05-31,2429192,328239523.0
+US,United States of America,US-AL,Alabama,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,33537,4903185.0
+US,United States of America,US-AL,Alabama,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,39171,4903185.0
+US,United States of America,US-AL,Alabama,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,33102,4903185.0
+US,United States of America,US-AL,Alabama,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,25306,4903185.0
+US,United States of America,US-AL,Alabama,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,27383,4903185.0
+US,United States of America,US-AK,Alaska,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,7792,731545.0
+US,United States of America,US-AK,Alaska,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,7547,731545.0
+US,United States of America,US-AK,Alaska,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,8101,731545.0
+US,United States of America,US-AK,Alaska,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,5623,731545.0
+US,United States of America,US-AK,Alaska,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,6040,731545.0
+US,United States of America,US-AZ,Arizona,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,99207,7278717.0
+US,United States of America,US-AZ,Arizona,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,95795,7278717.0
+US,United States of America,US-AZ,Arizona,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,96839,7278717.0
+US,United States of America,US-AZ,Arizona,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,63110,7278717.0
+US,United States of America,US-AZ,Arizona,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,67711,7278717.0
+US,United States of America,US-AR,Arkansas,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,20786,3017804.0
+US,United States of America,US-AR,Arkansas,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,18317,3017804.0
+US,United States of America,US-AR,Arkansas,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,15802,3017804.0
+US,United States of America,US-AR,Arkansas,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,12642,3017804.0
+US,United States of America,US-AR,Arkansas,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,12404,3017804.0
+US,United States of America,US-CA,California,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,492796,39512223.0
+US,United States of America,US-CA,California,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,487522,39512223.0
+US,United States of America,US-CA,California,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,494859,39512223.0
+US,United States of America,US-CA,California,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,320053,39512223.0
+US,United States of America,US-CA,California,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,334756,39512223.0
+US,United States of America,US-CO,Colorado,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,103629,5758736.0
+US,United States of America,US-CO,Colorado,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,97402,5758736.0
+US,United States of America,US-CO,Colorado,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,96482,5758736.0
+US,United States of America,US-CO,Colorado,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,66966,5758736.0
+US,United States of America,US-CO,Colorado,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,66637,5758736.0
+US,United States of America,US-CT,Connecticut,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,33283,3565287.0
+US,United States of America,US-CT,Connecticut,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,34789,3565287.0
+US,United States of America,US-CT,Connecticut,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,35195,3565287.0
+US,United States of America,US-CT,Connecticut,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,27387,3565287.0
+US,United States of America,US-CT,Connecticut,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,24207,3565287.0
+US,United States of America,US-DE,Delaware,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,10931,973764.0
+US,United States of America,US-DE,Delaware,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,9696,973764.0
+US,United States of America,US-DE,Delaware,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,9002,973764.0
+US,United States of America,US-DE,Delaware,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,6800,973764.0
+US,United States of America,US-DE,Delaware,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,5780,973764.0
+US,United States of America,US-DC,District of Columbia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,28317,705749.0
+US,United States of America,US-DC,District of Columbia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,30044,705749.0
+US,United States of America,US-DC,District of Columbia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,29634,705749.0
+US,United States of America,US-DC,District of Columbia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,23482,705749.0
+US,United States of America,US-DC,District of Columbia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,19356,705749.0
+US,United States of America,US-FL,Florida,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,205988,21477737.0
+US,United States of America,US-FL,Florida,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,208616,21477737.0
+US,United States of America,US-FL,Florida,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,195832,21477737.0
+US,United States of America,US-FL,Florida,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,124042,21477737.0
+US,United States of America,US-FL,Florida,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,141742,21477737.0
+US,United States of America,US-GA,Georgia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,102894,10617423.0
+US,United States of America,US-GA,Georgia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,111127,10617423.0
+US,United States of America,US-GA,Georgia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,98660,10617423.0
+US,United States of America,US-GA,Georgia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,72453,10617423.0
+US,United States of America,US-GA,Georgia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,70987,10617423.0
+US,United States of America,US-HI,Hawaii,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,11186,1415872.0
+US,United States of America,US-HI,Hawaii,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,12117,1415872.0
+US,United States of America,US-HI,Hawaii,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,11873,1415872.0
+US,United States of America,US-HI,Hawaii,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,7326,1415872.0
+US,United States of America,US-HI,Hawaii,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,6519,1415872.0
+US,United States of America,US-ID,Idaho,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,16683,1787065.0
+US,United States of America,US-ID,Idaho,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,17025,1787065.0
+US,United States of America,US-ID,Idaho,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,18048,1787065.0
+US,United States of America,US-ID,Idaho,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,11284,1787065.0
+US,United States of America,US-ID,Idaho,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,13172,1787065.0
+US,United States of America,US-IL,Illinois,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,147075,12671821.0
+US,United States of America,US-IL,Illinois,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,137608,12671821.0
+US,United States of America,US-IL,Illinois,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,137816,12671821.0
+US,United States of America,US-IL,Illinois,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,92104,12671821.0
+US,United States of America,US-IL,Illinois,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,88087,12671821.0
+US,United States of America,US-IN,Indiana,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,65159,6732219.0
+US,United States of America,US-IN,Indiana,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,69714,6732219.0
+US,United States of America,US-IN,Indiana,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,67011,6732219.0
+US,United States of America,US-IN,Indiana,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,47774,6732219.0
+US,United States of America,US-IN,Indiana,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,49283,6732219.0
+US,United States of America,US-IA,Iowa,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,27916,3155070.0
+US,United States of America,US-IA,Iowa,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,28323,3155070.0
+US,United States of America,US-IA,Iowa,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,30005,3155070.0
+US,United States of America,US-IA,Iowa,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,19093,3155070.0
+US,United States of America,US-IA,Iowa,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,20761,3155070.0
+US,United States of America,US-KS,Kansas,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,28084,2913314.0
+US,United States of America,US-KS,Kansas,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,31552,2913314.0
+US,United States of America,US-KS,Kansas,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,28045,2913314.0
+US,United States of America,US-KS,Kansas,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,19023,2913314.0
+US,United States of America,US-KS,Kansas,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,20491,2913314.0
+US,United States of America,US-KY,Kentucky,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,35738,4467673.0
+US,United States of America,US-KY,Kentucky,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,36872,4467673.0
+US,United States of America,US-KY,Kentucky,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,37388,4467673.0
+US,United States of America,US-KY,Kentucky,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,27467,4467673.0
+US,United States of America,US-KY,Kentucky,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,26827,4467673.0
+US,United States of America,US-LA,Louisiana,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,33125,4648794.0
+US,United States of America,US-LA,Louisiana,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,31158,4648794.0
+US,United States of America,US-LA,Louisiana,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,39703,4648794.0
+US,United States of America,US-LA,Louisiana,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,23549,4648794.0
+US,United States of America,US-LA,Louisiana,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,30967,4648794.0
+US,United States of America,US-ME,Maine,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,6912,1344212.0
+US,United States of America,US-ME,Maine,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,7342,1344212.0
+US,United States of America,US-ME,Maine,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,6293,1344212.0
+US,United States of America,US-ME,Maine,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,5745,1344212.0
+US,United States of America,US-ME,Maine,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,5341,1344212.0
+US,United States of America,US-MD,Maryland,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,67514,6045680.0
+US,United States of America,US-MD,Maryland,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,71310,6045680.0
+US,United States of America,US-MD,Maryland,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,65921,6045680.0
+US,United States of America,US-MD,Maryland,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,48911,6045680.0
+US,United States of America,US-MD,Maryland,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,50398,6045680.0
+US,United States of America,US-MA,Massachusetts,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,97976,6892503.0
+US,United States of America,US-MA,Massachusetts,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,110172,6892503.0
+US,United States of America,US-MA,Massachusetts,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,102433,6892503.0
+US,United States of America,US-MA,Massachusetts,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,68437,6892503.0
+US,United States of America,US-MA,Massachusetts,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,74383,6892503.0
+US,United States of America,US-MI,Michigan,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,99265,9986857.0
+US,United States of America,US-MI,Michigan,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,93573,9986857.0
+US,United States of America,US-MI,Michigan,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,92806,9986857.0
+US,United States of America,US-MI,Michigan,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,58940,9986857.0
+US,United States of America,US-MI,Michigan,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,63844,9986857.0
+US,United States of America,US-MN,Minnesota,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,70077,5639632.0
+US,United States of America,US-MN,Minnesota,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,74130,5639632.0
+US,United States of America,US-MN,Minnesota,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,73792,5639632.0
+US,United States of America,US-MN,Minnesota,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,51163,5639632.0
+US,United States of America,US-MN,Minnesota,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,52812,5639632.0
+US,United States of America,US-MS,Mississippi,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,14763,2976149.0
+US,United States of America,US-MS,Mississippi,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,13302,2976149.0
+US,United States of America,US-MS,Mississippi,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,12576,2976149.0
+US,United States of America,US-MS,Mississippi,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,8550,2976149.0
+US,United States of America,US-MS,Mississippi,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,10361,2976149.0
+US,United States of America,US-MO,Missouri,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,57553,6137428.0
+US,United States of America,US-MO,Missouri,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,57574,6137428.0
+US,United States of America,US-MO,Missouri,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,60956,6137428.0
+US,United States of America,US-MO,Missouri,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,45405,6137428.0
+US,United States of America,US-MO,Missouri,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,43539,6137428.0
+US,United States of America,US-MT,Montana,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,7319,1068778.0
+US,United States of America,US-MT,Montana,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,7422,1068778.0
+US,United States of America,US-MT,Montana,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,6981,1068778.0
+US,United States of America,US-MT,Montana,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,4533,1068778.0
+US,United States of America,US-MT,Montana,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,5852,1068778.0
+US,United States of America,US-NE,Nebraska,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,21392,1934408.0
+US,United States of America,US-NE,Nebraska,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,21421,1934408.0
+US,United States of America,US-NE,Nebraska,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,23212,1934408.0
+US,United States of America,US-NE,Nebraska,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,16503,1934408.0
+US,United States of America,US-NE,Nebraska,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,17574,1934408.0
+US,United States of America,US-NV,Nevada,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,38026,3080156.0
+US,United States of America,US-NV,Nevada,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,37180,3080156.0
+US,United States of America,US-NV,Nevada,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,35027,3080156.0
+US,United States of America,US-NV,Nevada,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,20616,3080156.0
+US,United States of America,US-NV,Nevada,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,24952,3080156.0
+US,United States of America,US-NH,New Hampshire,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,12504,1359711.0
+US,United States of America,US-NH,New Hampshire,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,13962,1359711.0
+US,United States of America,US-NH,New Hampshire,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,13582,1359711.0
+US,United States of America,US-NH,New Hampshire,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,12070,1359711.0
+US,United States of America,US-NH,New Hampshire,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,11889,1359711.0
+US,United States of America,US-NJ,New Jersey,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,92130,8882190.0
+US,United States of America,US-NJ,New Jersey,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,87904,8882190.0
+US,United States of America,US-NJ,New Jersey,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,89900,8882190.0
+US,United States of America,US-NJ,New Jersey,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,67882,8882190.0
+US,United States of America,US-NJ,New Jersey,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,67877,8882190.0
+US,United States of America,US-NM,New Mexico,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,19106,2096829.0
+US,United States of America,US-NM,New Mexico,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,17260,2096829.0
+US,United States of America,US-NM,New Mexico,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,16746,2096829.0
+US,United States of America,US-NM,New Mexico,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,13056,2096829.0
+US,United States of America,US-NM,New Mexico,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,12003,2096829.0
+US,United States of America,US-NY,New York,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,166056,19453561.0
+US,United States of America,US-NY,New York,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,167943,19453561.0
+US,United States of America,US-NY,New York,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,156255,19453561.0
+US,United States of America,US-NY,New York,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,106664,19453561.0
+US,United States of America,US-NY,New York,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,103672,19453561.0
+US,United States of America,US-NC,North Carolina,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,125697,10488084.0
+US,United States of America,US-NC,North Carolina,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,110395,10488084.0
+US,United States of America,US-NC,North Carolina,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,123187,10488084.0
+US,United States of America,US-NC,North Carolina,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,84154,10488084.0
+US,United States of America,US-NC,North Carolina,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,93233,10488084.0
+US,United States of America,US-ND,North Dakota,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,7778,762062.0
+US,United States of America,US-ND,North Dakota,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,6461,762062.0
+US,United States of America,US-ND,North Dakota,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,6733,762062.0
+US,United States of America,US-ND,North Dakota,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,5025,762062.0
+US,United States of America,US-ND,North Dakota,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,4576,762062.0
+US,United States of America,US-OH,Ohio,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,150357,11689100.0
+US,United States of America,US-OH,Ohio,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,128629,11689100.0
+US,United States of America,US-OH,Ohio,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,125028,11689100.0
+US,United States of America,US-OH,Ohio,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,85878,11689100.0
+US,United States of America,US-OH,Ohio,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,92477,11689100.0
+US,United States of America,US-OK,Oklahoma,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,37057,3956971.0
+US,United States of America,US-OK,Oklahoma,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,32496,3956971.0
+US,United States of America,US-OK,Oklahoma,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,36196,3956971.0
+US,United States of America,US-OK,Oklahoma,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,26292,3956971.0
+US,United States of America,US-OK,Oklahoma,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,25755,3956971.0
+US,United States of America,US-OR,Oregon,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,45535,4217737.0
+US,United States of America,US-OR,Oregon,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,44040,4217737.0
+US,United States of America,US-OR,Oregon,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,45465,4217737.0
+US,United States of America,US-OR,Oregon,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,33772,4217737.0
+US,United States of America,US-OR,Oregon,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,30606,4217737.0
+US,United States of America,US-PA,Pennsylvania,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,133942,12801989.0
+US,United States of America,US-PA,Pennsylvania,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,130951,12801989.0
+US,United States of America,US-PA,Pennsylvania,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,122442,12801989.0
+US,United States of America,US-PA,Pennsylvania,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,93892,12801989.0
+US,United States of America,US-PA,Pennsylvania,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,85602,12801989.0
+US,United States of America,US-RI,Rhode Island,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,10593,1059361.0
+US,United States of America,US-RI,Rhode Island,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,11270,1059361.0
+US,United States of America,US-RI,Rhode Island,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,10562,1059361.0
+US,United States of America,US-RI,Rhode Island,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,8858,1059361.0
+US,United States of America,US-RI,Rhode Island,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,8313,1059361.0
+US,United States of America,US-SC,South Carolina,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,40345,5148714.0
+US,United States of America,US-SC,South Carolina,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,36860,5148714.0
+US,United States of America,US-SC,South Carolina,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,35029,5148714.0
+US,United States of America,US-SC,South Carolina,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,24690,5148714.0
+US,United States of America,US-SC,South Carolina,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,25783,5148714.0
+US,United States of America,US-SD,South Dakota,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,6292,884659.0
+US,United States of America,US-SD,South Dakota,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,5983,884659.0
+US,United States of America,US-SD,South Dakota,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,5697,884659.0
+US,United States of America,US-SD,South Dakota,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,4618,884659.0
+US,United States of America,US-SD,South Dakota,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,4627,884659.0
+US,United States of America,US-TN,Tennessee,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,72621,6829174.0
+US,United States of America,US-TN,Tennessee,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,68707,6829174.0
+US,United States of America,US-TN,Tennessee,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,64262,6829174.0
+US,United States of America,US-TN,Tennessee,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,47400,6829174.0
+US,United States of America,US-TN,Tennessee,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,49391,6829174.0
+US,United States of America,US-TX,Texas,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,312412,28995881.0
+US,United States of America,US-TX,Texas,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,305603,28995881.0
+US,United States of America,US-TX,Texas,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,296254,28995881.0
+US,United States of America,US-TX,Texas,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,193438,28995881.0
+US,United States of America,US-TX,Texas,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,210682,28995881.0
+US,United States of America,US-UT,Utah,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,32636,3205958.0
+US,United States of America,US-UT,Utah,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,30915,3205958.0
+US,United States of America,US-UT,Utah,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,34196,3205958.0
+US,United States of America,US-UT,Utah,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,20827,3205958.0
+US,United States of America,US-UT,Utah,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,22790,3205958.0
+US,United States of America,US-VT,Vermont,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,4285,623989.0
+US,United States of America,US-VT,Vermont,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,4429,623989.0
+US,United States of America,US-VT,Vermont,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,3780,623989.0
+US,United States of America,US-VT,Vermont,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,2436,623989.0
+US,United States of America,US-VT,Vermont,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,2551,623989.0
+US,United States of America,US-VA,Virginia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,108471,8535519.0
+US,United States of America,US-VA,Virginia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,110702,8535519.0
+US,United States of America,US-VA,Virginia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,120635,8535519.0
+US,United States of America,US-VA,Virginia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,78594,8535519.0
+US,United States of America,US-VA,Virginia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,79111,8535519.0
+US,United States of America,US-WA,Washington,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,92667,7614893.0
+US,United States of America,US-WA,Washington,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,89509,7614893.0
+US,United States of America,US-WA,Washington,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,80140,7614893.0
+US,United States of America,US-WA,Washington,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,62836,7614893.0
+US,United States of America,US-WA,Washington,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,60754,7614893.0
+US,United States of America,US-WV,West Virginia,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,8799,1792147.0
+US,United States of America,US-WV,West Virginia,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,8113,1792147.0
+US,United States of America,US-WV,West Virginia,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,6780,1792147.0
+US,United States of America,US-WV,West Virginia,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,5982,1792147.0
+US,United States of America,US-WV,West Virginia,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,6039,1792147.0
+US,United States of America,US-WI,Wisconsin,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,67259,5822434.0
+US,United States of America,US-WI,Wisconsin,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,69262,5822434.0
+US,United States of America,US-WI,Wisconsin,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,66497,5822434.0
+US,United States of America,US-WI,Wisconsin,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,49368,5822434.0
+US,United States of America,US-WI,Wisconsin,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,44982,5822434.0
+US,United States of America,US-WY,Wyoming,Subdivision,Total,Total,Total,2020-01-01,2020-01-31,4512,578759.0
+US,United States of America,US-WY,Wyoming,Subdivision,Total,Total,Total,2020-02-01,2020-02-29,4000,578759.0
+US,United States of America,US-WY,Wyoming,Subdivision,Total,Total,Total,2020-03-01,2020-03-31,3609,578759.0
+US,United States of America,US-WY,Wyoming,Subdivision,Total,Total,Total,2020-04-01,2020-04-30,2698,578759.0
+US,United States of America,US-WY,Wyoming,Subdivision,Total,Total,Total,2020-05-01,2020-05-31,2503,578759.0

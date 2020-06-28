@@ -2,12 +2,15 @@ from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 from app.data_in import bp
 from datetime import datetime
-import requests
+import requests, zipfile
+from io import StringIO
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
 import time
+from ftplib import FTP_TLS
+import glob
 
 def download_url(url, save_path, chunk_size=128):
     r = requests.get(url, stream=True)
@@ -15,8 +18,8 @@ def download_url(url, save_path, chunk_size=128):
         for chunk in r.iter_content(chunk_size=chunk_size):
             fd.write(chunk)
 
-def get_public_csv(source_name, table_name, type, url):
-    source_dir = 'data/public/raw/'
+def get_public_csv(source_name, table_name, type, url, classification='public'):
+    source_dir = 'data/' + classification + '/' + 'raw/'
     today = datetime.today().strftime('%Y-%m-%d')
     file_name = table_name + '_' + today + '.' + type
     save_dir = source_dir + source_name + '/' + table_name
@@ -199,4 +202,89 @@ def get_public_fisman_ideamodel():
         for chunk in r.iter_content(chunk_size=chunk_size):
             fd.write(chunk)
     driver.quit()
+    return True
+
+def get_confidential_211_call_reports():
+    item = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'}
+    file_path, save_dir = get_file_path(item)
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    ftp = FTP_TLS('ontario.files.com',timeout=10)
+    ftp.login(user=os.environ['211_username'], passwd=os.environ['211_password'])
+    ftp.cwd('/211projects/BensTeam')
+    ftp.prot_p()
+    files = ftp.nlst()
+    for filename in files:
+        names = filename.split('-')
+        if not 'CallReports' in names:
+            continue
+        if not os.path.isfile(save_dir+'/'+filename):
+            print(f"Getting file {filename}")
+            ftp.retrbinary("RETR " + filename ,open(save_dir+'/'+filename, 'wb').write)
+    ftp.quit()
+    return True
+
+def get_confidential_211_met_and_unmet_needs():
+    item = {'classification':'confidential', 'source_name':'211', 'table_name':'met_and_unmet_needs',  'type': 'csv'}
+    file_path, save_dir = get_file_path(item)
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    ftp = FTP_TLS('ontario.files.com',timeout=10)
+    ftp.login(user=os.environ['211_username'], passwd=os.environ['211_password'])
+    ftp.cwd('/211projects/BensTeam')
+    ftp.prot_p()
+    files = ftp.nlst()
+    for filename in files:
+        names = filename.split('-')
+        if not 'MetAndUnmetNeeds' in names:
+            continue
+        if not os.path.isfile(save_dir+'/'+filename):
+            print(f"Getting file {filename}")
+            ftp.retrbinary("RETR " + filename ,open(save_dir+'/'+filename, 'wb').write)
+    ftp.quit()
+    return True
+
+def get_confidential_211_referrals():
+    item = {'classification':'confidential', 'source_name':'211', 'table_name':'referrals',  'type': 'csv'}
+    file_path, save_dir = get_file_path(item)
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    ftp = FTP_TLS('ontario.files.com',timeout=10)
+    ftp.login(user=os.environ['211_username'], passwd=os.environ['211_password'])
+    ftp.cwd('/211projects/BensTeam')
+    ftp.prot_p()
+    files = ftp.nlst()
+    for filename in files:
+        names = filename.split('-')
+        if not 'Referrals' in names:
+            continue
+        if not os.path.isfile(save_dir+'/'+filename):
+            print(f"Getting file {filename}")
+            ftp.retrbinary("RETR " + filename ,open(save_dir+'/'+filename, 'wb').write)
+    ftp.quit()
+    return True
+
+def get_burning_glass_jobs_data():
+    item = {'classification':'confidential', 'source_name':'burning_glass', 'table_name':'zip',  'type': 'zip','url':"https://public.burning-glass.com/open_data.zip"}
+    file_path, save_dir = get_file_path(item)
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'],item['classification'])
+    z = zipfile.ZipFile(file_path)
+    z.extractall(save_dir)
+    files = glob.glob(save_dir+"/*.csv")
+    source_dir = 'data/' + item['classification'] + '/' + 'raw/'
+    today = datetime.today().strftime('%Y-%m-%d')
+    industry_dir = source_dir + item['source_name'] + '/' + 'industry/'
+    Path(industry_dir).mkdir(parents=True, exist_ok=True)
+    occupation_dir = source_dir + item['source_name'] + '/' + 'occupation/'
+    Path(occupation_dir).mkdir(parents=True, exist_ok=True)
+    total_dir = source_dir + item['source_name'] + '/' + 'total/'
+    Path(total_dir).mkdir(parents=True, exist_ok=True)
+    for file in files:
+        names = file.split('_')
+        new_name = names[-2] + '_' + today + '.csv'
+        print(names)
+        print(new_name)
+        if 'glass/zip\\industry' in names:
+            os.rename(file, industry_dir+new_name)
+        elif 'glass/zip\\occupation' in names:
+            os.rename(file, occupation_dir+new_name)
+        elif 'glass/zip\\total' in names:
+            os.rename(file, total_dir+new_name)
     return True
