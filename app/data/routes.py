@@ -408,7 +408,7 @@ def cases():
 
     print("to add {} records".format(len(to_add)))
     db.session.add_all(to_add)
-    db.session.commit
+    db.session.commit()
     return
 
 def getcanadamortality():

@@ -8,6 +8,7 @@ __pycache__/
 
 open_data/
 /211_data
+/data
 
 # Distribution / packaging
 .Python
