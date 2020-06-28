@@ -44,7 +44,7 @@ def process_public_ontario_gov_conposcovidloc():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -90,7 +90,7 @@ def process_public_ontario_gov_covidtesting():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -113,7 +113,7 @@ def process_public_ontario_gov_longtermcare_in_outbreak():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         data_out = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_in_outbreak',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'processed', date)
         if not os.path.isfile(save_file):
@@ -168,7 +168,7 @@ def process_public_ontario_gov_longtermcare_summary():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         data_out = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_summary',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'processed', date)
         if not os.path.isfile(save_file):
@@ -209,7 +209,7 @@ def process_public_ontario_gov_longtermcare_no_longer_in_outbreak():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         data_out = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_no_longer_in_outbreak',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'processed', date)
         if not os.path.isfile(save_file):
@@ -299,7 +299,7 @@ def process_public_howsmyflattening_npi_canada():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -343,7 +343,7 @@ def process_public_open_data_working_group_cases():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -383,7 +383,7 @@ def process_public_open_data_working_group_mortality():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -415,7 +415,7 @@ def process_public_open_data_working_recovered_cumulative():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -448,7 +448,7 @@ def process_public_open_data_working_testing_cumulative():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -490,7 +490,7 @@ def process_public_google_global_mobility_report():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -524,7 +524,7 @@ def process_public_apple_applemobilitytrends():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -596,7 +596,7 @@ def process_public_oxcgrt_oxcgrt_latest():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -628,7 +628,7 @@ def process_public_jhu_time_series_covid19_confirmed_global():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -662,7 +662,7 @@ def process_public_jhu_time_series_covid19_deaths_global():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -696,7 +696,7 @@ def process_public_jhu_time_series_covid19_recovered_global():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -738,7 +738,7 @@ def process_public_owid_covid_testing_all_observations():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -776,7 +776,7 @@ def process_public_keystone_strategy_complete_npis_inherited_policies():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -814,7 +814,7 @@ def process_public_modcollab_base_on():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -850,7 +850,7 @@ def process_public_fisman_ideamodel():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -874,13 +874,14 @@ def process_confidential_211_call_reports():
     field_map = {
         "CallReportNum":"call_report_num",
         "CallDateAndTimeStart": "call_date_and_time_start",
+        "Demographics of Inquirer - Age Category": "age_of_inquirer"
     }
     date_field = ['call_date_and_time_start']
     load_file, load_dir = get_file_path(data)
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -911,7 +912,7 @@ def process_confidential_211_met_and_unmet_needs():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -943,7 +944,7 @@ def process_confidential_211_referrals():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -983,7 +984,7 @@ def process_confidential_burning_glass_industry_weekly():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -1004,26 +1005,26 @@ def process_confidential_burning_glass_industry_weekly():
 def process_restricted_ccso_ccis():
     data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
     field_map = {
-        "RegionName":"region_name",
-        "LHINName": "lhin_name",
+        "RegionName":"region",
+        "LHINName": "lhin",
         "CorporationName": "hospital_name",
         "SiteName": "site_name",
         "UnitInclusion": "unit_inclusion",
         "ICUType": "icu_type",
         "ICULevel": "icu_level",
-        "Beds": "icu_beds",
-        "VentedBeds": "icu_vented_beds",
+        "Beds": "critical_care_beds",
+        "VentedBeds": "vented_beds",
         "CCCensus": "critical_care_patients",
-        "CensusVented": "critical_care_vented_patients",
-        "CCCOVID_P_Census": "confirmed_covid_in_icu_beds",
-        "CensusCOVID_P_Vented": "confirmed_covid_in_vented_icu_beds",
+        "CensusVented": "vented_patients",
+        "CCCOVID_P_Census": "confirmed_positive",
+        "CensusCOVID_P_Vented": "confirmed_positive_ventilator",
     }
     date_field = []
     load_file, load_dir = get_file_path(data)
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
@@ -1045,6 +1046,7 @@ def process_restricted_ccso_ccis():
 def process_restricted_moh_iphis():
     data = {'classification':'restricted', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
     field_map = {
+        "pseudo_id": "pseudo_id",
         "FSA":"fsa",
         "CASE_REPORTED_DATE": "case_reported_date",
         "CLIENT_DEATH_DATE": "client_death_date",
@@ -1062,15 +1064,15 @@ def process_restricted_moh_iphis():
             return None
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
+        date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(file)
+                df = pd.read_csv(file,encoding = "ISO-8859-1")
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
-                return e
+                continue
 
             df = df.rename(columns=field_map)
             df = df[field_map.values()]
