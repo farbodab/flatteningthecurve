@@ -30,6 +30,59 @@ import sys
 ############ONTARIO DATA################
 ########################################
 
+def confirmed_ontario():
+    field_map = {
+        "Row_ID":"row_id",
+        "Accurate_Episode_Date": "accurate_episode_date",
+        "Case_Reported_Date": "case_reported_date",
+        "Specimen_Date": "specimen_reported_date",
+        "Test_Reported_Date": "test_reported_date",
+        "Age_Group":"age_group",
+        "Client_Gender":"client_gender",
+        "Case_AcquisitionInfo": "case_acquisitionInfo",
+        "Outcome1": "outcome1",
+        "Outbreak_Related": "outbreak_related",
+        "Reporting_PHU": "reporting_phu",
+        "Reporting_PHU_Address": "reporting_phu_address",
+        "Reporting_PHU_City": "reporting_phu_city",
+        "Reporting_PHU_Postal_Code": "reporting_phu_postal_code",
+        "Reporting_PHU_Website": "reporting_phu_website",
+        "Reporting_PHU_Latitude":"reporting_phu_latitude",
+        "Reporting_PHU_Longitude": "reporting_phu_longitude",
+    }
+    url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
+    cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
+    cases_max = [int(case.row_id) for case in ConfirmedOntario.query.all()]
+    req = requests.get(url)
+
+    print('ontario case data being refreshed')
+    df = pd.read_csv(url)
+    df = df.fillna(sql.null())
+    df = df.replace("12:00:00 AM", sql.null())
+    # cases_max = max(cases_max)
+    # df = df.loc[df.Row_ID > 28523]
+    for index, row in df.iterrows():
+        try:
+            if int(row["Row_ID"]) in cases:
+                daily_status = cases.get(int(row["Row_ID"]))
+                for header in field_map.keys():
+                    setattr(daily_status,field_map[header],row[header])
+                db.session.add(daily_status)
+                db.session.commit()
+            else:
+                c = ConfirmedOntario()
+                for header in field_map.keys():
+                    setattr(c,field_map[header],row[header])
+                db.session.add(c)
+                db.session.commit()
+        except Exception as e:
+            print(e)
+            print(f'failed to update case {row["Row_ID"]}')
+        if (index % 100) == 0:
+            print(f'{index} / {df.tail(1).index.values[0]} passed')
+
+    db.session.commit()
+
 
 
 def testsnew():

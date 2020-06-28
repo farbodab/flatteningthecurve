@@ -4,6 +4,7 @@ from app.data_process import bp
 from datetime import datetime
 import pandas as pd
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 def get_file_path(data, step='raw'):
     today = datetime.today().strftime('%Y-%m-%d')
@@ -89,6 +90,140 @@ def process_public_ontario_gov_covidtesting():
     for column in date_field:
         df[column] = pd.to_datetime(df[column])
 
+    save_file, save_dir = get_file_path(data, 'processed')
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    df.to_csv(save_file, index=False)
+
+def process_public_ontario_gov_longtermcare_in_outbreak():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}
+    load_file, _ = get_file_path(data)
+    f = open(load_file, "r")
+    contents = f.read()
+    soup = BeautifulSoup(contents, 'html.parser')
+    tables = soup.find_all("table")
+    def parseNum(num):
+        return int(num.replace('<', ''))
+    ltc_mapping = {}
+    df = pd.read_csv('https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/export?format=csv&id=1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A&gid=0')
+    for index, row in df.iterrows():
+        city = row[0]
+        phu = row[1]
+        ltc_mapping[city] = phu
+
+    data = []
+    for table in tables:
+        if not table.find_all('th'):
+            continue
+        headers = [x.text for x in table.find('thead').find_all('th')]
+
+        # Isolate table we care about
+        # Match first 3 headers we know
+        if headers[0] != 'LTC Home' or headers[1] != 'City' or headers[2] != 'Beds':
+            continue
+
+        rows = table.find('tbody').find_all('tr')
+
+        for row in rows:
+            home = row.find('th').text
+            row_values = [x.text for x in row.find_all('td')]
+            if len(row_values) != 5:
+                continue
+            print(row_values)
+            city = row_values[0].replace('""','')
+            beds = row_values[1]
+            confirmed_resident_cases = parseNum(row_values[2])
+            resident_deaths = parseNum(row_values[3])
+            confirmed_staff_cases = parseNum(row_values[4])
+            print(home)
+            phu = ''
+            if city in ltc_mapping:
+                phu = ltc_mapping[city]
+            data.append({"home":home, "city":city, "beds":beds, "confirmed_resident_cases":confirmed_resident_cases, "resident_deaths":resident_deaths, "confirmed_staff_cases": confirmed_staff_cases, "phu":phu})
+
+    df = pd.DataFrame(data)
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_in_outbreak',  'type': 'csv'}
+    save_file, save_dir = get_file_path(data, 'processed')
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    df.to_csv(save_file, index=False)
+
+def process_public_ontario_gov_longtermcare_summary():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}
+    load_file, _ = get_file_path(data)
+    f = open(load_file, "r")
+    contents = f.read()
+    soup = BeautifulSoup(contents, 'html.parser')
+    tables = soup.find_all("table")
+
+    def parseNum(num):
+        num = num.replace(',','')
+        return int(num.replace('<', ''))
+
+    data = []
+    for table in tables:
+        headers = [x.text for x in table.find('thead').find_all('th')]
+
+        # Isolate table we care about
+        # Match first 3 headers we know
+        if headers[0] != 'Report' or headers[1] != 'Number' or headers[2] != 'Previous Day Number':
+            continue
+
+        rows = table.find('tbody').find_all('tr')
+
+        for row in rows:
+            report = row.find('th').text.replace('""','')
+            row_values = [x.text for x in row.find_all('td')]
+            number = parseNum(row_values[0])
+            data.append({"report":report, "number":number})
+
+    df = pd.DataFrame(data)
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_summary',  'type': 'csv'}
+    save_file, save_dir = get_file_path(data, 'processed')
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    df.to_csv(save_file, index=False)
+
+def process_public_ontario_gov_longtermcare_no_longer_in_outbreak():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}
+    load_file, _ = get_file_path(data)
+    f = open(load_file, "r")
+    contents = f.read()
+    soup = BeautifulSoup(contents, 'html.parser')
+    tables = soup.find_all("table")
+
+    def parseNum(num):
+        return int(num.replace('<', ''))
+
+    ltc_mapping = {}
+    df = pd.read_csv('https://docs.google.com/spreadsheets/d/1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A/export?format=csv&id=1Pvj5_Y288_lmX_YsOm82gYkJw7oN-tPTz70FwdUUU5A&gid=0')
+    for index, row in df.iterrows():
+        city = row[0]
+        phu = row[1]
+        ltc_mapping[city] = phu
+
+    data = []
+    for table in tables:
+        headers = [x.text for x in table.find('thead').find_all('th')]
+
+        # Isolate table we care about
+        # Match first 3 headers we know
+        if headers[0] != 'LTC Home' or headers[1] != 'City' or headers[2] != 'Beds':
+            continue
+
+        rows = table.find('tbody').find_all('tr')
+
+        for row in rows:
+            row_values = [x.text for x in row.find_all('td')]
+            home = row.find('th').text.replace('""','')
+            city = row_values[0]
+            beds = parseNum(row_values[1])
+            resident_deaths = parseNum(row_values[2])
+            phu = ''
+            if city in ltc_mapping:
+                phu = ltc_mapping[city]
+            #print('Date', date, 'Home', home, 'City', city, 'Beds', beds, 'Resident deaths', resident_deaths, 'PHU', phu)
+            data.append({"home":home, "city":city, "beds":beds, "resident_deaths": resident_deaths, "phu":phu})
+
+    df = pd.DataFrame(data)
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_no_longer_in_outbreak',  'type': 'csv'}
     save_file, save_dir = get_file_path(data, 'processed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     df.to_csv(save_file, index=False)
