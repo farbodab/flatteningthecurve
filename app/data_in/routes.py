@@ -21,6 +21,7 @@ def download_url(url, save_path, chunk_size=128):
 def get_public_csv(source_name, table_name, type, url, classification='public'):
     source_dir = 'data/' + classification + '/' + 'raw/'
     today = datetime.today().strftime('%Y-%m-%d')
+
     file_name = table_name + '_' + today + '.' + type
     save_dir = source_dir + source_name + '/' + table_name
     Path(save_dir).mkdir(parents=True, exist_ok=True)
@@ -32,8 +33,7 @@ def get_public_csv(source_name, table_name, type, url, classification='public'):
         f"Failed to get {save_path}"
         return e
 
-def get_file_path(data):
-    today = datetime.today().strftime('%Y-%m-%d')
+def get_file_path(data, today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + 'raw' + '/'
     file_name = data['table_name'] + '_' + today + '.' + data['type']
     save_dir = source_dir + data['source_name'] + '/' + data['table_name']
@@ -53,7 +53,11 @@ def get_public_ontario_gov_covidtesting():
 def get_public_ontario_gov_website():
     item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html','url':"https://www.ontario.ca/page/how-ontario-is-responding-covid-19"}
     file_path, save_dir = get_file_path(item)
-    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     driver.implicitly_wait(1000)
     driver.get(item['url'])
     tables = driver.find_elements_by_tag_name("table")
@@ -94,7 +98,11 @@ def get_public_google_global_mobility_report():
 
 def get_public_apple_applemobilitytrends():
     item = {'classification':'public', 'source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'}
-    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
+    options = Options()
+    options.headless = True
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     urlpage = "https://www.apple.com/covid19/mobility"
     driver.implicitly_wait(1000)
     driver.get(urlpage)
@@ -158,7 +166,7 @@ def get_public_modcollab_base_on():
     options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     driver.implicitly_wait(10)
     driver.get(item['url'])
     inputButton = driver.find_element_by_tag_name('input[value="{}"]'.format(source_index))
@@ -178,30 +186,37 @@ def get_public_modcollab_base_on():
     return True
 
 def get_public_fisman_ideamodel():
-    item = {'classification':'public', 'source_name':'fisman', 'table_name':'ideamodel',  'type': 'csv','url':"https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/"}
-    source_index = 2
-    chunk_size=128
-    file_path, save_dir = get_file_path(item)
-    options = Options()
-    options.headless = False
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(10)
-    driver.get(item['url'])
-    inputButton = driver.find_element_by_tag_name('a[data-value="Provinces/Regions"]')
-    inputButton.click()
-    time.sleep(5)
-    driver.implicitly_wait(10)
-    button = driver.find_element_by_id('downloadRegionalData')
-    time.sleep(5)
-    data_endpoint = button.get_attribute('href')
-    Path(save_dir).mkdir(parents=True, exist_ok=True)
-    r = requests.get(data_endpoint, allow_redirects=True)
-    with open(file_path, 'wb') as fd:
-        for chunk in r.iter_content(chunk_size=chunk_size):
-            fd.write(chunk)
-    driver.quit()
+    item = {'classification':'public', 'source_name':'fisman', 'table_name':'ideamodel',  'type': 'csv','url':"https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/_w_8d846955/session/d04501bc4865e2bde390efca0ebab3ce/download/downloadRegionalData?w=8d846955"}
+    # source_index = 2
+    # chunk_size=128
+    # file_path, save_dir = get_file_path(item)
+    # options = Options()
+    # options.headless = False
+    # options.add_argument('--disable-gpu')
+    # options.add_argument('--no-sandbox')
+    # driver = webdriver.Chrome(options=options)
+    # driver.implicitly_wait(10)
+    # driver.get(item['url'])
+    # inputButton = driver.find_element_by_tag_name('a[data-value="Provinces/Regions"]')
+    # inputButton.click()
+    # url = None
+    # tries = 10
+    # while url == None and tries > 0:
+    #     tries -= 1
+    #     driver.implicitly_wait(1000)
+    #     try:
+    #         button = driver.find_element_by_id('downloadRegionalData')
+    #         url = button.get_attribute('href')
+    #     except:
+    #         continue
+    # Path(save_dir).mkdir(parents=True, exist_ok=True)
+    # r = requests.get(url, allow_redirects=True)
+    # with open(file_path, 'wb') as fd:
+    #     for chunk in r.iter_content(chunk_size=chunk_size):
+    #         fd.write(chunk)
+    # driver.quit()
+    # return True
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
 def get_confidential_211_call_reports():
@@ -217,9 +232,11 @@ def get_confidential_211_call_reports():
         names = filename.split('-')
         if not 'CallReports' in names:
             continue
-        if not os.path.isfile(save_dir+'/'+filename):
+        date = filename.split('-Created-')[-1]
+        file_path, save_dir = get_file_path(item,date)
+        if not os.path.isfile(file_path):
             print(f"Getting file {filename}")
-            ftp.retrbinary("RETR " + filename ,open(save_dir+'/'+filename, 'wb').write)
+            ftp.retrbinary("RETR " + filename ,open(file_path, 'wb').write)
     ftp.quit()
     return True
 
@@ -236,9 +253,11 @@ def get_confidential_211_met_and_unmet_needs():
         names = filename.split('-')
         if not 'MetAndUnmetNeeds' in names:
             continue
-        if not os.path.isfile(save_dir+'/'+filename):
+        date = filename.split('-Created-')[-1]
+        file_path, save_dir = get_file_path(item,date)
+        if not os.path.isfile(file_path):
             print(f"Getting file {filename}")
-            ftp.retrbinary("RETR " + filename ,open(save_dir+'/'+filename, 'wb').write)
+            ftp.retrbinary("RETR " + filename ,open(file_path, 'wb').write)
     ftp.quit()
     return True
 
@@ -255,13 +274,16 @@ def get_confidential_211_referrals():
         names = filename.split('-')
         if not 'Referrals' in names:
             continue
-        if not os.path.isfile(save_dir+'/'+filename):
+        date = filename.split('-Created-')[-1]
+        file_path, save_dir = get_file_path(item,date)
+        if not os.path.isfile(file_path):
             print(f"Getting file {filename}")
-            ftp.retrbinary("RETR " + filename ,open(save_dir+'/'+filename, 'wb').write)
+            ftp.retrbinary("RETR " + filename ,open(file_path, 'wb').write)
     ftp.quit()
     return True
 
-def get_burning_glass_jobs_data():
+@bp.cli.command('public')
+def get_confidential_burning_glass_jobs_data():
     item = {'classification':'confidential', 'source_name':'burning_glass', 'table_name':'zip',  'type': 'zip','url':"https://public.burning-glass.com/open_data.zip"}
     file_path, save_dir = get_file_path(item)
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'],item['classification'])
@@ -270,21 +292,61 @@ def get_burning_glass_jobs_data():
     files = glob.glob(save_dir+"/*.csv")
     source_dir = 'data/' + item['classification'] + '/' + 'raw/'
     today = datetime.today().strftime('%Y-%m-%d')
-    industry_dir = source_dir + item['source_name'] + '/' + 'industry/'
-    Path(industry_dir).mkdir(parents=True, exist_ok=True)
-    occupation_dir = source_dir + item['source_name'] + '/' + 'occupation/'
-    Path(occupation_dir).mkdir(parents=True, exist_ok=True)
-    total_dir = source_dir + item['source_name'] + '/' + 'total/'
-    Path(total_dir).mkdir(parents=True, exist_ok=True)
+
+    industry_weekly = source_dir + item['source_name'] + '/' + 'industry_weekly/'
+    industry_monthly = source_dir + item['source_name'] + '/' + 'industry_monthly/'
+    occupation_weekly = source_dir + item['source_name'] + '/' + 'occupation_weekly/'
+    occupation_monthly = source_dir + item['source_name'] + '/' + 'occupation_monthly/'
+    total_weekly = source_dir + item['source_name'] + '/' + 'total_weekly/'
+    total_monthly = source_dir + item['source_name'] + '/' + 'total_monthly/'
+
+    Path(industry_weekly).mkdir(parents=True, exist_ok=True)
+    Path(industry_monthly).mkdir(parents=True, exist_ok=True)
+    Path(occupation_weekly).mkdir(parents=True, exist_ok=True)
+    Path(occupation_monthly).mkdir(parents=True, exist_ok=True)
+    Path(total_weekly).mkdir(parents=True, exist_ok=True)
+    Path(total_monthly).mkdir(parents=True, exist_ok=True)
     for file in files:
         names = file.split('_')
         new_name = names[-2] + '_' + today + '.csv'
-        print(names)
-        print(new_name)
         if 'glass/zip\\industry' in names:
-            os.rename(file, industry_dir+new_name)
+            if 'weekly' in names:
+                os.rename(file, industry_weekly+'industry'+'_'+new_name)
+            elif 'monthly' in names:
+                os.rename(file, industry_monthly+'industry'+'_'+new_name)
+
         elif 'glass/zip\\occupation' in names:
-            os.rename(file, occupation_dir+new_name)
+            if 'weekly' in names:
+                os.rename(file, occupation_weekly+'occupation'+'_'+new_name)
+            elif 'monthly' in names:
+                os.rename(file, occupation_monthly+'occupation'+'_'+new_name)
         elif 'glass/zip\\total' in names:
-            os.rename(file, total_dir+new_name)
+            if 'weekly' in names:
+                os.rename(file, total_weekly+'total'+'_'+new_name)
+            elif 'monthly' in names:
+                os.rename(file, total_monthly+'total'+'_'+new_name)
     return True
+
+def get_all():
+    get_public_ontario_gov_conposcovidloc()
+    get_public_ontario_gov_covidtesting()
+    get_public_ontario_gov_website()
+    get_public_howsmyflattening_npi_canada()
+    get_public_open_data_working_group_cases()
+    get_public_open_data_working_group_mortality()
+    get_public_open_data_working_recovered_cumulative()
+    get_public_open_data_working_testing_cumulative()
+    get_public_google_global_mobility_report()
+    get_public_apple_applemobilitytrends()
+    get_public_oxcgrt_oxcgrt_latest()
+    get_public_jhu_time_series_covid19_confirmed_global()
+    get_public_jhu_time_series_covid19_deaths_global()
+    get_public_jhu_time_series_covid19_recovered_global()
+    get_public_owid_covid_testing_all_observations()
+    get_public_keystone_strategy_complete_npis_inherited_policies()
+    get_public_modcollab_base_on()
+    get_public_fisman_ideamodel()
+    get_confidential_211_call_reports()
+    get_confidential_211_met_and_unmet_needs()
+    get_confidential_211_referrals()
+    get_confidential_burning_glass_jobs_data()
