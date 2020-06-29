@@ -4,6 +4,7 @@ from app import db
 from app.models import *
 from app.data_transform import bp
 from datetime import datetime, timedelta
+from datetime import date as datte
 import pandas as pd
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -13,6 +14,8 @@ from scipy import stats as sps
 from scipy.interpolate import interp1d
 from sqlalchemy import sql
 import subprocess
+from dateutil import rrule
+
 
 def get_file_path(data, step='processed', today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + step + '/'
@@ -46,6 +49,7 @@ def transform_public_cases_ontario_confirmed_positive_cases():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('isha')
 def transform_public_cases_canada_confirmed_positive_cases():
     data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'}
     load_file, load_dir = get_file_path(data)
@@ -444,7 +448,7 @@ def transform_public_socioeconomic_ontario_211_call_per_type_of_need():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             ont_data.to_csv(save_file, index=False)
 
-def transform_public_capacity_ontario_icu_capacity():
+def transform_public_capacity_ontario_lhin_icu_capacity():
     data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
     load_file, load_dir = get_file_path(data)
     df = pd.read_sql_table('icucapacity', db.engine)
@@ -466,12 +470,11 @@ def transform_public_capacity_ontario_icu_capacity():
                 db.session.add(c)
                 db.session.commit()
     df = pd.read_sql_table('icucapacity', db.engine)
-    data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_icu_capacity',  'type': 'csv'}
+    data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_lhin_icu_capacity',  'type': 'csv'}
     save_file, save_dir = get_file_path(data_out, 'transformed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     df.to_csv(save_file, index=False)
 
-@bp.cli.command('rt')
 def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
     data = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}
     load_file, load_dir = get_file_path(data, 'transformed')
@@ -490,19 +493,6 @@ def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
                 return e
 
             cases_df = cases_df.loc[cases_df.province == 'Ontario']
-            replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
-            "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
-             "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
-             "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
-              "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
-              "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
-              "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
-              "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
-              "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
-              "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit", "Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
-              "Thunder Bay": "Thunder Bay District Health Unit", "Southwestern":"Southwestern Public Health Unit"}
-
-            cases_df.health_region = cases_df.health_region.replace(replace)
             cases_df['date_report'] = pd.to_datetime(cases_df['date_report'])
             province_df = cases_df.groupby(['province', 'date_report'])['case_id'].count()
             province_df.index.rename(['health_region', 'date_report'], inplace=True)
@@ -615,10 +605,292 @@ def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
             results.to_csv(save_file, index=False)
 
 @bp.cli.command('r')
-def get_r():
+def transform_public_rt_canada_cori_approach():
     data = {'classification':'public', 'source_name':'rt', 'table_name':'canada_cori_approach',  'type': 'csv'}
     load_file, load_dir = get_file_path(data, 'processed')
     load_file = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv"
     save_file, save_dir = get_file_path(data, 'transformed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     out = subprocess.check_output(f"Rscript.exe --vanilla C:/HMF/flattening-the-curve-backend/app/tools/r/Rt_ontario.r {load_file} {save_file}")
+
+def transform_public_capacity_ontario_phu_icu_capacity():
+    data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    replace = {
+    'Lakeridge Health Corporation':"Durham",
+    "Alexandra Hospital":"Southwestern",
+    "Alexandra Marine and General Hospital":"Huron Perth",
+    "Sunnybrook Health Sciences Centre":"City of Toronto",
+    "Quinte Healthcare Corporation":"Hastings and Prince Edward Counties",
+    "Scarborough Health Network":"City of Toronto",
+    "William Osler Health Centre":"Peel",
+    "Brant Community Healthcare System":"Brant County",
+    "Cambridge Memorial Hospital":"Region of Waterloo",
+    "Brockville General Hospital":"Leeds, Grenville and Lanark District Health Unit",
+    "St. Joseph's Healthcare System":"City of Hamilton",
+    "Chatham-Kent Health Alliance":"Chatham-Kent",
+    "London Health Sciences Centre":"Middlesex-London",
+    "Children's Hospital of Eastern Ontario - Ottawa Children's Treatment Centre":"Ottawa Public Health",
+    "The Ottawa Hospital":"Ottawa Public Health",
+    "Collingwood General and Marine Hospital":"Simcoe Muskoka District Health Unit",
+    "Erie Shores Healthcare":"Windsor-Essex County Health Unit",
+    "Hamilton Health Sciences":"City of Hamilton",
+    "Halton Healthcare Services Corporation":"Halton Region Health Department",
+    "Georgian Bay General Hospital":"Simcoe Muskoka District Health Unit",
+    "Perth and Smiths Falls District Hospital":"Leeds, Grenville and Lanark District Health Unit",
+    "Niagara Health System":"Niagara Region Public Health Department",
+    "Guelph General Hospital":"Wellington-Dufferin-Guelph Health Unit",
+    "Hawkesbury and District General Hospital":"Eastern Ontario Health Unit",
+    "Hopital Montfort":"Ottawa Public Health",
+    "Peterborough Regional Health Centre":"Peterborough County-City Health Unit",
+    "Muskoka Algonquin Healthcare":"Simcoe Muskoka District Health Unit",
+    "Joseph Brant Hospital":"Halton Region Health Department",
+    "Kingston Health Sciences Centre":"Kingston, Frontenac and Lennox and Addington Health Unit",
+    "Kirkland and District Hospital":"Timiskaming Health Unit",
+    "Grand River Hospital Corporation":"Region of Waterloo",
+    "Lake-of-the-Woods District Hospital":"Northwestern Health Unit",
+    "Lennox and Addington County General Hospital":"Kingston, Frontenac and Lennox and Addington Health Unit",
+    "Mackenzie Health":"York Region",
+    "Markham Stouffville Hospital":"York Region",
+    "Cornwall Community Hospital":"Eastern Ontario Health Unit",
+    "Windsor Regional Hospital":"Windsor-Essex County Health Unit",
+    "Toronto East Health Network":"City of Toronto",
+    "Trillium Health Partners":"Peel",
+    "Sinai Health System":"City of Toronto",
+    "Norfolk General Hospital":"Haldimand-Norfolk Health Unit",
+    "North Bay Regional Health Centre":"North Bay Parry Sound District Health Unit",
+    "North York General Hospital":"City of Toronto",
+    "Northumberland Hills Hospital":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+    "Headwaters Health Care Centre":"Wellington-Dufferin-Guelph Health Unit",
+    "Orillia Soldiers Memorial Hospital":"Simcoe Muskoka District Health Unit",
+    "Grey Bruce Health Services":"Grey Bruce Health Unit",
+    "Pembroke Regional Hospital Inc.":"Renfrew County and District Health Unit",
+    "Queensway - Carleton Hospital":"Ottawa Public Health",
+    "Health Sciences North":"Sudbury and District Health Unit",
+    "Renfrew Victoria Hospital":"Renfrew County and District Health Unit",
+    "Ross Memorial Hospital":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+    "Royal Victoria Regional Health Centre":"Simcoe Muskoka District Health Unit",
+    "Bluewater Health":"Lambton Public Health",
+    "Sault Area Hospital":"The District of Algoma Health Unit",
+    "Sensenbrenner Hospital":"Porcupine Health Unit",
+    "Southlake Regional Health Centre":"York Region Public Health",
+    "Unity Health Toronto":"City of Toronto",
+    "St. Joseph's General Hospital":"City of Toronto",
+    "St. Mary's General Hospital":"Region of Waterloo",
+    "St. Thomas-Elgin General Hospital":"Southwestern Public Health",
+    "Stevenson Memorial Hospital":"Simcoe Muskoka District Health Unit",
+    "Stratford General Hospital":"Huron Perth",
+    "Strathroy Middlesex General Hospital":"Middlesex-London",
+    "Temiskaming Hospital":"Timiskaming Health Unit",
+    "The Hospital for Sick Children":"City of Toronto",
+    "Thunder Bay Regional Health Sciences Centre":"Thunder Bay District Health Unit",
+    "Tillsonburg District Memorial Hospital":"Southwestern",
+    "Timmins and District General Hospital":"Porcupine Health Unit",
+    "University Health Network":"City of Toronto",
+    "University of Ottawa Heart Institute":"Ottawa Public Health",
+    "West Parry Sound Health Centre":"North Bay Parry Sound District Health Uni",
+    "Humber River Regional Hospital":"City of Toronto",
+    "Woodstock General Hospital":"Southwestern",
+
+    }
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.'+data['type'])[0]
+        data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}
+        save_file, save_dir = get_file_path(data_out, 'transformed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file)
+            except:
+                pass
+            df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
+            df['phu'] = df['hospital_name'].replace(replace)
+            df = df.groupby(['phu']).sum().reset_index()
+            df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            df.to_csv(save_file, index=False)
+
+def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
+    data = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}
+    load_file, load_dir = get_file_path(data, 'transformed')
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.'+data['type'])[0]
+        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_phu_confirmed_positive_aggregated',  'type': 'csv'}
+        save_file, save_dir = get_file_path(data_out, 'transformed', date)
+        if not os.path.isfile(save_file):
+            try:
+                dfs = pd.read_csv(file)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+
+            dfs = dfs.loc[dfs.province == "Ontario"]
+            for column in ['date_report']:
+                dfs[column] = pd.to_datetime(dfs[column])
+            health_regions = dfs.health_region.unique()
+
+            data_frame = {'date_report':[], 'health_regions':[], 'new_cases':[], 'cumulative_cases': []}
+            min = dfs['date_report'].min()
+            max = dfs['date_report'].max()
+            idx = pd.date_range(min, max)
+
+            for region in health_regions:
+                df = dfs.loc[dfs.health_region == region]
+                df = df.groupby("date_report").case_id.count()
+                df = df.reindex(idx, fill_value=0).reset_index()
+                date = datetime.strptime("2020-02-28","%Y-%m-%d")
+                df = df.loc[df['index'] > date]
+                df['date_str'] = df['index'].astype(str)
+                df['cumulative_cases'] = df['case_id'].cumsum()
+
+                data_frame['date_report'] += df['index'].tolist()
+                data_frame['health_regions'] += [region]*len(df['index'].tolist())
+                data_frame['new_cases'] += df['case_id'].tolist()
+                data_frame['cumulative_cases'] += df['cumulative_cases'].tolist()
+
+            df_final = pd.DataFrame(data_frame, columns=['date_report', 'health_regions', 'new_cases','cumulative_cases'])
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            df_final.to_csv(save_file, index=False)
+
+def transform_public_cases_ontario_phu_weekly_new_cases():
+    data = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    load_file, load_dir = get_file_path(data, 'transformed')
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.'+data['type'])[0]
+        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}
+        save_file, save_dir = get_file_path(data_out, 'transformed', date)
+        if not os.path.isfile(save_file):
+            try:
+                ont_data = pd.read_csv(file)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+
+            for column in ['case_reported_date']:
+                ont_data[column] = pd.to_datetime(ont_data[column])
+
+            start_date = datetime(2020,1,1)
+            phus = {}
+
+            for phu in set(ont_data["reporting_phu"].values):
+                tmp_data = ont_data[ont_data["reporting_phu"]==phu]
+                tmp_data = tmp_data.groupby(['case_reported_date']).count()
+                tmp_data = tmp_data[['row_id']]
+                tmp_data = tmp_data.reset_index()
+                tmp_data['date_week'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[1])
+                tmp_data['date_year'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[0])
+                #ont_data
+
+                week_count_dict = {}
+                for dtime in rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=datte.today()):
+                    dt_week = dtime.isocalendar()[1]
+                    dt_year = dtime.isocalendar()[0]
+                    d = f'{dt_year}-W{dt_week-1}'
+                    r = datetime.strptime(d + '-1', "%Y-W%W-%w")
+                    week_count_dict[r] = sum(tmp_data[(tmp_data["date_year"]==dt_year)&(tmp_data["date_week"]==dt_week)]["row_id"].values)
+
+                    #print(r, week_count_dict[r])
+                phus[phu] = week_count_dict
+
+            tmp_data = ont_data
+            tmp_data = tmp_data.groupby(['case_reported_date']).count()
+            tmp_data = tmp_data[['row_id']]
+            tmp_data = tmp_data.reset_index()
+            tmp_data['date_week'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[1])
+            tmp_data['date_year'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[0])
+            #ont_data
+
+            week_count_dict = {}
+            for dtime in rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=datte.today()):
+                dt_week = dtime.isocalendar()[1]
+                dt_year = dtime.isocalendar()[0]
+                d = f'{dt_year}-W{dt_week-1}'
+                r = datetime.strptime(d + '-1', "%Y-W%W-%w")
+                week_count_dict[r] = sum(tmp_data[(tmp_data["date_year"]==dt_year)&(tmp_data["date_week"]==dt_week)]["row_id"].values)
+
+                #print(r, week_count_dict[r])
+            phus["Ontario"] = week_count_dict
+            phu_weekly = pd.DataFrame(phus)
+            phu_weekly = phu_weekly.reset_index()
+            phu_weekly = pd.melt(phu_weekly, id_vars=['index'])
+            phu_weekly = phu_weekly.rename(columns={"index": "Date", "variable": "PHU", "value": "Cases"})
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            phu_weekly.to_csv(save_file, index=False)
+
+@bp.cli.command('phu')
+def transform_public_capacity_ontario_testing_24_hours():
+    data = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    load_file, load_dir = get_file_path(data, 'transformed')
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.'+data['type'])[0]
+        data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
+        save_file, save_dir = get_file_path(data_out, 'transformed', date)
+        if not os.path.isfile(save_file):
+            try:
+                ont_data = pd.read_csv(file)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+            for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
+                ont_data[column] = pd.to_datetime(ont_data[column])
+            phus = set(ont_data["reporting_phu"].values)
+            #phus = ['Toronto Public Health']
+            # output array
+            output_arrays = {}
+
+            # for each day in year from start date
+            start_date = datte(2020, 5, 1)
+            end_date = datte.today()
+            delta = timedelta(days=1)
+            while start_date <= end_date:
+                #print (start_date.strftime("%Y-%m-%d"))
+                for phu in phus:
+                    tmp = ont_data[(ont_data["reporting_phu"]==phu)&(ont_data["case_reported_date"]==np.datetime64(start_date))]
+                    counter = 0
+                    total = 0
+                    for index,row in tmp.iterrows():
+                        specimen_reported_date = row["specimen_reported_date"]
+                        test_reported_date = row["test_reported_date"]
+                        if specimen_reported_date == "nan" or test_reported_date == "nan":
+                            difference = -1 # what do we do when one of the dates is not avaible? I treat it as not less than 24 hours.
+                        else:
+                            difference = (test_reported_date-specimen_reported_date).days
+                        if difference == 0:
+                            counter += 1
+                        total += 1
+                    output_arrays[phu] = output_arrays.get(phu,[]) + [[start_date,phu,counter,total]]
+                tmp = ont_data[(ont_data["accurate_episode_date"]==np.datetime64(start_date))]
+                counter = 0
+                total = 0
+                for index,row in tmp.iterrows():
+                    specimen_reported_date = row["specimen_reported_date"]
+                    test_reported_date = row["test_reported_date"]
+                    if specimen_reported_date == "nan" or test_reported_date == "nan":
+                        difference = -1 # what do we do when one of the dates is not avaible? I treat it as not less than 24 hours.
+                    else:
+                        difference = (test_reported_date-specimen_reported_date).days
+                    if difference == 0:
+                        counter += 1
+                    total += 1
+                output_arrays["Ontario"] = output_arrays.get("Ontario",[]) + [[start_date,"Ontario",counter,total]]
+                start_date += delta
+            phus.add("Ontario")
+            phu_dfs = []
+            for phu in phus:
+                df = pd.DataFrame(output_arrays[phu], columns=["Date","PHU","Number of Tests Within 24 Hours", "Number of Tests"])
+                df["Percentage in 24 hours"] = df["Number of Tests Within 24 Hours"]/df["Number of Tests"]
+                df['Percentage in 24 hours_7dayrolling'] = df['Percentage in 24 hours'].rolling(7).mean()
+                phu_dfs.append(df)
+            final_dataframe = pd.concat(phu_dfs)
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            final_dataframe.to_csv(save_file, index=False)

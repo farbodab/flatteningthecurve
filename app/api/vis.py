@@ -498,7 +498,6 @@ def get_outbreaks():
     df = df.groupby(['accurate_episode_date', 'outbreak_related']).row_id.count().reset_index()
     return df
 
-
 def get_tested():
     df = pd.read_sql_table('canadatesting', db.engine)
     provinces = ['Ontario', 'Quebec', 'BC', 'Alberta']
@@ -908,7 +907,6 @@ def get_rt_est():
         except:
             print(f'error in getting value for f{prov_name}')
     return results
-
 
 def get_phudeath():
     c = CanadaMortality.query.filter_by(province="Ontario")
