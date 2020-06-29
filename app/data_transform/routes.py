@@ -307,6 +307,7 @@ def transform_public_mobility_google():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public')
 def transform_confidential_moh_iphis():
     data = {'classification':'restricted', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
     load_file, load_dir = get_file_path(data)
@@ -325,10 +326,10 @@ def transform_confidential_moh_iphis():
                 return e
             for column in ["case_reported_date", "client_death_date"]:
                 df[column] = pd.to_datetime(df[column])
-            cases = df.groupby(['fsa','case_reported_date']).agg({'pseudo_id':'sum'}).reset_index()
+            cases = df.groupby(['fsa','case_reported_date']).pseudo_id.count().reset_index()
             cases.rename(columns={'pseudo_id':'cases'},inplace=True)
             cases.rename(columns={'case_reported_date':'date'},inplace=True)
-            deaths = df.groupby(['fsa','client_death_date']).agg({'pseudo_id':'sum'}).reset_index()
+            deaths = df.groupby(['fsa','client_death_date']).pseudo_id.count().reset_index()
             deaths.rename(columns={'pseudo_id':'deaths'},inplace=True)
             deaths.rename(columns={'client_death_date':'date'},inplace=True)
             first_date = min(min(cases["date"]),min(deaths["date"]))
@@ -338,14 +339,14 @@ def transform_confidential_moh_iphis():
             combined_df.fillna(0, inplace=True)
             headers = ["date", "fsa", "cases", "deaths"]
             rows = []
-            for FSA in set(combined_df["fsa"].values):
+            for fsa in set(combined_df["fsa"].values):
                 for day in date_list:
-                    temp = combined_df[combined_df["fsa"]==FSA]
+                    temp = combined_df[combined_df["fsa"]==fsa]
                     row = temp[temp["date"] == day]
                     if len(row) == 0:
-                        rows.append([day, FSA, 0.0, 0.0])
+                        rows.append([day, fsa, 0.0, 0.0])
                     else:
-                        rows.append([day, FSA, row["cases"].values[0], row["deaths"].values[0]])
+                        rows.append([day, fsa, row["cases"].values[0], row["deaths"].values[0]])
             combined_df = pd.DataFrame(rows, columns=headers)
             combined_df.sort_values("date", inplace=True)
             combined_df["cumulative_deaths"] = combined_df.groupby('fsa')['deaths'].cumsum()
