@@ -7,9 +7,12 @@ from datetime import datetime, timedelta
 import pandas as pd
 from pathlib import Path
 from bs4 import BeautifulSoup
-import glob
-import os
+import glob, os
+import numpy as np
+from scipy import stats as sps
+from scipy.interpolate import interp1d
 from sqlalchemy import sql
+import subprocess
 
 def get_file_path(data, step='processed', today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + step + '/'
@@ -318,6 +321,7 @@ def transform_confidential_moh_iphis():
         data_out = {'classification':'confidential', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'transformed', date)
         if not os.path.isfile(save_file):
+            print(file)
             try:
                 df = pd.read_csv(file)
             except Exception as e:
@@ -466,3 +470,155 @@ def transform_public_capacity_ontario_icu_capacity():
     save_file, save_dir = get_file_path(data_out, 'transformed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     df.to_csv(save_file, index=False)
+
+@bp.cli.command('rt')
+def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
+    data = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}
+    load_file, load_dir = get_file_path(data, 'transformed')
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.'+data['type'])[0]
+        data_out = {'classification':'public', 'source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
+        save_file, save_dir = get_file_path(data_out, 'transformed', date)
+        if not os.path.isfile(save_file):
+            try:
+                cases_df = pd.read_csv(file)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+
+            cases_df = cases_df.loc[cases_df.province == 'Ontario']
+            replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
+            "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+             "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+             "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+              "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
+              "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
+              "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+              "Sudbury": "Sudbury and District Health Unit", "Timiskaming":"Timiskaming Health Unit", "Toronto":"City of Toronto Health Unit", "Waterloo":"Waterloo Health Unit",
+              "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Health Unit", "Windsor-Essex":"Windsor-Essex County Health Unit",  "York":"York Regional Health Unit",
+              "Haldimand-Norfolk": "Haldimand-Norfolk Health Unit", "Leeds Grenville and Lanark": "Leeds, Grenville and Lanark District Health Unit", "Renfrew": "Renfrew County and District Health Unit",
+              "Thunder Bay": "Thunder Bay District Health Unit", "Southwestern":"Southwestern Public Health Unit"}
+
+            cases_df.health_region = cases_df.health_region.replace(replace)
+            cases_df['date_report'] = pd.to_datetime(cases_df['date_report'])
+            province_df = cases_df.groupby(['province', 'date_report'])['case_id'].count()
+            province_df.index.rename(['health_region', 'date_report'], inplace=True)
+            hr_df = cases_df.groupby(['health_region', 'date_report'])['case_id'].count()
+            canada_df = pd.concat((province_df, hr_df))
+
+            def prepare_cases(cases):
+                # modification - Isha Berry et al.'s data already come in daily
+                #new_cases = cases.diff()
+                new_cases = cases
+
+                smoothed = new_cases.rolling(7,
+                    win_type='gaussian',
+                    min_periods=1,
+                    # Alf: switching to right-aligned instead of centred to prevent leakage of
+                    # information from the future
+                    #center=True).mean(std=2).round()
+                    center=False).mean(std=2).round()
+
+                zeros = smoothed.index[smoothed.eq(0)]
+                if len(zeros) == 0:
+                    idx_start = 0
+                else:
+                    last_zero = zeros.max()
+                    idx_start = smoothed.index.get_loc(last_zero) + 1
+                smoothed = smoothed.iloc[idx_start:]
+                original = new_cases.loc[smoothed.index]
+                return original, smoothed
+
+            # We create an array for every possible value of Rt
+            R_T_MAX = 12
+            r_t_range = np.linspace(0, R_T_MAX, R_T_MAX*100+1)
+
+            # Gamma is 1/serial interval
+            # https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article
+            GAMMA = 1/4
+
+            def get_posteriors(sr, window=7, min_periods=1):
+                lam = sr[:-1].values * np.exp(GAMMA * (r_t_range[:, None] - 1))
+
+                # Note: if you want to have a Uniform prior you can use the following line instead.
+                # I chose the gamma distribution because of our prior knowledge of the likely value
+                # of R_t.
+
+                # prior0 = np.full(len(r_t_range), np.log(1/len(r_t_range)))
+                prior0 = np.log(sps.gamma(a=3).pdf(r_t_range) + 1e-14)
+
+                likelihoods = pd.DataFrame(
+                    # Short-hand way of concatenating the prior and likelihoods
+                    data = np.c_[prior0, sps.poisson.logpmf(sr[1:].values, lam)],
+                    index = r_t_range,
+                    columns = sr.index)
+
+                # Perform a rolling sum of log likelihoods. This is the equivalent
+                # of multiplying the original distributions. Exponentiate to move
+                # out of log.
+                posteriors = likelihoods.rolling(window,
+                                                 axis=1,
+                                                 min_periods=min_periods).sum()
+                posteriors = np.exp(posteriors)
+
+                # Normalize to 1.0
+                posteriors = posteriors.div(posteriors.sum(axis=0), axis=1)
+
+                return posteriors
+
+            def highest_density_interval(pmf, p=.95):
+                # If we pass a DataFrame, just call this recursively on the columns
+                if(isinstance(pmf, pd.DataFrame)):
+                    return pd.DataFrame([highest_density_interval(pmf[col]) for col in pmf],
+                                        index=pmf.columns)
+
+                cumsum = np.cumsum(pmf.values)
+                best = None
+                for i, value in enumerate(cumsum):
+                    for j, high_value in enumerate(cumsum[i+1:]):
+                        if (high_value-value > p) and (not best or j<best[1]-best[0]):
+                            best = (i, i+j+1)
+                            break
+
+                low = pmf.index[best[0]]
+                high = pmf.index[best[1]]
+                return pd.Series([low, high], index=['Low', 'High'])
+
+
+            target_regions = []
+            for reg, cases in canada_df.groupby(level='health_region'):
+                if cases.max() >= 30:
+                    target_regions.append(reg)
+            provinces_to_process = canada_df.loc[target_regions]
+
+            results = None
+            for prov_name, cases in provinces_to_process.groupby(level='health_region'):
+                new, smoothed = prepare_cases(cases)
+                try:
+                    posteriors = get_posteriors(smoothed)
+                except Exception as e:
+                    print(e)
+                    continue
+                hdis = highest_density_interval(posteriors)
+                most_likely = posteriors.idxmax().rename('ML')
+                result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['health_region', 'date_report'])
+                if results is None:
+                    results = result
+                else:
+                    results = results.append(result)
+
+            results['PHU'] = results['health_region']
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            results.to_csv(save_file, index=False)
+
+@bp.cli.command('r')
+def get_r():
+    data = {'classification':'public', 'source_name':'rt', 'table_name':'canada_cori_approach',  'type': 'csv'}
+    load_file, load_dir = get_file_path(data, 'processed')
+    load_file = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv"
+    save_file, save_dir = get_file_path(data, 'transformed')
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    out = subprocess.check_output(f"Rscript.exe --vanilla C:/HMF/flattening-the-curve-backend/app/tools/r/Rt_ontario.r {load_file} {save_file}")

@@ -282,7 +282,6 @@ def get_confidential_211_referrals():
     ftp.quit()
     return True
 
-@bp.cli.command('public')
 def get_confidential_burning_glass_jobs_data():
     item = {'classification':'confidential', 'source_name':'burning_glass', 'table_name':'zip',  'type': 'zip','url':"https://public.burning-glass.com/open_data.zip"}
     file_path, save_dir = get_file_path(item)
@@ -327,6 +326,7 @@ def get_confidential_burning_glass_jobs_data():
                 os.rename(file, total_monthly+'total'+'_'+new_name)
     return True
 
+@bp.cli.command('public')
 def get_all():
     get_public_ontario_gov_conposcovidloc()
     get_public_ontario_gov_covidtesting()
