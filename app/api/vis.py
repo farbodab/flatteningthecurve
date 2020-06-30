@@ -1303,11 +1303,11 @@ def get_weekly_new_cases():
 
     for phu in set(ont_data["reporting_phu"].values):
         tmp_data = ont_data[ont_data["reporting_phu"]==phu]
-        tmp_data = tmp_data.groupby(['accurate_episode_date']).count()
+        tmp_data = tmp_data.groupby(['case_reported_date']).count()
         tmp_data = tmp_data[['id']]
         tmp_data = tmp_data.reset_index()
-        tmp_data['date_week'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[1])
-        tmp_data['date_year'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[0])
+        tmp_data['date_week'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[1])
+        tmp_data['date_year'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[0])
         #ont_data
 
         week_count_dict = {}
@@ -1322,11 +1322,11 @@ def get_weekly_new_cases():
         phus[phu] = week_count_dict
 
     tmp_data = ont_data
-    tmp_data = tmp_data.groupby(['accurate_episode_date']).count()
+    tmp_data = tmp_data.groupby(['case_reported_date']).count()
     tmp_data = tmp_data[['id']]
     tmp_data = tmp_data.reset_index()
-    tmp_data['date_week'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[1])
-    tmp_data['date_year'] = tmp_data['accurate_episode_date'].apply(lambda x: x.isocalendar()[0])
+    tmp_data['date_week'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[1])
+    tmp_data['date_year'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[0])
     #ont_data
 
     week_count_dict = {}
@@ -1359,7 +1359,7 @@ def get_testing_24_hours():
     while start_date <= end_date:
         #print (start_date.strftime("%Y-%m-%d"))
         for phu in phus:
-            tmp = ont_data[(ont_data["reporting_phu"]==phu)&(ont_data["accurate_episode_date"]==np.datetime64(start_date))]
+            tmp = ont_data[(ont_data["reporting_phu"]==phu)&(ont_data["case_reported_date"]==np.datetime64(start_date))]
             counter = 0
             total = 0
             for index,row in tmp.iterrows():
@@ -1373,7 +1373,7 @@ def get_testing_24_hours():
                     counter += 1
                 total += 1
             output_arrays[phu] = output_arrays.get(phu,[]) + [[start_date,phu,counter,total]]
-        tmp = ont_data[(ont_data["accurate_episode_date"]==np.datetime64(start_date))]
+        tmp = ont_data[(ont_data["case_reported_date"]==np.datetime64(start_date))]
         counter = 0
         total = 0
         for index,row in tmp.iterrows():
@@ -1647,5 +1647,4 @@ def get_duration_percentiles():
         sentinel_delay_df[cm] = sentinel_delay_df[cm].apply(correct_sentinel)
 
     sentinel_delay_df = sentinel_delay_df.reset_index().rename(columns={'index':'date'})
-    df = pd.melt(sentinel_delay_df, id_vars=['date'])
-    return df
+    return sentinel_delay_df
