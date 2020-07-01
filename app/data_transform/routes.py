@@ -16,6 +16,8 @@ from sqlalchemy import sql
 import subprocess
 from dateutil import rrule
 
+def convert_date(date):
+    return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
 
 def get_file_path(data, step='processed', today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + step + '/'
@@ -27,311 +29,149 @@ def get_file_path(data, step='processed', today=datetime.today().strftime('%Y-%m
     file_path =  save_dir + '/' + file_name
     return file_path, save_dir
 
-def transform_public_cases_ontario_confirmed_positive_cases():
-    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
+def transform(data_in, data_out):
+    load_file, load_dir = get_file_path(data_in)
+    files = glob.glob(load_dir + "/*." + data_in['type'])
     for file in files:
         filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+        date = filename.split('.' + data_in['type'])[0]
         save_file, save_dir = get_file_path(data_out, 'transformed', date)
         if not os.path.isfile(save_file):
             try:
                 df = pd.read_csv(file)
             except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(f"Failed to get {data_in['source_name']}/{data_in['table_name']}")
                 print(e)
-                return e
+                raise e
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
+            yield df, save_file
+
+def transform_public_cases_ontario_confirmed_positive_cases():
+    try: 
+        for df, save_file in transform(
+            data_in={'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'}, 
+            data_out={'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 @bp.cli.command('isha')
 def transform_public_cases_canada_confirmed_positive_cases():
-    data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try: 
+        for df, save_file in transform(
+            data_in={'classification':'public', 'source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'},
+            data_out={'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_cases_canada_confirmed_mortality_cases():
-    data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'mortality',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_mortality_cases',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df, save_file in transform(
+            data_in={'classification':'public', 'source_name':'open_data_working_group', 'table_name':'mortality',  'type': 'csv'},
+            data_out={'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_mortality_cases',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_cases_canada_recovered_aggregated():
-    data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'recovered_cumulative',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'canada_recovered_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'recovered_cumulative',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'cases', 'table_name':'canada_recovered_aggregated',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_cases_international_cases_aggregated():
-    data = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_confirmed_global',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'international_cases_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_confirmed_global',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'cases', 'table_name':'international_cases_aggregated',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_cases_international_mortality_aggregated():
-    data = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_deaths_global',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'international_mortality_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df in transform(
+            data_in = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_deaths_global',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'cases', 'table_name':'international_mortality_aggregated',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_cases_international_recovered_aggregated():
-    data = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_recovered_global',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'international_recovered_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df in transform(
+            data_in = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_recovered_global',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'cases', 'table_name':'international_recovered_aggregated',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_testing_international_testing_aggregated():
-    data = {'classification':'public', 'source_name':'owid', 'table_name':'covid_testing_all_observations',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'testing', 'table_name':'international_testing_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'owid', 'table_name':'covid_testing_all_observations',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'testing', 'table_name':'international_testing_aggregated',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_testing_canada_testing_aggregated():
-    data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'testing_cumulative',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'testing', 'table_name':'canada_testing_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df in transform(
+            data_in = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'testing_cumulative',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'testing', 'table_name':'canada_testing_aggregated',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_interventions_canada_non_pharmaceutical_interventions():
-    data = {'classification':'public', 'source_name':'howsmyflattening', 'table_name':'npi_canada',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'interventions', 'table_name':'canada_non_pharmaceutical_interventions',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'howsmyflattening', 'table_name':'npi_canada',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'interventions', 'table_name':'canada_non_pharmaceutical_interventions',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_interventions_international_non_pharmaceutical_interventions():
-    data = {'classification':'public', 'source_name':'oxcgrt', 'table_name':'oxcgrt_latest',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'interventions', 'table_name':'international_non_pharmaceutical_interventions',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df in transform(
+            data_in = {'classification':'public', 'source_name':'oxcgrt', 'table_name':'oxcgrt_latest',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'interventions', 'table_name':'international_non_pharmaceutical_interventions',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_mobility_apple():
-    data = {'classification':'public', 'source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'mobility', 'table_name':'apple',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df in transform(
+            data_in = {'classification':'public', 'source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'interventions', 'table_name':'international_non_pharmaceutical_interventions',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_mobility_google():
-    data = {'classification':'public', 'source_name':'google', 'table_name':'global_mobility_report',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'mobility', 'table_name':'google',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'google', 'table_name':'global_mobility_report',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'mobility', 'table_name':'google',  'type': 'csv'}):
             df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 @bp.cli.command('public')
 def transform_confidential_moh_iphis():
-    data = {'classification':'restricted', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'confidential', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            print(file)
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'restricted', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'},
+            data_out = {'classification':'confidential', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}):
+
             for column in ["case_reported_date", "client_death_date"]:
                 df[column] = pd.to_datetime(df[column])
             cases = df.groupby(['fsa','case_reported_date']).pseudo_id.count().reset_index()
@@ -359,28 +199,16 @@ def transform_confidential_moh_iphis():
             combined_df.sort_values("date", inplace=True)
             combined_df["cumulative_deaths"] = combined_df.groupby('fsa')['deaths'].cumsum()
             combined_df["cumulative_cases"] = combined_df.groupby('fsa')['cases'].cumsum()
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             combined_df.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_socioeconomic_ontario_211_call_reports():
-    data = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    def convert_date(date):
-        return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'socioeconomic', 'table_name':'ontario_211_call_reports',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                ont_data = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'socioeconomic', 'table_name':'ontario_211_call_reports',  'type': 'csv'}):
+            ont_data = df
             ont_data["call_date_and_time_start"] = ont_data["call_date_and_time_start"].apply(convert_date)
             ont_data = ont_data.loc[pd.to_datetime(ont_data['call_date_and_time_start']) >= pd.to_datetime(datetime.strptime("01/01/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
             day_count = {}
@@ -393,60 +221,37 @@ def transform_public_socioeconomic_ontario_211_call_reports():
             ont_data = ont_data[['call_report_num']]
             ont_data['call_report_num_7_day_rolling_average'] = ont_data.rolling(window=7).mean()
             ont_data = ont_data.reset_index()
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             ont_data.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_socioeconomic_ontario_211_call_reports_by_age():
-    data = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    def convert_date(date):
-        return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'socioeconomic', 'table_name':'ontario_211_call_reports_by_age',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                ont_data = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'socioeconomic', 'table_name':'ontario_211_call_reports_by_age',  'type': 'csv'}):
+            ont_data = df
             ont_data["call_date_and_time_start"] = ont_data["call_date_and_time_start"].apply(convert_date)
             ont_data = ont_data.loc[pd.to_datetime(ont_data['call_date_and_time_start']) >= pd.to_datetime(datetime.strptime("01/01/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
             ont_data = ont_data.groupby(['call_date_and_time_start', 'age_of_inquirer']).count().reset_index()
-
-
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             ont_data.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_socioeconomic_ontario_211_call_per_type_of_need():
-    data = {'classification':'confidential', 'source_name':'211', 'table_name':'met_and_unmet_needs',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
-    def convert_date(date):
-        return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'socioeconomic', 'table_name':'ontario_211_call_per_type_of_need',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                ont_data = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'confidential', 'source_name':'211', 'table_name':'met_and_unmet_needs',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'socioeconomic', 'table_name':'ontario_211_call_per_type_of_need',  'type': 'csv'}):
+            ont_data = df
             ont_data["date_of_call"] = ont_data["date_of_call"].apply(convert_date)
             ont_data = ont_data.loc[pd.to_datetime(ont_data['date_of_call']) >= pd.to_datetime(datetime.strptime("01/01/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
             ont_data = ont_data.drop_duplicates()
             ont_data = ont_data.groupby(['date_of_call', 'airs_need_category']).count()
             ont_data.reset_index(inplace=True)
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             ont_data.to_csv(save_file, index=False)
+    except Exception as e
+        return e
 
 def transform_public_capacity_ontario_lhin_icu_capacity():
     data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
@@ -476,22 +281,11 @@ def transform_public_capacity_ontario_lhin_icu_capacity():
     df.to_csv(save_file, index=False)
 
 def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
-    data = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data, 'transformed')
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                cases_df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}):
+            cases_df = df
             cases_df = cases_df.loc[cases_df.province == 'Ontario']
             cases_df['date_report'] = pd.to_datetime(cases_df['date_report'])
             province_df = cases_df.groupby(['province', 'date_report'])['case_id'].count()
@@ -601,7 +395,6 @@ def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
                     results = results.append(result)
 
             results['PHU'] = results['health_region']
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             results.to_csv(save_file, index=False)
 
 @bp.cli.command('r')
@@ -614,9 +407,7 @@ def transform_public_rt_canada_cori_approach():
     out = subprocess.check_output(f"Rscript.exe --vanilla C:/HMF/flattening-the-curve-backend/app/tools/r/Rt_ontario.r {load_file} {save_file}")
 
 def transform_public_capacity_ontario_phu_icu_capacity():
-    data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data)
-    files = glob.glob(load_dir+"/*."+data['type'])
+
     replace = {
     'Lakeridge Health Corporation':"Durham",
     "Alexandra Hospital":"Southwestern",
@@ -694,41 +485,25 @@ def transform_public_capacity_ontario_phu_icu_capacity():
     "Woodstock General Hospital":"Southwestern",
 
     }
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                df = pd.read_csv(file)
-            except:
-                pass
+
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}):
             df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
             df['phu'] = df['hospital_name'].replace(replace)
             df = df.groupby(['phu']).sum().reset_index()
             df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
+    except Exception as e
+        pass
 
 def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
-    data = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data, 'transformed')
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_phu_confirmed_positive_aggregated',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                dfs = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
-
-            dfs = dfs.loc[dfs.province == "Ontario"]
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_phu_confirmed_positive_aggregated',  'type': 'csv'}):
+            dfs = df.loc[dfs.province == "Ontario"]
             for column in ['date_report']:
                 dfs[column] = pd.to_datetime(dfs[column])
             health_regions = dfs.health_region.unique()
@@ -753,26 +528,17 @@ def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
                 data_frame['cumulative_cases'] += df['cumulative_cases'].tolist()
 
             df_final = pd.DataFrame(data_frame, columns=['date_report', 'health_regions', 'new_cases','cumulative_cases'])
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             df_final.to_csv(save_file, index=False)
+    except Exception as e
+        pass
 
 def transform_public_cases_ontario_phu_weekly_new_cases():
-    data = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data, 'transformed')
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                ont_data = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}):
 
+            ont_data = df
             for column in ['case_reported_date']:
                 ont_data[column] = pd.to_datetime(ont_data[column])
 
@@ -821,26 +587,17 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
             phu_weekly = phu_weekly.reset_index()
             phu_weekly = pd.melt(phu_weekly, id_vars=['index'])
             phu_weekly = phu_weekly.rename(columns={"index": "Date", "variable": "PHU", "value": "Cases"})
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             phu_weekly.to_csv(save_file, index=False)
+    except Exception as e
+        pass
 
 @bp.cli.command('phu')
 def transform_public_capacity_ontario_testing_24_hours():
-    data = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
-    load_file, load_dir = get_file_path(data, 'transformed')
-    files = glob.glob(load_dir+"/*."+data['type'])
-    for file in files:
-        filename = file.split('_')[-1]
-        date = filename.split('.'+data['type'])[0]
-        data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
-        save_file, save_dir = get_file_path(data_out, 'transformed', date)
-        if not os.path.isfile(save_file):
-            try:
-                ont_data = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {data['source_name']}/{data['table_name']}")
-                print(e)
-                return e
+    try:
+        for df, save_file in transform(
+            data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
+            data_out = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}):
+            ont_data = df
             for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
                 ont_data[column] = pd.to_datetime(ont_data[column])
             phus = set(ont_data["reporting_phu"].values)
@@ -892,5 +649,6 @@ def transform_public_capacity_ontario_testing_24_hours():
                 df['Percentage in 24 hours_7dayrolling'] = df['Percentage in 24 hours'].rolling(7).mean()
                 phu_dfs.append(df)
             final_dataframe = pd.concat(phu_dfs)
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
             final_dataframe.to_csv(save_file, index=False)
+    except Exception as e
+        pass
