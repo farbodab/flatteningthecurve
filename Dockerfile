@@ -12,8 +12,7 @@ USER root
 COPY . ${CONFIG_DIR}
 RUN version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
     url=https://chromedriver.storage.googleapis.com/$version/chromedriver_linux64.zip && \
-    echo "link is $url"
-    curl -s -L "$url" && \
+    curl "$url" && \
     unzip chromedriver_linux64.zip && \
     chmod +x chromedriver && \
     mv chromedriver "$install_dir" && \
