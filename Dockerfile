@@ -10,18 +10,15 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
+RUN dnf install zip glibc fontconfig && \
+    mkdir open_date && \
+    mkdir 211_data && \
+    version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
     url=https://chromedriver.storage.googleapis.com/$version/chromedriver_linux64.zip && \
     curl -o chromedriver_linux64.zip "$url"\
     unzip chromedriver_linux64.zip && \
     chmod +x chromedriver && \
     mv chromedriver "$install_dir" && \
-    dnf install zip glibc fontconfig && \
-    mkdir open_date && \
-    mkdir 211_data && \
-    wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
-    tar -xvf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
-    mv phantomjs-2.1.1-linux-x86_64/bin/phantomjs ${install_dir} && \
     pip install --upgrade pip && \
     pip install -r ${CONFIG_DIR}/requirements.txt
 
