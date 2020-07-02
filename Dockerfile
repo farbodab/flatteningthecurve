@@ -8,7 +8,10 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN dnf install zip glibc fontconfig && \
+RUN curl -s -L "$url" | tar -xz && \
+    chmod +x geckodriver && \
+    sudo mv geckodriver "$install_dir" && \
+    dnf install zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
     wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
