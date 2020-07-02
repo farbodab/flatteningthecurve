@@ -45,9 +45,9 @@ objects:
           app: ${APP_NAME}
       spec:
         volumes:
-        - name: jupyterhub-shared-data-secret-iphis
+        - name: hmf-data-public
           persistentVolumeClaim:
-            claimName: jupyterhub-shared-data-secret-iphis
+            claimName: hmf-data-public
         containers:
         - env:
           - name: KUBERNETES_NAMESPACE
@@ -56,8 +56,8 @@ objects:
                 fieldPath: metadata.namespace
           image: ${APP_NAME}
           volumeMounts:
-          - mountPath: "/opt/app-root/app/iphis"
-            name: jupyterhub-shared-data-secret-iphis
+          - mountPath: "/opt/app-root/app/data/public"
+            name: hmf-data-public
           imagePullPolicy: IfNotPresent
           name: ${APP_NAME}
           ports:

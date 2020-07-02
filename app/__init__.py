@@ -43,6 +43,14 @@ def create_app(config_name):
     from app.plots import bp as plots
     app.register_blueprint(plots)
 
+    from app.data_in import bp as data_in
+    app.register_blueprint(data_in)
+
+    from app.data_process import bp as data_process
+    app.register_blueprint(data_process)
+
+    from app.data_transform import bp as data_transform
+    app.register_blueprint(data_transform)
 
     if not app.debug and not app.testing:
         pass

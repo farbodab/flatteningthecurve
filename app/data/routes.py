@@ -355,6 +355,41 @@ def capacity():
         db.session.commit()
     return
 
+def ccso():
+    df = pd.read_sql_table('icucapacity', db.engine)
+    maxdate = df.iloc[df['date'].idxmax()]['date']
+
+    # Look from last date on
+    start_date = maxdate + timedelta(days=1)
+    end_date = datetime.today()
+
+    def daterange(start_date, end_date):
+        for n in range(int ((end_date - start_date).days)):
+            yield start_date + timedelta(n)
+
+    for single_date in daterange(start_date, end_date):
+        csv = 'ICU_Ventilators {}.csv'.format(single_date.strftime('%B %d'))
+        if not os.path.exists(csv):
+            continue
+
+        date = single_date.strftime('%Y-%m-%d')
+
+        df = pd.read_csv(csv)
+        df = df.groupby(['LHINName'])
+        for index, row in df.iterrows():
+            region = row['Region']
+            lhin = row['LHIN']
+            critical_care_beds = row['# Critical Care Beds']
+            critical_care_patients = row['# Critical Care Patients']
+            vented_beds = row['# Expanded Vented Beds']
+            vented_patients = row['# Vented Patients']
+            suspected_covid = row['# Suspected COVID-19']
+            confirmed_positive = row['# Confirmed Positive COVID-19']
+            confirmed_positive_ventilator = row['# Confirmed Positive COVID-19 Patients with Invasive Ventilation']
+            c = ICUCapacity(date=date, region=region, lhin=lhin, critical_care_beds=critical_care_beds, critical_care_patients=critical_care_patients, vented_beds=vented_beds, vented_patients=vented_patients, suspected_covid=suspected_covid, confirmed_positive=confirmed_positive, confirmed_positive_ventilator=confirmed_positive_ventilator)
+            db.session.add(c)
+            db.session.commit()
+
 ########################################
 ############CANADA DATA################
 ########################################
@@ -1213,8 +1248,6 @@ def new_viz():
             db.session.add(c)
             db.session.commit()
     return 'success',200
-
-
 
 @bp.route('/covid/source', methods=['GET'])
 @as_json
