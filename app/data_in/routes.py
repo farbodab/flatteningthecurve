@@ -215,6 +215,7 @@ def get_public_fisman_ideamodel():
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
     driver.get(item['url'])
+    time.sleep(30)
     inputButton = driver.find_element_by_tag_name('a[data-value="Provinces/Regions"]')
     inputButton.click()
     time.sleep(30)
