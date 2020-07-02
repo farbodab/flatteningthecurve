@@ -8,8 +8,16 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && \
-    dnf localinstall google-chrome-stable_current_x86_64.rpm && \
+RUN cat << EOF > /etc/yum.repos.d/google-chrome.repo
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+EOF
+
+RUN yum install google-chrome-stable && \
     dnf install zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
