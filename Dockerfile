@@ -8,7 +8,8 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN dnf install google-chrome-stable && \
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && \
+    dnf localinstall google-chrome-stable_current_x86_64.rpm && \
     dnf install zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
