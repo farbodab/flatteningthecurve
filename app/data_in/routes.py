@@ -212,7 +212,7 @@ def get_public_fisman_ideamodel():
     options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     driver.implicitly_wait(10)
     driver.get(item['url'])
     time.sleep(30)
