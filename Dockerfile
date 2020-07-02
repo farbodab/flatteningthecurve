@@ -10,7 +10,7 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN dnf install glibc fontconfig xvfb libxi6 libgconf-2-4 && \
+RUN dnf install glibc fontconfig xorg-x11-server-Xvfb dbus-x11 && \
     mkdir open_date && \
     mkdir 211_data && \
     version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
