@@ -209,7 +209,7 @@ def get_public_fisman_ideamodel():
     chunk_size=128
     file_path, save_dir = get_file_path(item)
     options = Options()
-    options.headless = False
+    options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=options)
