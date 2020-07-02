@@ -10,14 +10,7 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN cat << EOF > /etc/yum.repos.d/google-chrome.repo \
-[google-chrome] \
-name=google-chrome \
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 \
-enabled=1 \
-gpgcheck=1 \
-gpgkey=https://dl.google.com/linux/linux_signing_key.pub \
-EOF
+RUN cat << EOF > /etc/yum.repos.d/google-chrome.repo [google-chrome] \n name=google-chrome \n baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 \n enabled=1 \n gpgcheck=1 \n gpgkey=https://dl.google.com/linux/linux_signing_key.pub \n EOF
 
 RUN dnf install google-chrome-stable glibc fontconfig && \
     mkdir open_date && \
