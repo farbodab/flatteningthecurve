@@ -398,6 +398,7 @@ def transform_public_rt_canada_cori_approach():
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     out = subprocess.check_output(f"Rscript.exe --vanilla C:/HMF/flattening-the-curve-backend/app/tools/r/Rt_ontario.r {load_file} {save_file}")
 
+@bp.cli.command('icu')
 def transform_public_capacity_ontario_phu_icu_capacity():
     replace = {
     'Lakeridge Health Corporation':"Durham",
