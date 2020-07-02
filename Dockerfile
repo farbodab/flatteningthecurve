@@ -2,15 +2,17 @@ FROM registry.access.redhat.com/ubi8/python-38
 EXPOSE 8080
 ENV CONFIG_DIR=/opt/app-root/app \
     install_dir=/usr/local/bin \
-    url=https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+    url=https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz \
+    version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
+    url=https://chromedriver.storage.googleapis.com/$version/chromedriver_linux64.zip
 
 WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
 RUN curl -s -L "$url" | tar -xz && \
-    chmod +x geckodriver && \
-    mv geckodriver "$install_dir" && \
+    chmod +x chromedriver && \
+    mv chromedriver "$install_dir" && \
     dnf install zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \

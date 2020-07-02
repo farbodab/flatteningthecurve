@@ -6,7 +6,7 @@ import requests, zipfile
 from io import StringIO
 from pathlib import Path
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 import os
 import time
 from ftplib import FTP_TLS
@@ -60,7 +60,7 @@ def get_public_ontario_gov_website():
     options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options, service_log_path=os.path.devnull)
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     driver.implicitly_wait(1000)
     driver.get(item['url'])
     tables = driver.find_elements_by_tag_name("table")
@@ -112,7 +112,7 @@ def get_public_apple_applemobilitytrends():
     options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options, service_log_path=os.path.devnull)
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     urlpage = "https://www.apple.com/covid19/mobility"
     driver.implicitly_wait(1000)
     driver.get(urlpage)
@@ -183,7 +183,7 @@ def get_public_modcollab_base_on():
     options.headless = True
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options, service_log_path=os.path.devnull)
+    driver = webdriver.Chrome(options=options, service_log_path=os.path.devnull)
     driver.implicitly_wait(10)
     driver.get(item['url'])
     inputButton = driver.find_element_by_tag_name('input[value="{}"]'.format(source_index))
@@ -212,7 +212,7 @@ def get_public_fisman_ideamodel():
     options.headless = False
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
     driver.get(item['url'])
     inputButton = driver.find_element_by_tag_name('a[data-value="Provinces/Regions"]')
