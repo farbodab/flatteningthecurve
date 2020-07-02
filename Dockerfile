@@ -17,11 +17,11 @@ RUN apt-get update && apt-get install -yq \
     xvfb \
     xsel \
     unzip \
-    libgconf2-4 \
+    libgconf2 \
     libncurses5 \
-    libxml2-dev \
-    libxslt-dev \
-    libz-dev \
+    libxml2 \
+    libxslt \
+    libz \
     xclip
 
 RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
