@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -yq \
     xvfb \
     xsel \
     unzip \
-    libgconf2 \
+    libgconf-2-4 \
     libncurses5 \
     libxml2 \
     xclip
