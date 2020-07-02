@@ -12,16 +12,36 @@ WORKDIR ${CONFIG_DIR}
 USER root
 COPY . ${CONFIG_DIR}
 
-RUN dnf install glibc fontconfig && \
-    mkdir open_date && \
-    mkdir 211_data && \
-    version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
-    url=https://chromedriver.storage.googleapis.com/$version/chromedriver_linux64.zip && \
-    curl -o chromedriver_linux64.zip "$url" && \
-    unzip chromedriver_linux64.zip && \
-    chmod +x chromedriver && \
-    mv chromedriver "$install_dir" && \
-    pip install --upgrade pip && \
+RUN apk update && apk add --no-cache bash \
+        alsa-lib \
+        at-spi2-atk \
+        atk \
+        cairo \
+        cups-libs \
+        dbus-libs \
+        eudev-libs \
+        expat \
+        flac \
+        gdk-pixbuf \
+        glib \
+        libgcc \
+        libjpeg-turbo \
+        libpng \
+        libwebp \
+        libx11 \
+        libxcomposite \
+        libxdamage \
+        libxext \
+        libxfixes \
+        tzdata \
+        libexif \
+        udev \
+        xvfb \
+        zlib-dev \
+        chromium \
+        chromium-chromedriver
+
+RUN pip install --upgrade pip && \
     pip install -r ${CONFIG_DIR}/requirements.txt
 
 USER 1001
