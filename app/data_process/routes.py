@@ -18,6 +18,7 @@ def get_file_path(data, step='raw', today=datetime.today().strftime('%Y-%m-%d'))
     file_path =  save_dir + '/' + file_name
     return file_path, save_dir
 
+@bp.cli.command('public_ontario_gov_conposcovidloc')
 def process_public_ontario_gov_conposcovidloc():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'}
     field_map = {
@@ -63,6 +64,7 @@ def process_public_ontario_gov_conposcovidloc():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_ontario_gov_covidtesting')
 def process_public_ontario_gov_covidtesting():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'covidtesting',  'type': 'csv'}
     field_map = {
@@ -107,6 +109,7 @@ def process_public_ontario_gov_covidtesting():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_ontario_gov_longtermcare_in_outbreak')
 def process_public_ontario_gov_longtermcare_in_outbreak():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}
     load_file, load_dir = get_file_path(data)
@@ -162,6 +165,7 @@ def process_public_ontario_gov_longtermcare_in_outbreak():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_ontario_gov_longtermcare_summary')
 def process_public_ontario_gov_longtermcare_summary():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}
     load_file, load_dir = get_file_path(data)
@@ -203,6 +207,7 @@ def process_public_ontario_gov_longtermcare_summary():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_ontario_gov_longtermcare_no_longer_in_outbreak')
 def process_public_ontario_gov_longtermcare_no_longer_in_outbreak():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}
     load_file, load_dir = get_file_path(data)
@@ -255,6 +260,7 @@ def process_public_ontario_gov_longtermcare_no_longer_in_outbreak():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_howsmyflattening_npi_canada')
 def process_public_howsmyflattening_npi_canada():
     data = {'classification':'public', 'source_name':'howsmyflattening', 'table_name':'npi_canada',  'type': 'csv'}
     field_map = {
@@ -318,6 +324,7 @@ def process_public_howsmyflattening_npi_canada():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_open_data_working_group_cases')
 def process_public_open_data_working_group_cases():
     data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'}
     field_map = {
@@ -372,6 +379,7 @@ def process_public_open_data_working_group_cases():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_open_data_working_group_mortality')
 def process_public_open_data_working_group_mortality():
     data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'mortality',  'type': 'csv'}
     field_map = {
@@ -413,6 +421,7 @@ def process_public_open_data_working_group_mortality():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_open_data_working_recovered_cumulative')
 def process_public_open_data_working_recovered_cumulative():
     data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'recovered_cumulative',  'type': 'csv'}
     field_map = {
@@ -445,6 +454,7 @@ def process_public_open_data_working_recovered_cumulative():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_open_data_working_testing_cumulative')
 def process_public_open_data_working_testing_cumulative():
     data = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'testing_cumulative',  'type': 'csv'}
     field_map = {
@@ -478,6 +488,7 @@ def process_public_open_data_working_testing_cumulative():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_google_global_mobility_report')
 def process_public_google_global_mobility_report():
     data = {'classification':'public', 'source_name':'google', 'table_name':'global_mobility_report',  'type': 'csv'}
     field_map = {
@@ -519,6 +530,7 @@ def process_public_google_global_mobility_report():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_apple_applemobilitytrends')
 def process_public_apple_applemobilitytrends():
     data = {'classification':'public', 'source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'}
     field_map = {
@@ -555,6 +567,7 @@ def process_public_apple_applemobilitytrends():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_oxcgrt_oxcgrt_latest')
 def process_public_oxcgrt_oxcgrt_latest():
     data = {'classification':'public', 'source_name':'oxcgrt', 'table_name':'oxcgrt_latest',  'type': 'csv'}
     field_map = {
@@ -625,6 +638,7 @@ def process_public_oxcgrt_oxcgrt_latest():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_jhu_time_series_covid19_confirmed_global')
 def process_public_jhu_time_series_covid19_confirmed_global():
     data = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_confirmed_global',  'type': 'csv'}
     field_map = {
@@ -659,6 +673,7 @@ def process_public_jhu_time_series_covid19_confirmed_global():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_jhu_time_series_covid19_deaths_global')
 def process_public_jhu_time_series_covid19_deaths_global():
     data = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_deaths_global',  'type': 'csv'}
     field_map = {
@@ -693,6 +708,7 @@ def process_public_jhu_time_series_covid19_deaths_global():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_jhu_time_series_covid19_recovered_global')
 def process_public_jhu_time_series_covid19_recovered_global():
     data = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_recovered_global',  'type': 'csv'}
     field_map = {
@@ -727,6 +743,7 @@ def process_public_jhu_time_series_covid19_recovered_global():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_owid_covid_testing_all_observations')
 def process_public_owid_covid_testing_all_observations():
     data = {'classification':'public', 'source_name':'owid', 'table_name':'covid_testing_all_observations',  'type': 'csv'}
     field_map = {
@@ -767,6 +784,7 @@ def process_public_owid_covid_testing_all_observations():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_keystone_strategy_complete_npis_inherited_policies')
 def process_public_keystone_strategy_complete_npis_inherited_policies():
     data = {'classification':'public', 'source_name':'keystone_strategy', 'table_name':'complete_npis_inherited_policies',  'type': 'csv'}
     field_map = {
@@ -805,6 +823,7 @@ def process_public_keystone_strategy_complete_npis_inherited_policies():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_modcollab_base_on')
 def process_public_modcollab_base_on():
     data = {'classification':'public', 'source_name':'modcollab', 'table_name':'base_on',  'type': 'csv'}
     field_map = {
@@ -843,6 +862,7 @@ def process_public_modcollab_base_on():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_fisman_ideamodel')
 def process_public_fisman_ideamodel():
     data = {'classification':'public', 'source_name':'fisman', 'table_name':'ideamodel',  'type': 'csv'}
     field_map = {
@@ -880,6 +900,7 @@ def process_public_fisman_ideamodel():
             df.to_csv(save_file, index=False)
     return True
 
+@bp.cli.command('confidential_211_call_reports')
 def process_confidential_211_call_reports():
     data = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'}
     field_map = {
@@ -911,6 +932,7 @@ def process_confidential_211_call_reports():
             df.to_csv(save_file, index=False)
     return True
 
+@bp.cli.command('confidential_211_met_and_unmet_needs')
 def process_confidential_211_met_and_unmet_needs():
     data = {'classification':'confidential', 'source_name':'211', 'table_name':'met_and_unmet_needs',  'type': 'csv'}
     field_map = {
@@ -942,6 +964,7 @@ def process_confidential_211_met_and_unmet_needs():
             df.to_csv(save_file, index=False)
     return True
 
+@bp.cli.command('confidential_211_referrals')
 def process_confidential_211_referrals():
     data = {'classification':'confidential', 'source_name':'211', 'table_name':'referrals',  'type': 'csv'}
     field_map = {
@@ -974,6 +997,7 @@ def process_confidential_211_referrals():
             df.to_csv(save_file, index=False)
     return True
 
+@bp.cli.command('confidential_burning_glass_industry_weekly')
 def process_confidential_burning_glass_industry_weekly():
     data = {'classification':'confidential', 'source_name':'burning_glass', 'table_name':'industry_weekly',  'type': 'csv'}
     field_map = {
@@ -1013,6 +1037,7 @@ def process_confidential_burning_glass_industry_weekly():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('restricted_ccso_ccis')
 def process_restricted_ccso_ccis():
     data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
     field_map = {
@@ -1054,6 +1079,7 @@ def process_restricted_ccso_ccis():
             df.to_csv(save_file, index=False)
     return True
 
+@bp.cli.command('restricted_moh_iphis')
 def process_restricted_moh_iphis():
     data = {'classification':'restricted', 'source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
     field_map = {

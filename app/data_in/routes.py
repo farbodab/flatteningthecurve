@@ -40,16 +40,19 @@ def get_file_path(data, today=datetime.today().strftime('%Y-%m-%d')):
     file_path =  save_dir + '/' + file_name
     return file_path, save_dir
 
+@bp.cli.command('public_ontario_gov_conposcovidloc')
 def get_public_ontario_gov_conposcovidloc():
     item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv','url':"https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_ontario_gov_covidtesting')
 def get_public_ontario_gov_covidtesting():
     item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'covidtesting',  'type': 'csv','url':"https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_ontario_gov_website')
 def get_public_ontario_gov_website():
     item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html','url':"https://www.ontario.ca/page/how-ontario-is-responding-covid-19"}
     file_path, save_dir = get_file_path(item)
@@ -66,36 +69,43 @@ def get_public_ontario_gov_website():
         f.write(driver.page_source)
     return True
 
+@bp.cli.command('public_howsmyflattening_npi_canada')
 def get_public_howsmyflattening_npi_canada():
     item = {'classification':'public', 'source_name':'howsmyflattening', 'table_name':'npi_canada',  'type': 'csv','url':"https://raw.githubusercontent.com/jajsmith/COVID19NonPharmaceuticalInterventions/master/npi_canada.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_open_data_working_group_cases')
 def get_public_open_data_working_group_cases():
     item = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv','url':"https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/cases.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_open_data_working_group_mortality')
 def get_public_open_data_working_group_mortality():
     item = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'mortality',  'type': 'csv','url':"https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/mortality.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_open_data_working_recovered_cumulative')
 def get_public_open_data_working_recovered_cumulative():
     item = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'recovered_cumulative',  'type': 'csv','url':"https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/recovered_cumulative.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_open_data_working_testing_cumulative')
 def get_public_open_data_working_testing_cumulative():
     item = {'classification':'public', 'source_name':'open_data_working_group', 'table_name':'testing_cumulative',  'type': 'csv','url':"https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/testing_cumulative.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_google_global_mobility_report')
 def get_public_google_global_mobility_report():
     item = {'classification':'public', 'source_name':'google', 'table_name':'global_mobility_report',  'type': 'csv','url':"https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_apple_applemobilitytrends')
 def get_public_apple_applemobilitytrends():
     item = {'classification':'public', 'source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'}
     options = Options()
@@ -127,36 +137,43 @@ def get_public_apple_applemobilitytrends():
     driver.quit()
     return True
 
+@bp.cli.command('public_oxcgrt_oxcgrt_latest')
 def get_public_oxcgrt_oxcgrt_latest():
     item = {'classification':'public', 'source_name':'oxcgrt', 'table_name':'oxcgrt_latest',  'type': 'csv','url':"https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_jhu_time_series_covid19_confirmed_global')
 def get_public_jhu_time_series_covid19_confirmed_global():
     item = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_confirmed_global',  'type': 'csv','url':"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_jhu_time_series_covid19_deaths_global')
 def get_public_jhu_time_series_covid19_deaths_global():
     item = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_deaths_global',  'type': 'csv','url':"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_jhu_time_series_covid19_recovered_global')
 def get_public_jhu_time_series_covid19_recovered_global():
     item = {'classification':'public', 'source_name':'jhu', 'table_name':'time_series_covid19_recovered_global',  'type': 'csv','url':"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_owid_covid_testing_all_observations')
 def get_public_owid_covid_testing_all_observations():
     item = {'classification':'public', 'source_name':'owid', 'table_name':'covid_testing_all_observations',  'type': 'csv','url':"https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_keystone_strategy_complete_npis_inherited_policies')
 def get_public_keystone_strategy_complete_npis_inherited_policies():
     item = {'classification':'public', 'source_name':'keystone_strategy', 'table_name':'complete_npis_inherited_policies',  'type': 'csv','url':"https://raw.githubusercontent.com/Keystone-Strategy/covid19-intervention-data/master/complete_npis_inherited_policies.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_modcollab_base_on')
 def get_public_modcollab_base_on():
     item = {'classification':'public', 'source_name':'modcollab', 'table_name':'base_on',  'type': 'csv','url':"https://pechlilab.shinyapps.io/output/"}
     source_index = 2
@@ -185,6 +202,7 @@ def get_public_modcollab_base_on():
     driver.quit()
     return True
 
+@bp.cli.command('public_fisman_ideamodel')
 def get_public_fisman_ideamodel():
     item = {'classification':'public', 'source_name':'fisman', 'table_name':'ideamodel',  'type': 'csv','url':"https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/_w_8d846955"}
     source_index = 2
@@ -211,6 +229,7 @@ def get_public_fisman_ideamodel():
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('confidential_211_call_reports')
 def get_confidential_211_call_reports():
     item = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'}
     file_path, save_dir = get_file_path(item)
@@ -232,6 +251,7 @@ def get_confidential_211_call_reports():
     ftp.quit()
     return True
 
+@bp.cli.command('confidential_211_met_and_unmet_needs')
 def get_confidential_211_met_and_unmet_needs():
     item = {'classification':'confidential', 'source_name':'211', 'table_name':'met_and_unmet_needs',  'type': 'csv'}
     file_path, save_dir = get_file_path(item)
@@ -253,6 +273,7 @@ def get_confidential_211_met_and_unmet_needs():
     ftp.quit()
     return True
 
+@bp.cli.command('confidential_211_referrals')
 def get_confidential_211_referrals():
     item = {'classification':'confidential', 'source_name':'211', 'table_name':'referrals',  'type': 'csv'}
     file_path, save_dir = get_file_path(item)
@@ -274,6 +295,7 @@ def get_confidential_211_referrals():
     ftp.quit()
     return True
 
+@bp.cli.command('confidential_burning_glass_jobs_data')
 def get_confidential_burning_glass_jobs_data():
     item = {'classification':'confidential', 'source_name':'burning_glass', 'table_name':'zip',  'type': 'zip','url':"https://public.burning-glass.com/open_data.zip"}
     file_path, save_dir = get_file_path(item)
