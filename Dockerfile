@@ -9,7 +9,7 @@ WORKDIR ${CONFIG_DIR}
 USER root
 COPY . ${CONFIG_DIR}
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && \
-    yum -y install redhat-lsb libXScrnSaver && \
+    yum -y install libXScrnSaver && \
     yum -y localinstall google-chrome-stable_current_x86_64.rpm && \
     dnf install zip glibc fontconfig && \
     mkdir open_date && \
