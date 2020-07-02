@@ -186,36 +186,28 @@ def get_public_modcollab_base_on():
     return True
 
 def get_public_fisman_ideamodel():
-    item = {'classification':'public', 'source_name':'fisman', 'table_name':'ideamodel',  'type': 'csv','url':"https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/_w_8d846955/session/d04501bc4865e2bde390efca0ebab3ce/download/downloadRegionalData?w=8d846955"}
-    # source_index = 2
-    # chunk_size=128
-    # file_path, save_dir = get_file_path(item)
-    # options = Options()
-    # options.headless = False
-    # options.add_argument('--disable-gpu')
-    # options.add_argument('--no-sandbox')
-    # driver = webdriver.Chrome(options=options)
-    # driver.implicitly_wait(10)
-    # driver.get(item['url'])
-    # inputButton = driver.find_element_by_tag_name('a[data-value="Provinces/Regions"]')
-    # inputButton.click()
-    # url = None
-    # tries = 10
-    # while url == None and tries > 0:
-    #     tries -= 1
-    #     driver.implicitly_wait(1000)
-    #     try:
-    #         button = driver.find_element_by_id('downloadRegionalData')
-    #         url = button.get_attribute('href')
-    #     except:
-    #         continue
-    # Path(save_dir).mkdir(parents=True, exist_ok=True)
-    # r = requests.get(url, allow_redirects=True)
-    # with open(file_path, 'wb') as fd:
-    #     for chunk in r.iter_content(chunk_size=chunk_size):
-    #         fd.write(chunk)
-    # driver.quit()
-    # return True
+    item = {'classification':'public', 'source_name':'fisman', 'table_name':'ideamodel',  'type': 'csv','url':"https://art-bd.shinyapps.io/Ontario_Health_Unit_IDEA_model/_w_8d846955"}
+    source_index = 2
+    chunk_size=128
+    file_path, save_dir = get_file_path(item)
+    options = Options()
+    options.headless = False
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(10)
+    driver.get(item['url'])
+    inputButton = driver.find_element_by_tag_name('a[data-value="Provinces/Regions"]')
+    inputButton.click()
+    time.sleep(30)
+    button = driver.find_element_by_id('downloadRegionalData')
+    url = button.get_attribute('href')
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    r = requests.get(url, allow_redirects=True)
+    with open(file_path, 'wb') as fd:
+        for chunk in r.iter_content(chunk_size=chunk_size):
+            fd.write(chunk)
+    driver.quit()
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 

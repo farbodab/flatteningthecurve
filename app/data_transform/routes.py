@@ -70,7 +70,7 @@ def get_table(data, today=datetime.today().strftime('%Y-%m-%d')):
     files = glob.glob(load_dir + "/*." + data_in['type'])
     if len(files) > 0:
         return pd.read_csv(files[0])
-    else
+    else:
         return None
 
 def transform(data_in, data_out):
@@ -93,11 +93,10 @@ def transform(data_in, data_out):
 
 def transform_public_cases_ontario_confirmed_positive_cases():
     for df, save_file in transform(
-        data_in={'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'}, 
+        data_in={'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'},
         data_out={'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
-@bp.cli.command('isha')
 def transform_public_cases_canada_confirmed_positive_cases():
     for df, save_file in transform(
         data_in={'classification':'public', 'source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'},
@@ -396,9 +395,8 @@ def transform_public_rt_canada_cori_approach():
     load_file = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv"
     save_file, save_dir = get_file_path(data, 'transformed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
-    out = subprocess.check_output(f"Rscript.exe --vanilla C:/HMF/flattening-the-curve-backend/app/tools/r/Rt_ontario.r {load_file} {save_file}")
+    output = subprocess.check_output(f"Rscript.exe --vanilla app/tools/r/Rt_ontario.r {load_file} {save_file}")
 
-@bp.cli.command('icu')
 def transform_public_capacity_ontario_phu_icu_capacity():
     replace = {
     'Lakeridge Health Corporation':"Durham",
@@ -574,7 +572,6 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
         phu_weekly = phu_weekly.rename(columns={"index": "Date", "variable": "PHU", "value": "Cases"})
         phu_weekly.to_csv(save_file, index=False)
 
-@bp.cli.command('phu')
 def transform_public_capacity_ontario_testing_24_hours():
     for df, save_file in transform(
         data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
@@ -1578,7 +1575,7 @@ def transform_visualization_ontario_icu_capacity_phu():
             temp = df.loc[df.lhin.isin(mapping[item])].groupby(['date']).sum().reset_index()
             temp['PHU'] = item
             data = data.append(temp)
-            
+
         data.to_csv(save_file, index=False)
 
 # get_phu_map
