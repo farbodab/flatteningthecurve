@@ -393,3 +393,18 @@ class WeeklyJobPosting(db.Model):
     end_date = db.Column(db.DateTime, index=True)
     job_postings_count = db.Column(db.String)
     population = db.Column(db.String)
+
+
+class PHUICUCapacity(db.Model):
+    __tablename__ = 'phuicucapacity'
+    id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    icu_level = db.Column(db.String)
+    phu = db.Column(db.String)
+    icu_type = db.Column(db.String)
+    critical_care_beds = db.Column(db.Integer)
+    critical_care_patients = db.Column(db.Integer)
+    vented_beds = db.Column(db.Integer)
+    vented_patients = db.Column(db.Integer)
+    confirmed_positive = db.Column(db.Integer)
+    confirmed_positive_ventilator = db.Column(db.Integer)

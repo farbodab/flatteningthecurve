@@ -613,6 +613,7 @@ def transform_public_rt_canada_cori_approach():
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     out = subprocess.check_output(f"Rscript.exe --vanilla C:/HMF/flattening-the-curve-backend/app/tools/r/Rt_ontario.r {load_file} {save_file}")
 
+@bp.cli.command('icu')
 def transform_public_capacity_ontario_phu_icu_capacity():
     data = {'classification':'restricted', 'source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
     load_file, load_dir = get_file_path(data)
@@ -706,7 +707,7 @@ def transform_public_capacity_ontario_phu_icu_capacity():
                 pass
             df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
             df['phu'] = df['hospital_name'].replace(replace)
-            df = df.groupby(['phu']).sum().reset_index()
+            df = df.groupby(['phu','unit_inclusion']).sum().reset_index()
             df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
