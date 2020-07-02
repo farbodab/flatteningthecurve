@@ -10,7 +10,7 @@ USER root
 COPY . ${CONFIG_DIR}
 RUN curl -s -L "$url" | tar -xz && \
     chmod +x geckodriver && \
-    sudo mv geckodriver "$install_dir" && \
+    mv geckodriver "$install_dir" && \
     dnf install zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
