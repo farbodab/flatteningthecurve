@@ -11,7 +11,7 @@ WORKDIR ${CONFIG_DIR}
 USER root
 COPY . ${CONFIG_DIR}
 
-RUN dnf install google-chrome-stable glibc fontconfig && \
+RUN dnf install glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
     version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
