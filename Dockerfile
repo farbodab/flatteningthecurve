@@ -10,7 +10,7 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN dnf install zip glibc fontconfig && \
+RUN dnf install unzip zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
     version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
