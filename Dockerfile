@@ -8,7 +8,10 @@ WORKDIR ${CONFIG_DIR}
 
 USER root
 COPY . ${CONFIG_DIR}
-RUN dnf install zip glibc fontconfig && \
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && \
+    yum -y install redhat-lsb libXScrnSaver && \
+    yum -y localinstall google-chrome-stable_current_x86_64.rpm && \
+    dnf install zip glibc fontconfig && \
     mkdir open_date && \
     mkdir 211_data && \
     wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
