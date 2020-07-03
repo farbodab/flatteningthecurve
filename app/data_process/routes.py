@@ -309,7 +309,7 @@ def process_public_howsmyflattening_npi_canada():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file, engine='python',encoding='utf8')
+                df = pd.read_csv(file, engine='python',encoding='utf8')
             except Exception as e:
                 print(f"{load_file}")
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
@@ -365,7 +365,7 @@ def process_public_open_data_working_group_cases():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -406,7 +406,7 @@ def process_public_open_data_working_group_mortality():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -439,7 +439,7 @@ def process_public_open_data_working_recovered_cumulative():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -473,7 +473,7 @@ def process_public_open_data_working_testing_cumulative():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -516,7 +516,7 @@ def process_public_google_global_mobility_report():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -551,7 +551,7 @@ def process_public_apple_applemobilitytrends():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -624,7 +624,7 @@ def process_public_oxcgrt_oxcgrt_latest():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -657,7 +657,7 @@ def process_public_jhu_time_series_covid19_confirmed_global():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -692,7 +692,7 @@ def process_public_jhu_time_series_covid19_deaths_global():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -727,7 +727,7 @@ def process_public_jhu_time_series_covid19_recovered_global():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -770,7 +770,7 @@ def process_public_owid_covid_testing_all_observations():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -809,7 +809,7 @@ def process_public_keystone_strategy_complete_npis_inherited_policies():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -848,7 +848,7 @@ def process_public_modcollab_base_on():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -885,7 +885,7 @@ def process_public_fisman_ideamodel():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
@@ -1023,7 +1023,7 @@ def process_confidential_burning_glass_industry_weekly():
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file):
             try:
-                df = pd.read_csv(load_file)
+                df = pd.read_csv(file)
             except Exception as e:
                 print(f"Failed to get {data['source_name']}/{data['table_name']}")
                 print(e)
