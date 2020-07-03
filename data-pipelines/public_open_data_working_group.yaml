@@ -1,0 +1,16 @@
+metadata:
+  name: public-open-data-working-group
+  namespace: staging
+spec:
+  schedule: '0 15 * * *'
+  workflowSpec:
+    entrypoint: public-open-data-working-group
+    templates:
+      - name: public-open-data-working-group
+        container:
+          name: main
+          image: 'image-registry.openshift-image-registry.svc:5000/staging/hmf-backend'
+          args:
+            - /bin/sh
+            - '-c'
+            - flask data_in public_open_data_working_group_cases
