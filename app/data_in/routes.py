@@ -321,20 +321,23 @@ def get_confidential_burning_glass_jobs_data():
     Path(total_weekly).mkdir(parents=True, exist_ok=True)
     Path(total_monthly).mkdir(parents=True, exist_ok=True)
     for file in files:
-        names = file.split('_')
-        new_name = names[-2] + '_' + today + '.csv'
-        if 'glass/zip\\industry' in names:
+        names = file.split('zip')[-1]
+        names = names.split('_')
+        base = names[-3].replace("/","")
+        base = base.replace("\\","")
+        new_name = base + '_' + today + '.csv'
+        if base == 'industry':
             if 'weekly' in names:
                 os.rename(file, industry_weekly+'industry'+'_'+new_name)
             elif 'monthly' in names:
                 os.rename(file, industry_monthly+'industry'+'_'+new_name)
 
-        elif 'glass/zip\\occupation' in names:
+        elif base == 'occupation':
             if 'weekly' in names:
                 os.rename(file, occupation_weekly+'occupation'+'_'+new_name)
             elif 'monthly' in names:
                 os.rename(file, occupation_monthly+'occupation'+'_'+new_name)
-        elif 'glass/zip\\total' in names:
+        elif base == 'total':
             if 'weekly' in names:
                 os.rename(file, total_weekly+'total'+'_'+new_name)
             elif 'monthly' in names:
