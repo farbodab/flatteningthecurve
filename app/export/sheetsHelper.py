@@ -36,6 +36,8 @@ def updateCollection(dataSource, sh):
             df = dataSource['function']()
         elif 'table' in dataSource:
             df = pd.read_sql_table(dataSource['table'], db.engine)
+        elif 'file' in dataSource:
+            df = pd.read_csv(dataSource['file'])
         sheet = getOrCreateSheet(dataSource['name'], sh, df.shape[0], df.shape[1])
         print("Update collection", dataSource['name'])
         set_with_dataframe(sheet, df, row=1, col=1, include_index=False, include_column_header=True, resize=True, allow_formulas=True)

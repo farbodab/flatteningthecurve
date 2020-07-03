@@ -52,6 +52,9 @@ def create_app(config_name):
     from app.data_transform import bp as data_transform
     app.register_blueprint(data_transform)
 
+    from app.data_export import bp as data_export
+    app.register_blueprint(data_export)
+
     if not app.debug and not app.testing:
         pass
 
