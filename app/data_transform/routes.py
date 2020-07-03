@@ -509,7 +509,7 @@ def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
     for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_confirmed_positive_aggregated',  'type': 'csv'}):
-        dfs = df.loc[dfs.province == "Ontario"]
+        dfs = df.loc[df.province == "Ontario"]
         for column in ['date_report']:
             dfs[column] = pd.to_datetime(dfs[column])
         health_regions = dfs.health_region.unique()
