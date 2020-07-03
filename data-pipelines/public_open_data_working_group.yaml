@@ -148,3 +148,18 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_process public_open_data_working_group_cases}]
+        - name: transform-cases
+          dependencies: [process-cases]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_cases_canada_confirmed_positive_cases}]
+        - name: calculate-rt
+          dependencies: [transform-cases]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_rt_canada_bettencourt_and_ribeiro_approach}]
+        - name: export-rt
+          dependencies: [calculate-rt]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_rt_canada_bettencourt_and_ribeiro_approach}]
