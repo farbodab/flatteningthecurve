@@ -119,7 +119,7 @@ def process_public_ontario_gov_longtermcare_in_outbreak():
         date = filename.split('.')[0]
         data_out = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_in_outbreak',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'processed', date)
-        if not os.path.isfile(save_file):
+        if not os.path.isfile(file):
             f = open(load_file, "r")
             contents = f.read()
             soup = BeautifulSoup(contents, 'html.parser')
