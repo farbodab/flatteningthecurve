@@ -2,8 +2,10 @@ metadata:
   name: public-open-data-working-group
   namespace: staging
 spec:
-  schedule: '*/1 * * * *'
+  schedule: '0 3 * * *'
+  concurrencyPolicy: Replace
   workflowSpec:
+    serviceAccountName: argo-workflow
     volumes:
       - name: hmf-data-public
         persistentVolumeClaim:
