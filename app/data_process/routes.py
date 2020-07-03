@@ -176,7 +176,7 @@ def process_public_ontario_gov_longtermcare_summary():
         data_out = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_summary',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'processed', date)
         if not os.path.isfile(save_file):
-            f = open(load_file, "r")
+            f = open(file, "r")
             contents = f.read()
             soup = BeautifulSoup(contents, 'html.parser')
             tables = soup.find_all("table")
@@ -218,7 +218,7 @@ def process_public_ontario_gov_longtermcare_no_longer_in_outbreak():
         data_out = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'longtermcare_no_longer_in_outbreak',  'type': 'csv'}
         save_file, save_dir = get_file_path(data_out, 'processed', date)
         if not os.path.isfile(save_file):
-            f = open(load_file, "r")
+            f = open(file, "r")
             contents = f.read()
             soup = BeautifulSoup(contents, 'html.parser')
             tables = soup.find_all("table")
