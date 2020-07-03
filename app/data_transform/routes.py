@@ -93,98 +93,98 @@ def transform(data_in, data_out):
 
 @bp.cli.command('public_cases_ontario_confirmed_positive_cases')
 def transform_public_cases_ontario_confirmed_positive_cases():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_canada_confirmed_positive_cases')
 def transform_public_cases_canada_confirmed_positive_cases():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_canada_confirmed_mortality_cases')
 def transform_public_cases_canada_confirmed_mortality_cases():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'mortality',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_mortality_cases',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_canada_recovered_aggregated')
 def transform_public_cases_canada_recovered_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'recovered_cumulative',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_recovered_aggregated',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_international_cases_aggregated')
 def transform_public_cases_international_cases_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'jhu', 'table_name':'time_series_covid19_confirmed_global',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'international_cases_aggregated',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_international_mortality_aggregated')
 def transform_public_cases_international_mortality_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'jhu', 'table_name':'time_series_covid19_deaths_global',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'international_mortality_aggregated',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_international_recovered_aggregated')
 def transform_public_cases_international_recovered_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'jhu', 'table_name':'time_series_covid19_recovered_global',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'international_recovered_aggregated',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_testing_international_testing_aggregated')
 def transform_public_testing_international_testing_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'owid', 'table_name':'covid_testing_all_observations',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'testing', 'table_name':'international_testing_aggregated',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_testing_canada_testing_aggregated')
 def transform_public_testing_canada_testing_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'testing_cumulative',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'testing', 'table_name':'canada_testing_aggregated',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_interventions_canada_non_pharmaceutical_interventions')
 def transform_public_interventions_canada_non_pharmaceutical_interventions():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'howsmyflattening', 'table_name':'npi_canada',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_interventions',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_interventions_international_non_pharmaceutical_interventions')
 def transform_public_interventions_international_non_pharmaceutical_interventions():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'oxcgrt', 'table_name':'oxcgrt_latest',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'international_non_pharmaceutical_interventions',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_mobility_apple')
 def transform_public_mobility_apple():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'mobility', 'table_name':'apple',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_mobility_google')
 def transform_public_mobility_google():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'google', 'table_name':'global_mobility_report',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'mobility', 'table_name':'google',  'type': 'csv'}):
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('confidential_moh_iphis')
 def transform_confidential_moh_iphis():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'restricted', 'stage': 'processed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'},
         data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'}):
 
@@ -219,7 +219,7 @@ def transform_confidential_moh_iphis():
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports')
 def transform_public_socioeconomic_ontario_211_call_reports():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'confidential', 'stage': 'processed','source_name':'211', 'table_name':'call_reports',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'socioeconomic', 'table_name':'ontario_211_call_reports',  'type': 'csv'}):
         ont_data = df
@@ -239,7 +239,7 @@ def transform_public_socioeconomic_ontario_211_call_reports():
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports_by_age')
 def transform_public_socioeconomic_ontario_211_call_reports_by_age():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'confidential', 'stage': 'processed','source_name':'211', 'table_name':'call_reports',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'socioeconomic', 'table_name':'ontario_211_call_reports_by_age',  'type': 'csv'}):
         ont_data = df
@@ -250,7 +250,7 @@ def transform_public_socioeconomic_ontario_211_call_reports_by_age():
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_per_type_of_need')
 def transform_public_socioeconomic_ontario_211_call_per_type_of_need():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'confidential', 'stage': 'processed','source_name':'211', 'table_name':'met_and_unmet_needs',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'socioeconomic', 'table_name':'ontario_211_call_per_type_of_need',  'type': 'csv'}):
         ont_data = df
@@ -291,7 +291,7 @@ def transform_public_capacity_ontario_lhin_icu_capacity():
 
 @bp.cli.command('public_rt_canada_bettencourt_and_ribeiro_approach')
 def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}):
         cases_df = df
@@ -495,7 +495,7 @@ def transform_public_capacity_ontario_phu_icu_capacity():
 
     }
 
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'restricted', 'stage': 'processed','source_name':'ccso', 'table_name':'ccis',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}):
         df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
@@ -506,7 +506,7 @@ def transform_public_capacity_ontario_phu_icu_capacity():
 
 @bp.cli.command('public_cases_ontario_phu_confirmed_positive_aggregated')
 def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_confirmed_positive_aggregated',  'type': 'csv'}):
         dfs = df.loc[dfs.province == "Ontario"]
@@ -538,7 +538,7 @@ def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
 
 @bp.cli.command('public_cases_ontario_phu_weekly_new_cases')
 def transform_public_cases_ontario_phu_weekly_new_cases():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}):
 
@@ -595,7 +595,7 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
 
 @bp.cli.command('public_capacity_ontario_testing_24_hours')
 def transform_public_capacity_ontario_testing_24_hours():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}):
         ont_data = df
@@ -749,7 +749,7 @@ def transform_visualization_ontario_phu():
 
 # get_phunew, covid
 def transform_visualization_ontario_phu_new():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_ontario_cases_phu_new',  'type': 'csv'}):
         dfs = df
@@ -816,7 +816,7 @@ def transform_visualization_ontario_growth():
 
 # get_growth_recent, covid
 def transform_visualization_ontario_growth_recent():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_ontario_growth_recent',  'type': 'csv'}):
         dfs = df
@@ -900,7 +900,7 @@ def transform_visualization_ontario_growth_recent():
 
 # get_testresults, covidtests
 def transform_visualization_ontario_testing():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         # TODO: Correct in table?
         data_in = {'classification':'public', 'source_name':'testing', 'table_name':'canada_testing_aggregated',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_ontario_testing',  'type': 'csv'}):
@@ -1016,7 +1016,7 @@ def transform_visualization_ontario_testing():
 
 # get_icu_capacity, icucapacity
 def transform_visualization_ontario_icu_capacity():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         # TODO: Correct in table?
         data_in = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_lhin_icu_capacity',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_ontario_icu_capacity',  'type': 'csv'}):
@@ -1042,7 +1042,7 @@ def transform_visualization_ontario_icu_capacity():
 
 # get_icu_capacity_province, icucapacity
 def transform_visualization_province_icu_capacity_province():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         # TODO: Correct in table?
         data_in = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_lhin_icu_capacity',  'type': 'csv'},
         # TODO: is 'province' the correct keyword here still?
@@ -1063,7 +1063,7 @@ def transform_visualization_province_icu_capacity_province():
 
 # get_icu_case_status_province, icucapacity
 def transform_visualization_province_icu_case_status():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         # TODO: Correct in table?
         data_in = {'classification':'public', 'source_name':'capacity', 'table_name':'ontario_lhin_icu_capacity',  'type': 'csv'},
         # TODO: is 'province' the correct keyword here still?
@@ -1087,7 +1087,7 @@ def transform_visualization_province_icu_case_status():
 
 # get_mobility, mobility
 def transform_visualization_mobility_google():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'source_name':'mobility', 'table_name':'google',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_mobility_google',  'type': 'csv'}):
         df['category'] = df['transportation_type']
@@ -1098,7 +1098,7 @@ def transform_visualization_mobility_google():
 
 # get_outbreaks, confirmedontario
 def transform_visualization_ontario_outbreaks():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_ontario_outbreaks',  'type': 'csv'}):
         df['outbreak_related'] = df['outbreak_related'].fillna('No')
@@ -1107,7 +1107,7 @@ def transform_visualization_ontario_outbreaks():
 
 # get_tested, canadatesting
 def transform_visualization_canada_testing():
-    for df, save_file in transform(
+    for df, save_file, date in transform(
         data_in = {'classification':'public', 'source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_canada_testing',  'type': 'csv'}):
 
@@ -1362,7 +1362,7 @@ def transform_visualization_deaths_daily():
 
 # get_rt_est
 def transform_visualization_rt_est():
-   for df, save_file in transform(
+   for df, save_file, date in transform(
         data_in = {'classification':'public', 'source_name':'cases', 'table_name':'ontario_confirmed_mortality_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'source_name':'visualization', 'table_name':'visualization_rt_est',  'type': 'csv'}):
 
