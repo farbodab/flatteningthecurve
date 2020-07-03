@@ -280,15 +280,14 @@ def get_reopening_metrics():
         except:
             temp_dict["testing"] = "nan"
 
-        temp = rt_df.loc[rt_df.PHU == phu_select]
-        temp = temp.sort_values('date')
+        temp = rt_df.loc[rt_df.health_region == phu_select]
+        temp = temp.sort_values('date_report')
         try:
             temp_dict["rt"] = str(temp.tail(1)['ML'].values[0])
         except:
             temp_dict["rt"] = "nan"
 
-        temp = icu_df.loc[icu_df.PHU == phu_select]
-        temp = temp.sort_values('date')
+        temp = icu_df.loc[icu_df.phu == phu_select]
         try:
             temp_dict["icu"] = str(int(temp.tail(1)['critical_care_pct'].values[0] * 100))
         except:
