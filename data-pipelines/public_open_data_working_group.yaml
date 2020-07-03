@@ -53,22 +53,22 @@ spec:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: KAGGLE_CONFIG_DIR
-          - name: AUTH_PROVIDER_X509_CERT_URL
+          - name: auth_provider_x509_cert_url
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: auth_provider_x509_cert_url
-          - name: AUTH_URI
+          - name: auth_uri
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: auth_uri
-          - name: PRIVATE_KEY
+          - name: private_key
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: private_key
-          - name: PRIVATE_KEY_ID
+          - name: private_key_id
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
@@ -78,7 +78,7 @@ spec:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: KAGGLE_KEY
-          - name: TYPE
+          - name: type
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
@@ -88,27 +88,27 @@ spec:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: KAGGLE_USERNAME
-          - name: CLIENT_ID
+          - name: client_id
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: client_id
-          - name: CLIENT_X509_CERT_URL
+          - name: client_x509_cert_url
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: client_x509_cert_url
-          - name: TOKEN_URI
+          - name: token_uri
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: token_uri
-          - name: CLIENT_EMAIL
+          - name: client_email
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
                 key: client_email
-          - name: PROJECT_ID
+          - name: project_id
             valueFrom:
               secretKeyRef:
                 name: backend-testdb-secret
