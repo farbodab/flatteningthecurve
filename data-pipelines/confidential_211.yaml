@@ -1,5 +1,5 @@
 metadata:
-  name: public-open-data-working-group
+  name: confidential-211
   namespace: staging
 spec:
   schedule: '0 3 * * *'
@@ -25,7 +25,7 @@ spec:
       - name: hmf-data-restricted-processed-ccso
         persistentVolumeClaim:
           claimName: hmf-data-restricted-processed-ccso
-    entrypoint: public-open-data-working-group
+    entrypoint: confidential-211
     templates:
     - name: hmf-backend
       inputs:
@@ -136,61 +136,51 @@ spec:
             mountPath: /opt/app-root/app/data/restricted/raw/moh
           - name: hmf-data-restricted-processed-moh
             mountPath: /opt/app-root/app/data/restricted/processed/moh
-    - name: public-open-data-working-group
+    - name: confidential-211
       dag:
         tasks:
-        # cases
-        - name: get-cases
+        # call-reports
+        - name: get-call-reports
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_open_data_working_group_cases}]
-        - name: process-cases
-          dependencies: [get-cases]
+            parameters: [{name: message, value: flask data_in confidential_211_call_reports}]
+        - name: process-call-reports
+          dependencies: [get-call-reports]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_process public_open_data_working_group_cases}]
-        - name: transform-cases
-          dependencies: [process-cases]
+            parameters: [{name: message, value: flask data_process confidential_211_call_reports}]
+        - name: transform-call-reports
+          dependencies: [process-call-reports]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_canada_confirmed_positive_cases}]
-        - name: calculate-rt
-          dependencies: [transform-cases]
+            parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_reports}]
+        - name: transform-call-reports-age
+          dependencies: [process-call-reports]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_rt_canada_bettencourt_and_ribeiro_approach}]
-        - name: export-rt
-          dependencies: [calculate-rt]
+            parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_reports_by_age}]
+        # met-and-unmet-needs
+        - name: get-met-and-unmet-needs
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_export public_rt_canada_bettencourt_and_ribeiro_approach}]
-        # mortality
-        - name: get-mortality
+            parameters: [{name: message, value: flask data_in confidential_211_met_and_unmet_needs}]
+        - name: process-met-and-unmet-needs
+          dependencies: [get-met-and-unmet-needs]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_open_data_working_group_mortality}]
-        - name: process-mortality
-          dependencies: [get-mortality]
+            parameters: [{name: message, value: flask data_process confidential_211_met_and_unmet_needs}]
+        - name: transform-met-and-unmet-needs
+          dependencies: [process-met-and-unmet-needs]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_process public_open_data_working_group_mortality}]
-        - name: transform-mortality
-          dependencies: [process-mortality]
+            parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_per_type_of_need}]
+        # referrals
+        - name: get-referrals
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_canada_confirmed_mortality_cases}]
-        # recovered
-        - name: get-recovered
+            parameters: [{name: message, value: flask data_in confidential_211_referrals}]
+        - name: process-referrals
+          dependencies: [get-referrals]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_open_data_working_recovered_cumulative}]
-        - name: process-recovered
-          dependencies: [get-recovered]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_open_data_working_recovered_cumulative}]
-        - name: transform-recovered
-          dependencies: [process-recovered]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_canada_recovered_aggregated}]
+            parameters: [{name: message, value: flask data_process confidential_211_referrals}]

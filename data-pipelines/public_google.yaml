@@ -1,5 +1,5 @@
 metadata:
-  name: public-open-data-working-group
+  name: public-google
   namespace: staging
 spec:
   schedule: '0 3 * * *'
@@ -25,7 +25,7 @@ spec:
       - name: hmf-data-restricted-processed-ccso
         persistentVolumeClaim:
           claimName: hmf-data-restricted-processed-ccso
-    entrypoint: public-open-data-working-group
+    entrypoint: public-google
     templates:
     - name: hmf-backend
       inputs:
@@ -136,61 +136,21 @@ spec:
             mountPath: /opt/app-root/app/data/restricted/raw/moh
           - name: hmf-data-restricted-processed-moh
             mountPath: /opt/app-root/app/data/restricted/processed/moh
-    - name: public-open-data-working-group
+    - name: public-google
       dag:
         tasks:
         # cases
-        - name: get-cases
+        - name: get-google
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_open_data_working_group_cases}]
-        - name: process-cases
-          dependencies: [get-cases]
+            parameters: [{name: message, value: flask data_in public_google_global_mobility_report}]
+        - name: process-google
+          dependencies: [get-google]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_process public_open_data_working_group_cases}]
-        - name: transform-cases
-          dependencies: [process-cases]
+            parameters: [{name: message, value: flask data_process public_google_global_mobility_report}]
+        - name: transform-google
+          dependencies: [process-google]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_canada_confirmed_positive_cases}]
-        - name: calculate-rt
-          dependencies: [transform-cases]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_rt_canada_bettencourt_and_ribeiro_approach}]
-        - name: export-rt
-          dependencies: [calculate-rt]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_export public_rt_canada_bettencourt_and_ribeiro_approach}]
-        # mortality
-        - name: get-mortality
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_in public_open_data_working_group_mortality}]
-        - name: process-mortality
-          dependencies: [get-mortality]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_open_data_working_group_mortality}]
-        - name: transform-mortality
-          dependencies: [process-mortality]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_canada_confirmed_mortality_cases}]
-        # recovered
-        - name: get-recovered
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_in public_open_data_working_recovered_cumulative}]
-        - name: process-recovered
-          dependencies: [get-recovered]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_open_data_working_recovered_cumulative}]
-        - name: transform-recovered
-          dependencies: [process-recovered]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_canada_recovered_aggregated}]
+            parameters: [{name: message, value: flask data_transform public_mobility_apple}]
