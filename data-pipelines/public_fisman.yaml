@@ -1,5 +1,5 @@
 metadata:
-  name: public-ontario-gov
+  name: public-fisman
   namespace: staging
 spec:
   schedule: '0 3 * * *'
@@ -25,7 +25,7 @@ spec:
       - name: hmf-data-restricted-processed-ccso
         persistentVolumeClaim:
           claimName: hmf-data-restricted-processed-ccso
-    entrypoint: public-ontario-gov
+    entrypoint: public-fisman
     templates:
     - name: hmf-backend
       inputs:
@@ -136,78 +136,16 @@ spec:
             mountPath: /opt/app-root/app/data/restricted/raw/moh
           - name: hmf-data-restricted-processed-moh
             mountPath: /opt/app-root/app/data/restricted/processed/moh
-    - name: public-ontario-gov
+    - name: public-fisman
       dag:
         tasks:
         # cases
-        - name: get-cases
+        - name: get-fisman
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_ontario_gov_conposcovidloc}]
-        - name: process-cases
-          dependencies: [get-cases]
+            parameters: [{name: message, value: flask data_in public_fisman_ideamodel}]
+        - name: process-fisman
+          dependencies: [get-fisman]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_conposcovidloc}]
-        - name: transform-cases
-          dependencies: [process-cases]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_ontario_confirmed_positive_cases}]
-        - name: weekly-new-cases
-          dependencies: [transform-cases]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_ontario_phu_weekly_new_cases}]
-        - name: testing-24-hours
-          dependencies: [transform-cases]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_transform public_capacity_ontario_testing_24_hours}]
-        - name: export-weekly
-          dependencies: [weekly-new-cases]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_export public_cases_ontario_phu_weekly_new_cases}]
-        - name: export-testing
-          dependencies: [testing-24-hours]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_export public_capacity_ontario_testing_24_hours}]
-
-        # aggregate
-        - name: get-aggregate
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_in public_ontario_gov_covidtesting}]
-        - name: process-aggregate
-          dependencies: [get-cases]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_covidtesting}]
-
-        # website
-        - name: get-website
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_in public_ontario_gov_website}]
-        - name: process-long-term-care
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_in_outbreak}]
-        - name: process-long-term-care-summary
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_summary}]
-        - name: process-long-term-care-outbreak
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_in_outbreak}]
-        - name: process-long-term-care-no-longer-outbreak
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_no_longer_in_outbreak}]
+            parameters: [{name: message, value: flask data_process public_fisman_ideamodel}]
