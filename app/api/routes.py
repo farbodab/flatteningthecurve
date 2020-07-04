@@ -281,7 +281,7 @@ def get_reopening_metrics():
             temp_dict["testing"] = "nan"
 
         temp = rt_df.loc[rt_df.health_region == phu_select]
-        temp = temp.sort_values('date')
+        temp = temp.sort_values('date_report')
         try:
             temp_dict["rt"] = str(temp.tail(1)['ML'].values[0])
         except:

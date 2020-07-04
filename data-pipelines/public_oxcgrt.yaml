@@ -1,8 +1,8 @@
 metadata:
   name: public-oxcgrt
-  namespace: staging
+  namespace: production
 spec:
-  schedule: '0 3 * * *'
+  schedule: '0 13 * * *'
   concurrencyPolicy: Replace
   workflowSpec:
     serviceAccountName: argo-workflow
@@ -32,7 +32,7 @@ spec:
         parameters:
         - name: message
       container:
-        image: 'image-registry.openshift-image-registry.svc:5000/staging/hmf-backend'
+        image: 'image-registry.openshift-image-registry.svc:5000/production/hmf-backend'
         args:
           - /bin/sh
           - '-c'
@@ -41,87 +41,87 @@ spec:
           - name: FLASK_APP
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: FLASK_APP
           - name: FLASK_CONFIG
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: FLASK_CONFIG
           - name: KAGGLE_CONFIG_DIR
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: KAGGLE_CONFIG_DIR
           - name: auth_provider_x509_cert_url
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: auth_provider_x509_cert_url
           - name: auth_uri
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: auth_uri
           - name: private_key
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: private_key
           - name: private_key_id
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: private_key_id
           - name: KAGGLE_KEY
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: KAGGLE_KEY
           - name: type
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: type
           - name: KAGGLE_USERNAME
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: KAGGLE_USERNAME
           - name: client_id
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: client_id
           - name: client_x509_cert_url
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: client_x509_cert_url
           - name: token_uri
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: token_uri
           - name: client_email
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: client_email
           - name: project_id
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: project_id
           - name: USERNAME_211
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: USERNAME_211
           - name: PASSWORD_211
             valueFrom:
               secretKeyRef:
-                name: backend-testdb-secret
+                name: backend-proddb-secret
                 key: PASSWORD_211
         volumeMounts:
           - name: hmf-data-confidential
