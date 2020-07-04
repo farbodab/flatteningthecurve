@@ -1,0 +1,156 @@
+metadata:
+  name: restricted-ccso
+  namespace: staging
+spec:
+  schedule: '0 3 * * *'
+  concurrencyPolicy: Replace
+  workflowSpec:
+    serviceAccountName: argo-workflow
+    volumes:
+      - name: hmf-data-public
+        persistentVolumeClaim:
+          claimName: hmf-data-public
+      - name: hmf-data-confidential
+        persistentVolumeClaim:
+          claimName: hmf-data-confidential
+      - name: hmf-data-restricted-raw-moh
+        persistentVolumeClaim:
+          claimName: hmf-data-restricted-raw-moh
+      - name: hmf-data-restricted-processed-moh
+        persistentVolumeClaim:
+          claimName: hmf-data-restricted-processed-moh
+      - name: hmf-data-restricted-raw-ccso
+        persistentVolumeClaim:
+          claimName: hmf-data-restricted-raw-ccso
+      - name: hmf-data-restricted-processed-ccso
+        persistentVolumeClaim:
+          claimName: hmf-data-restricted-processed-ccso
+    entrypoint: restricted-ccso
+    templates:
+    - name: hmf-backend
+      inputs:
+        parameters:
+        - name: message
+      container:
+        image: 'image-registry.openshift-image-registry.svc:5000/staging/hmf-backend'
+        args:
+          - /bin/sh
+          - '-c'
+          - "{{inputs.parameters.message}}"
+        env:
+          - name: FLASK_APP
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: FLASK_APP
+          - name: FLASK_CONFIG
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: FLASK_CONFIG
+          - name: KAGGLE_CONFIG_DIR
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: KAGGLE_CONFIG_DIR
+          - name: auth_provider_x509_cert_url
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: auth_provider_x509_cert_url
+          - name: auth_uri
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: auth_uri
+          - name: private_key
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: private_key
+          - name: private_key_id
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: private_key_id
+          - name: KAGGLE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: KAGGLE_KEY
+          - name: type
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: type
+          - name: KAGGLE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: KAGGLE_USERNAME
+          - name: client_id
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: client_id
+          - name: client_x509_cert_url
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: client_x509_cert_url
+          - name: token_uri
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: token_uri
+          - name: client_email
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: client_email
+          - name: project_id
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: project_id
+          - name: USERNAME_211
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: USERNAME_211
+          - name: PASSWORD_211
+            valueFrom:
+              secretKeyRef:
+                name: backend-testdb-secret
+                key: PASSWORD_211
+        volumeMounts:
+          - name: hmf-data-confidential
+            mountPath: /opt/app-root/app/data/confidential
+          - name: hmf-data-public
+            mountPath: /opt/app-root/app/data/public
+          - name: hmf-data-restricted-raw-ccso
+            mountPath: /opt/app-root/app/data/restricted/raw/ccso
+          - name: hmf-data-restricted-processed-ccso
+            mountPath: /opt/app-root/app/data/restricted/processed/ccso
+          - name: hmf-data-restricted-raw-moh
+            mountPath: /opt/app-root/app/data/restricted/raw/moh
+          - name: hmf-data-restricted-processed-moh
+            mountPath: /opt/app-root/app/data/restricted/processed/moh
+    - name: restricted-ccso
+      dag:
+        tasks:
+        # cases
+        - name: process-ccso
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_process restricted_ccso_ccis}]
+        - name: transform-ccso
+          dependencies: [process-ccso]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_capacity_ontario_phu_icu_capacity}]
+        - name: export-ccso
+          dependencies: [transform-ccso]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_capacity_ontario_phu_icu_capacity}]
