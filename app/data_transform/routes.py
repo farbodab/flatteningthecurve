@@ -498,10 +498,15 @@ def transform_public_capacity_ontario_phu_icu_capacity():
         data_in = {'classification':'restricted', 'stage': 'processed','source_name':'ccso', 'table_name':'ccis',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}):
         df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
+        df['province'] = 'Ontario'
         df['phu'] = df['hospital_name'].replace(replace)
+        df_ontario = df.groupby(['province']).sum().reset_index()
+        df_ontario['critical_care_pct'] = df_ontario['critical_care_patients'] / df_ontario['critical_care_beds']
+        df_ontario['phu'] = 'Ontario'
         df = df.groupby(['phu']).sum().reset_index()
         df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
-        df.to_csv(save_file, index=False)
+        result = pd.concat([df,df_ontario])
+        result.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_ontario_phu_confirmed_positive_aggregated')
 def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
@@ -626,7 +631,11 @@ def transform_public_capacity_ontario_testing_24_hours():
                         counter += 1
                     total += 1
                 output_arrays[phu] = output_arrays.get(phu,[]) + [[start_date,phu,counter,total]]
-            tmp = ont_data[(ont_data["accurate_episode_date"]==np.datetime64(start_date))]
+
+            ont_data = df
+            for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
+                ont_data[column] = pd.to_datetime(ont_data[column])
+            tmp = ont_data[(ont_data["case_reported_date"]==np.datetime64(start_date))]
             counter = 0
             total = 0
             for index,row in tmp.iterrows():
