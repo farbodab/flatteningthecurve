@@ -1,5 +1,5 @@
 metadata:
-  name: public-ontario-gov
+  name: confidential-211
   namespace: staging
 spec:
   schedule: '0 3 * * *'
@@ -25,7 +25,7 @@ spec:
       - name: hmf-data-restricted-processed-ccso
         persistentVolumeClaim:
           claimName: hmf-data-restricted-processed-ccso
-    entrypoint: public-ontario-gov
+    entrypoint: confidential-211
     templates:
     - name: hmf-backend
       inputs:
@@ -136,78 +136,51 @@ spec:
             mountPath: /opt/app-root/app/data/restricted/raw/moh
           - name: hmf-data-restricted-processed-moh
             mountPath: /opt/app-root/app/data/restricted/processed/moh
-    - name: public-ontario-gov
+    - name: confidential-211
       dag:
         tasks:
-        # cases
-        - name: get-cases
+        # call-reports
+        - name: get-call-reports
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_ontario_gov_conposcovidloc}]
-        - name: process-cases
-          dependencies: [get-cases]
+            parameters: [{name: message, value: flask data_in confidential_211_call_reports}]
+        - name: process-call-reports
+          dependencies: [get-call-reports]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_conposcovidloc}]
-        - name: transform-cases
-          dependencies: [process-cases]
+            parameters: [{name: message, value: flask data_process confidential_211_call_reports}]
+        - name: transform-call-reports
+          dependencies: [process-call-reports]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_ontario_confirmed_positive_cases}]
-        - name: weekly-new-cases
-          dependencies: [transform-cases]
+            parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_reports}]
+        - name: transform-call-reports-age
+          dependencies: [process-call-reports]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_ontario_phu_weekly_new_cases}]
-        - name: testing-24-hours
-          dependencies: [transform-cases]
+            parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_reports_by_age}]
+        # met-and-unmet-needs
+        - name: get-met-and-unmet-needs
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_capacity_ontario_testing_24_hours}]
-        - name: export-weekly
-          dependencies: [weekly-new-cases]
+            parameters: [{name: message, value: flask data_in confidential_211_met_and_unmet_needs}]
+        - name: process-met-and-unmet-needs
+          dependencies: [get-met-and-unmet-needs]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_export public_cases_ontario_phu_weekly_new_cases}]
-        - name: export-testing
-          dependencies: [testing-24-hours]
+            parameters: [{name: message, value: flask data_process confidential_211_met_and_unmet_needs}]
+        - name: transform-met-and-unmet-needs
+          dependencies: [process-met-and-unmet-needs]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_export public_capacity_ontario_testing_24_hours}]
-
-        # aggregate
-        - name: get-aggregate
+            parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_per_type_of_need}]
+        # referrals
+        - name: get-referrals
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_in public_ontario_gov_covidtesting}]
-        - name: process-aggregate
-          dependencies: [get-cases]
+            parameters: [{name: message, value: flask data_in confidential_211_referrals}]
+        - name: process-referrals
+          dependencies: [get-referrals]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_covidtesting}]
-
-        # website
-        - name: get-website
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_in public_ontario_gov_website}]
-        - name: process-long-term-care
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_in_outbreak}]
-        - name: process-long-term-care-summary
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_summary}]
-        - name: process-long-term-care-outbreak
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_in_outbreak}]
-        - name: process-long-term-care-no-longer-outbreak
-          dependencies: [get-website]
-          template: hmf-backend
-          arguments:
-            parameters: [{name: message, value: flask data_process public_ontario_gov_longtermcare_no_longer_in_outbreak}]
+            parameters: [{name: message, value: flask data_process confidential_211_referrals}]

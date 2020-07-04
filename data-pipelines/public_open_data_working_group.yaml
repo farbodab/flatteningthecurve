@@ -139,6 +139,7 @@ spec:
     - name: public-open-data-working-group
       dag:
         tasks:
+        # cases
         - name: get-cases
           template: hmf-backend
           arguments:
@@ -163,3 +164,33 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_export public_rt_canada_bettencourt_and_ribeiro_approach}]
+        # mortality
+        - name: get-mortality
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_in public_open_data_working_group_mortality}]
+        - name: process-mortality
+          dependencies: [get-mortality]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_process public_open_data_working_group_mortality}]
+        - name: transform-mortality
+          dependencies: [process-mortality]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_cases_canada_confirmed_mortality_cases}]
+        # recovered
+        - name: get-recovered
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_in public_open_data_working_recovered_cumulative}]
+        - name: process-recovered
+          dependencies: [get-recovered]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_process public_open_data_working_recovered_cumulative}]
+        - name: transform-recovered
+          dependencies: [process-recovered]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_cases_canada_recovered_aggregated}]
