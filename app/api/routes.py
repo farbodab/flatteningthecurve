@@ -249,6 +249,7 @@ def get_api_team():
 @cache.cached(timeout=50)
 @as_json
 def get_reopening_metrics():
+    stages_df = pd.read_csv("https://docs.google.com/spreadsheets/u/0/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=0")
     weekly_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1053507889")
     testing_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1206518301")
     rt_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=428679599")
@@ -260,10 +261,12 @@ def get_reopening_metrics():
         temp_dict["phu"] = phu_select
         temp_dict["tracing"] = "nan"
 
-        if phu_select in ['Windsor-Essex County Health Unit', 'Peel Regional Health Unit', 'City of Toronto Health Unit']:
-            temp_dict["stage"] = "1"
-        else:
-            temp_dict["stage"] = "2"
+        temp = stages_df.loc[stages_df.phu == phu_select]
+        try:
+            temp_dict["stage"] = str((temp.tail(1)['stage'].values[0]))
+        except:
+            temp_dict["stage"] = "nan"
+
 
         temp = weekly_df.loc[weekly_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
