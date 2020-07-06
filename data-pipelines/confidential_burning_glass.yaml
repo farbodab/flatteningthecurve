@@ -149,3 +149,13 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_process confidential_burning_glass_industry_weekly}]
+        - name: transform-burning-glass
+          dependencies: [process-burning-glass]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_economic_ontario_job_postings}]
+        - name: export-burning-glass
+          dependencies: [transform-burning-glass]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_economic_ontario_job_postings}]

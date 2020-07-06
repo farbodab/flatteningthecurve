@@ -153,4 +153,4 @@ spec:
           dependencies: [process-google]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_mobility_apple}]
+            parameters: [{name: message, value: flask data_transform public_mobility_google}]
