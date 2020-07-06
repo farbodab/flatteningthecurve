@@ -611,7 +611,8 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}):
 
         ont_data = df
-        ont_data["case_reported_date"] = ont_data["case_reported_date"].apply(convert_date)
+        for column in ['case_reported_date']:
+            df[column] = pd.to_datetime(df[column])
         ont_data[['case_reported_date', 'reporting_phu', 'row_id']].groupby(['case_reported_date', 'reporting_phu']).agg(['count'])
         delta = timedelta(days=1)
         end_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')-timedelta(days=1)
