@@ -246,7 +246,38 @@ def transform_public_socioeconomic_ontario_211_call_reports_by_age():
         ont_data["call_date_and_time_start"] = ont_data["call_date_and_time_start"].apply(convert_date)
         ont_data = ont_data.loc[pd.to_datetime(ont_data['call_date_and_time_start']) >= pd.to_datetime(datetime.strptime("01/01/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
         ont_data = ont_data.groupby(['call_date_and_time_start', 'age_of_inquirer']).count().reset_index()
-        ont_data.to_csv(save_file, index=False)
+        ont_data.sort_values(by=['call_date_and_time_start'], inplace=True)
+        needs = sorted([x for x in set(list(ont_data['age_of_inquirer'].values)) if x!="Unknown" and x!='9-May' and x!='14-Oct'])
+        need_before_values = {}
+        need_after_values = {}
+        tokeep = []
+        for need in needs:
+            tmp = ont_data.loc[ont_data['age_of_inquirer'] == need].copy()
+            tmp = tmp[['call_date_and_time_start', 'call_report_num']]
+            tmp['CallReportNum_7day_rollingaverage'] = tmp['call_report_num'].rolling(window=7).mean()
+            group_x = pd.to_datetime(tmp["call_date_and_time_start"].values)
+            group_y = tmp["CallReportNum_7day_rollingaverage"].values
+            need_before_values[need] = [group_y[index] for index in range(len(group_y)) if group_x[index]<=pd.to_datetime(datetime.strptime("03/16/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
+            need_after_values[need] = [group_y[index] for index in range(len(group_y)) if group_x[index]>pd.to_datetime(datetime.strptime("03/16/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
+            if need in ["Adult", "Older Adult"]:
+                tokeep.append((tmp["call_date_and_time_start"].values,need,tmp["call_report_num"].values,tmp["CallReportNum_7day_rollingaverage"].values,np.nanmean(need_before_values[need])))
+        header = ["call_date_and_time_start","age_of_inquirer","call_report_num","CallReportNum_7day_rollingaverage","percentage_change_from_before_quarantine"]
+        rows = []
+        for tuples in tokeep:
+            for index in range(len(tuples[0])):
+                date = tuples[0][index]
+                category = tuples[1]
+                CallReportNum = tuples[2][index]
+                CallReportNum_7day_rollingaverage = tuples[3][index]
+
+                if pd.to_datetime(date) < pd.to_datetime(datetime.strptime("03/16/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d')):
+                    percentage_change = np.nan
+                else:
+                    percentage_change = round(100*((CallReportNum_7day_rollingaverage-tuples[4])/tuples[4]))
+
+                rows.append([date,category,CallReportNum,CallReportNum_7day_rollingaverage,percentage_change])
+        final_out_csv = pd.DataFrame(rows,columns=header)
+        final_out_csv.to_csv(save_file, index=False)
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_per_type_of_need')
 def transform_public_socioeconomic_ontario_211_call_per_type_of_need():
@@ -259,7 +290,40 @@ def transform_public_socioeconomic_ontario_211_call_per_type_of_need():
         ont_data = ont_data.drop_duplicates()
         ont_data = ont_data.groupby(['date_of_call', 'airs_need_category']).count()
         ont_data.reset_index(inplace=True)
-        ont_data.to_csv(save_file, index=False)
+        ont_data.sort_values(by=['date_of_call'], inplace=True)
+        needs = set(list(ont_data['airs_need_category'].values))
+        tokeep = []
+        need_before_values = {}
+        need_after_values = {}
+        for need in needs:
+            tmp = ont_data.loc[ont_data['airs_need_category'] == need].copy()
+            tmp = tmp[['date_of_call', 'report_need_num']]
+            tmp['ReportNeedNum_7day_rollingaverage'] = tmp['report_need_num'].rolling(window=7).mean()
+            group_x = pd.to_datetime(tmp["date_of_call"].values)
+            group_y = tmp["ReportNeedNum_7day_rollingaverage"].values
+
+            need_before_values[need] = [group_y[index] for index in range(len(group_y)) if group_x[index]<=pd.to_datetime(datetime.strptime("03/16/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
+            need_after_values[need] = [group_y[index] for index in range(len(group_y)) if group_x[index]>pd.to_datetime(datetime.strptime("03/16/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d'))]
+
+            if need in ["Food/Meals", "Income Support/Financial Assistance"]:
+                tokeep.append((tmp["date_of_call"].values,need,tmp["report_need_num"].values,tmp["ReportNeedNum_7day_rollingaverage"].values,np.nanmean(need_before_values[need])))
+        header = ["date_of_call","airs_need_category","report_need_num","ReportNeedNum_7day_rollingaverage","percentage_change_from_before_quarantine"]
+        rows = []
+        for tuples in tokeep:
+            for index in range(len(tuples[0])):
+                date = tuples[0][index]
+                category = tuples[1]
+                ReportNeedNum = tuples[2][index]
+                ReportNeedNum_7day_rollingaverage = tuples[3][index]
+
+                if pd.to_datetime(date) < pd.to_datetime(datetime.strptime("03/16/2020 00:01", '%m/%d/%Y %H:%M').strftime('%Y/%m/%d')):
+                    percentage_change = np.nan
+                else:
+                    percentage_change = round(100*((ReportNeedNum_7day_rollingaverage-tuples[4])/tuples[4]))
+
+                rows.append([date,category,ReportNeedNum,ReportNeedNum_7day_rollingaverage,percentage_change])
+        final_out_csv = pd.DataFrame(rows,columns=header)
+        final_out_csv.to_csv(save_file, index=False)
 
 @bp.cli.command('public_capacity_ontario_lhin_icu_capacity')
 def transform_public_capacity_ontario_lhin_icu_capacity():
