@@ -58,3 +58,35 @@ def export_public_rt_canada_bettencourt_and_ribeiro_approach():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
     export(sheetsConfig, data_out)
+
+@bp.cli.command('public_socioeconomic_ontario_211_call_reports')
+def export_public_socioeconomic_ontario_211_call_reports():
+    sheetsConfig = [
+        {'name':'Socioeconomic - 211 Call Report'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'socioeconomic', 'table_name':'ontario_211_call_reports',  'type': 'csv'}
+    export(sheetsConfig, data_out)
+
+@bp.cli.command('public_socioeconomic_ontario_211_call_reports_by_age')
+def export_public_socioeconomic_ontario_211_call_reports_by_age():
+    sheetsConfig = [
+        {'name':'Socioeconomic - 211 Call Reports By Age'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'socioeconomic', 'table_name':'ontario_211_call_reports_by_age',  'type': 'csv'}
+    export(sheetsConfig, data_out)
+
+@bp.cli.command('public_socioeconomic_ontario_211_call_per_type_of_need')
+def export_public_socioeconomic_ontario_211_call_per_type_of_need():
+    sheetsConfig = [
+        {'name':'Socioeconomic - 211 Call Report Per Type of Need'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'socioeconomic', 'table_name':'ontario_211_call_per_type_of_need',  'type': 'csv'}
+    export(sheetsConfig, data_out)
+
+@bp.cli.command('public_economic_ontario_job_postings')
+def export_public_economic_ontario_job_postings():
+    sheetsConfig = [
+        {'name':'Economic - Ontario Job Postings'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'economic', 'table_name':'ontario_job_postings',  'type': 'csv'}
+    export(sheetsConfig, data_out)

@@ -154,11 +154,21 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_reports}]
+        - name: export-call-reports
+          dependencies: [transform-call-reports]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_socioeconomic_ontario_211_call_reports}]
         - name: transform-call-reports-age
           dependencies: [process-call-reports]
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_reports_by_age}]
+        - name: export-call-reports-age
+          dependencies: [transform-call-reports-age]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_socioeconomic_ontario_211_call_reports_by_age}]
         # met-and-unmet-needs
         - name: get-met-and-unmet-needs
           template: hmf-backend
@@ -174,6 +184,11 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_socioeconomic_ontario_211_call_per_type_of_need}]
+        - name: export-met-and-unmet-needs
+          dependencies: [transform-met-and-unmet-needs]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_socioeconomic_ontario_211_call_per_type_of_need}]
         # referrals
         - name: get-referrals
           template: hmf-backend

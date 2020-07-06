@@ -660,6 +660,14 @@ def transform_public_capacity_ontario_testing_24_hours():
         final_dataframe = pd.concat(phu_dfs)
         final_dataframe.to_csv(save_file, index=False)
 
+@bp.cli.command('public_economic_ontario_job_postings')
+def transform_public_economic_ontario_job_postings():
+    for df, save_file, date in transform(
+        data_in = {'classification':'confidential', 'stage': 'processed','source_name':'burning_glass', 'table_name':'industry_weekly',  'type': 'csv'},
+        data_out = {'classification':'public', 'stage': 'transformed','source_name':'economic', 'table_name':'ontario_job_postings',  'type': 'csv'}):
+        df = df.loc[df.geography == 'Ontario']
+        df.to_csv(save_file, index=False)
+
 ###
 ### Visualizations
 ###
