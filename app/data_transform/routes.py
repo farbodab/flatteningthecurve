@@ -611,10 +611,11 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}):
 
         ont_data = df
-        for column in ['case_reported_date']:
-            ont_data[column] = pd.to_datetime(ont_data[column])
+        ont_data["case_reported_date"] = ont_data["case_reported_date"].apply(convert_date)
+        ont_data[['case_reported_date', 'reporting_phu', 'row_id']].groupby(['case_reported_date', 'reporting_phu']).agg(['count'])
+        delta = timedelta(days=1)
+        end_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')-timedelta(days=1)
 
-        start_date = datetime(2020,1,1)
         phus = {}
 
         for phu in set(ont_data["reporting_phu"].values):
@@ -622,41 +623,24 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
             tmp_data = tmp_data.groupby(['case_reported_date']).count()
             tmp_data = tmp_data[['row_id']]
             tmp_data = tmp_data.reset_index()
-            tmp_data['date_week'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[1])
-            tmp_data['date_year'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[0])
-            #ont_data
 
-            week_count_dict = {}
-            for dtime in rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=datte.today()):
-                dt_week = dtime.isocalendar()[1]
-                dt_year = dtime.isocalendar()[0]
-                d = f'{dt_year}-W{dt_week-1}'
-                r = datetime.strptime(d + '-1', "%Y-W%W-%w")
-                week_count_dict[r] = sum(tmp_data[(tmp_data["date_year"]==dt_year)&(tmp_data["date_week"]==dt_week)]["row_id"].values)
+            day_count_dict = {}
+            start_date = datetime(2020,1,1)
+            while start_date <= end_date:
+                lst = tmp_data[tmp_data["case_reported_date"]==start_date]["row_id"].values
+                if len(lst) == 0:
+                    day_count_dict[start_date] = 0
+                else:
+                    day_count_dict[start_date] = lst[0]
 
-                #print(r, week_count_dict[r])
-            phus[phu] = week_count_dict
+                start_date += delta
+            phus[phu] = day_count_dict
+        phu_daily = pd.DataFrame(phus)
+        phu_daily = phu_daily.reset_index()
+        phu_weekly = phu_daily.copy()
+        for phu in set(ont_data["reporting_phu"].values):
+            phu_weekly[phu] = phu_weekly[phu].rolling(window=7).sum()
 
-        tmp_data = ont_data
-        tmp_data = tmp_data.groupby(['case_reported_date']).count()
-        tmp_data = tmp_data[['row_id']]
-        tmp_data = tmp_data.reset_index()
-        tmp_data['date_week'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[1])
-        tmp_data['date_year'] = tmp_data['case_reported_date'].apply(lambda x: x.isocalendar()[0])
-        #ont_data
-
-        week_count_dict = {}
-        for dtime in rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=datte.today()):
-            dt_week = dtime.isocalendar()[1]
-            dt_year = dtime.isocalendar()[0]
-            d = f'{dt_year}-W{dt_week-1}'
-            r = datetime.strptime(d + '-1', "%Y-W%W-%w")
-            week_count_dict[r] = sum(tmp_data[(tmp_data["date_year"]==dt_year)&(tmp_data["date_week"]==dt_week)]["row_id"].values)
-
-            #print(r, week_count_dict[r])
-        phus["Ontario"] = week_count_dict
-        phu_weekly = pd.DataFrame(phus)
-        phu_weekly = phu_weekly.reset_index()
         phu_weekly = pd.melt(phu_weekly, id_vars=['index'])
         phu_weekly = phu_weekly.rename(columns={"index": "Date", "variable": "PHU", "value": "Cases"})
         phu_weekly.to_csv(save_file, index=False)
