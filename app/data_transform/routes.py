@@ -55,6 +55,7 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
 def convert_date(date):
     return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
 
+
 def get_file_path(data, today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
     if data['type'] != '':
@@ -612,9 +613,9 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
 
         ont_data = df.copy()
         for column in ['case_reported_date']:
-            df[column] = pd.to_datetime(df[column])
+            ont_data[column] = pd.to_datetime(ont_data[column])
 
-        header_ontario = ["date","case_count"]
+        header = ["date","case_count"]
         rows = []
 
         delta = timedelta(days=1)
@@ -626,14 +627,13 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
             start_date = start_date + delta
 
         # This is 100% correct
-        daily_ont = pd.DataFrame(rows, columns=header_ontario)
+        daily_ont = pd.DataFrame(rows, columns=header)
         daily_ont = daily_ont.set_index('date').rolling(window=7).sum().reset_index()
-        daily_ont['PHU'] = 'Ontario'
+        daily_ont['phu'] = 'Ontario'
         daily_ont = daily_ont.rename(columns={"date": "Date","case_count": "Cases", "phu": "PHU"})
 
-        ont_data = df.copy()
         phus = set(ont_data["reporting_phu"].values)
-        header_phu = ["date", "phu", "case_count"]
+        header = ["date", "phu", "case_count"]
         rows = {}
 
         delta = timedelta(days=1)
@@ -651,18 +651,16 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
         phu_dfs = []
         for phu in rows:
             phu_rows = rows[phu]
-            phu_rows = pd.DataFrame(phu_rows, columns=header_phu)
+            phu_rows = pd.DataFrame(phu_rows, columns=header)
             phu_rows = phu_rows.set_index('date').rolling(window=7).sum().reset_index()
+            phu_rows["phu"] = phu
             phu_dfs.append(phu_rows)
 
 
-
         daily_phu = pd.concat(phu_dfs)
-        print(daily_phu.head())
         daily_phu = daily_phu.rename(columns={"date": "Date","case_count": "Cases", "phu": "PHU"})
 
-
-        df = pd.concat([daily_ont,daily_phu])
+        df = pd.concat([daily_phu,daily_ont])
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_capacity_ontario_testing_24_hours')
