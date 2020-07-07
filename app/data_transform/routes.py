@@ -610,41 +610,60 @@ def transform_public_cases_ontario_phu_weekly_new_cases():
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}):
 
-        ont_data = df
+        ont_data = df.copy()
         for column in ['case_reported_date']:
             df[column] = pd.to_datetime(df[column])
-        ont_data[['case_reported_date', 'reporting_phu', 'row_id']].groupby(['case_reported_date', 'reporting_phu']).agg(['count'])
+
+        header_ontario = ["date","case_count"]
+        rows = []
+
         delta = timedelta(days=1)
+        start_date = datetime(2020,1,1)
         end_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')-timedelta(days=1)
 
-        phus = {}
+        while start_date <end_date:
+            rows.append([start_date,ont_data[ont_data["case_reported_date"]==start_date].shape[0]])
+            start_date = start_date + delta
 
-        for phu in set(ont_data["reporting_phu"].values):
-            tmp_data = ont_data[ont_data["reporting_phu"]==phu]
-            tmp_data = tmp_data.groupby(['case_reported_date']).count()
-            tmp_data = tmp_data[['row_id']]
-            tmp_data = tmp_data.reset_index()
+        # This is 100% correct
+        daily_ont = pd.DataFrame(rows, columns=header_ontario)
+        daily_ont = daily_ont.set_index('date').rolling(window=7).sum().reset_index()
+        daily_ont['PHU'] = 'Ontario'
+        daily_ont = daily_ont.rename(columns={"date": "Date","case_count": "Cases", "phu": "PHU"})
 
-            day_count_dict = {}
+        ont_data = df.copy()
+        phus = set(ont_data["reporting_phu"].values)
+        header_phu = ["date", "phu", "case_count"]
+        rows = {}
+
+        delta = timedelta(days=1)
+
+        end_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')-timedelta(days=1)
+
+        for phu in phus:
             start_date = datetime(2020,1,1)
-            while start_date <= end_date:
-                lst = tmp_data[tmp_data["case_reported_date"]==start_date]["row_id"].values
-                if len(lst) == 0:
-                    day_count_dict[start_date] = 0
-                else:
-                    day_count_dict[start_date] = lst[0]
+            phu_row = []
+            while start_date <end_date:
+                phu_row.append([start_date,phu,ont_data[(ont_data["case_reported_date"]==start_date)&(ont_data["reporting_phu"]==phu)].shape[0]])
+                start_date = start_date + delta
+            rows[phu] = phu_row
 
-                start_date += delta
-            phus[phu] = day_count_dict
-        phu_daily = pd.DataFrame(phus)
-        phu_daily = phu_daily.reset_index()
-        phu_weekly = phu_daily.copy()
-        for phu in set(ont_data["reporting_phu"].values):
-            phu_weekly[phu] = phu_weekly[phu].rolling(window=7).sum()
+        phu_dfs = []
+        for phu in rows:
+            phu_rows = rows[phu]
+            phu_rows = pd.DataFrame(phu_rows, columns=header_phu)
+            phu_rows = phu_rows.set_index('date').rolling(window=7).sum().reset_index()
+            phu_dfs.append(phu_rows)
 
-        phu_weekly = pd.melt(phu_weekly, id_vars=['index'])
-        phu_weekly = phu_weekly.rename(columns={"index": "Date", "variable": "PHU", "value": "Cases"})
-        phu_weekly.to_csv(save_file, index=False)
+
+
+        daily_phu = pd.concat(phu_dfs)
+        print(daily_phu.head())
+        daily_phu = daily_phu.rename(columns={"date": "Date","case_count": "Cases", "phu": "PHU"})
+
+
+        df = pd.concat([daily_ont,daily_phu])
+        df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_capacity_ontario_testing_24_hours')
 def transform_public_capacity_ontario_testing_24_hours():
