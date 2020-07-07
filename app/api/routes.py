@@ -271,7 +271,7 @@ def get_reopening_metrics():
         temp = weekly_df.loc[weekly_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
         try:
-            temp_dict["weekly"] = str(temp.tail(1)['Cases'].values[0])
+            temp_dict["weekly"] = str(int(temp.tail(1)['Cases'].values[0]))
         except:
             temp_dict["weekly"] = "nan"
 
