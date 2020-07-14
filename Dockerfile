@@ -23,10 +23,11 @@ RUN apt-get update && apt-get install -yq \
     xclip \
     r-base \
     r-base-dev \
-    
 
-RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
-    && unzip /tmp/chromedriver.zip -d /usr/bin/ \
+
+RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
+
+RUN unzip /tmp/chromedriver.zip -d /usr/bin/ \
     && rm /tmp/chromedriver.zip
 
 RUN pip install --upgrade pip && \
