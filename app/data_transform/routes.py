@@ -478,7 +478,7 @@ def transform_public_rt_canada_cori_approach():
     load_file = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv"
     save_file, save_dir = get_file_path(data, 'transformed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
-    output = subprocess.check_output(f"Rscript.exe --vanilla app/tools/r/Rt_ontario.r {load_file} {save_file}")
+    output = subprocess.check_output(f"Rscript.exe --vanilla app/tools/r/Rt_ontario.r")
 
 @bp.cli.command('public_capacity_ontario_phu_icu_capacity')
 def transform_public_capacity_ontario_phu_icu_capacity():

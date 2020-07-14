@@ -10,7 +10,7 @@ library(readxl) # read xlsx
 #READ IN DATASET
 data <- read.csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv",
                  stringsAsFactors = FALSE)
-#head(data)
+head(data)
 ​
 ​
 #SET UP PARAMETERS -- assumptions based on literature
@@ -18,6 +18,7 @@ data <- read.csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/mast
 # We use parameter estimates from this article
 si<-3.96    #mean serial interval
 sd<-4.75    #standard deviation
+args = commandArgs(trailingOnly=TRUE)
 start_date<- "2020-03-25"
 rt_start_date<-"2020-04-01"
 ​
@@ -213,4 +214,4 @@ combined<-combined %>%
   select(-t_start, -t_end, -date)
 ​
 #write to csv
-write.csv(combined, "combined_rt.csv", row.names = FALSE)
+write.csv(combined, "/Users/isha_berry/Desktop/combined_rt.csv", row.names = FALSE)
