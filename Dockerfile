@@ -21,8 +21,7 @@ RUN apt-get update && apt-get install -yq \
     libncurses5 \
     libxml2 \
     xclip \
-    r-base \
-    r-base-dev
+    r-base
 
 
 RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
