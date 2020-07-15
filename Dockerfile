@@ -1,5 +1,5 @@
 # FROM registry.access.redhat.com/ubi8/python-38
-FROM python:3.8
+FROM python:3.8.3
 EXPOSE 8080
 ENV CONFIG_DIR=/opt/app-root/app \
     install_dir=/usr/local/bin \
