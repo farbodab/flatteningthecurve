@@ -565,13 +565,11 @@ def transform_public_capacity_ontario_phu_icu_capacity():
         df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
         df['province'] = 'Ontario'
         df['phu'] = df['hospital_name'].replace(replace)
-        baseline = df.loc[df.unit_inclusion == 'Baseline']
-        baseline_beds = baseline.groupby(['phu']).sum().critical_care_beds
         df_ontario = df.groupby(['province']).sum().reset_index()
-        df_ontario['critical_care_pct'] = df_ontario['critical_care_patients'] / baseline_beds.sum()
+        df_ontario['critical_care_pct'] = df_ontario['critical_care_patients'] / df_ontario['critical_care_beds']
         df_ontario['phu'] = 'Ontario'
         df = df.groupby(['phu']).sum().reset_index()
-        df['critical_care_pct'] = df['critical_care_patients'] / baseline_beds.values
+        df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
         result = pd.concat([df,df_ontario])
         result.to_csv(save_file, index=False)
 
