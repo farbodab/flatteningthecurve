@@ -227,7 +227,7 @@ def get_api_source():
         "description": row["description"], "data_feed_type": row["data_feed_type"],
         "link": row["link"], "refresh": row["refresh"],
         "contributor": row["contributor"],"contact": row["contact"],
-        "download": row["download"]})
+        "download": row["download"], "html": row["html"]})
     return data
 
 @bp.route('/api/team', methods=['GET'])
