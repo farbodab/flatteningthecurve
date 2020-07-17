@@ -209,6 +209,7 @@ class Source(db.Model):
     contributor = db.Column(db.String)
     contact = db.Column(db.String)
     download = db.Column(db.String)
+    html = db.Column(db.String)
 
 class Member(db.Model):
     __tablename__ = 'members'
