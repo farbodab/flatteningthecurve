@@ -50,7 +50,8 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'windsor_essex_county':'Windsor-Essex County Health Unit',
  'york_regional':'York Regional Health Unit',
  'southwestern':'Southwestern Public Health Unit',
- 'city_of_toronto':'City of Toronto Health Unit'}
+ 'city_of_toronto':'City of Toronto Health Unit',
+ 'huron_perth_county':'Huron Perth Public Health Unit'}
 
 def convert_date(date):
     return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
