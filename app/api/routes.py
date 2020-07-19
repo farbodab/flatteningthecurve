@@ -31,7 +31,7 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Northwestern Health Unit':'Northwestern Health Unit',
  'City of Ottawa Health Unit':'Ottawa Public Health',
  'Peel Regional Health Unit':'Peel Public Health',
- 'Perth District Health Unit':'Huron Perth District Health Unit',
+ 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
  'Peterborough County–City Health Unit':'Peterborough Public Health',
  'Porcupine Health Unit':'Porcupine Health Unit',
  'Renfrew County and District Health Unit':'Renfrew County and District Health Unit',
@@ -212,7 +212,7 @@ def get_api_plots():
         "tab": row["content"],"tab_order": row["tab_order"],
         "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]),
         "html": row["html"],"category": row["page"], "group": row["category"],
-        "phu": row["phu"], "viz_title": row["viz_title"],"viz": row["viz"], 
+        "phu": row["phu"], "viz_title": row["viz_title"],"viz": row["viz"],
         "text_top": row["text_top"], "text_bottom": row["text_bottom"]})
     return data
 
