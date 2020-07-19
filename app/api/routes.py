@@ -184,7 +184,7 @@ def get_growth():
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
-    df = df.loc[df.viz != 'NaN']
+    df = df.loc[df.page == 'Analysis']
     df = df.loc[df.visible == True]
     df = df.sort_values(by=['category', 'header'])
     data = []
@@ -201,6 +201,7 @@ def get_api_viz():
 @as_json
 def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
+    df = df.loc[df.page != 'Analysis']
     df = df.loc[df.html.notna()]
     df = df.loc[df.order > 0]
     df = df.loc[df.visible == True]
@@ -211,7 +212,7 @@ def get_api_plots():
         "tab": row["content"],"tab_order": row["tab_order"],
         "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]),
         "html": row["html"],"category": row["page"], "group": row["category"],
-        "phu": row["phu"], "viz_title": row["viz_title"],
+        "phu": row["phu"], "viz_title": row["viz_title"],"viz": row["viz"], 
         "text_top": row["text_top"], "text_bottom": row["text_bottom"]})
     return data
 
