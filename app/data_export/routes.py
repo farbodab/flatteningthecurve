@@ -3,6 +3,7 @@ from app.data_export import bp
 from app.export import sheetsHelper
 import glob
 from datetime import datetime, date
+from app.models import *
 
 
 def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
