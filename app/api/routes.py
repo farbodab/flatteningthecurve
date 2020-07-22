@@ -301,6 +301,18 @@ def get_reopening_metrics():
 
     return data
 
+@bp.route('/api/times', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_reopening_times():
+    df = pd.read_sql_table('metric_update_date', db.engine)
+    df = df.loc[df.recent == True]
+    data = []
+    for index, row in df.iterrows():
+        source = row['source']
+        date_refreshed = row['date_refreshed']
+        data.append({'source':source, 'date_refreshed':date_refreshed})
+    return data
 
 @as_json
 def get_testresults():

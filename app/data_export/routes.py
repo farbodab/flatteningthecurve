@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, g, render_template
 from app.data_export import bp
 from app.export import sheetsHelper
 import glob
-from datetime import datetime
+from datetime import datetime, date
 
 
 def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
@@ -34,6 +34,13 @@ def export_public_capacity_ontario_testing_24_hours():
     ]
     data_out ={'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    if m:
+        m.recent = False
+        db.session.add(m)
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    db.session.add(m_n)
+    db.session.commit()
 
 @bp.cli.command('public_cases_ontario_phu_weekly_new_cases')
 def export_public_cases_ontario_phu_weekly_new_cases():
@@ -42,6 +49,13 @@ def export_public_cases_ontario_phu_weekly_new_cases():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    if m:
+        m.recent = False
+        db.session.add(m)
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    db.session.add(m_n)
+    db.session.commit()
 
 @bp.cli.command('public_capacity_ontario_phu_icu_capacity')
 def export_public_capacity_ontario_phu_icu_capacity():
@@ -50,6 +64,13 @@ def export_public_capacity_ontario_phu_icu_capacity():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    if m:
+        m.recent = False
+        db.session.add(m)
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    db.session.add(m_n)
+    db.session.commit()
 
 @bp.cli.command('public_rt_canada_bettencourt_and_ribeiro_approach')
 def export_public_rt_canada_bettencourt_and_ribeiro_approach():
@@ -58,6 +79,13 @@ def export_public_rt_canada_bettencourt_and_ribeiro_approach():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    if m:
+        m.recent = False
+        db.session.add(m)
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    db.session.add(m_n)
+    db.session.commit()
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports')
 def export_public_socioeconomic_ontario_211_call_reports():
