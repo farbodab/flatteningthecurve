@@ -155,7 +155,7 @@ def getontario_faster():
 
 
 sched = BlockingScheduler()
-sched.add_job(getgoogle, 'cron', next_run_time=datetime.now(), minute='*/120')
+sched.add_job(getgoogle, 'interval', next_run_time=datetime.now(), minutes=120)
 sched.add_job(getkaggle, 'cron', hour=18)
 sched.add_job(getontario_faster, 'cron', hour=14)
 sched.start()
