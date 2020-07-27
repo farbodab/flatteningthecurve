@@ -1087,6 +1087,7 @@ def process_restricted_moh_iphis():
         "FSA":"fsa",
         "CASE_REPORTED_DATE": "case_reported_date",
         "CLIENT_DEATH_DATE": "client_death_date",
+        "HCW": "hcw"
     }
     date_field = ['case_reported_date','client_death_date']
     load_file, load_dir = get_file_path(data)
