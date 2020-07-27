@@ -1,5 +1,5 @@
 # FROM registry.access.redhat.com/ubi8/python-38
-FROM python:3.8
+FROM python:3.8.3
 EXPOSE 8080
 ENV CONFIG_DIR=/opt/app-root/app \
     install_dir=/usr/local/bin \
@@ -20,7 +20,10 @@ RUN apt-get update && apt-get install -yq \
     libgconf-2-4 \
     libncurses5 \
     libxml2 \
-    xclip
+    xclip \
+    r-base
+
+RUN R -e "install.packages(c('EpiEstim','incidence', 'magrittr', 'dplyr', 'httr', 'readxl'))"
 
 RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
     && unzip /tmp/chromedriver.zip -d /usr/bin/ \

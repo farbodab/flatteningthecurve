@@ -120,7 +120,8 @@ PHU = ['the_district_of_algoma',
  'windsor_essex_county',
  'york_regional',
  'southwestern',
- 'city_of_toronto']
+ 'city_of_toronto',
+ 'huron_perth_county']
 
 @bp.cli.command('ontario')
 def getontario():

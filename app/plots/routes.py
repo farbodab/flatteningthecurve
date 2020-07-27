@@ -49,7 +49,8 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'windsor_essex_county':'Windsor-Essex County Health Unit',
  'york_regional':'York Regional Health Unit',
  'southwestern':'Southwestern Public Health Unit',
- 'city_of_toronto':'City of Toronto Health Unit'}
+ 'city_of_toronto':'City of Toronto Health Unit',
+ 'huron_perth_county':'Huron Perth Public Health Unit'}
 
 
 ## Tests
@@ -378,6 +379,14 @@ def in_icu_plot(region='ontario'):
         df = df.loc[df.PHU == PHU[region]]
         df['Date'] = pd.to_datetime(df['date'])
 
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="in icu", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
+
         fig = go.Figure()
         temp = df.loc[df['confirmed_positive'].notna()]
         fig.add_trace(go.Indicator(
@@ -478,6 +487,13 @@ def on_ventilator_plot(region='ontario'):
         df = vis.get_icu_capacity_phu()
         df = df.loc[df.PHU == PHU[region]]
         df['Date'] = pd.to_datetime(df['date'])
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="on ventilator", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
 
         fig = go.Figure()
         temp = df.loc[df['confirmed_positive_ventilator'].notna()]
@@ -1750,6 +1766,13 @@ def icu_ontario_plot(region='ontario'):
         df = vis.get_icu_capacity_phu()
         df = df.loc[df.PHU == PHU[region]]
         df['Date'] = pd.to_datetime(df['date'])
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="residual beds", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
 
 
     fig = go.Figure()
@@ -1814,6 +1837,13 @@ def ventilator_ontario_plot(region='ontario'):
         df = vis.get_icu_capacity_phu()
         df = df.loc[df.PHU == PHU[region]]
         df['Date'] = pd.to_datetime(df['date'])
+        if len(df) <= 0:
+            div = sql.null()
+            p = Viz.query.filter_by(header="residual ventilators", phu=region).first()
+            p.html = div
+            db.session.add(p)
+            db.session.commit()
+            return
     fig = go.Figure()
 
     fig.add_trace(go.Indicator(

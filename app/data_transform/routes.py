@@ -25,7 +25,6 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'halton_regional':'Halton Regional Health Unit',
  'city_of_hamilton':'City of Hamilton Health Unit',
  'hastings_and_prince_edward_counties':'Hastings and Prince Edward Counties Health Unit',
- 'huron_county':'Huron County Health Unit',
  'chatham_kent':'Chatham-Kent Health Unit',
  'kingston_frontenac_and_lennox_and_addington':'Kingston, Frontenac, and Lennox and Addington Health Unit',
  'lambton':'Lambton Health Unit',
@@ -50,7 +49,8 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'windsor_essex_county':'Windsor-Essex County Health Unit',
  'york_regional':'York Regional Health Unit',
  'southwestern':'Southwestern Public Health Unit',
- 'city_of_toronto':'City of Toronto Health Unit'}
+ 'city_of_toronto':'City of Toronto Health Unit',
+ 'huron_perth_county':'Huron Perth Public Health Unit'}
 
 def convert_date(date):
     return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
@@ -217,6 +217,21 @@ def transform_confidential_moh_iphis():
         combined_df["cumulative_deaths"] = combined_df.groupby('fsa')['deaths'].cumsum()
         combined_df["cumulative_cases"] = combined_df.groupby('fsa')['cases'].cumsum()
         combined_df.to_csv(save_file, index=False)
+
+@bp.cli.command('confidential_moh_hcw')
+def transform_confidential_moh_iphis():
+    for df, save_file, date in transform(
+        data_in = {'classification':'restricted', 'stage': 'processed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'},
+        data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'hcw',  'type': 'csv'}):
+        try:
+            for column in ["case_reported_date", "client_death_date"]:
+                df[column] = pd.to_datetime(df[column])
+
+            temp = df.loc[df.hcw == 'Yes']
+            temp = temp.groupby('case_reported_date').pseudo_id.count().reset_index()
+            temp.to_csv(save_file, index=False)
+        except:
+            pass
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports')
 def transform_public_socioeconomic_ontario_211_call_reports():
@@ -478,14 +493,14 @@ def transform_public_rt_canada_cori_approach():
     load_file = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv"
     save_file, save_dir = get_file_path(data, 'transformed')
     Path(save_dir).mkdir(parents=True, exist_ok=True)
-    output = subprocess.check_output(f"Rscript.exe --vanilla app/tools/r/Rt_ontario.r {load_file} {save_file}")
+    output = subprocess.check_output(f"Rscript.exe --vanilla app/tools/r/Rt_ontario.r")
 
 @bp.cli.command('public_capacity_ontario_phu_icu_capacity')
 def transform_public_capacity_ontario_phu_icu_capacity():
     replace = {
     'Lakeridge Health Corporation':"Durham Regional Health Unit",
     "Alexandra Hospital":"Southwestern Public Health Unit",
-    "Alexandra Marine and General Hospital":"Huron County Health Unit",
+    "Alexandra Marine and General Hospital":"Huron Perth Public Health Unit",
     "Sunnybrook Health Sciences Centre":"City of Toronto Health Unit",
     "Quinte Healthcare Corporation":"Hastings and Prince Edward Counties Health Unit",
     "Scarborough Health Network":"City of Toronto Health Unit",
@@ -545,7 +560,7 @@ def transform_public_capacity_ontario_phu_icu_capacity():
     "St. Mary's General Hospital":"Waterloo Health Unit",
     "St. Thomas-Elgin General Hospital":"Southwestern Public Health Unit Public Health",
     "Stevenson Memorial Hospital":"Simcoe Muskoka District Health Unit",
-    "Stratford General Hospital":"Huron County Health Unit",
+    "Stratford General Hospital":"Huron Perth Public Health Unit",
     "Strathroy Middlesex General Hospital":"Middlesex-London Health Unit",
     "Temiskaming Hospital":"Timiskaming Health Unit",
     "The Hospital for Sick Children":"City of Toronto Health Unit",
@@ -565,13 +580,11 @@ def transform_public_capacity_ontario_phu_icu_capacity():
         df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
         df['province'] = 'Ontario'
         df['phu'] = df['hospital_name'].replace(replace)
-        baseline = df.loc[df.unit_inclusion == 'Baseline']
-        baseline_beds = baseline.groupby(['phu']).sum().critical_care_beds
         df_ontario = df.groupby(['province']).sum().reset_index()
-        df_ontario['critical_care_pct'] = df_ontario['critical_care_patients'] / baseline_beds.sum()
+        df_ontario['critical_care_pct'] = df_ontario['critical_care_patients'] / df_ontario['critical_care_beds']
         df_ontario['phu'] = 'Ontario'
         df = df.groupby(['phu']).sum().reset_index()
-        df['critical_care_pct'] = df['critical_care_patients'] / baseline_beds.values
+        df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
         result = pd.concat([df,df_ontario])
         result.to_csv(save_file, index=False)
 
@@ -783,7 +796,7 @@ def transform_visualization_ontario_phu():
     replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
     "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
     "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
-    "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+    "Huron Perth":" Huron Perth Public Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
     "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
     "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
     "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
@@ -1456,7 +1469,7 @@ def transform_visualization_rt_est():
         replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
         "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
          "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
-         "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+         "Huron Perth":"Huron Perth Public Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
           "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
           "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
           "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
@@ -1588,7 +1601,7 @@ def transform_visualization_canada_phudeath():
         replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
         "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
          "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
-         "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+         "Huron Perth":" Huron Perth Public Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
           "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
           "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
           "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
@@ -1642,7 +1655,7 @@ def transform_visualization_ontario_icu_capacity_phu():
                "Halton Regional Health Unit": ["Mississauga Halton", "Hamilton Niagara Haldimand Brant"],
                "City of Hamilton Health Unit": ["Hamilton Niagara Haldimand Brant"],
                "Hastings and Prince Edward Counties Health Unit": ["South East"],
-               "Huron County Health Unit": ["South West"],
+               "Huron Perth Public Health Unit": ["South West"],
                "Chatham-Kent Health Unit": ["Erie St. Clair"],
                "Kingston, Frontenac, and Lennox and Addington Health Unit": ["South East"],
                "Lambton Health Unit": ["Erie St. Clair"],

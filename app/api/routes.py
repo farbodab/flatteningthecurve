@@ -20,7 +20,7 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Halton Regional Health Unit':'Halton Region Health Department',
  'City of Hamilton Health Unit':'Hamilton Public Health Services',
  'Hastings and Prince Edward Counties Health Unit':'Hastings and Prince Edward Counties Health Unit',
- 'Huron County Health Unit':'Huron Perth District Health Unit',
+ 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
  'Chatham-Kent Health Unit':'Chatham-Kent Health Unit',
  'Kingston, Frontenac, and Lennox and Addington Health Unit':'Kingston, Frontenac and Lennox & Addington Public Health',
  'Lambton Health Unit':'Lambton Public Health',
@@ -31,7 +31,7 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Northwestern Health Unit':'Northwestern Health Unit',
  'City of Ottawa Health Unit':'Ottawa Public Health',
  'Peel Regional Health Unit':'Peel Public Health',
- 'Perth District Health Unit':'Huron Perth District Health Unit',
+ 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
  'Peterborough County–City Health Unit':'Peterborough Public Health',
  'Porcupine Health Unit':'Porcupine Health Unit',
  'Renfrew County and District Health Unit':'Renfrew County and District Health Unit',
@@ -98,7 +98,7 @@ def get_phus():
     replace = {"Algoma":"The District of Algoma Health Unit", "Brant":"Brant County Health Unit", "Chatham-Kent":"Chatham-Kent Health Unit", "Durham":"Durham Regional Health Unit",
     "Eastern":"The Eastern Ontario Health Unit", "Grey Bruce":"Grey Bruce Health Unit", "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
      "Halton":"Halton Regional Health Unit", "Hamilton":"City of Hamilton Health Unit",  "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
-     "Huron Perth":"Huron County Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
+     "Huron Perth":"Huron Perth Public Health Unit", "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac, and Lennox and Addington Health Unit",
       "Lambton":"Lambton Health Unit", "Middlesex-London":"Middlesex-London Health Unit", "Niagara":"Niagara Regional Area Health Unit",
       "North Bay Parry Sound":"North Bay Parry Sound District Health Unit", "Northwestern":"Northwestern Health Unit", "Ottawa":"City of Ottawa Health Unit",
       "Peel":"Peel Regional Health Unit", "Peterborough":"Peterborough County-City Health Unit", "Porcupine":"Porcupine Health Unit",  "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
@@ -184,7 +184,7 @@ def get_growth():
 @as_json
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
-    df = df.loc[df.viz != 'NaN']
+    df = df.loc[df.page == 'Analysis']
     df = df.loc[df.visible == True]
     df = df.sort_values(by=['category', 'header'])
     data = []
@@ -201,6 +201,7 @@ def get_api_viz():
 @as_json
 def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
+    df = df.loc[df.page != 'Analysis']
     df = df.loc[df.html.notna()]
     df = df.loc[df.order > 0]
     df = df.loc[df.visible == True]
@@ -211,7 +212,7 @@ def get_api_plots():
         "tab": row["content"],"tab_order": row["tab_order"],
         "row": 'span '+ str(row["row"]), "column": 'span '+ str(row["column"]),
         "html": row["html"],"category": row["page"], "group": row["category"],
-        "phu": row["phu"], "viz_title": row["viz_title"],
+        "phu": row["phu"], "viz_title": row["viz_title"],"viz": row["viz"],
         "text_top": row["text_top"], "text_bottom": row["text_bottom"]})
     return data
 
@@ -227,7 +228,7 @@ def get_api_source():
         "description": row["description"], "data_feed_type": row["data_feed_type"],
         "link": row["link"], "refresh": row["refresh"],
         "contributor": row["contributor"],"contact": row["contact"],
-        "download": row["download"]})
+        "download": row["download"], "html": row["html"]})
     return data
 
 @bp.route('/api/team', methods=['GET'])
@@ -300,6 +301,18 @@ def get_reopening_metrics():
 
     return data
 
+@bp.route('/api/times', methods=['GET'])
+@cache.cached(timeout=50)
+@as_json
+def get_reopening_times():
+    df = pd.read_sql_table('metric_update_date', db.engine)
+    df = df.loc[df.recent == True]
+    data = []
+    for index, row in df.iterrows():
+        source = row['source']
+        date_refreshed = row['date_refreshed']
+        data.append({'source':source, 'date_refreshed':date_refreshed})
+    return data
 
 @as_json
 def get_testresults():

@@ -209,6 +209,7 @@ class Source(db.Model):
     contributor = db.Column(db.String)
     contact = db.Column(db.String)
     download = db.Column(db.String)
+    html = db.Column(db.String)
 
 class Member(db.Model):
     __tablename__ = 'members'
@@ -408,3 +409,10 @@ class PHUICUCapacity(db.Model):
     vented_patients = db.Column(db.Integer)
     confirmed_positive = db.Column(db.Integer)
     confirmed_positive_ventilator = db.Column(db.Integer)
+
+class MetricUpdateData(db.Model):
+    __tablename__ = 'metric_update_date'
+    id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String, index=True)
+    date_refreshed = db.Column(db.DateTime, index=True)
+    recent = db.Column(db.Boolean)
