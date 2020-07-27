@@ -749,6 +749,33 @@ def transform_public_economic_ontario_job_postings():
         df = df.loc[df.geography == 'Ontario']
         df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_capacity_ontario_testing_analysis')
+def transform_public_capacity_ontario_testing_analysis():
+    for df, save_file, date in transform(
+        data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
+        data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_analysis',  'type': 'csv'}):
+        latest=df.rename(columns={"accurate_episode_date": "Accurate_Episode_Date", "case_reported_date": "Case_Reported_Date", "test_reported_date":"Test_Reported_Date", "specimen_reported_date":"Specimen_Date"})
+        for column in ['Case_Reported_Date','Specimen_Date', 'Test_Reported_Date', 'Accurate_Episode_Date']:
+            latest[column] = pd.to_datetime(latest[column])
+        percentiles = [50,80,90,95,99]
+        metrics = ['Episode_to_Report', 'Episode_to_Specimen', 'Specimen_to_Result', 'Result_to_Report']
+        combo_metrics = ['%s_%d' % (m, p) for m in metrics for p in percentiles]
+        latest['Episode_to_Report'] = (latest['Case_Reported_Date'] - latest['Accurate_Episode_Date']).dt.days
+        latest['Episode_to_Specimen'] = (latest['Specimen_Date'] - latest['Accurate_Episode_Date']).dt.days
+        latest['Specimen_to_Result'] = (latest['Test_Reported_Date'] - latest['Specimen_Date']).dt.days
+        latest['Result_to_Report'] = (latest['Case_Reported_Date'] - latest['Test_Reported_Date']).dt.days
+        DATE_FIELDS = ['Accurate_Episode_Date', 'Case_Reported_Date', 'Test_Reported_Date', 'Specimen_Date']
+        latest_date = latest[DATE_FIELDS].max().max()
+        delay_df = pd.DataFrame(index=pd.date_range('2020-03-01', latest_date), columns=combo_metrics)
+        for crd, grp in latest[latest['Accurate_Episode_Date']>=pd.to_datetime('2020-03-01')].groupby('Case_Reported_Date'):
+            for m in metrics:
+                for p in percentiles:
+                    delay_df.loc[crd, '%s_%d' % (m, p)] = grp[m].quantile(p/100)
+        delay_df.reset_index(inplace=True)
+        df = pd.melt(delay_df,id_vars='index')
+        df = df.rename(columns={'index':'date'})
+        df.to_csv(save_file, index=False)
+
 ###
 ### Visualizations
 ###

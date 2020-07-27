@@ -127,3 +127,11 @@ def export_confidential_moh_iphis():
     ]
     data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'hcw',  'type': 'csv'}
     export(sheetsConfig, data_out)
+
+@bp.cli.command('public_capacity_ontario_testing_analysis')
+def export_public_capacity_ontario_testing_analysis():
+    sheetsConfig = [
+        {'name':'Testing Analysis Percentiles'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_analysis',  'type': 'csv'}
+    export(sheetsConfig, data_out)
