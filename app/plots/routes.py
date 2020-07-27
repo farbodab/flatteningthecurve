@@ -3,6 +3,7 @@ from flask_json import FlaskJSON, JsonError, json_response, as_json
 import plotly.graph_objects as go
 from datetime import datetime
 from datetime import timedelta
+import glob
 import requests
 from app import db
 from app.models import *
@@ -52,6 +53,22 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'city_of_toronto':'City of Toronto Health Unit',
  'huron_perth_county':'Huron Perth Public Health Unit'}
 
+def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
+    source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
+    load_dir = source_dir + data['source_name'] + '/' + data['table_name']
+    file_name = data['table_name'] + '_' + today + '.' + data['type']
+    file_path =  load_dir + '/' + file_name
+    return load_dir, file_path
+
+def get_file(data):
+    load_dir, file_path = get_dir(data)
+    files = glob.glob(load_dir + "/*." + data['type'])
+    files = [file.split('_')[-1] for file in files]
+    files = [file.split('.csv')[0] for file in files]
+    dates = [datetime.strptime(file, '%Y-%m-%d') for file in files]
+    max_date = max(dates).strftime('%Y-%m-%d')
+    load_dir, file_path = get_dir(data, max_date)
+    return file_path
 
 ## Tests
 
@@ -2560,6 +2577,29 @@ def acceleration_plot():
 
     div = fig.to_json()
     p = Viz.query.filter_by(header="Acceleration of cumulative COVID-19 case counts in Ontario").first()
+    p.viz = div
+    db.session.add(p)
+    db.session.commit()
+    return 'success'
+
+@bp.cli.command('go')
+def stringency_plot():
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_intervention_stringency',  'type': 'csv'}
+    file_path = get_file(data_out)
+    canada = pd.read_csv(file_path)
+    heatmap_data = pd.pivot_table(canada, values='Government response index',
+                     index=['region'],
+                     columns='date')
+
+    heatmap_data = heatmap_data.sort_index(ascending=False)
+
+    fig = go.Figure(data=go.Heatmap({'z': heatmap_data.values.tolist(),
+                'x': heatmap_data.columns.tolist(),
+                'y': heatmap_data.index.tolist()},
+                                   reversescale=True))
+
+    div = fig.to_json()
+    p = Viz.query.filter_by(header="Non-Pharmaceutical Intervention Stringency Across Canadian Provinces").first()
     p.viz = div
     db.session.add(p)
     db.session.commit()

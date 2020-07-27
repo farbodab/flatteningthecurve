@@ -154,3 +154,8 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_interventions_canada_non_pharmaceutical_interventions}]
+        - name: stringency-npi
+          dependencies: [transform-npi]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_interventions_canada_non_pharmaceutical_intervention_stringency}]

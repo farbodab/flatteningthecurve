@@ -55,6 +55,16 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
 def convert_date(date):
     return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
 
+def parse_cad(string):
+    if type(string) == float:
+        return string
+    cad = string[1:]
+    cad = cad.split('.')[0]
+    cad = ''.join(cad.split(','))
+    try:
+        return float(cad)
+    except:
+        return 0
 
 def get_file_path(data, today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
@@ -775,6 +785,300 @@ def transform_public_capacity_ontario_testing_analysis():
         df = pd.melt(delay_df,id_vars='index')
         df = df.rename(columns={'index':'date'})
         df.to_csv(save_file, index=False)
+
+def impute_intervention_index(df_raw, prov, daterange):
+    gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
+    cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
+    stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
+    economic_idx = ['E1', 'E2']
+    intervention_categories_all = ['C1 School Closing',
+                                   'C2 Workplace Closures',
+                                   'C3 Cancel public events',
+                                   'C4 Public Gathering Restrictions',
+                                   'C5 Close public transport',
+                                   'C6 Stay at home requirements',
+                                   'C7 Restrictions on internal movements',
+                                   'C8 International Travel Controls',
+                                   'E1 Income Support',
+                                   'E2 Debt / Contract Relief for Households',
+                                   'E3 Fiscal measures',
+                                   'E4 Support for Other Countries',
+                                   'H1 Public Info Campaigns',
+                                   'H2 Testing policy',
+                                   'H3 Contact tracing',
+                                   'H4 Emergency investment in health care',
+                                   'H5 Investment in vaccines']
+
+
+    prov_list = ['Federal', 'Alberta', 'British Columbia', 'Manitoba',
+                 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia',
+                 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon']
+
+    gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
+    cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
+    stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
+    economic_idx = ['E1', 'E2']
+
+    closure_code = ['C1', 'C2', 'C3', 'C5', 'C6', 'C7']
+    restriction_code = ['C4']
+    travel_code = ['C8']
+    income_code = ['E1']
+    relief_code = ['E2']
+    fiscal_code = ['E3', 'E4', 'H4', 'H5']
+    info_code = ['H1']
+    test_code = ['H2']
+    trace_code = ['H3']
+
+    geo_flag = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'H1']
+    sect_flag = ['E1']
+
+    # Setting columns for the empty dataframe
+    other_cols_all = []
+    ss = geo_flag + sect_flag
+    for s in ss:
+        other_cols_all.append(f'{s}_flag')
+
+    code_dct = {'C4': 'oxford_restriction_code',
+                'C8': 'oxford_travel_code',
+                'E1': 'oxford_income_amount',
+                'E2': 'oxford_debt_relief_code',
+                'H1': 'oxford_public_info_code',
+                'H2': 'oxford_testing_code',
+                'H3': 'oxford_tracing_code'}
+    for cc in closure_code:
+        code_dct[cc] = 'oxford_closure_code'
+    for fc in fiscal_code:
+        code_dct[fc] = 'oxford_fiscal_measure_cad_mod'
+
+    code_max = {'C1': 3,
+                'C2': 3,
+                'C3': 2,
+                'C4': 4,
+                'C5': 2,
+                'C6': 3,
+                'C7': 2,
+                'C8': 4,
+                'E1': 2,
+                'E2': 2,
+                'H1': 2,
+                'H2': 3,
+                'H3': 2}
+
+    df_raw2 = df_raw[(df_raw['region'] == prov) & (df_raw['subregion'] == 'All')]
+
+    # Make empty dataframe with all the neccesary columns and rows (dates)
+    dff = pd.DataFrame( {
+        "region" : prov,
+        "date" : daterange,
+    })
+
+    df_return = pd.concat([dff,pd.DataFrame(columns=intervention_categories_all+other_cols_all)], sort=False)
+
+    df_return["Government response index"] = 0
+    df_return["Containment and health index"] = 0
+    df_return["Stringency index"] = 0
+    df_return["Economic support index"] = 0
+
+    for idx, row in df_return.iterrows():
+        obs_date = row['date']
+#         subset = df_raw2[(df_raw2['start_date'] <= obs_date) & (df_raw2['start_date'] >= obs_date - np.timedelta64(28,'D'))]
+        subset = df_raw2[(df_raw2['start_date'] <= obs_date)]
+        gri = 0
+        chi = 0
+        si = 0
+        esi = 0
+
+        for iv in intervention_categories_all:
+            iv_pref = iv.split(' ')[0]
+            subset_iv = subset[subset['oxford_government_response_category'] == iv]
+
+            if len(subset_iv[subset_iv['end_date'].isnull() == False]):
+                help_subset = subset_iv[subset_iv['end_date'].isnull() == False]
+                help_subset['end_date'] = pd.to_datetime(help_subset['end_date'], infer_datetime_format='%Y-%m-%d')
+                end_date = help_subset.sort_values(by='end_date',ascending=False)['end_date'].iloc[0]
+                if iv_pref not in fiscal_code:
+                    if len(subset_iv[subset_iv['start_date'] >= end_date]):
+                        subset_iv = subset_iv[subset_iv['start_date'] >= end_date]
+
+            if len(subset_iv):
+                if iv_pref in fiscal_code:
+                    df_return.at[idx, iv] = np.nansum(subset_iv[code_dct[iv_pref]])
+                else:
+                    df_return.at[idx, iv] = np.nanmax(subset_iv[code_dct[iv_pref]])
+                    if iv_pref in geo_flag:
+                        df_return.at[idx, iv_pref + '_flag'] = np.nanmax(subset_iv['oxford_geographic_target_code'])
+                    elif iv_pref in sect_flag:
+                        df_return.at[idx, iv_pref + '_flag'] = np.nanmax(subset_iv['oxford_income_target'])
+            else:
+                if idx:
+                    df_return.at[idx, iv] = df_return.iloc[idx-1][iv]
+                    if iv_pref in geo_flag:
+                        df_return.at[idx, iv_pref + '_flag'] = 0
+                    elif iv_pref in sect_flag:
+                        df_return.at[idx, iv_pref + '_flag'] = 0
+                else:
+                    df_return.at[idx, iv] = 0
+                    if iv_pref in geo_flag:
+                        df_return.at[idx, iv_pref + '_flag'] = 0
+                    elif iv_pref in sect_flag:
+                        df_return.at[idx, iv_pref + '_flag'] = 0
+
+            if iv_pref in cont_hlth_idx:
+
+                if iv_pref in geo_flag:
+                    iv_val = 100 * (df_return.iloc[idx][iv]- 0.5*(1-df_return.iloc[idx][iv_pref + '_flag'])) / code_max[iv_pref]
+                else:
+                    iv_val = 100 * df_return.iloc[idx][iv] / code_max[iv_pref]
+
+                iv_val = max(0, iv_val)
+                gri += iv_val
+                chi += iv_val
+                if iv_pref in stringency_idx:
+                    si += iv_val
+
+            if iv_pref in economic_idx:
+                if iv_pref in sect_flag:
+                    iv_val = 100 * (df_return.iloc[idx][iv]- 0.5*(1-df_return.iloc[idx][iv_pref + '_flag'])) / code_max[iv_pref]
+                else:
+                    iv_val = 100 * df_return.iloc[idx][iv] / code_max[iv_pref]
+
+                iv_val = max(0, iv_val)
+
+                gri += iv_val
+                esi += iv_val
+
+        df_return.at[idx, "Government response index"] = gri / 13
+        df_return.at[idx, "Containment and health index"] = chi / 11
+        df_return.at[idx, "Stringency index"] = si / 9
+        df_return.at[idx, "Economic support index"] = esi / 2
+
+    return df_return
+
+@bp.cli.command('public_interventions_canada_non_pharmaceutical_intervention_stringency')
+def transform_public_interventions_canada_non_pharmaceutical_intervention_stringency():
+    for df, save_file, date in transform(
+        data_in = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_interventions',  'type': 'csv'},
+        data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_intervention_stringency',  'type': 'csv'}):
+        start_tracking_date = np.datetime64('2020-01-07')
+        latest_tracking_date = np.datetime64(datetime.today().strftime('%Y-%m-%d'))
+        gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
+        cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
+        stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
+        economic_idx = ['E1', 'E2']
+        intervention_categories_all = ['C1 School Closing',
+                                       'C2 Workplace Closures',
+                                       'C3 Cancel public events',
+                                       'C4 Public Gathering Restrictions',
+                                       'C5 Close public transport',
+                                       'C6 Stay at home requirements',
+                                       'C7 Restrictions on internal movements',
+                                       'C8 International Travel Controls',
+                                       'E1 Income Support',
+                                       'E2 Debt / Contract Relief for Households',
+                                       'E3 Fiscal measures',
+                                       'E4 Support for Other Countries',
+                                       'H1 Public Info Campaigns',
+                                       'H2 Testing policy',
+                                       'H3 Contact tracing',
+                                       'H4 Emergency investment in health care',
+                                       'H5 Investment in vaccines']
+        prov_list = ['Federal', 'Alberta', 'British Columbia', 'Manitoba',
+                     'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia',
+                     'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon']
+        gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
+        cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
+        stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
+        economic_idx = ['E1', 'E2']
+        closure_code = ['C1', 'C2', 'C3', 'C5', 'C6', 'C7']
+        restriction_code = ['C4']
+        travel_code = ['C8']
+        income_code = ['E1']
+        relief_code = ['E2']
+        fiscal_code = ['E3', 'E4', 'H4', 'H5']
+        info_code = ['H1']
+        test_code = ['H2']
+        trace_code = ['H3']
+        geo_flag = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'H1']
+        sect_flag = ['E1']
+        # Setting columns for the empty dataframe
+        other_cols_all = []
+        ss = geo_flag + sect_flag
+        for s in ss:
+            other_cols_all.append(f'{s}_flag')
+        # What are the unique places (country/region/subregion)?
+        df["subregion"].fillna('All', inplace=True)
+        df['start_date'] = pd.to_datetime(df['start_date'])
+        df_places = df[['country', 'region', 'subregion']].drop_duplicates().sort_values(['region', 'subregion'])
+        # Make list of unique places, condensing name with underscore separation
+        unique_places = df_places[['country', 'region', 'subregion']].apply(lambda row: '_'.join(row.values.astype(str)), axis=1).values.tolist()
+        daterange = pd.date_range(start=start_tracking_date,end=latest_tracking_date)
+        code_dct = {'C4': 'oxford_restriction_code',
+                    'C8': 'oxford_travel_code',
+                    'E1': 'oxford_income_amount',
+                    'E2': 'oxford_debt_relief_code',
+                    'H1': 'oxford_public_info_code',
+                    'H2': 'oxford_testing_code',
+                    'H3': 'oxford_tracing_code'}
+        for cc in closure_code:
+            code_dct[cc] = 'oxford_closure_code'
+        for fc in fiscal_code:
+            code_dct[fc] = 'oxford_fiscal_measure_cad_mod'
+        code_max = {'C1': 3,
+                    'C2': 3,
+                    'C3': 2,
+                    'C4': 4,
+                    'C5': 2,
+                    'C6': 3,
+                    'C7': 2,
+                    'C8': 4,
+                    'E1': 2,
+                    'E2': 2,
+                    'H1': 2,
+                    'H2': 3,
+                    'H3': 2}
+        df['oxford_fiscal_measure_cad_mod'] = df['oxford_fiscal_measure_cad'].apply(parse_cad)
+        # Generate temporal stringency index per province
+        on = impute_intervention_index(df, 'Ontario', daterange)
+        qb = impute_intervention_index(df, 'Quebec', daterange)
+        bc = impute_intervention_index(df, 'British Columbia', daterange)
+        sk = impute_intervention_index(df, 'Saskatchewan', daterange)
+        nb = impute_intervention_index(df, 'New Brunswick', daterange)
+        ns = impute_intervention_index(df, 'Nova Scotia', daterange)
+        mb = impute_intervention_index(df, 'Manitoba', daterange)
+        ab = impute_intervention_index(df, 'Alberta', daterange)
+        nv = impute_intervention_index(df, 'Nunavut', daterange)
+        pei = impute_intervention_index(df, 'Prince Edward Island', daterange)
+        nwt = impute_intervention_index(df, 'Northwest Territories', daterange)
+        nl = impute_intervention_index(df, 'Newfoundland and Labrador', daterange)
+        yt = impute_intervention_index(df, 'Yukon', daterange)
+        prov_dict = {'Ontario': on,
+                    'Quebec': qb,
+                    'British Columbia': bc,
+                    'Saskatchewan': sk,
+                    'New Brunswick': nb,
+                    'Nova Scotia': ns,
+                    'Manitoba' : mb,
+                    'Alberta' : ab,
+                    'Prince Edward Island': pei,
+                    'Nunavut': nv,
+                    'Northwest Territories' : nwt,
+                    'Newfoundland and Labrador' : nl,
+                    'Yukon': yt}
+        canada = pd.DataFrame(columns=['date', 'region', 'Government response index',
+               'Containment and health index', 'Stringency index',
+               'Economic support index'])
+        for k, v in prov_dict.items():
+            canada = pd.concat([canada, v[['date', 'region', 'Government response index',
+               'Containment and health index', 'Stringency index',
+               'Economic support index']]])
+        for index_type in ['Government response index',
+               'Containment and health index', 'Stringency index',
+               'Economic support index']:
+            canada[index_type] = pd.to_numeric(canada[index_type])
+        canada['region'] = canada['region'].apply(str)
+        canada['date'] = pd.to_datetime(canada['date'])
+        canada['date'] = canada['date'].dt.strftime('%m/%d')
+        canada.to_csv(save_file, index=False)
 
 ###
 ### Visualizations
