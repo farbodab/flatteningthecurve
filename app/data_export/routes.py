@@ -119,3 +119,11 @@ def export_public_economic_ontario_job_postings():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'economic', 'table_name':'ontario_job_postings',  'type': 'csv'}
     export(sheetsConfig, data_out)
+
+@bp.cli.command('confidential_moh_hcw')
+def export_confidential_moh_iphis():
+    sheetsConfig = [
+        {'name':'Health Care Workers'}
+    ]
+    data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'hcw',  'type': 'csv'}
+    export(sheetsConfig, data_out)
