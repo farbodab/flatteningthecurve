@@ -1054,6 +1054,19 @@ def process_restricted_ccso_ccis():
         "CensusVented": "vented_patients",
         "CCCOVID_P_Census": "confirmed_positive",
         "CensusCOVID_P_Vented": "confirmed_positive_ventilator",
+        "REGIONNAME": "region",
+        "LHINNAME": "lhin",
+        "CORPORATIONNAME": "hospital_name",
+        "SITENAME": "site_name",
+        "UNITINCLUSION": "unit_inclusion",
+        "ICUTYPE": "icu_type",
+        "ICULEVEL": "icu_level",
+        "BEDS": "critical_care_beds",
+        "VENTEDBEDS": "vented_beds",
+        "CCCENSUS": "critical_care_patients",
+        "CENSUSVENTED": "vented_patients",
+        "CCCOVIDPOSITIVECENSUS": "confirmed_positive",
+        "CENSUSCOVIDPOSITIVEVENTED": "confirmed_positive_ventilator",
     }
     date_field = []
     load_file, load_dir = get_file_path(data)
