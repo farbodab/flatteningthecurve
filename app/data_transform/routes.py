@@ -212,18 +212,19 @@ def transform_confidential_moh_iphis():
         date_list = [first_date + timedelta(days=x) for x in range((last_date-first_date).days+1)]
         combined_df = pd.merge(cases, deaths, on=['date','fsa'],how="outer")
         combined_df.fillna(0, inplace=True)
-        headers = ["date", "fsa", "cases", "deaths"]
-        rows = []
+        index = pd.date_range('2020-01-01', last_date)
+        temps = []
         for fsa in set(combined_df["fsa"].values):
-            for day in date_list:
-                temp = combined_df[combined_df["fsa"]==fsa]
-                row = temp[temp["date"] == day]
-                if len(row) == 0:
-                    rows.append([day, fsa, 0.0, 0.0])
-                else:
-                    rows.append([day, fsa, row["cases"].values[0], row["deaths"].values[0]])
-        combined_df = pd.DataFrame(rows, columns=headers)
-        combined_df.sort_values("date", inplace=True)
+            temp = combined_df[combined_df["fsa"]==fsa]
+            temp = temp.set_index('date')
+            temp = temp.reindex(index)
+            temp['fsa'] = fsa
+            temp = temp.fillna(0)
+            temp = temp.reset_index()
+            temp.rename(columns={'index':'date'})
+            temps.append(temp)
+        combined_df = pd.concat(temps)
+        combined_df = combined_df.reset_index(drop=True)
         combined_df["cumulative_deaths"] = combined_df.groupby('fsa')['deaths'].cumsum()
         combined_df["cumulative_cases"] = combined_df.groupby('fsa')['cases'].cumsum()
         combined_df.to_csv(save_file, index=False)
