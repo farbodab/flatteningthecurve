@@ -783,9 +783,7 @@ def transform_public_capacity_ontario_testing_analysis():
                 for p in percentiles:
                     delay_df.loc[crd, '%s_%d' % (m, p)] = grp[m].quantile(p/100)
         delay_df.reset_index(inplace=True)
-        df = pd.melt(delay_df,id_vars='index')
-        df = df.rename(columns={'index':'date'})
-        df.to_csv(save_file, index=False)
+        delay_df.to_csv(save_file, index=False)
 
 def impute_intervention_index(df_raw, prov, daterange):
     gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']

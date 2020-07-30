@@ -131,7 +131,7 @@ def export_confidential_moh_iphis():
 @bp.cli.command('public_capacity_ontario_testing_analysis')
 def export_public_capacity_ontario_testing_analysis():
     sheetsConfig = [
-        {'name':'Testing Analysis Percentiles'}
+        {'name':'Duration Percentiles'}
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_analysis',  'type': 'csv'}
     export(sheetsConfig, data_out)
