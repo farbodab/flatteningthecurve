@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, g, render_template
 from app.data_export import bp
 from app.export import sheetsHelper
+from app.export import restrictedsheetsHelper
 import glob
 from datetime import datetime, date
 from app.models import *
@@ -27,6 +28,11 @@ def export(sheetsConfig, data_out):
     file_path = get_file(data_out)
     sheetsConfig[0]['file'] = file_path
     sheetsHelper.exportToSheets(sheetsConfig)
+
+def restricted_export(sheetsConfig, data_out):
+    file_path = get_file(data_out)
+    sheetsConfig[0]['file'] = file_path
+    restrictedsheetsHelper.exportToSheets(sheetsConfig)
 
 @bp.cli.command('public_capacity_ontario_testing_24_hours')
 def export_public_capacity_ontario_testing_24_hours():
@@ -134,4 +140,12 @@ def export_public_capacity_ontario_testing_analysis():
         {'name':'Duration Percentiles'}
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_analysis',  'type': 'csv'}
-    export(sheetsConfig, data_out)
+    restricted_export(sheetsConfig, data_out)
+
+@bp.cli.command('confidential_moh_iphis')
+def export_confidential_moh_iphis():
+    sheetsConfig = [
+        {'name':'FSA Data'}
+    ]
+    data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
+    restricted_export(sheetsConfig, data_out)
