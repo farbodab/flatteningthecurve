@@ -149,6 +149,11 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform confidential_moh_iphis}]
+        - name: export-moh
+          dependencies: [transform-moh]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export confidential_moh_iphis}]
         - name: hcw-moh
           dependencies: [process-hcw]
           template: hmf-backend
