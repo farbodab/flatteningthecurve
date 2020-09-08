@@ -22,6 +22,9 @@ import os
 # 3. Add google sheets config with either table or vis function
 # 4. Add kaggle config with either table or vis function
 
+rtsheetsConfig = [
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
+]
 
 sheetsConfig = [
     {'name':'Duration Percentiles', 'function':vis.get_duration_percentiles, 'col':21},
@@ -122,6 +125,12 @@ PHU = ['the_district_of_algoma',
  'southwestern',
  'city_of_toronto',
  'huron_perth_county']
+
+@bp.cli.command('rt')
+def getrt():
+    sheetsHelper.exportToSheets(rtsheetsConfig)
+    print('Rt sheets updated')
+
 
 @bp.cli.command('ontario')
 def getontario():
