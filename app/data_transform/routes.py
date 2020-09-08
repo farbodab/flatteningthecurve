@@ -386,7 +386,6 @@ def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}):
         cases_df = df
-        cases_df = cases_df.loc[cases_df.province == 'Ontario']
         cases_df['date_report'] = pd.to_datetime(cases_df['date_report'])
         province_df = cases_df.groupby(['province', 'date_report'])['case_id'].count()
         province_df.index.rename(['health_region', 'date_report'], inplace=True)
