@@ -709,63 +709,44 @@ def transform_public_capacity_ontario_testing_24_hours():
     for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}):
-        ont_data = df
         for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
-            ont_data[column] = pd.to_datetime(ont_data[column])
-        phus = set(ont_data["reporting_phu"].values)
-        #phus = ['Toronto Public Health']
-        # output array
-        output_arrays = {}
+            df[column] = pd.to_datetime(df[column])
+        df['turn_around'] = (df['test_reported_date'] - df['specimen_reported_date']).dt.days
+        def less(thing):
+            phu = thing.reporting_phu.unique()[0]
+            date = thing.specimen_reported_date.unique()[0]
+            less_1 = len(thing.loc[thing.turn_around <=1])
+            total = len(thing)
+            return less_1
 
-        # for each day in year from start date
-        start_date = datte(2020, 5, 1)
-        end_date = datte.today()
-        delta = timedelta(days=1)
-        while start_date <= end_date:
-            #print (start_date.strftime("%Y-%m-%d"))
-            for phu in phus:
-                tmp = ont_data[(ont_data["reporting_phu"]==phu)&(ont_data["case_reported_date"]==np.datetime64(start_date))]
-                counter = 0
-                total = 0
-                for index,row in tmp.iterrows():
-                    specimen_reported_date = row["specimen_reported_date"]
-                    test_reported_date = row["test_reported_date"]
-                    if specimen_reported_date == "nan" or test_reported_date == "nan":
-                        difference = -1 # what do we do when one of the dates is not avaible? I treat it as not less than 24 hours.
-                    else:
-                        difference = (test_reported_date-specimen_reported_date).days
-                    if difference == 0:
-                        counter += 1
-                    total += 1
-                output_arrays[phu] = output_arrays.get(phu,[]) + [[start_date,phu,counter,total]]
+        def total(thing):
+            phu = thing.reporting_phu.unique()[0]
+            date = thing.specimen_reported_date.unique()[0]
+            less_1 = len(thing.loc[thing.turn_around <=1])
+            total = len(thing)
+            return total
+        a = df.groupby(['reporting_phu','specimen_reported_date']).apply(less)
+        b = df.groupby(['reporting_phu','specimen_reported_date']).apply(total)
+        df = pd.merge(a.to_frame("less").reset_index(),b.to_frame("total").reset_index())
+        dfs = []
+        unique = df.reporting_phu.unique()
+        for hr in unique:
+            temp = df.loc[df.reporting_phu == hr]
+            temp['PHU'] = hr
+            temp['total_7_day'] = temp.total.rolling(7).sum()
+            temp['less_7_day'] = temp.less.rolling(7).sum()
+            temp['Percentage in 24 hours_7dayrolling'] = temp['less_7_day'] / temp['total_7_day']
+            dfs.append(temp)
 
-            ont_data = df
-            for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
-                ont_data[column] = pd.to_datetime(ont_data[column])
-            tmp = ont_data[(ont_data["case_reported_date"]==np.datetime64(start_date))]
-            counter = 0
-            total = 0
-            for index,row in tmp.iterrows():
-                specimen_reported_date = row["specimen_reported_date"]
-                test_reported_date = row["test_reported_date"]
-                if specimen_reported_date == "nan" or test_reported_date == "nan":
-                    difference = -1 # what do we do when one of the dates is not avaible? I treat it as not less than 24 hours.
-                else:
-                    difference = (test_reported_date-specimen_reported_date).days
-                if difference == 0:
-                    counter += 1
-                total += 1
-            output_arrays["Ontario"] = output_arrays.get("Ontario",[]) + [[start_date,"Ontario",counter,total]]
-            start_date += delta
-        phus.add("Ontario")
-        phu_dfs = []
-        for phu in phus:
-            df = pd.DataFrame(output_arrays[phu], columns=["Date","PHU","Number of Tests Within 24 Hours", "Number of Tests"])
-            df["Percentage in 24 hours"] = df["Number of Tests Within 24 Hours"]/df["Number of Tests"]
-            df['Percentage in 24 hours_7dayrolling'] = df['Percentage in 24 hours'].rolling(7).mean()
-            phu_dfs.append(df)
-        final_dataframe = pd.concat(phu_dfs)
-        final_dataframe.to_csv(save_file, index=False)
+        temp = df.groupby(['specimen_reported_date']).sum().reset_index()
+        temp['PHU'] = 'Ontario'
+        temp['total_7_day'] = temp.total.rolling(7).sum()
+        temp['less_7_day'] = temp.less.rolling(7).sum()
+        temp['Percentage in 24 hours_7dayrolling'] = temp['less_7_day'] / temp['total_7_day']
+        dfs.append(temp)
+        result = pd.concat(dfs)
+        result['Date'] = result['specimen_reported_date']
+        result.to_csv(save_file, index=False)
 
 @bp.cli.command('public_economic_ontario_job_postings')
 def transform_public_economic_ontario_job_postings():
