@@ -386,6 +386,7 @@ def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}):
         cases_df = df
+        cases_df = cases_df.loc[cases_df.province == 'Ontario']
         cases_df['date_report'] = pd.to_datetime(cases_df['date_report'])
         province_df = cases_df.groupby(['province', 'date_report'])['case_id'].count()
         province_df.index.rename(['health_region', 'date_report'], inplace=True)
@@ -588,14 +589,29 @@ def transform_public_capacity_ontario_phu_icu_capacity():
         data_in = {'classification':'restricted', 'stage': 'processed','source_name':'ccso', 'table_name':'ccis',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}):
         df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
+        result = {"phu":[], "critical_care_beds":[], "critical_care_patients":[],"critical_care_pct":[]}
+        df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
         df['province'] = 'Ontario'
         df['phu'] = df['hospital_name'].replace(replace)
-        df_ontario = df.groupby(['province']).sum().reset_index()
-        df_ontario['critical_care_pct'] = df_ontario['critical_care_patients'] / df_ontario['critical_care_beds']
-        df_ontario['phu'] = 'Ontario'
-        df = df.groupby(['phu']).sum().reset_index()
-        df['critical_care_pct'] = df['critical_care_patients'] / df['critical_care_beds']
-        result = pd.concat([df,df_ontario])
+        unique = df.phu.unique()
+        for hr in unique:
+            temp = df.loc[df.phu == hr]
+            critical_care_beds = temp.loc[temp.unit_inclusion == 'Baseline'].critical_care_beds.sum()
+            critical_care_patients = temp.critical_care_patients.sum()
+            critical_care_pct = critical_care_patients / critical_care_beds
+            result["phu"].append(hr)
+            result["critical_care_beds"].append(critical_care_beds)
+            result["critical_care_patients"].append(critical_care_patients)
+            result["critical_care_pct"].append(critical_care_pct)
+
+        critical_care_beds = df.loc[df.unit_inclusion == 'Baseline'].critical_care_beds.sum()
+        critical_care_patients = df.critical_care_patients.sum()
+        critical_care_pct = critical_care_patients / critical_care_beds
+        result["phu"].append("Ontario")
+        result["critical_care_beds"].append(critical_care_beds)
+        result["critical_care_patients"].append(critical_care_patients)
+        result["critical_care_pct"].append(critical_care_pct)
+        result = pd.DataFrame(result)
         result.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_ontario_phu_confirmed_positive_aggregated')
