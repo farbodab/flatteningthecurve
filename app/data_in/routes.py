@@ -52,6 +52,63 @@ def get_public_ontario_gov_covidtesting():
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+
+#########################################
+@bp.cli.command('public_ontario_gov_ltc_covid_summary')
+def get_public_ontario_gov_ltc_covid_summary():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'ltc_covid_summary',  'type': 'csv','url':"https://data.ontario.ca/dataset/42df36df-04a0-43a9-8ad4-fac5e0e22244/resource/0f8b343e-fc28-4ca5-9aab-c3a1d2c919f1/download/ltccovidsummary.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_ltc_covid_active_outbreaks')
+def get_public_ontario_gov_ltc_covid_active_outbreaks():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'ltc_covid_active_outbreaks',  'type': 'csv','url':"https://data.ontario.ca/dataset/42df36df-04a0-43a9-8ad4-fac5e0e22244/resource/4b64488a-0523-4ebb-811a-fac2f07e6d59/download/activeltcoutbreak.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_ltc_covid_resolved_outbreaks')
+def get_public_ontario_gov_ltc_covid_resolved_outbreaks():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'ltc_covid_resolved_outbreaks',  'type': 'csv','url':"https://data.ontario.ca/dataset/42df36df-04a0-43a9-8ad4-fac5e0e22244/resource/0cf2f01e-d4e1-48ed-8027-2133d059ec8b/download/resolvedltc.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_school_covid_summary')
+def get_public_ontario_gov_school_covid_summary():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'school_covid_summary',  'type': 'csv','url':"https://data.ontario.ca/dataset/b1fef838-8784-4338-8ef9-ae7cfd405b41/resource/7fbdbb48-d074-45d9-93cb-f7de58950418/download/schoolcovidsummary.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_school_covid_active')
+def get_public_ontario_gov_school_covid_active():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'school_covid_active',  'type': 'csv','url':"https://data.ontario.ca/dataset/b1fef838-8784-4338-8ef9-ae7cfd405b41/resource/8b6d22e2-7065-4b0f-966f-02640be366f2/download/schoolsactivecovid.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_lc_covid_summary')
+def get_public_ontario_gov_lc_covid_summary():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'lc_covid_summary',  'type': 'csv','url':"https://data.ontario.ca/dataset/5bf54477-6147-413f-bab0-312f06fcb388/resource/74f9ac9f-7ca8-4860-b2c3-189a2c25e30c/download/lccovidsummary.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_lc_covid_active')
+def get_public_ontario_gov_lc_covid_active():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'lc_covid_active',  'type': 'csv','url':"https://data.ontario.ca/dataset/5bf54477-6147-413f-bab0-312f06fcb388/resource/eee282d3-01e6-43ac-9159-4ba694757aea/download/lccactivecovid.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_corrections_covid_cases')
+def get_public_ontario_gov_corrections_covid_cases():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'corrections_covid_cases',  'type': 'csv','url':"https://data.ontario.ca/dataset/ecb75ea0-8b72-4f46-a14a-9bd54841d6ab/resource/1f95eda9-53b5-448e-abe0-afc0b71581ed/download/correctionsinmatecases.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+@bp.cli.command('public_ontario_gov_corrections_covid_testing')
+def get_public_ontario_gov_corrections_covid_cases():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'corrections_covid_cases',  'type': 'csv','url':"https://data.ontario.ca/dataset/c4022f0f-6f3d-4e16-bd28-5312333a4bac/resource/d0d6ccc7-fc60-4a18-ac96-7f9493e9f10e/download/inmatetesting.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
+######################################
 @bp.cli.command('public_ontario_gov_website')
 def get_public_ontario_gov_website():
     item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html','url':"https://www.ontario.ca/page/how-ontario-is-responding-covid-19"}
