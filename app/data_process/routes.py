@@ -1126,12 +1126,15 @@ def process_restricted_moh_iphis():
                 continue
 
             df = df.rename(columns=field_map)
-            df = df[field_map.values()]
-            for column in date_field:
-                df[column] = df[column].apply(convert_date)
+            try:
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = df[column].apply(convert_date)
 
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
-            df.to_csv(save_file, index=False)
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False)
+            except Exception as e:
+                print(f"Couldn't process {file} due to {e}")
     return True
 
 @bp.cli.command('public')
