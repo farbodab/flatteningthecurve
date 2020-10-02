@@ -104,7 +104,7 @@ def get_public_ontario_gov_corrections_covid_cases():
 
 @bp.cli.command('public_ontario_gov_corrections_covid_testing')
 def get_public_ontario_gov_corrections_covid_cases():
-    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'corrections_covid_cases',  'type': 'csv','url':"https://data.ontario.ca/dataset/c4022f0f-6f3d-4e16-bd28-5312333a4bac/resource/d0d6ccc7-fc60-4a18-ac96-7f9493e9f10e/download/inmatetesting.csv"}
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'corrections_covid_testing',  'type': 'csv','url':"https://data.ontario.ca/dataset/c4022f0f-6f3d-4e16-bd28-5312333a4bac/resource/d0d6ccc7-fc60-4a18-ac96-7f9493e9f10e/download/inmatetesting.csv"}
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
