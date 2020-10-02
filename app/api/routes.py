@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from app import db, cache
 from app.models import *
@@ -10,6 +10,7 @@ from app.api import vis
 import pandas as pd
 import io
 import requests
+import glob, os
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -47,6 +48,23 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Southwestern Public Health Unit':'Southwestern Public Health',
  'City of Toronto Health Unit':'Toronto Public Health',
  'Ontario': 'Ontario'}
+
+def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
+    source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
+    load_dir = source_dir + data['source_name'] + '/' + data['table_name']
+    file_name = data['table_name'] + '_' + today + '.' + data['type']
+    file_path =  load_dir + '/' + file_name
+    return load_dir, file_path
+
+def get_last_file(data):
+    load_dir, file_path = get_dir(data)
+    files = glob.glob(load_dir + "/*." + data['type'])
+    files = [file.split('_')[-1] for file in files]
+    files = [file.split('.csv')[0] for file in files]
+    dates = [datetime.strptime(file, '%Y-%m-%d') for file in files]
+    max_date = max(dates).strftime('%Y-%m-%d')
+    load_dir, file_path = get_dir(data, max_date)
+    return file_path
 
 def get_results():
     items = request.get_json()
@@ -299,6 +317,16 @@ def get_reopening_metrics():
 
         data.append(temp_dict)
 
+    return data
+
+@bp.route('/api/summary', methods=['GET'])
+@cache.cached(timeout=50)
+def get_summary_metrics():
+    final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
+    df_path = get_last_file(final)
+    df = pd.read_csv(df_path)
+    df['date'] = pd.to_datetime(df['date'])
+    data = df.to_json(orient='records', date_format='iso')
     return data
 
 @bp.route('/api/times', methods=['GET'])

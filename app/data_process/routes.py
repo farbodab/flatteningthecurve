@@ -374,7 +374,7 @@ def process_public_open_data_working_group_cases():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column], format="%d-%m-%Y")
+                df[column] = pd.to_datetime(df[column], dayfirst=True)
             df.health_region = df.health_region.replace(replace)
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
