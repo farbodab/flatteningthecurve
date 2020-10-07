@@ -149,3 +149,11 @@ def export_confidential_moh_iphis():
     ]
     data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'}
     restricted_export(sheetsConfig, data_out)
+
+@bp.cli.command('public_summary_ontario')
+def export_confidential_moh_iphis():
+    sheetsConfig = [
+        {'name':'Ontario Summary'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
+    export(sheetsConfig, data_out)

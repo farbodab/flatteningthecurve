@@ -11,6 +11,7 @@ import pandas as pd
 import io
 import requests
 import glob, os
+import json
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -320,17 +321,23 @@ def get_reopening_metrics():
     return data
 
 @bp.route('/api/summary', methods=['GET'])
-@cache.cached(timeout=50)
+@cache.cached(timeout=3600, query_string=True)
 def get_summary_metrics():
-    final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
-    df_path = get_last_file(final)
-    df = pd.read_csv(df_path)
+    HR_UID = request.args.get('HR_UID')
+    # final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
+    # df_path = get_last_file(final)
+    url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
+    df = pd.read_csv(url)
     df['date'] = pd.to_datetime(df['date'])
+    if int(HR_UID)!=0:
+        df = df.loc[df.HR_UID == int(HR_UID)]
+    else:
+        df = df.loc[df.phu == 'Ontario']
     data = df.to_json(orient='records', date_format='iso')
     return data
 
 @bp.route('/api/times', methods=['GET'])
-@cache.cached(timeout=50)
+@cache.cached(timeout=3600)
 @as_json
 def get_reopening_times():
     df = pd.read_sql_table('metric_update_date', db.engine)
@@ -341,6 +348,55 @@ def get_reopening_times():
         date_refreshed = row['date_refreshed']
         data.append({'source':source, 'date_refreshed':date_refreshed})
     return data
+
+@bp.route('/api/epi', methods=['GET'])
+@cache.cached(timeout=3600, query_string=True)
+def get_percentages():
+    HR_UID = request.args.get('HR_UID')
+    filter = request.args.get('filter')
+    cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    cases_path = get_last_file(cases)
+    df = pd.read_csv(cases_path)
+    date = "case_reported_date"
+    df[date] = pd.to_datetime(df[date])
+    df.loc[df.outbreak_related.isna(), 'outbreak_related'] = 'No'
+
+    if HR_UID:
+        df = df.loc[df.HR_UID == HR_UID]
+
+    if filter:
+        last_month = df[date].max() - pd.Timedelta(int(filter), unit='d')
+        temp = df.loc[df[date] > last_month]
+    else:
+        temp = df
+    gender = temp['client_gender'].value_counts().to_dict()
+    gender_pct = temp['client_gender'].value_counts(True).to_dict()
+
+    age_group = temp['age_group'].value_counts().to_dict()
+    age_group_pct = temp['age_group'].value_counts(True).to_dict()
+
+    ouctome = temp['outcome_1'].value_counts().to_dict()
+    ouctome_pct = temp['outcome_1'].value_counts(True).to_dict()
+
+    case_acquisition = temp['case_acquisition_info'].value_counts().to_dict()
+    case_acquisition_pct = temp['case_acquisition_info'].value_counts(True).to_dict()
+
+    outbreak = temp['outbreak_related'].value_counts().to_dict()
+    outbreak_pct = temp['outbreak_related'].value_counts(True).to_dict()
+
+    data = {
+    "gender": gender,
+    "age_group": age_group,
+    "ouctome":ouctome,
+    "case_acquisition":case_acquisition,
+    "outbreak":outbreak,
+    "gender_pct": gender_pct,
+    "age_group_pct": age_group_pct,
+    "ouctome_pct":ouctome_pct,
+    "case_acquisition_pct":case_acquisition_pct,
+    "outbreak_pct":outbreak_pct,
+    }
+    return json.dumps(data)
 
 @as_json
 def get_testresults():
