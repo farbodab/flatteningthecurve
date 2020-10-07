@@ -52,6 +52,80 @@ PHU = {'the_district_of_algoma':'The District of Algoma Health Unit',
  'city_of_toronto':'City of Toronto Health Unit',
  'huron_perth_county':'Huron Perth Public Health Unit'}
 
+Replace = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
+ 'Brant County Health Unit':'Brant County Health Unit',
+ 'Durham Regional Health Unit':'Durham Region Health Department',
+ 'Grey Bruce Health Unit':'Grey Bruce Health Unit',
+ 'Haldimand-Norfolk Health Unit':'Haldimand-Norfolk Health Unit',
+ 'Haliburton, Kawartha, Pine Ridge District Health Unit':'Haliburton, Kawartha, Pine Ridge District Health Unit',
+ 'Halton Regional Health Unit':'Halton Region Health Department',
+ 'City of Hamilton Health Unit':'Hamilton Public Health Services',
+ 'Hastings and Prince Edward Counties Health Unit':'Hastings and Prince Edward Counties Health Unit',
+ 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
+ 'Chatham-Kent Health Unit':'Chatham-Kent Health Unit',
+ 'Kingston, Frontenac, and Lennox and Addington Health Unit':'Kingston, Frontenac and Lennox & Addington Public Health',
+ 'Lambton Health Unit':'Lambton Public Health',
+ 'Leeds, Grenville and Lanark District Health Unit':'Leeds, Grenville and Lanark District Health Unit',
+ 'Middlesex-London Health Unit':'Middlesex-London Health Unit',
+ 'Niagara Regional Area Health Unit':'Niagara Region Public Health Department',
+ 'North Bay Parry Sound District Health Unit':'North Bay Parry Sound District Health Unit',
+ 'Northwestern Health Unit':'Northwestern Health Unit',
+ 'City of Ottawa Health Unit':'Ottawa Public Health',
+ 'Peel Regional Health Unit':'Peel Public Health',
+ 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
+ 'Peterborough County–City Health Unit':'Peterborough Public Health',
+ 'Porcupine Health Unit':'Porcupine Health Unit',
+ 'Renfrew County and District Health Unit':'Renfrew County and District Health Unit',
+ 'The Eastern Ontario Health Unit':'Eastern Ontario Health Unit',
+ 'Simcoe Muskoka District Health Unit':'Simcoe Muskoka District Health Unit',
+ 'Sudbury and District Health Unit':'Sudbury & District Health Unit',
+ 'Thunder Bay District Health Unit':'Thunder Bay District Health Unit',
+ 'Timiskaming Health Unit':'Timiskaming Health Unit',
+ 'Waterloo Health Unit':'Region of Waterloo, Public Health',
+ 'Wellington-Dufferin-Guelph Health Unit':'Wellington-Dufferin-Guelph Public Health',
+ 'Windsor-Essex County Health Unit':'Windsor-Essex County Health Unit',
+ 'York Regional Health Unit':'York Region Public Health Services',
+ 'Southwestern Public Health Unit':'Southwestern Public Health',
+ 'City of Toronto Health Unit':'Toronto Public Health',
+ 'Ontario': 'Ontario'}
+
+POP = {
+    "Algoma": "Algoma Public Health Unit",
+    "Brant": "Brant County Health Unit",
+    "Chatham-Kent": "Chatham-Kent Health Unit",
+    "Durham":"Durham Region Health Department",
+    "Eastern":"Eastern Ontario Health Unit",
+    "Grey Bruce":"Grey Bruce Health Unit",
+    "Haldimand-Norfolk":"Haldimand-Norfolk Health Unit",
+    "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+    "Halton":"Halton Region Health Department",
+    "Hamilton":"Hamilton Public Health Services",
+    "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+    "Huron Perth":"Huron Perth District Health Unit",
+    "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac and Lennox & Addington Public Health",
+    "Lambton":"Lambton Public Health",
+    "Leeds Grenville and Lanark":"Leeds, Grenville and Lanark District Health Unit",
+    "Middlesex-London":"Middlesex-London Health Unit",
+    "Niagara":"Niagara Region Public Health Department",
+    "North Bay Parry Sound":"North Bay Parry Sound District Health Unit",
+    "Northwestern":"Northwestern Health Unit",
+    "Ottawa":"Ottawa Public Health",
+    "Peel":"Peel Public Health",
+    "Peterborough":"Peterborough Public Health",
+    "Porcupine":"Porcupine Health Unit",
+    "Renfrew":"Renfrew County and District Health Unit",
+    "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+    "Southwestern":"Southwestern Public Health",
+    "Sudbury":"Sudbury & District Health Unit",
+    "Thunder Bay":"Thunder Bay District Health Unit",
+    "Timiskaming":"Timiskaming Health Unit",
+    "Toronto":"Toronto Public Health",
+    "Waterloo":"Region of Waterloo, Public Health",
+    "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Public Health",
+    "Windsor-Essex":"Windsor-Essex County Health Unit",
+    "York":"York Region Public Health Services",
+}
+
 def convert_date(date):
     return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y/%m/%d')
 
@@ -124,6 +198,10 @@ def transform_public_cases_ontario_confirmed_positive_cases():
     for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}):
+        pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+        pop = pop.loc[pop.province == "Ontario"]
+        pop['health_region'] = pop['health_region'].replace(POP)
+        df = pd.merge(df,pop, left_on=['reporting_phu'], right_on=['health_region'], how='left')
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_canada_confirmed_positive_cases')
@@ -605,35 +683,39 @@ def transform_public_capacity_ontario_phu_icu_capacity():
     for df, save_file, date in transform(
         data_in = {'classification':'restricted', 'stage': 'processed','source_name':'ccso', 'table_name':'ccis',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}):
-        df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
-        result = {"phu":[], "critical_care_beds":[], "confirmed_positive":[],"critical_care_patients":[],"critical_care_pct":[]}
-        df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
-        df['province'] = 'Ontario'
-        df['phu'] = df['hospital_name'].replace(replace)
-        unique = df.phu.unique()
-        for hr in unique:
-            temp = df.loc[df.phu == hr]
-            critical_care_beds = temp.loc[temp.unit_inclusion == 'Baseline'].critical_care_beds.sum()
-            critical_care_patients = temp.critical_care_patients.sum()
-            confirmed_positive = temp.confirmed_positive.sum()
+        try:
+            df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
+            result = {"phu":[], "critical_care_beds":[], "confirmed_positive":[],"critical_care_patients":[],"critical_care_pct":[]}
+            df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
+            df['province'] = 'Ontario'
+            df['phu'] = df['hospital_name'].replace(replace)
+            unique = df.phu.unique()
+            for hr in unique:
+                temp = df.loc[df.phu == hr]
+                critical_care_beds = temp.loc[temp.unit_inclusion == 'Baseline'].critical_care_beds.sum()
+                critical_care_patients = temp.critical_care_patients.sum()
+                confirmed_positive = temp.confirmed_positive.sum()
+                critical_care_pct = critical_care_patients / critical_care_beds
+                result["phu"].append(hr)
+                result["critical_care_beds"].append(critical_care_beds)
+                result["confirmed_positive"].append(confirmed_positive)
+                result["critical_care_patients"].append(critical_care_patients)
+                result["critical_care_pct"].append(critical_care_pct)
+
+            critical_care_beds = df.loc[df.unit_inclusion == 'Baseline'].critical_care_beds.sum()
+            critical_care_patients = df.critical_care_patients.sum()
+            confirmed_positive = df.confirmed_positive.sum()
             critical_care_pct = critical_care_patients / critical_care_beds
-            result["phu"].append(hr)
+            result["phu"].append("Ontario")
             result["critical_care_beds"].append(critical_care_beds)
-            result["confirmed_positive"].append(confirmed_positive)
             result["critical_care_patients"].append(critical_care_patients)
             result["critical_care_pct"].append(critical_care_pct)
-
-        critical_care_beds = df.loc[df.unit_inclusion == 'Baseline'].critical_care_beds.sum()
-        critical_care_patients = df.critical_care_patients.sum()
-        confirmed_positive = df.confirmed_positive.sum()
-        critical_care_pct = critical_care_patients / critical_care_beds
-        result["phu"].append("Ontario")
-        result["critical_care_beds"].append(critical_care_beds)
-        result["critical_care_patients"].append(critical_care_patients)
-        result["critical_care_pct"].append(critical_care_pct)
-        result["confirmed_positive"].append(confirmed_positive)
-        result = pd.DataFrame(result)
-        result.to_csv(save_file, index=False)
+            result["confirmed_positive"].append(confirmed_positive)
+            result = pd.DataFrame(result)
+            result.to_csv(save_file, index=False)
+        except Exception as e:
+            print(e)
+            print(f"Error in {save_file}")
 
 @bp.cli.command('public_cases_ontario_phu_confirmed_positive_aggregated')
 def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
@@ -1115,9 +1197,31 @@ def transform_public_capacity_ontario_phu_icu_capacity():
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     result.to_csv(save_file, index=False)
 
+@bp.cli.command('public_cases_ontario_cases_seven_day_rolling_average')
+def transform_public_cases_ontario_confirmed_positive_cases():
+    for df, save_file, date in transform(
+        data_in={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
+        data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}):
+
+        dfs = []
+        unique = df.reporting_phu.unique()
+        for hr in unique:
+            temp = df.loc[df.reporting_phu == hr]
+            temp = temp.groupby('case_reported_date')['row_id'].count().reset_index()
+            temp['phu'] = hr
+            temp['rolling'] = temp.row_id.rolling(7).mean()
+            dfs.append(temp)
+
+        temp = df.groupby('case_reported_date')['row_id'].count().reset_index()
+        temp['phu'] = 'Ontario'
+        temp['rolling'] = temp.row_id.rolling(7).mean()
+        dfs.append(temp)
+        result = pd.concat(dfs)
+        result.to_csv(save_file, index=False)
+
 @bp.cli.command('public_summary_ontario')
 def transform_public_summary_ontario():
-    cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}
     tests = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
     icu = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity_timeseries',  'type': 'csv'}
     rt = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
@@ -1125,23 +1229,27 @@ def transform_public_summary_ontario():
 
     cases_path = get_last_file(cases)
     cases_df = pd.read_csv(cases_path)
-    cases_df = cases_df.groupby('case_reported_date').row_id.count().reset_index()
-    cases_df['rolling'] = cases_df['row_id'].rolling(7).mean()
-    cases_df['rolling_pop'] = cases_df['rolling'] / 14745040 * 100000
-    cases_df['phu'] = 'Ontario'
-    cases_df = cases_df[['phu','case_reported_date', 'rolling','rolling_pop']]
+    pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+    pop = pop.loc[pop.province == "Ontario"]
+    pop['health_region'] = pop['health_region'].replace(POP)
+    cases_df = pd.merge(cases_df,pop, left_on=['phu'], right_on=['health_region'], how='left')
+    cases_df.loc[cases_df.phu == "Ontario", 'pop'] = 14745040
+    cases_df['rolling_pop'] = cases_df['rolling'] / cases_df['pop'] * 100000
+    cases_df = cases_df[['phu','HR_UID','case_reported_date', 'rolling','rolling_pop']]
     cases_df.rename(columns={"case_reported_date": "date"},inplace=True)
 
 
     tests_path = get_last_file(tests)
     tests_df = pd.read_csv(tests_path)
     tests_df = tests_df[["PHU", "specimen_reported_date","Percentage in 24 hours_7dayrolling"]]
+    tests_df['PHU'] = tests_df['PHU'].replace(Replace)
     tests_df.rename(columns={"Percentage in 24 hours_7dayrolling": "rolling_test_twenty_four"},inplace=True)
 
     merged = pd.merge(cases_df,tests_df, left_on=['phu', 'date'], right_on=['PHU', 'specimen_reported_date'], how='left')
 
     icu_path = get_last_file(icu)
     icu_df = pd.read_csv(icu_path)
+    icu_df['phu'] = icu_df['phu'].replace(Replace)
     icu_df = icu_df[["phu", "date","confirmed_positive","critical_care_pct"]]
 
     merged = pd.merge(merged,icu_df, left_on=['phu', 'date'], right_on=['phu', 'date'], how='left')
@@ -1149,10 +1257,11 @@ def transform_public_summary_ontario():
     rt_path = get_last_file(rt)
     rt_df = pd.read_csv(rt_path)
     rt_df = rt_df[["PHU", "date_report","ML","Low","High"]]
+    rt_df['PHU'] = rt_df['PHU'].replace(Replace)
     rt_df.rename(columns={"ML": "rt_ml", "Low": "rt_low", "High": "rt_high"},inplace=True)
 
     merged = pd.merge(merged,rt_df, left_on=['phu', 'date'], right_on=['PHU', 'date_report'], how='left')
-    merged = merged[["phu", 'date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "confirmed_positive",'critical_care_pct', "rt_ml","rt_low","rt_high"]]
+    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "confirmed_positive",'critical_care_pct', "rt_ml","rt_low","rt_high"]]
     save_file, save_dir = get_file_path(final)
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     merged.to_csv(save_file, index=False)
