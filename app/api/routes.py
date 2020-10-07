@@ -365,7 +365,7 @@ def get_percentages():
     if HR_UID:
         df = df.loc[df.HR_UID == HR_UID]
 
-    if filter:
+    if filter and int(filter) != -1:
         last_month = df[date].max() - pd.Timedelta(int(filter), unit='d')
         temp = df.loc[df[date] > last_month]
     else:
