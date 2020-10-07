@@ -354,8 +354,9 @@ def get_reopening_times():
 def get_percentages():
     HR_UID = request.args.get('HR_UID')
     filter = request.args.get('filter')
-    cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
-    cases_path = get_last_file(cases)
+    # cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    # cases_path = get_last_file(cases)
+    cases_path = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=975084275"
     df = pd.read_csv(cases_path)
     date = "case_reported_date"
     df[date] = pd.to_datetime(df[date])
