@@ -157,3 +157,11 @@ def export_confidential_moh_iphis():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
     export(sheetsConfig, data_out)
+
+@bp.cli.command('public_cases_ontario_confirmed_positive_cases')
+def export_confidential_moh_iphis():
+    sheetsConfig = [
+        {'name':'Ontario Confirmed Positive'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    export(sheetsConfig, data_out)
