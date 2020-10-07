@@ -377,7 +377,11 @@ def get_percentages():
     age_group_pct = temp['age_group'].value_counts(True).to_dict()
 
     ouctome = temp['outcome_1'].value_counts().to_dict()
+    ouctome['Total'] = int(temp['outcome_1'].count())
+    ouctome['Age'] = int(temp['outcome_1'].count())
+    ouctome['Date'] = df[date].max().strftime('%B %d, %Y')
     ouctome_pct = temp['outcome_1'].value_counts(True).to_dict()
+    ouctome_pct['Total'] = 1
 
     case_acquisition = temp['case_acquisition_info'].value_counts().to_dict()
     case_acquisition_pct = temp['case_acquisition_info'].value_counts(True).to_dict()
