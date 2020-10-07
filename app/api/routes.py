@@ -362,8 +362,8 @@ def get_percentages():
     df[date] = pd.to_datetime(df[date])
     df.loc[df.outbreak_related.isna(), 'outbreak_related'] = 'No'
 
-    if HR_UID:
-        df = df.loc[df.HR_UID == HR_UID]
+    if HR_UID and int(HR_UID)!=0:
+        df = df.loc[df.HR_UID == int(HR_UID)]
 
     if filter and int(filter) != -1:
         last_month = df[date].max() - pd.Timedelta(int(filter), unit='d')
@@ -388,12 +388,12 @@ def get_percentages():
     data = {
     "gender": gender,
     "age_group": age_group,
-    "ouctome":ouctome,
+    "outcome":ouctome,
     "case_acquisition":case_acquisition,
     "outbreak":outbreak,
     "gender_pct": gender_pct,
     "age_group_pct": age_group_pct,
-    "ouctome_pct":ouctome_pct,
+    "outcome_pct":ouctome_pct,
     "case_acquisition_pct":case_acquisition_pct,
     "outbreak_pct":outbreak_pct,
     }
