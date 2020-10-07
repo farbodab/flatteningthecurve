@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, g, render_template
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from app import db, cache
 from app.models import *
@@ -10,6 +10,8 @@ from app.api import vis
 import pandas as pd
 import io
 import requests
+import glob, os
+import json
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -47,6 +49,23 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Southwestern Public Health Unit':'Southwestern Public Health',
  'City of Toronto Health Unit':'Toronto Public Health',
  'Ontario': 'Ontario'}
+
+def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
+    source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
+    load_dir = source_dir + data['source_name'] + '/' + data['table_name']
+    file_name = data['table_name'] + '_' + today + '.' + data['type']
+    file_path =  load_dir + '/' + file_name
+    return load_dir, file_path
+
+def get_last_file(data):
+    load_dir, file_path = get_dir(data)
+    files = glob.glob(load_dir + "/*." + data['type'])
+    files = [file.split('_')[-1] for file in files]
+    files = [file.split('.csv')[0] for file in files]
+    dates = [datetime.strptime(file, '%Y-%m-%d') for file in files]
+    max_date = max(dates).strftime('%Y-%m-%d')
+    load_dir, file_path = get_dir(data, max_date)
+    return file_path
 
 def get_results():
     items = request.get_json()
@@ -301,8 +320,24 @@ def get_reopening_metrics():
 
     return data
 
+@bp.route('/api/summary', methods=['GET'])
+@cache.cached(timeout=3600, query_string=True)
+def get_summary_metrics():
+    HR_UID = request.args.get('HR_UID')
+    # final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
+    # df_path = get_last_file(final)
+    url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
+    df = pd.read_csv(url)
+    df['date'] = pd.to_datetime(df['date'])
+    if int(HR_UID)!=0:
+        df = df.loc[df.HR_UID == int(HR_UID)]
+    else:
+        df = df.loc[df.phu == 'Ontario']
+    data = df.to_json(orient='records', date_format='iso')
+    return data
+
 @bp.route('/api/times', methods=['GET'])
-@cache.cached(timeout=50)
+@cache.cached(timeout=3600)
 @as_json
 def get_reopening_times():
     df = pd.read_sql_table('metric_update_date', db.engine)
@@ -313,6 +348,56 @@ def get_reopening_times():
         date_refreshed = row['date_refreshed']
         data.append({'source':source, 'date_refreshed':date_refreshed})
     return data
+
+@bp.route('/api/epi', methods=['GET'])
+@cache.cached(timeout=3600, query_string=True)
+def get_percentages():
+    HR_UID = request.args.get('HR_UID')
+    filter = request.args.get('filter')
+    # cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
+    # cases_path = get_last_file(cases)
+    cases_path = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=975084275"
+    df = pd.read_csv(cases_path)
+    date = "case_reported_date"
+    df[date] = pd.to_datetime(df[date])
+    df.loc[df.outbreak_related.isna(), 'outbreak_related'] = 'No'
+
+    if HR_UID and int(HR_UID)!=0:
+        df = df.loc[df.HR_UID == int(HR_UID)]
+
+    if filter and int(filter) != -1:
+        last_month = df[date].max() - pd.Timedelta(int(filter), unit='d')
+        temp = df.loc[df[date] > last_month]
+    else:
+        temp = df
+    gender = temp['client_gender'].value_counts().to_dict()
+    gender_pct = temp['client_gender'].value_counts(True).to_dict()
+
+    age_group = temp['age_group'].value_counts().to_dict()
+    age_group_pct = temp['age_group'].value_counts(True).to_dict()
+
+    ouctome = temp['outcome_1'].value_counts().to_dict()
+    ouctome_pct = temp['outcome_1'].value_counts(True).to_dict()
+
+    case_acquisition = temp['case_acquisition_info'].value_counts().to_dict()
+    case_acquisition_pct = temp['case_acquisition_info'].value_counts(True).to_dict()
+
+    outbreak = temp['outbreak_related'].value_counts().to_dict()
+    outbreak_pct = temp['outbreak_related'].value_counts(True).to_dict()
+
+    data = {
+    "gender": gender,
+    "age_group": age_group,
+    "outcome":ouctome,
+    "case_acquisition":case_acquisition,
+    "outbreak":outbreak,
+    "gender_pct": gender_pct,
+    "age_group_pct": age_group_pct,
+    "outcome_pct":ouctome_pct,
+    "case_acquisition_pct":case_acquisition_pct,
+    "outbreak_pct":outbreak_pct,
+    }
+    return json.dumps(data)
 
 @as_json
 def get_testresults():

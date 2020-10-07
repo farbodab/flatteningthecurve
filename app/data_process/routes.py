@@ -374,7 +374,7 @@ def process_public_open_data_working_group_cases():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column], format="%d-%m-%Y")
+                df[column] = pd.to_datetime(df[column], dayfirst=True)
             df.health_region = df.health_region.replace(replace)
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -1165,3 +1165,283 @@ def process_all():
     process_confidential_burning_glass_industry_weekly()
     process_restricted_ccso_ccis()
     process_restricted_moh_iphis()
+
+@bp.cli.command('public_ontario_gov_ltc_covid_summary')
+def process_public_ontario_gov_ltc_covid_summary():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'ltc_covid_summary',  'type': 'csv'}
+    field_map = {
+        "ï»¿Report_Data_Extracted":"date",
+        "LTC_Homes_with_Active_Outbreak": "ltc_homes_with_active_outbreak",
+        "LTC_Homes_with_Resolved_Outbreak":"ltc_homes_with_resolved_outbreak",
+        "Confirmed_Active_LTC_Resident_Cases":"confirmed_active_ltc_resident_cases",
+        "Confirmed_Active_LTC_HCW_Cases": "confirmed_active_ltc_hcw_cases",
+        "Total_LTC_Resident_Deaths": "total_lct_resident_deaths",
+        "Total_LTC_HCW_Deaths": "total_ltc_hcw_deaths",
+    }
+    date_field = ['date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False)
+                df = df.rename(columns=field_map)
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_ltc_covid_active_outbreaks')
+def process_public_ontario_gov_ltc_covid_active_outbreaks():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'ltc_covid_active_outbreaks',  'type': 'csv'}
+    field_map = {
+        "ï»¿Report_Data_Extracted":"date",
+        "LTC_Home": "ltc_home",
+        "LTC_City":"ltc_city",
+        "Beds":"beds",
+        "Total_LTC_Resident_Cases": "total_ltc_resident_cases",
+        "Total_LTC_Resident_Deaths": "total_lct_resident_deaths",
+        "Total_LTC_HCW_Cases": "total_ltc_hcw_cases",
+    }
+    date_field = ['date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False)
+                df = df.rename(columns=field_map)
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_school_covid_summary')
+def process_public_ontario_gov_school_covid_summary():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'school_covid_summary',  'type': 'csv'}
+    field_map = {
+        "collected_date":"collected_date",
+        "reported_date":"reported_date",
+        "current_schools_w_cases":"current_schools_w_cases",
+        "current_schools_closed":"current_schools_closed",
+        "current_total_number_schools":"current_total_number_schools",
+        "new_total_school_related_cases":"new_total_school_related_cases",
+        "new_school_related_student_cases":"new_school_related_student_cases",
+        "new_school_related_staff_cases":"new_school_related_staff_cases",
+        "new_school_related_unspecified_cases":"new_school_related_unspecified_cases",
+        "recent_total_school_related_cases":"recent_total_school_related_cases",
+        "recent_school_related_student_cases":"recent_school_related_student_cases",
+        "recent_school_related_staff_cases":"recent_school_related_staff_cases",
+        "recent_school_related_unspecified_cases":"recent_school_related_unspecified_cases",
+        "past_total_school_related_cases":"past_total_school_related_cases",
+        "past_school_related_student_cases":"past_school_related_student_cases",
+        "past_school_related_staff_cases":"past_school_related_staff_cases",
+        "past_school_related_unspecified_cases":"past_school_related_unspecified_cases",
+        "cumulative_school_related_cases":"cumulative_school_related_cases",
+        "cumulative_school_related_student_cases":"cumulative_school_related_student_cases",
+        "cumulative_school_related_staff_cases":"cumulative_school_related_staff_cases",
+        "cumulative_school_related_unspecified_cases":"cumulative_school_related_unspecified_cases",
+
+    }
+    date_field = ['collected_date', 'reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False)
+                df = df.rename(columns=field_map)
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False)
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_school_covid_active')
+def process_public_ontario_gov_school_covid_active():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'school_covid_active',  'type': 'csv'}
+    field_map = {
+        "collected_date":"collected_date",
+        "reported_date":"reported_date",
+        "school_board":"school_board",
+        "school":"school",
+        "municipality":"municipality",
+        "confirmed_student_cases":"confirmed_student_cases",
+        "confirmed_staff_cases":"confirmed_staff_cases",
+        "confirmed_unspecified_cases":"confirmed_unspecified_cases",
+        "total_confirmed_cases":"total_confirmed_cases",
+    }
+    date_field = ['collected_date', 'reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False, encoding='latin-1')
+                df = df.rename(columns=field_map)
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False, encoding='latin-1')
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_lc_covid_summary')
+def process_public_ontario_gov_lc_covid_summary():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'lc_covid_summary',  'type': 'csv'}
+    date_field = ['collected_date', 'reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False, encoding='latin-1')
+                # df = df.rename(columns=field_map)
+                # df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False, encoding='latin-1')
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_lc_covid_active')
+def process_public_ontario_gov_lc_covid_active():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'lc_covid_active',  'type': 'csv'}
+    date_field = ['collected_date', 'reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False, encoding='latin-1')
+                # df = df.rename(columns=field_map)
+                # df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False, encoding='latin-1')
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_corrections_covid_cases')
+def process_public_ontario_gov_corrections_covid_cases():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'corrections_covid_cases',  'type': 'csv'}
+    field_map = {
+        "Reported_Date":"reported_date",
+        "Region":"region",
+        "Institution":"institution",
+        "Total_Active_Inmate_Cases_As_Of_Reported_Date":"total_active_inmate_cases_as_of_reported_date",
+        "Cumul_Nr_Resolved_Inmate_Cases_As_Of_Reported_Date":"cumul_nr_resolved_inmate_cases_as_of_reported_date",
+        "Cumul_Nr_Positive_Released_Inmate_Cases_As_Of_Reported_Date":"cumul_nr_positive_released_inmate_cases_as_of_reported_date",
+    }
+    date_field = ['reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False, encoding='latin-1')
+                df = df.rename(columns=field_map)
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False, encoding='latin-1')
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True
+
+@bp.cli.command('public_ontario_gov_corrections_covid_testing')
+def process_public_ontario_gov_corrections_covid_testing():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'corrections_covid_testing',  'type': 'csv'}
+    field_map = {
+        "Reported_Date":"reported_date",
+        "Region":"region",
+        "Cumulative_Number_of_Tests_as_of_Reported_Date":"cumulative_number_of_tests_as_of_reported_date",
+        "Cumulative_Number_of_Positive_Tests_as_of_Reported_Date":"cumulative_number_of_positive_tests_as_of_reported_date",
+        "Cumulative_Number_of_Negative_Tests_as_of_Reported_Date":"cumulative_number_of_negative_tests_as_of_reported_date",
+        "Total_Number_of_Pending_Tests_on_Reported_Date":"total_number_of_pending_tests_on_reported_date",
+        "Total_Number_of_Unknown_Tests_on_Reported_Date": "total_number_of_unknown_tests_on_reported_date",
+        "Total_Inmates_that_Refused_Swab_as_of_Reported_Date":"total_inmates_that_refused_swab_as_of_reported_date",
+        "Total_Inmates_on_Medical_Isolation_as_of_Reported_Date":"total_inmates_that_refused_swab_as_of_reported_date",
+    }
+    date_field = ['reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file,error_bad_lines=False, encoding='latin-1')
+                df = df.rename(columns=field_map)
+                df = df[field_map.values()]
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False, encoding='latin-1')
+            except Exception as e:
+                print(f"Failed to get {data['source_name']}/{data['table_name']}")
+                print(e)
+                return e
+    return True

@@ -216,7 +216,7 @@ def tested_positve_plot():
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text': f"New Positive %<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text': f"Percent Positivity<br><span style='font-size:0.5em;color:gray'>Last Updated: {df.Date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
@@ -1574,7 +1574,7 @@ def rt_analysis_plot(region='Ontario'):
     fig.update_layout(
         xaxis =  {'showgrid': False,'visible':True, 'tickformat':'%d-%b'},
         yaxis = {'showgrid': False,'visible':True},
-        title={'text':f"<a href='https://en.wikipedia.org/wiki/Basic_reproduction_number'>R<sub>t</sub> value</a></span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
+        title={'text':f"R<sub>t</sub> value</span><br><span style='font-size:0.5em;color:gray'>Last Updated: {df.date.tail(1).values[0].astype('M8[D]')}</span><br>",
                 'y':0.90,
                 'x':0.5,
                'xanchor': 'center',
