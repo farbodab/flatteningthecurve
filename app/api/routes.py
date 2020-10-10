@@ -324,15 +324,25 @@ def get_reopening_metrics():
 @cache.cached(timeout=3600, query_string=True)
 def get_summary_metrics():
     HR_UID = request.args.get('HR_UID')
+    if not HR_UID:
+        HR_UID = -1
     # final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
     # df_path = get_last_file(final)
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
     df = pd.read_csv(url)
     df['date'] = pd.to_datetime(df['date'])
-    if int(HR_UID)!=0:
+    if int(HR_UID)==0:
+        df = df.loc[df.phu == 'Ontario']
+    elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        df = df.loc[df.phu == 'Ontario']
+        loop = []
+        unique = df.HR_UID.unique()
+        for hr in unique:
+            temp = df.loc[df.HR_UID == hr]
+            temp = temp.tail(1)
+            loop.append(temp)
+        df = pd.concat(loop)
     data = df.to_json(orient='records', date_format='iso')
     return data
 
