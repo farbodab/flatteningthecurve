@@ -173,7 +173,7 @@ spec:
           dependencies: [rolling-average, testing-24-hours]
           template: hmf-backend
           arguments:
-            parameters: [{name: message, value: flask data_transform public_cases_ontario_confirmed_positive_cases}]
+            parameters: [{name: message, value: flask data_transform public_summary_ontario}]
         - name: export-epi
           dependencies: [transform-cases]
           template: hmf-backend
