@@ -8,6 +8,7 @@ from app.models import *
 from app.api import bp
 from app.api import vis
 import pandas as pd
+import numpy as np
 import io
 import requests
 import glob, os
@@ -320,6 +321,12 @@ def get_reopening_metrics():
 
     return data
 
+def get_last(thing):
+    if len(thing.dropna()) > 0:
+        return thing.dropna().iloc[-1]
+    else:
+        return np.nan
+
 @bp.route('/api/summary', methods=['GET'])
 @cache.cached(timeout=3600, query_string=True)
 def get_summary_metrics():
@@ -336,13 +343,31 @@ def get_summary_metrics():
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = []
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_test_twenty_four":[], "confirmed_positive":[], "critical_care_pct":[], "rt_ml":[]}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
-            temp = temp.tail(1)
-            loop.append(temp)
-        df = pd.concat(loop)
+            if len(temp) > 0:
+                loop['phu'].append(get_last(temp['phu']))
+                loop['HR_UID'].append(hr)
+                loop['date'].append(get_last(temp['date']))
+                loop['rolling'].append(get_last(temp['rolling']))
+                loop['rolling_pop'].append(get_last(temp['rolling_pop']))
+                loop['rolling_test_twenty_four'].append(get_last(temp['rolling_test_twenty_four']))
+                loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
+                loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+                loop['rt_ml'].append(get_last(temp['rt_ml']))
+        temp = df.loc[df.phu == 'Ontario']
+        loop['phu'].append('Ontario')
+        loop['HR_UID'].append(-1)
+        loop['date'].append(get_last(temp['date']))
+        loop['rolling'].append(get_last(temp['rolling']))
+        loop['rolling_pop'].append(get_last(temp['rolling_pop']))
+        loop['rolling_test_twenty_four'].append(get_last(temp['rolling_test_twenty_four']))
+        loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
+        loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+        loop['rt_ml'].append(get_last(temp['rt_ml']))
+        df = pd.DataFrame(loop)
     data = df.to_json(orient='records', date_format='iso')
     return data
 
