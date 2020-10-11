@@ -2,7 +2,7 @@ metadata:
   name: public-ontario-gov
   namespace: production
 spec:
-  schedule: '0 13 * * *'
+  schedule: '29 3 * * *'
   concurrencyPolicy: Replace
   workflowSpec:
     serviceAccountName: argo-workflow
@@ -154,6 +154,11 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_cases_ontario_confirmed_positive_cases}]
+        - name: rolling-average
+          dependencies: [transform-cases]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_cases_ontario_cases_seven_day_rolling_average}]
         - name: weekly-new-cases
           dependencies: [transform-cases]
           template: hmf-backend
@@ -164,6 +169,21 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_capacity_ontario_testing_24_hours}]
+        - name: summary
+          dependencies: [rolling-average, testing-24-hours]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_summary_ontario}]
+        - name: export-epi
+          dependencies: [transform-cases]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_cases_ontario_confirmed_positive_cases}]
+        - name: export-summary
+          dependencies: [summary]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_export public_summary_ontario}]
         - name: export-weekly
           dependencies: [weekly-new-cases]
           template: hmf-backend

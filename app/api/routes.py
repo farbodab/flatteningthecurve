@@ -8,6 +8,7 @@ from app.models import *
 from app.api import bp
 from app.api import vis
 import pandas as pd
+import numpy as np
 import io
 import requests
 import glob, os
@@ -320,19 +321,53 @@ def get_reopening_metrics():
 
     return data
 
+def get_last(thing):
+    if len(thing.dropna()) > 0:
+        return thing.dropna().iloc[-1]
+    else:
+        return np.nan
+
 @bp.route('/api/summary', methods=['GET'])
 @cache.cached(timeout=3600, query_string=True)
 def get_summary_metrics():
     HR_UID = request.args.get('HR_UID')
+    if not HR_UID:
+        HR_UID = -1
     # final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
     # df_path = get_last_file(final)
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
     df = pd.read_csv(url)
     df['date'] = pd.to_datetime(df['date'])
-    if int(HR_UID)!=0:
+    if int(HR_UID)==0:
+        df = df.loc[df.phu == 'Ontario']
+    elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        df = df.loc[df.phu == 'Ontario']
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_test_twenty_four":[], "confirmed_positive":[], "critical_care_pct":[], "rt_ml":[]}
+        unique = df.HR_UID.unique()
+        for hr in unique:
+            temp = df.loc[df.HR_UID == hr]
+            if len(temp) > 0:
+                loop['phu'].append(get_last(temp['phu']))
+                loop['HR_UID'].append(hr)
+                loop['date'].append(get_last(temp['date']))
+                loop['rolling'].append(get_last(temp['rolling']))
+                loop['rolling_pop'].append(get_last(temp['rolling_pop']))
+                loop['rolling_test_twenty_four'].append(get_last(temp['rolling_test_twenty_four']))
+                loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
+                loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+                loop['rt_ml'].append(get_last(temp['rt_ml']))
+        temp = df.loc[df.phu == 'Ontario']
+        loop['phu'].append('Ontario')
+        loop['HR_UID'].append(-1)
+        loop['date'].append(get_last(temp['date']))
+        loop['rolling'].append(get_last(temp['rolling']))
+        loop['rolling_pop'].append(get_last(temp['rolling_pop']))
+        loop['rolling_test_twenty_four'].append(get_last(temp['rolling_test_twenty_four']))
+        loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
+        loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+        loop['rt_ml'].append(get_last(temp['rt_ml']))
+        df = pd.DataFrame(loop)
     data = df.to_json(orient='records', date_format='iso')
     return data
 
@@ -377,7 +412,11 @@ def get_percentages():
     age_group_pct = temp['age_group'].value_counts(True).to_dict()
 
     ouctome = temp['outcome_1'].value_counts().to_dict()
+    ouctome['Total'] = int(temp['outcome_1'].count())
+    ouctome['Age'] = int(temp['outcome_1'].count())
+    ouctome['Date'] = df[date].max().strftime('%B %d, %Y')
     ouctome_pct = temp['outcome_1'].value_counts(True).to_dict()
+    ouctome_pct['Total'] = 1
 
     case_acquisition = temp['case_acquisition_info'].value_counts().to_dict()
     case_acquisition_pct = temp['case_acquisition_info'].value_counts(True).to_dict()

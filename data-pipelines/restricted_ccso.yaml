@@ -2,7 +2,7 @@ metadata:
   name: restricted-ccso
   namespace: production
 spec:
-  schedule: '0 13 * * *'
+  schedule: '33 3 * * *'
   concurrencyPolicy: Replace
   workflowSpec:
     serviceAccountName: argo-workflow
@@ -149,6 +149,11 @@ spec:
           template: hmf-backend
           arguments:
             parameters: [{name: message, value: flask data_transform public_capacity_ontario_phu_icu_capacity}]
+        - name: ccso-timeseries
+          dependencies: [transform-ccso]
+          template: hmf-backend
+          arguments:
+            parameters: [{name: message, value: flask data_transform public_capacity_ontario_phu_icu_capacity_timeseries}]
         - name: export-ccso
           dependencies: [transform-ccso]
           template: hmf-backend
