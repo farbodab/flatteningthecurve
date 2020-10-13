@@ -59,7 +59,7 @@ def process_public_ontario_gov_conposcovidloc():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column], errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -374,7 +374,7 @@ def process_public_open_data_working_group_cases():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column], dayfirst=True)
+                df[column] = pd.to_datetime(df[column],errors='coerce', dayfirst=True)
             df.health_region = df.health_region.replace(replace)
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -449,7 +449,7 @@ def process_public_open_data_working_recovered_cumulative():
             df = df.replace({"NA":None})
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column], format="%d-%m-%Y")
+                df[column] = pd.to_datetime(df[column],errors='coerce', format="%d-%m-%Y")
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -483,7 +483,7 @@ def process_public_open_data_working_testing_cumulative():
             df = df.replace({"NA":None})
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column], format="%d-%m-%Y")
+                df[column] = pd.to_datetime(df[column],errors='coerce', format="%d-%m-%Y")
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -525,7 +525,7 @@ def process_public_google_global_mobility_report():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -563,7 +563,7 @@ def process_public_apple_applemobilitytrends():
             df = df.rename(columns={"variable":"date"})
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
@@ -633,7 +633,7 @@ def process_public_oxcgrt_oxcgrt_latest():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column],format="%Y%m%d")
+                df[column] = pd.to_datetime(df[column],errors='coerce',format="%Y%m%d")
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -668,7 +668,7 @@ def process_public_jhu_time_series_covid19_confirmed_global():
             df = df.rename(columns={"variable":"date"})
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -703,7 +703,7 @@ def process_public_jhu_time_series_covid19_deaths_global():
             df = df.rename(columns={"variable":"date"})
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -738,7 +738,7 @@ def process_public_jhu_time_series_covid19_recovered_global():
             df = df.rename(columns={"variable":"date"})
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -779,7 +779,7 @@ def process_public_owid_covid_testing_all_observations():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -818,7 +818,7 @@ def process_public_keystone_strategy_complete_npis_inherited_policies():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -857,7 +857,7 @@ def process_public_modcollab_base_on():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -894,7 +894,7 @@ def process_public_fisman_ideamodel():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -926,7 +926,7 @@ def process_confidential_211_call_reports():
             df = df.rename(columns=field_map)
             df = df[field_map.values()]
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -958,7 +958,7 @@ def process_confidential_211_met_and_unmet_needs():
             df = df.rename(columns=field_map)
             df = df[field_map.values()]
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -991,7 +991,7 @@ def process_confidential_211_referrals():
             df = df.rename(columns=field_map)
             df = df[field_map.values()]
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -1032,7 +1032,7 @@ def process_confidential_burning_glass_industry_weekly():
             df = df.rename(columns=field_map)
 
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -1086,7 +1086,7 @@ def process_restricted_ccso_ccis():
             df = df.rename(columns=field_map)
             df = df[field_map.values()]
             for column in date_field:
-                df[column] = pd.to_datetime(df[column])
+                df[column] = pd.to_datetime(df[column],errors='coerce')
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
@@ -1191,7 +1191,7 @@ def process_public_ontario_gov_ltc_covid_summary():
                 df = df.rename(columns=field_map)
                 df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False)
@@ -1226,7 +1226,7 @@ def process_public_ontario_gov_ltc_covid_active_outbreaks():
                 df = df.rename(columns=field_map)
                 df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False)
@@ -1276,7 +1276,7 @@ def process_public_ontario_gov_school_covid_summary():
                 df = df.rename(columns=field_map)
                 df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False)
@@ -1313,7 +1313,7 @@ def process_public_ontario_gov_school_covid_active():
                 df = df.rename(columns=field_map)
                 df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False, encoding='latin-1')
@@ -1339,7 +1339,7 @@ def process_public_ontario_gov_lc_covid_summary():
                 # df = df.rename(columns=field_map)
                 # df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False, encoding='latin-1')
@@ -1365,7 +1365,7 @@ def process_public_ontario_gov_lc_covid_active():
                 # df = df.rename(columns=field_map)
                 # df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False, encoding='latin-1')
@@ -1399,7 +1399,7 @@ def process_public_ontario_gov_corrections_covid_cases():
                 df = df.rename(columns=field_map)
                 df = df[field_map.values()]
                 for column in date_field:
-                    df[column] = pd.to_datetime(df[column])
+                    df[column] = pd.to_datetime(df[column],errors='coerce')
 
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False, encoding='latin-1')
