@@ -1130,7 +1130,7 @@ def process_restricted_moh_iphis():
                 df = df[field_map.values()]
                 for column in date_field:
                     df[column] = df[column].apply(convert_date)
-
+                df['fsa'] = df['fsa'].str.upper()
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False)
             except Exception as e:
