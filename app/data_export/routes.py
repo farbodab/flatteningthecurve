@@ -5,6 +5,7 @@ from app.export import restrictedsheetsHelper
 import glob
 from datetime import datetime, date
 from app.models import *
+import pandas as pd
 
 
 def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
@@ -22,10 +23,10 @@ def get_file(data):
     dates = [datetime.strptime(file, '%Y-%m-%d') for file in files]
     max_date = max(dates).strftime('%Y-%m-%d')
     load_dir, file_path = get_dir(data, max_date)
-    return file_path
+    return file_path, max_date
 
 def export(sheetsConfig, data_out):
-    file_path = get_file(data_out)
+    file_path, _ = get_file(data_out)
     sheetsConfig[0]['file'] = file_path
     sheetsHelper.exportToSheets(sheetsConfig)
 
@@ -41,11 +42,12 @@ def export_public_capacity_ontario_testing_24_hours():
     ]
     data_out ={'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    file_path, date = get_file(data_out)
     m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
     if m:
         m.recent = False
         db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
     db.session.add(m_n)
     db.session.commit()
 
@@ -56,11 +58,12 @@ def export_public_cases_ontario_phu_weekly_new_cases():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    file_path, date = get_file(data_out)
     m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
     if m:
         m.recent = False
         db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
     db.session.add(m_n)
     db.session.commit()
 
@@ -71,11 +74,12 @@ def export_public_capacity_ontario_phu_icu_capacity():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    file_path, date = get_file(data_out)
     m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
     if m:
         m.recent = False
         db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
     db.session.add(m_n)
     db.session.commit()
 
@@ -86,11 +90,12 @@ def export_public_rt_canada_bettencourt_and_ribeiro_approach():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
     export(sheetsConfig, data_out)
+    file_path, date = get_file(data_out)
     m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
     if m:
         m.recent = False
         db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date.today())
+    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
     db.session.add(m_n)
     db.session.commit()
 
