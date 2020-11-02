@@ -267,7 +267,7 @@ def get_api_team():
     return data
 
 @bp.route('/api/reopening', methods=['GET'])
-@cache.cached(timeout=50)
+@cache.cached(timeout=600)
 @as_json
 def get_reopening_metrics():
     stages_df = pd.read_csv("https://docs.google.com/spreadsheets/u/0/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=0")
@@ -339,7 +339,7 @@ def get_last(thing):
         return np.nan
 
 @bp.route('/api/summary', methods=['GET'])
-@cache.cached(timeout=3600, query_string=True)
+@cache.cached(timeout=600, query_string=True)
 def get_summary_metrics():
     HR_UID = request.args.get('HR_UID')
     if not HR_UID:
@@ -383,7 +383,7 @@ def get_summary_metrics():
     return data
 
 @bp.route('/api/times', methods=['GET'])
-@cache.cached(timeout=3600)
+@cache.cached(timeout=600)
 @as_json
 def get_reopening_times():
     df = pd.read_sql_table('metric_update_date', db.engine)
@@ -396,7 +396,7 @@ def get_reopening_times():
     return data
 
 @bp.route('/api/epi', methods=['GET'])
-@cache.cached(timeout=3600, query_string=True)
+@cache.cached(timeout=600, query_string=True)
 def get_percentages():
     HR_UID = request.args.get('HR_UID')
     filter = request.args.get('filter')
