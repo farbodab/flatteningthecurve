@@ -200,8 +200,8 @@ def get_growth():
     return provines_dict
 
 @bp.route('/api/viz', methods=['GET'])
-@cache.cached(timeout=50)
 @as_json
+@cache.cached(timeout=600)
 def get_api_viz():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.page == 'Analysis']
@@ -217,8 +217,8 @@ def get_api_viz():
     return data
 
 @bp.route('/api/plots', methods=['GET'])
-@cache.cached(timeout=50)
 @as_json
+@cache.cached(timeout=600)
 def get_api_plots():
     df = pd.read_sql_table('viz', db.engine)
     df = df.loc[df.page != 'Analysis']
@@ -237,8 +237,8 @@ def get_api_plots():
     return data
 
 @bp.route('/api/source', methods=['GET'])
-@cache.cached(timeout=50)
 @as_json
+@cache.cached(timeout=600)
 def get_api_source():
     df = pd.read_sql_table('source', db.engine)
     df = df.sort_values(by=['name'])
@@ -252,8 +252,8 @@ def get_api_source():
     return data
 
 @bp.route('/api/team', methods=['GET'])
-@cache.cached(timeout=50)
 @as_json
+@cache.cached(timeout=600)
 def get_api_team():
     df = pd.read_sql_table('members', db.engine)
     df = df.sort_values(by=['team_status','last_name'])
@@ -266,9 +266,10 @@ def get_api_team():
         "linkedin": row["linkedin"]})
     return data
 
+
 @bp.route('/api/reopening', methods=['GET'])
-@cache.cached(timeout=600)
 @as_json
+@cache.cached(timeout=600)
 def get_reopening_metrics():
     stages_df = pd.read_csv("https://docs.google.com/spreadsheets/u/0/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=0")
     weekly_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1053507889")
@@ -383,8 +384,8 @@ def get_summary_metrics():
     return data
 
 @bp.route('/api/times', methods=['GET'])
-@cache.cached(timeout=600)
 @as_json
+@cache.cached(timeout=600)
 def get_reopening_times():
     df = pd.read_sql_table('metric_update_date', db.engine)
     df = df.loc[df.recent == True]
