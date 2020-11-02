@@ -275,12 +275,20 @@ def get_reopening_metrics():
     testing_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1206518301")
     rt_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=428679599")
     icu_df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1132863788")
+    positivity_df = pd.read_csv("https://docs.google.com/spreadsheets/u/0/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=1281856108")
+    positivity_df = positivity_df.merge(stages_df, left_on="HR_UID", right_on="HR_UID")
 
     data = []
     for phu_select in PHU:
         temp_dict = {}
         temp_dict["phu"] = phu_select
         temp_dict["tracing"] = "nan"
+
+        temp = positivity_df.loc[positivity_df.phu == phu_select]
+        try:
+            temp_dict["percent_positive"] = str((temp.tail(1)['% Positivity'].values[0]))
+        except:
+            temp_dict["percent_positive"] = "nan"
 
         temp = stages_df.loc[stages_df.phu == phu_select]
         try:
@@ -298,7 +306,7 @@ def get_reopening_metrics():
 
         temp = testing_df.loc[testing_df.PHU == PHU[phu_select]]
         temp = temp.sort_values('Date')
-        temp = temp.dropna(how='any')
+        temp = temp.dropna(how='all')
         try:
             temp_dict["testing"] = str(int(temp.tail(1)['Percentage in 24 hours_7dayrolling'].values[0] * 100))
         except:
@@ -316,6 +324,9 @@ def get_reopening_metrics():
             temp_dict["icu"] = str(int(temp.tail(1)['critical_care_pct'].values[0] * 100))
         except:
             temp_dict["icu"] = "nan"
+
+
+
 
         data.append(temp_dict)
 
