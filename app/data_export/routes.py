@@ -31,7 +31,7 @@ def export(sheetsConfig, data_out):
     sheetsHelper.exportToSheets(sheetsConfig)
 
 def restricted_export(sheetsConfig, data_out):
-    file_path = get_file(data_out)
+    file_path, _ = get_file(data_out)
     sheetsConfig[0]['file'] = file_path
     restrictedsheetsHelper.exportToSheets(sheetsConfig)
 
