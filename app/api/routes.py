@@ -348,14 +348,18 @@ def get_summary_metrics():
     # final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
     # df_path = get_last_file(final)
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
+    positivity = "https://docs.google.com/spreadsheets/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=1769215322"
     df = pd.read_csv(url)
+    positive = pd.read_csv(positivity)
     df['date'] = pd.to_datetime(df['date'])
+    positive['Date'] = pd.to_datetime(positive['Date'])
+    df = df.merge(positive, left_on=['date', 'HR_UID'], right_on=['Date', 'HR_UID'], how='left')
     if int(HR_UID)==0:
         df = df.loc[df.phu == 'Ontario']
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_test_twenty_four":[], "confirmed_positive":[], "critical_care_pct":[], "rt_ml":[]}
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_test_twenty_four":[], "confirmed_positive":[], "critical_care_pct":[], "rt_ml":[], "percent_positive": []}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
@@ -369,6 +373,7 @@ def get_summary_metrics():
                 loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
                 loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
                 loop['rt_ml'].append(get_last(temp['rt_ml']))
+                loop['percent_positive'].append(get_last(temp['% Positivity']))
         temp = df.loc[df.phu == 'Ontario']
         loop['phu'].append('Ontario')
         loop['HR_UID'].append(-1)
@@ -379,6 +384,7 @@ def get_summary_metrics():
         loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
         loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
         loop['rt_ml'].append(get_last(temp['rt_ml']))
+        loop['percent_positive'].append(get_last(temp['% Positivity']))
         df = pd.DataFrame(loop)
     data = df.to_json(orient='records', date_format='iso')
     return data
