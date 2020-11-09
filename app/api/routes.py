@@ -13,6 +13,8 @@ import io
 import requests
 import glob, os
 import json
+from app.export import restrictedsheetsHelper
+from app.export import sheetsHelper
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -50,6 +52,43 @@ PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Southwestern Public Health Unit':'Southwestern Public Health',
  'City of Toronto Health Unit':'Toronto Public Health',
  'Ontario': 'Ontario'}
+
+POP = {
+     "Algoma": "Algoma Public Health Unit",
+     "Brant": "Brant County Health Unit",
+     "Chatham-Kent": "Chatham-Kent Health Unit",
+     "Durham":"Durham Region Health Department",
+     "Eastern":"Eastern Ontario Health Unit",
+     "Grey Bruce":"Grey Bruce Health Unit",
+     "Haldimand-Norfolk":"Haldimand-Norfolk Health Unit",
+     "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
+     "Halton":"Halton Region Health Department",
+     "Hamilton":"Hamilton Public Health Services",
+     "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
+     "Huron Perth":"Huron Perth District Health Unit",
+     "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac and Lennox & Addington Public Health",
+     "Lambton":"Lambton Public Health",
+     "Leeds Grenville and Lanark":"Leeds, Grenville and Lanark District Health Unit",
+     "Middlesex-London":"Middlesex-London Health Unit",
+     "Niagara":"Niagara Region Public Health Department",
+     "North Bay Parry Sound":"North Bay Parry Sound District Health Unit",
+     "Northwestern":"Northwestern Health Unit",
+     "Ottawa":"Ottawa Public Health",
+     "Peel":"Peel Public Health",
+     "Peterborough":"Peterborough Public Health",
+     "Porcupine":"Porcupine Health Unit",
+     "Renfrew":"Renfrew County and District Health Unit",
+     "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
+     "Southwestern":"Southwestern Public Health",
+     "Sudbury":"Sudbury & District Health Unit",
+     "Thunder Bay":"Thunder Bay District Health Unit",
+     "Timiskaming":"Timiskaming Health Unit",
+     "Toronto":"Toronto Public Health",
+     "Waterloo":"Region of Waterloo, Public Health",
+     "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Public Health",
+     "Windsor-Essex":"Windsor-Essex County Health Unit",
+     "York":"York Region Public Health Services",
+ }
 
 def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
@@ -455,6 +494,104 @@ def get_percentages():
     "outbreak_pct":outbreak_pct,
     }
     return json.dumps(data)
+
+
+@bp.route('/api/bot', methods=['GET'])
+@cache.cached(timeout=600, query_string=True)
+def get_bot():
+    location = request.args.get('location')
+    if not location:
+        return 'Missing location parameter', 400
+    response = {"fsa":{}, "phu":{},"ontario":{}}
+    fsa = location[:3].upper()
+    sheetsConfig = [
+        {'name':'FSA Data'}
+    ]
+    ws = restrictedsheetsHelper.getVizSheet('FSA Data')
+    df = pd.DataFrame(ws.get_all_records())
+    temp = df.loc[df.fsa == fsa]
+    temp['cases_two_weeks'] = temp.cases.rolling(14).sum()
+    temp['deaths_two_weeks'] = temp.deaths.rolling(14).sum()
+    temp = temp.tail(1)
+    response["fsa"]["cumulative_cases"] = int(temp["cumulative_cases"].values[0])
+    response["fsa"]["cumulative_deaths"] = int(temp["cumulative_deaths"].values[0])
+    response["fsa"]["cases_two_weeks"] = int(temp["cases_two_weeks"].values[0])
+    response["fsa"]["deaths_two_weeks"] = int(temp["deaths_two_weeks"].values[0])
+    response["fsa"]["date"] = temp["index"].values[0]
+    response["fsa"]["location"] = fsa
+    postal_code = location.upper()
+    df = pd.read_csv("pccf_on.csv")
+    ontario_cases = pd.read_csv("https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv")
+    pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+    pop = pop.loc[pop.province == "Ontario"]
+    pop['health_region'] = pop['health_region'].replace(POP)
+    ontario_cases = pd.merge(ontario_cases,pop, left_on=['Reporting_PHU'], right_on=['health_region'], how='left')
+    url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
+    positivity = "https://docs.google.com/spreadsheets/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=1769215322"
+    ontario_hmf = pd.read_csv(url)
+    positive = pd.read_csv(positivity)
+    ontario_hmf['date'] = pd.to_datetime(ontario_hmf['date'])
+    positive['Date'] = pd.to_datetime(positive['Date'])
+    ontario_hmf = ontario_hmf.merge(positive, left_on=['date', 'HR_UID'], right_on=['Date', 'HR_UID'], how='left')
+    df = df.loc[df.postal_code == postal_code]
+    if len(df) > 0:
+        HR_UID = df["HR_UID"].values[0]
+        phu = ontario_cases.loc[ontario_cases.HR_UID == HR_UID]
+        response["phu"]["location"] = phu["Reporting_PHU"].values[0]
+        phu['Case_Reported_Date'] = pd.to_datetime(phu['Case_Reported_Date'])
+        temp = phu.groupby(['Case_Reported_Date']).Row_ID.count().reset_index()
+        temp['cases_two_weeks'] = temp['Row_ID'].rolling(14).sum()
+        temp['cumulative_cases'] = temp['Row_ID'].cumsum()
+        temp = temp.tail(1)
+        response["phu"]["cases_two_weeks"] = int(temp["cases_two_weeks"].values[0])
+        response["phu"]["cumulative_cases"] = int(temp["cumulative_cases"].values[0])
+        response["phu"]["date"] = str(temp["Case_Reported_Date"].values[0]).split('T')[0]
+        ## Last Two Weeks
+        two_weeks = phu["Case_Reported_Date"].max() - pd.Timedelta(14, unit='d')
+        temp = phu.loc[phu["Case_Reported_Date"] > two_weeks]
+        age = temp['Age_Group'].value_counts(True)
+        age_index = temp['Age_Group'].value_counts(True).index
+        response["phu"]["age_group_1"] = age_index[0]
+        response["phu"]["age_group_1_pct"] = age[0]
+        response["phu"]["age_group_2"] = age_index[1]
+        response["phu"]["age_group_2_pct"] = age[1]
+        temp['Case_AcquisitionInfo'] =  temp['Case_AcquisitionInfo'].replace({'CC': 'Close Contact', 'No Epi-link': 'Community Spread', 'OB': 'Outbreak'})
+        acquisition = temp['Case_AcquisitionInfo'].value_counts(True)
+        acquisition_index = temp['Case_AcquisitionInfo'].value_counts(True).index
+        response["phu"]["acquisition_source"] = acquisition_index[0]
+        response["phu"]["acquisition_source_pct"] = acquisition[0]
+        temp = ontario_hmf.loc[ontario_hmf.HR_UID == HR_UID]
+        response["phu"]["rolling_pop"] = get_last(temp["rolling_pop"])
+        response["phu"]["rolling_test_twenty_four"] = get_last(temp["rolling_test_twenty_four"])
+        response["phu"]["confirmed_positive_icu"] = get_last(temp["confirmed_positive"])
+        response["phu"]["critical_care_pct"] = get_last(temp["critical_care_pct"])
+        response["phu"]["rt"] = get_last(temp["rt_ml"])
+    phu = ontario_cases
+    response["ontario"]["location"] = "Ontario"
+    phu['Case_Reported_Date'] = pd.to_datetime(phu['Case_Reported_Date'])
+    temp = phu.groupby(['Case_Reported_Date']).Row_ID.count().reset_index()
+    temp['cases_two_weeks'] = temp['Row_ID'].rolling(14).sum()
+    temp['cumulative_cases'] = temp['Row_ID'].cumsum()
+    temp = temp.tail(1)
+    response["ontario"]["cumulative_cases"] = int(temp["cumulative_cases"].values[0])
+    response["ontario"]["cases_two_weeks"] = int(temp["cases_two_weeks"].values[0])
+    response["ontario"]["date"] = str(temp["Case_Reported_Date"].values[0]).split('T')[0]
+    two_weeks = phu["Case_Reported_Date"].max() - pd.Timedelta(14, unit='d')
+    temp = phu.loc[phu["Case_Reported_Date"] > two_weeks]
+    age = temp['Age_Group'].value_counts(True)
+    age_index = temp['Age_Group'].value_counts(True).index
+    response["ontario"]["age_group_1"] = age_index[0]
+    response["ontario"]["age_group_1_pct"] = age[0]
+    response["ontario"]["age_group_2"] = age_index[1]
+    response["ontario"]["age_group_2_pct"] = age[1]
+    temp['Case_AcquisitionInfo'] =  temp['Case_AcquisitionInfo'].replace({'CC': 'Close Contact', 'No Epi-link': 'Community Spread', 'OB': 'Outbreak'})
+    acquisition = temp['Case_AcquisitionInfo'].value_counts(True)
+    acquisition_index = temp['Case_AcquisitionInfo'].value_counts(True).index
+    response["ontario"]["acquisition_source"] = acquisition_index[0]
+    response["ontario"]["acquisition_source_pct"] = acquisition[0]
+    return response, 200
+
+
 
 @as_json
 def get_testresults():
