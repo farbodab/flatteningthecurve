@@ -55,6 +55,10 @@ def create_app(config_name):
     from app.data_export import bp as data_export
     app.register_blueprint(data_export)
 
+    from app.pipeline import bp as pipeline
+    app.register_blueprint(pipeline)
+
+
     if not app.debug and not app.testing:
         pass
 

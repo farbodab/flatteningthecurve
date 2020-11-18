@@ -43,13 +43,13 @@ def export_public_capacity_ontario_testing_24_hours():
     data_out ={'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
     export(sheetsConfig, data_out)
     file_path, date = get_file(data_out)
-    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
-    if m:
-        m.recent = False
-        db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
-    db.session.add(m_n)
-    db.session.commit()
+    # m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    # if m:
+    #     m.recent = False
+    #     db.session.add(m)
+    # m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
+    # db.session.add(m_n)
+    # db.session.commit()
 
 @bp.cli.command('public_cases_ontario_phu_weekly_new_cases')
 def export_public_cases_ontario_phu_weekly_new_cases():
@@ -59,13 +59,13 @@ def export_public_cases_ontario_phu_weekly_new_cases():
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}
     export(sheetsConfig, data_out)
     file_path, date = get_file(data_out)
-    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
-    if m:
-        m.recent = False
-        db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
-    db.session.add(m_n)
-    db.session.commit()
+    # m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    # if m:
+    #     m.recent = False
+    #     db.session.add(m)
+    # m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
+    # db.session.add(m_n)
+    # db.session.commit()
 
 @bp.cli.command('public_capacity_ontario_phu_icu_capacity')
 def export_public_capacity_ontario_phu_icu_capacity():
@@ -75,13 +75,13 @@ def export_public_capacity_ontario_phu_icu_capacity():
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}
     export(sheetsConfig, data_out)
     file_path, date = get_file(data_out)
-    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
-    if m:
-        m.recent = False
-        db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
-    db.session.add(m_n)
-    db.session.commit()
+    # m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    # if m:
+    #     m.recent = False
+    #     db.session.add(m)
+    # m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
+    # db.session.add(m_n)
+    # db.session.commit()
 
 @bp.cli.command('public_rt_canada_bettencourt_and_ribeiro_approach')
 def export_public_rt_canada_bettencourt_and_ribeiro_approach():
@@ -91,13 +91,13 @@ def export_public_rt_canada_bettencourt_and_ribeiro_approach():
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
     export(sheetsConfig, data_out)
     file_path, date = get_file(data_out)
-    m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
-    if m:
-        m.recent = False
-        db.session.add(m)
-    m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
-    db.session.add(m_n)
-    db.session.commit()
+    # m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
+    # if m:
+    #     m.recent = False
+    #     db.session.add(m)
+    # m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
+    # db.session.add(m_n)
+    # db.session.commit()
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports')
 def export_public_socioeconomic_ontario_211_call_reports():
@@ -156,7 +156,7 @@ def export_confidential_moh_iphis():
     restricted_export(sheetsConfig, data_out)
 
 @bp.cli.command('public_summary_ontario')
-def export_confidential_moh_iphis():
+def export_public_summary_ontario():
     sheetsConfig = [
         {'name':'Ontario Summary'}
     ]
@@ -164,7 +164,7 @@ def export_confidential_moh_iphis():
     export(sheetsConfig, data_out)
 
 @bp.cli.command('public_cases_ontario_confirmed_positive_cases')
-def export_confidential_moh_iphis():
+def export_public_cases_ontario_confirmed_positive_cases():
     sheetsConfig = [
         {'name':'Ontario Confirmed Positive'}
     ]
