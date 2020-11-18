@@ -11,6 +11,7 @@ import os
 import time
 from ftplib import FTP_TLS
 import glob
+import click
 
 def download_url(url, save_path, chunk_size=128):
     r = requests.get(url, stream=True)
@@ -402,10 +403,11 @@ def get_confidential_burning_glass_jobs_data():
     return True
 
 @bp.cli.command('public')
-def get_all():
-    get_public_ontario_gov_conposcovidloc()
-    get_public_ontario_gov_covidtesting()
-    get_public_ontario_gov_website()
+@click.pass_context
+def get_all(ctx):
+    ctx.forward(get_public_ontario_gov_conposcovidloc)
+    ctx.forward(get_public_ontario_gov_covidtesting)
+    ctx.forward(get_public_ontario_gov_website)
     get_public_howsmyflattening_npi_canada()
     get_public_open_data_working_group_cases()
     get_public_open_data_working_group_mortality()
