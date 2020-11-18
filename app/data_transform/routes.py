@@ -1179,7 +1179,7 @@ def transform_public_interventions_canada_non_pharmaceutical_intervention_string
         canada.to_csv(save_file, index=False)
 
 @bp.cli.command('public_capacity_ontario_phu_icu_capacity_timeseries')
-def transform_public_capacity_ontario_phu_icu_capacity():
+def transform_public_capacity_ontario_phu_icu_capacity_timeseries():
     data_in = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity_timeseries',  'type': 'csv'}
     load_dir, file_path = get_dir(data_in)
@@ -1198,7 +1198,7 @@ def transform_public_capacity_ontario_phu_icu_capacity():
     result.to_csv(save_file, index=False)
 
 @bp.cli.command('public_cases_ontario_cases_seven_day_rolling_average')
-def transform_public_cases_ontario_confirmed_positive_cases():
+def transform_public_cases_ontario_cases_seven_day_rolling_average():
     for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}):
