@@ -398,32 +398,53 @@ def get_summary_metrics():
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_test_twenty_four":[], "confirmed_positive":[], "critical_care_pct":[], "rt_ml":[], "percent_positive": []}
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_pct":[], "critical_care_pct_trend":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": []}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
+            temp['rolling_pop_trend'] = temp['rolling_pop'].diff(periods=7)
+            temp['rt_ml_trend'] = temp['rt_ml'].diff(periods=7)
+            temp['rolling_test_twenty_four_trend'] = temp['rolling_test_twenty_four'].diff(periods=7)
+            temp['percent_positive_trend'] = temp['% Positivity'].diff(periods=7)
+            temp['critical_care_pct_trend']  = temp['critical_care_pct'].diff(periods=7)
+
             if len(temp) > 0:
                 loop['phu'].append(get_last(temp['phu']))
                 loop['HR_UID'].append(hr)
                 loop['date'].append(get_last(temp['date']))
                 loop['rolling'].append(get_last(temp['rolling']))
                 loop['rolling_pop'].append(get_last(temp['rolling_pop']))
+                loop['rolling_pop_trend'].append(get_last(temp['rolling_pop_trend']))
                 loop['rolling_test_twenty_four'].append(get_last(temp['rolling_test_twenty_four']))
+                loop['rolling_test_twenty_four_trend'].append(get_last(temp['rolling_test_twenty_four_trend']))
                 loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
                 loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+                loop['critical_care_pct_trend'].append(get_last(temp['critical_care_pct_trend']))
                 loop['rt_ml'].append(get_last(temp['rt_ml']))
+                loop['rt_ml_trend'].append(get_last(temp['rt_ml_trend']))
                 loop['percent_positive'].append(get_last(temp['% Positivity']))
+                loop['percent_positive_trend'].append(get_last(temp['percent_positive_trend']))
         temp = df.loc[df.phu == 'Ontario']
+        temp['rolling_pop_trend'] = temp['rolling_pop'].diff(periods=7)
+        temp['rt_ml_trend'] = temp['rt_ml'].diff(periods=7)
+        temp['rolling_test_twenty_four_trend'] = temp['rolling_test_twenty_four'].diff(periods=7)
+        temp['percent_positive_trend'] = temp['% Positivity'].diff(periods=7)
+        temp['critical_care_pct_trend']  = temp['critical_care_pct'].diff(periods=7)
         loop['phu'].append('Ontario')
         loop['HR_UID'].append(-1)
         loop['date'].append(get_last(temp['date']))
         loop['rolling'].append(get_last(temp['rolling']))
         loop['rolling_pop'].append(get_last(temp['rolling_pop']))
+        loop['rolling_pop_trend'].append(get_last(temp['rolling_pop_trend']))
         loop['rolling_test_twenty_four'].append(get_last(temp['rolling_test_twenty_four']))
+        loop['rolling_test_twenty_four_trend'].append(get_last(temp['rolling_test_twenty_four_trend']))
         loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
         loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+        loop['critical_care_pct_trend'].append(get_last(temp['critical_care_pct_trend']))
         loop['rt_ml'].append(get_last(temp['rt_ml']))
+        loop['rt_ml_trend'].append(get_last(temp['rt_ml_trend']))
         loop['percent_positive'].append(get_last(temp['% Positivity']))
+        loop['percent_positive_trend'].append(get_last(temp['percent_positive_trend']))
         df = pd.DataFrame(loop)
     data = df.to_json(orient='records', date_format='iso')
     return data
