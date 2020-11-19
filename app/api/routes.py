@@ -398,7 +398,7 @@ def get_summary_metrics():
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_pct":[], "critical_care_pct_trend":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": []}
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": []}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
@@ -424,6 +424,8 @@ def get_summary_metrics():
                 loop['rt_ml_trend'].append(get_last(temp['rt_ml_trend']))
                 loop['percent_positive'].append(get_last(temp['% Positivity']))
                 loop['percent_positive_trend'].append(get_last(temp['percent_positive_trend']))
+                loop['critical_care_beds'].append(get_last(temp['critical_care_beds']))
+                loop['critical_care_patients'].append(get_last(temp['critical_care_patients']))
         temp = df.loc[df.phu == 'Ontario']
         temp['rolling_pop_trend'] = temp['rolling_pop'].diff(periods=7)
         temp['rt_ml_trend'] = temp['rt_ml'].diff(periods=7)
@@ -445,6 +447,8 @@ def get_summary_metrics():
         loop['rt_ml_trend'].append(get_last(temp['rt_ml_trend']))
         loop['percent_positive'].append(get_last(temp['% Positivity']))
         loop['percent_positive_trend'].append(get_last(temp['percent_positive_trend']))
+        loop['critical_care_beds'].append(get_last(temp['critical_care_beds']))
+        loop['critical_care_patients'].append(get_last(temp['critical_care_patients']))
         df = pd.DataFrame(loop)
     data = df.to_json(orient='records', date_format='iso')
     return data

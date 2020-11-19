@@ -1250,7 +1250,7 @@ def transform_public_summary_ontario():
     icu_path = get_last_file(icu)
     icu_df = pd.read_csv(icu_path)
     icu_df['phu'] = icu_df['phu'].replace(Replace)
-    icu_df = icu_df[["phu", "date","confirmed_positive","critical_care_pct"]]
+    icu_df = icu_df[["phu", "date","critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct"]]
 
     merged = pd.merge(merged,icu_df, left_on=['phu', 'date'], right_on=['phu', 'date'], how='left')
 
@@ -1261,7 +1261,7 @@ def transform_public_summary_ontario():
     rt_df.rename(columns={"ML": "rt_ml", "Low": "rt_low", "High": "rt_high"},inplace=True)
 
     merged = pd.merge(merged,rt_df, left_on=['phu', 'date'], right_on=['PHU', 'date_report'], how='left')
-    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "confirmed_positive",'critical_care_pct', "rt_ml","rt_low","rt_high"]]
+    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","rt_ml","rt_low","rt_high"]]
     save_file, save_dir = get_file_path(final)
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     merged.to_csv(save_file, index=False)
