@@ -1204,10 +1204,18 @@ def transform_public_cases_ontario_cases_seven_day_rolling_average():
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}):
 
         dfs = []
+        df['case_reported_date'] = pd.to_datetime(df['case_reported_date'])
         unique = df.reporting_phu.unique()
+        min_date = df['case_reported_date'].min()
+        max_date = df['case_reported_date'].max()
+        index = pd.date_range(min_date, max_date)
         for hr in unique:
             temp = df.loc[df.reporting_phu == hr]
             temp = temp.groupby('case_reported_date')['row_id'].count().reset_index()
+            temp = temp.set_index('case_reported_date')
+            temp = temp.reindex(index, fill_value=0)
+            temp = temp.reset_index()
+            temp= temp.rename(columns={'index':'case_reported_date'})
             temp['phu'] = hr
             temp['rolling'] = temp.row_id.rolling(7).mean()
             dfs.append(temp)
