@@ -453,6 +453,24 @@ def get_summary_metrics():
     data = df.to_json(orient='records', date_format='iso')
     return data
 
+@bp.route('/api/mail', methods=['POST'])
+def subscribe():
+    content = request.json
+    email = content['email'].lower()
+    frequency = content['frequency'].lower()
+    regions = content['regions']
+    past = Subscribers.query.filter_by(email=email).all()
+    if past:
+        for item in past:
+            db.session.delete(item)
+    for region in regions:
+        s = Subscribers(email=email,frequency=frequency,region=region)
+        db.session.add(s)
+
+    db.session.commit()
+
+    return 'success', 200
+
 @bp.route('/api/times', methods=['GET'])
 @as_json
 @cache.cached(timeout=600)

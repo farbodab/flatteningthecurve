@@ -416,3 +416,10 @@ class MetricUpdateData(db.Model):
     source = db.Column(db.String, index=True)
     date_refreshed = db.Column(db.DateTime, index=True)
     recent = db.Column(db.Boolean)
+
+class Subscribers(db.Model):
+    __tablename__ = 'subscribers'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String, index=True)
+    region = db.Column(db.Integer, index=True)
+    frequency = db.Column(db.String, index=True)
