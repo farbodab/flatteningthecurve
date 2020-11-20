@@ -15,6 +15,10 @@ import glob, os
 import json
 from app.export import restrictedsheetsHelper
 from app.export import sheetsHelper
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
+import click
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -378,14 +382,8 @@ def get_last(thing):
     else:
         return np.nan
 
-@bp.route('/api/summary', methods=['GET'])
-@cache.cached(timeout=600, query_string=True)
-def get_summary_metrics():
-    HR_UID = request.args.get('HR_UID')
-    if not HR_UID:
-        HR_UID = -1
-    # final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
-    # df_path = get_last_file(final)
+@cache.memoize(timeout=600)
+def get_summary(HR_UID):
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
     positivity = "https://docs.google.com/spreadsheets/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=1769215322"
     df = pd.read_csv(url)
@@ -450,6 +448,15 @@ def get_summary_metrics():
         loop['critical_care_beds'].append(get_last(temp['critical_care_beds']))
         loop['critical_care_patients'].append(get_last(temp['critical_care_patients']))
         df = pd.DataFrame(loop)
+    return df
+
+@bp.route('/api/summary', methods=['GET'])
+@cache.cached(timeout=600, query_string=True)
+def get_summary_metrics():
+    HR_UID = request.args.get('HR_UID')
+    if not HR_UID:
+        HR_UID = -1
+    df = get_summary(HR_UID)
     data = df.to_json(orient='records', date_format='iso')
     return data
 
@@ -460,16 +467,72 @@ def subscribe():
     frequency = content['frequency'].lower()
     regions = content['regions']
     past = Subscribers.query.filter_by(email=email).all()
+    sign_up(email,regions)
     if past:
         for item in past:
             db.session.delete(item)
     for region in regions:
         s = Subscribers(email=email,frequency=frequency,region=region)
         db.session.add(s)
-
     db.session.commit()
 
     return 'success', 200
+
+def sign_up(email,regions):
+    df = get_summary(-1)
+    df = df.round(2)
+    temp_df = df.loc[df.HR_UID.isin(regions)]
+    regions = temp_df.to_dict(orient='records')
+    key = os.environ.get('EMAIL_API')
+    sg = sendgrid.SendGridAPIClient(api_key=key)
+    from_email = "alert@howsmyflattening.ca"
+    to_email = email
+    subject = "Your Personalized COVID-19 Report"
+    html = render_template("alert_email.html",regions=regions)
+    text = render_template("alert_email.txt",regions=regions)
+    message = Mail(
+    from_email=from_email,
+    to_emails=to_email,
+    subject='Your personalized COVID-19 report',
+    plain_text_content=text,
+    html_content=html)
+    try:
+        response = sg.send(message)
+    except Exception as e:
+        print(e.message)
+
+@bp.cli.command("email")
+@click.argument("frequency")
+def email(frequency):
+    df = get_summary(-1)
+    df = df.round(2)
+    past = Subscribers.query.filter_by(frequency=frequency)
+    subscribers = pd.read_sql_query(past.statement, db.engine)
+    emails = subscribers.email.unique()
+    for email in emails:
+        temp = subscribers.loc[subscribers.email == email]
+        my_regions = temp.region.unique()[:]
+        temp_df = df.loc[df.HR_UID.isin(my_regions)]
+        regions = temp_df.to_dict(orient='records')
+        key = os.environ.get('EMAIL_API')
+        sg = sendgrid.SendGridAPIClient(api_key=key)
+        from_email = "alert@howsmyflattening.ca"
+        to_email = email
+        subject = "Your Personalized COVID-19 Report"
+        html = render_template("alert_email.html",regions=regions)
+        text = render_template("alert_email.txt",regions=regions)
+        message = Mail(
+        from_email=from_email,
+        to_emails=to_email,
+        subject='Your personalized COVID-19 report',
+        plain_text_content=text,
+        html_content=html)
+        try:
+            response = sg.send(message)
+        except Exception as e:
+            print(e.message)
+
+
 
 @bp.route('/api/times', methods=['GET'])
 @as_json
