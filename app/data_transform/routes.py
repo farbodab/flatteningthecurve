@@ -324,21 +324,6 @@ def transform_confidential_moh_iphis():
         combined_df["cumulative_cases"] = combined_df.groupby('fsa')['cases'].cumsum()
         combined_df.to_csv(save_file, index=False)
 
-@bp.cli.command('confidential_moh_hcw')
-def transform_confidential_moh_iphis():
-    for df, save_file, date in transform(
-        data_in = {'classification':'restricted', 'stage': 'processed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'},
-        data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'hcw',  'type': 'csv'}):
-        try:
-            for column in ["case_reported_date", "client_death_date"]:
-                df[column] = pd.to_datetime(df[column])
-
-            temp = df.loc[df.hcw == 'Yes']
-            temp = temp.groupby('case_reported_date').pseudo_id.count().reset_index()
-            temp.to_csv(save_file, index=False)
-        except:
-            pass
-
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports')
 def transform_public_socioeconomic_ontario_211_call_reports():
     for df, save_file, date in transform(
