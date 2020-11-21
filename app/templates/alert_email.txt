@@ -1,0 +1,22 @@
+Below is your personalized COVID-19 report
+We use five key indicators to determine risk levels for 34 Public Health Units in Ontario.
+Read more on https://howsmyflattening.ca
+{% for region in regions %}
+Public Health Unit: {{ region["phu"] }}
+Case Incidence (Per 100,000 People): {{ region["rolling_pop"] }}
+Rt: {{ region["rt_ml"] }}
+% of Tests Back in Less than 24 hrs: {{ region["rolling_test_twenty_four"] }}
+Percent Positivity: {{ region["percent_positive"] }}
+Total ICU Bed Occupied: {{ region["critical_care_pct"] }}
+{% if region["rolling_pop"] >= 10  %}
+Risk: Curving up Dangerously
+{% elif region["rolling_pop"] >= 5 %}
+Risk: Curving Up Quickly
+{% elif region["rolling_pop"] >= 1 %}
+Risk: Curving Up Somewhat
+{% else %}
+Risk: Curving Down
+{% endif %}
+{% endfor %}
+Regards,
+The How's My Flattening Team

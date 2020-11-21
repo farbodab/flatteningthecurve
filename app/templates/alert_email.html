@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body{
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
+  }
+  table {
+    border-collapse: collapse;
+    width:
+  }
+
+  table, th, td {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  td {
+    height: 50px;
+  }
+  tr:nth-child(even){background-color: #f2f2f2;}
+  th, td {padding: 10px;}
+  th {background-color: #275d6f; color: white;}
+  .green {background-color: #00D474; color: white;}
+  .yellow {background-color: #FFC900; color: white;}
+  .orange {background-color: #FF9600; color: white;}
+  .red {background-color: #FF0034; color: white;}
+  .container {
+    display: inline;
+    width: 500px!important;
+    border: 2px solid black;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-decoration: none;
+    color: black;
+  }
+
+  .nav-title {
+    font-size: 31px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: 0.62px;
+    color: #275d6f;
+}
+
+.nav{
+  text-align: center;
+}
+
+.scorecard-text {
+    font-size: 18px;
+    text-align: left;
+    color: #707070;
+    text-align: center;
+    font-weight: normal;
+}
+
+.scorecard-header {
+    font-size: 42px;
+    text-align: left;
+    color: #707070;
+    text-align: center;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+</style>
+</head>
+<body>
+<div class='nav'>
+  <img src="https://howsmyflattening-1596728690992.web.app/assets/img/scorecard/HMF_Logo_Website.svg"/>
+  <h1 class="nav-title" style="margin-bottom: 0px">How's My Flattening?</h1>
+  <h5 style="margin-top: 0px">Ontario's COVID-19 Warning System</h5>
+</div>
+<div class="nav">
+  <h1 class="scorecard-header">Below is your personalized COVID-19 report</h1>
+  <p class="scorecard-text">We use five key indicators to determine risk levels for 34 Public Health Units in Ontario.<br> Read more on <a href="https://howsmyflattening.ca">Howsmyflattening.ca</a></p>
+  <table id="regions">
+    <tr>
+      <th>Public Health Unit</th>
+      <th>Case Incidence (Per 100,000 People)</th>
+      <th>Rt</th>
+      <th>% of Tests Back in Less than 24 hrs</th>
+      <th>Percent Positivity</th>
+      <th>Total ICU Bed Occupied</th>
+      <th>Risk</th>
+    </tr>
+    {% for region in regions %}
+      <tr>
+        <td>{{ region["phu"] }}</td>
+        <td>{{ region["rolling_pop"] }}</td>
+        <td>{{ region["rt_ml"] }}</td>
+        <td>{{ region["rolling_test_twenty_four"] }}</td>
+        <td>{{ region["percent_positive"] }}</td>
+        <td>{{ region["critical_care_pct"] }}</td>
+        {% if region["rolling_pop"] >= 10  %}
+        <td class="red">Curving up Dangerously</td>
+        {% elif region["rolling_pop"] >= 5 %}
+        <td class="orange">Curving Up Quickly</td>
+        {% elif region["rolling_pop"] >= 1 %}
+        <td class="yellow">Curving Up Somewhat</td>
+        {% else %}
+        <td class="green">Curving Down</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+  <p>Regards,</p>
+  <p>The How's My Flattening Team</p>
+</div>
+</body>
+</html>
