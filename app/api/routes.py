@@ -467,7 +467,7 @@ def subscribe():
     frequency = content['frequency'].lower()
     regions = content['regions']
     past = Subscribers.query.filter_by(email=email).all()
-    sign_up(email,regions)
+    sign_up(email,regions,frequency)
     if past:
         for item in past:
             db.session.delete(item)
@@ -478,7 +478,7 @@ def subscribe():
 
     return 'success', 200
 
-def sign_up(email,regions):
+def sign_up(email,regions,frequency):
     df = get_summary(-1)
     df = df.round(2)
     temp_df = df.loc[df.HR_UID.isin(regions)]
@@ -488,8 +488,8 @@ def sign_up(email,regions):
     from_email = "alert@howsmyflattening.ca"
     to_email = email
     subject = "Your Personalized COVID-19 Report"
-    html = render_template("alert_email.html",regions=regions)
-    text = render_template("alert_email.txt",regions=regions)
+    html = render_template("welcome_email.html",regions=regions,frequency=frequency)
+    text = render_template("welcome_email.txt",regions=regions,frequency=frequency)
     message = Mail(
     from_email=from_email,
     to_emails=to_email,
@@ -509,6 +509,10 @@ def email(frequency):
     past = Subscribers.query.filter_by(frequency=frequency)
     subscribers = pd.read_sql_query(past.statement, db.engine)
     emails = subscribers.email.unique()
+    ontario = vis.get_testresults()
+    ontario['Date'] = pd.to_datetime(ontario['Date'])
+    ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
+    ontario = ontario.tail(1).to_dict(orient='records')[0]
     for email in emails:
         temp = subscribers.loc[subscribers.email == email]
         my_regions = temp.region.unique()[:]
@@ -519,8 +523,8 @@ def email(frequency):
         from_email = "alert@howsmyflattening.ca"
         to_email = email
         subject = "Your Personalized COVID-19 Report"
-        html = render_template("alert_email.html",regions=regions)
-        text = render_template("alert_email.txt",regions=regions)
+        html = render_template("alert_email.html",regions=regions,ontario=ontario)
+        text = render_template("alert_email.txt",regions=regions,ontario=ontario)
         message = Mail(
         from_email=from_email,
         to_emails=to_email,

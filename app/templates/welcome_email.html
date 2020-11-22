@@ -48,6 +48,7 @@
 
 .nav{
   text-align: center;
+  padding: 10px;
 }
 
 .scorecard-text {
@@ -76,8 +77,16 @@
   <h5 style="margin-top: 0px">Ontario's COVID-19 Warning System</h5>
 </div>
 <div class="nav">
-  <h1 class="scorecard-header">Below is your personalized COVID-19 report</h1>
-  <p>Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.<br><br> Read more on <a href="https://howsmyflattening.ca">Howsmyflattening.ca</a></p>
+  <h1 class="scorecard-header">Thanks for signing up,</h1>
+  <p>Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox
+    {% if frequency == 'daily' %}
+    <b>daily at noon.</b>
+    {% elif frequency == 'weekly' %}
+    <b>every Monday at noon.</b>
+    {% else %}
+    <b>whenever there is a risk level change in the public health regions you've selected.</b>
+    {% endif %}
+    <br><br> Please check <a href="https://howsmyflattening.ca">Howsmyflattening.ca</a> for more details or if you want to change the regions or the frequency for this email. <br><br> Please help us spread the word by sharing the site with your family and friends. <br><br>If you have any feedback for us, please use the chatbot on the site and let us know how we can improve. </p>
   <table id="regions">
     <tr>
       <th>Public Health Unit</th>
@@ -110,7 +119,6 @@
   </table>
   <p>Regards,</p>
   <p>The How's My Flattening Team</p>
-  <p>P.s. Please visit the site if you want to change the regions or the frequency for this email. Please help us spread the word by sharing the site with your family and friends. If you have any feedback for us, please use the chatbot on the site and let us know how we can improve. </p>
 </div>
 </body>
 </html>
