@@ -1185,31 +1185,25 @@ def transform_public_capacity_ontario_phu_icu_capacity_timeseries():
 @bp.cli.command('public_cases_ontario_cases_seven_day_rolling_average')
 def transform_public_cases_ontario_cases_seven_day_rolling_average():
     for df, save_file, date in transform(
-        data_in={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
+        data_in={'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'daily_change_in_cases_by_phu',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}):
 
         dfs = []
-        df['case_reported_date'] = pd.to_datetime(df['case_reported_date'])
-        unique = df.reporting_phu.unique()
-        min_date = df['case_reported_date'].min()
-        max_date = df['case_reported_date'].max()
-        index = pd.date_range(min_date, max_date)
+        df['case_reported_date'] = pd.to_datetime(df['Date'])
+        pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+        pop = pop.loc[pop.province == "Ontario"]
+        cases_df = pd.merge(df,pop, left_on=['HR_UID'], right_on=['HR_UID'], how='left')
+        cases_df['phu'] = cases_df['health_region_esri']
+        cases_df.loc[cases_df.HR_UID == 6, 'phu'] = 'Ontario'
+        cases_df.loc[cases_df.phu == "Ontario", 'pop'] = 14745040
+        unique = cases_df.HR_UID.unique()
         for hr in unique:
-            temp = df.loc[df.reporting_phu == hr]
-            temp = temp.groupby('case_reported_date')['row_id'].count().reset_index()
-            temp = temp.set_index('case_reported_date')
-            temp = temp.reindex(index, fill_value=0)
-            temp = temp.reset_index()
-            temp= temp.rename(columns={'index':'case_reported_date'})
-            temp['phu'] = hr
-            temp['rolling'] = temp.row_id.rolling(7).mean()
+            temp = cases_df.loc[cases_df.HR_UID == hr]
+            temp['rolling'] = temp.value.rolling(7).mean()
+            temp['rolling_pop'] = temp['rolling'] / temp['pop'] * 100000
             dfs.append(temp)
-
-        temp = df.groupby('case_reported_date')['row_id'].count().reset_index()
-        temp['phu'] = 'Ontario'
-        temp['rolling'] = temp.row_id.rolling(7).mean()
-        dfs.append(temp)
         result = pd.concat(dfs)
+        result = result[['HR_UID','phu','case_reported_date', 'pop','rolling', 'rolling_pop']]
         result.to_csv(save_file, index=False)
 
 @bp.cli.command('public_summary_ontario')
@@ -1222,12 +1216,7 @@ def transform_public_summary_ontario():
 
     cases_path = get_last_file(cases)
     cases_df = pd.read_csv(cases_path)
-    pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
-    pop = pop.loc[pop.province == "Ontario"]
-    pop['health_region'] = pop['health_region'].replace(POP)
-    cases_df = pd.merge(cases_df,pop, left_on=['phu'], right_on=['health_region'], how='left')
-    cases_df.loc[cases_df.phu == "Ontario", 'pop'] = 14745040
-    cases_df['rolling_pop'] = cases_df['rolling'] / cases_df['pop'] * 100000
+    cases_df['phu'] = cases_df['phu'].replace(Replace)
     cases_df = cases_df[['phu','HR_UID','case_reported_date', 'rolling','rolling_pop']]
     cases_df.rename(columns={"case_reported_date": "date"},inplace=True)
 
