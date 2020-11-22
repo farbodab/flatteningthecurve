@@ -13,7 +13,9 @@ from app.data_export import routes as data_export
 @click.pass_context
 def gov_ontario(ctx):
     ctx.forward(data_in.get_public_ontario_gov_conposcovidloc)
+    ctx.forward(data_in.get_public_ontario_gov_daily_change_in_cases_by_phu)
     ctx.forward(data_process.process_public_ontario_gov_conposcovidloc)
+    ctx.forward(data_process.process_public_ontario_gov_daily_change_in_cases_by_phu)
     ctx.forward(data_transform.transform_public_cases_ontario_confirmed_positive_cases)
     ctx.forward(data_transform.transform_public_cases_ontario_cases_seven_day_rolling_average)
     ctx.forward(data_transform.transform_public_cases_ontario_phu_weekly_new_cases)
