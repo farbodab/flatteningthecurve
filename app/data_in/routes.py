@@ -53,6 +53,11 @@ def get_public_ontario_gov_covidtesting():
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_ontario_gov_daily_change_in_cases_by_phu')
+def get_public_ontario_gov_daily_change_in_cases_by_phu():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'daily_change_in_cases_by_phu',  'type': 'csv','url':"https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/8a88fe6d-d8fb-41a3-9d04-f0550a44999f/download/daily_change_in_cases_by_phu.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
 
 #########################################
 @bp.cli.command('public_ontario_gov_ltc_covid_summary')

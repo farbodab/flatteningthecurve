@@ -18,6 +18,71 @@ def get_file_path(data, step='raw', today=datetime.today().strftime('%Y-%m-%d'))
     file_path =  save_dir + '/' + file_name
     return file_path, save_dir
 
+@bp.cli.command('public_ontario_gov_daily_change_in_cases_by_phu')
+def process_public_ontario_gov_daily_change_in_cases_by_phu():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'daily_change_in_cases_by_phu',  'type': 'csv'}
+    date_field = ['Date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file)
+            except Exception as e:
+                print(f"Failed to get {file}")
+                print(e)
+                return e
+
+            df = df.melt(id_vars='Date')
+            replace = {
+            'Algoma_Public_Health_Unit':3526,
+            'Brant_County_Health_Unit':3527,
+            'Chatham-Kent_Health_Unit':3540,
+            'Durham_Region_Health_Department':3530,
+            'Eastern_Ontario_Health_Unit':3558,
+            'Grey_Bruce_Health_Unit':3533,
+            'Haldimand-Norfolk_Health_Unit':3534,
+            'Haliburton,_Kawartha,_Pine_Ridge_District_Health_Unit':3535,
+            'Halton_Region_Health_Department':3536,
+            'Hamilton_Public_Health_Services':3537,
+            'Hastings_and_Prince_Edward_Counties_Health_Unit':3538,
+            'Huron_Perth_District_Health_Unit':3539,
+            'Kingston,_Frontenac_and_Lennox_&_Addington_Public_Health':3541,
+            'Lambton_Public_Health':3542,
+            'Leeds,_Grenville_and_Lanark_District_Health_Unit':3543,
+            'Middlesex-London_Health_Unit':3544,
+            'Niagara_Region_Public_Health_Department':3546,
+            'North_Bay_Parry_Sound_District_Health_Unit':3547,
+            'Northwestern_Health_Unit':3549,
+            'Ottawa_Public_Health':3551,
+            'Peel_Public_Health':3553,
+            'Peterborough_Public_Health':3555,
+            'Porcupine_Health_Unit':3556,
+            'Region_of_Waterloo,_Public_Health':3565,
+            'Renfrew_County_and_District_Health_Unit':3557,
+            'Simcoe_Muskoka_District_Health_Unit':3560,
+            'Southwestern_Public_Health':3575,
+            'Sudbury_&_District_Health_Unit':3561,
+            'Thunder_Bay_District_Health_Unit':3562,
+            'Timiskaming_Health_Unit':3563,
+            'Toronto_Public_Health':3595,
+            'Wellington-Dufferin-Guelph_Public_Health':3566,
+            'Windsor-Essex_County_Health_Unit':3568,
+            'York_Region_Public_Health_Services':3570,
+            'Total':6
+        }
+            df['HR_UID'] = df['variable'].replace(replace)
+            for column in date_field:
+                df[column] = pd.to_datetime(df[column], errors='coerce')
+
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            df.to_csv(save_file, index=False)
+
+
+
 @bp.cli.command('public_ontario_gov_conposcovidloc')
 def process_public_ontario_gov_conposcovidloc():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'}
