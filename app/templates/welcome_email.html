@@ -3,9 +3,9 @@
 <head>
 </head>
 <body style="font-family: &quot;Roboto&quot;, &quot;Helvetica Neue&quot;, sans-serif">
-<div style="align-content: center; width: 414px; margin: 0 auto;">
+  <div style="align-content: center; width: 414px; margin: 0 auto;">
   <div class="nav" style="text-align: center;align-items: center;">
-    <img style="width: 97px;height: 95px;" alt="logo" src="https://howsmyflattening.ca/assets/img/scorecard/HMF_Logo_Website.svg">
+    <img style="width: 97px;height: 95px;" alt="logo" src="https://howsmyflattening.ca/assets/img/scorecard/HMF_Logo_Website.png">
     <h1 style="margin-bottom: 0px;font-size: 27px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.19;letter-spacing: 0.62px;color: #275d6f;">How's My Flattening?</h1>
     <h5 style="margin-top: 0px; font-size: 21px;color: #275d6f;font-weight: normal;">Ontario's COVID-19 Warning System</h5>
   </div>
@@ -15,40 +15,45 @@
     {% for region in regions %}
     <table style="width: 414px;text-align: center;margin-top:30px;">
       <tr>
-        <td colspan="2" style="text-align: center;padding: 10px;background-color: #275d6f;color: white;">Public Health Unit</td>
+        <td colspan="3" style="text-align: center;padding: 10px;background-color: #275d6f;color: white;">Public Health Unit</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align: center;height:35px;padding: 10px;">{{ region["phu"] }}</td>
+        <td colspan="3" style="text-align: center;height:35px;padding: 10px;">{{ region["phu"] }}</td>
       </tr>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Case Incidence (Per 100,000 People)</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["rolling_pop"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 41px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 41px;padding: 10px;">{{ region["rt_ml"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 41px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["rolling_test_twenty_four"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["rolling_test_twenty_four"] * 100 }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 41px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 41px;padding: 10px;">{{ region["percent_positive"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 41px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Bed Occupied</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["critical_care_pct"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["critical_care_pct"] * 100}}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 41px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </tr>
       <tr>
         {% if region["rolling_pop"] >= 10  %}
-          <td colspan="2" class="red" style="text-align: center;height: 41px;padding: 10px;background-color: #FF0034;color: white;">Risk Level: Curving up Dangerously</td>
+          <td colspan="3" class="red" style="text-align: center;height: 41px;padding: 10px;background-color: #d94718;color: white;">Risk Level: Curving up Dangerously</td>
           {% elif region["rolling_pop"] >= 5 %}
-          <td colspan="2" class="orange" style="text-align: center;height: 41px;padding: 10px;background-color: #FF9600;color: white;">Risk Level: Curving Up Quickly</td>
+          <td colspan="3" class="orange" style="text-align: center;height: 41px;padding: 10px;background-color: #f28e24;color: white;">Risk Level: Curving Up Quickly</td>
           {% elif region["rolling_pop"] >= 1 %}
-          <td colspan="2" class="yellow" style="text-align: center;height: 41px;padding: 10px;background-color: #FFC900;color: white;">Risk Level: Curving Up Somewhat</td>
+          <td colspan="3" class="yellow" style="text-align: center;height: 41px;padding: 10px;background-color: #f2bb2b;color: white;">Risk Level: Curving Up Somewhat</td>
           {% else %}
-          <td colspan="2" class="green" style="text-align: center;height: 41px;padding: 10px;background-color: #00D474;color: white;">Risk Level: Curving Down</td>
+          <td colspan="3" class="green" style="text-align: center;height: 41px;padding: 10px;background-color: #18a77b;color: white;">Risk Level: Curving Down</td>
         {% endif %}
       </tr>
     </table>
