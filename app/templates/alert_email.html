@@ -1,116 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-  body{
-    font-family: "Roboto", "Helvetica Neue", sans-serif;
-  }
-  table {
-    border-collapse: collapse;
-    width:
-  }
-
-  table, th, td {
-    border: 1px solid black;
-    text-align: center;
-  }
-
-  td {
-    height: 50px;
-  }
-  tr:nth-child(even){background-color: #f2f2f2;}
-  th, td {padding: 10px;}
-  th {background-color: #275d6f; color: white;}
-  .green {background-color: #00D474; color: white;}
-  .yellow {background-color: #FFC900; color: white;}
-  .orange {background-color: #FF9600; color: white;}
-  .red {background-color: #FF0034; color: white;}
-  .container {
-    display: inline;
-    width: 500px!important;
-    border: 2px solid black;
-    margin-bottom: 10px;
-    padding: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    text-decoration: none;
-    color: black;
-  }
-
-  .nav-title {
-    font-size: 31px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.19;
-    letter-spacing: 0.62px;
-    color: #275d6f;
-}
-
-.nav{
-  text-align: center;
-}
-
-.scorecard-text {
-    font-size: 18px;
-    text-align: left;
-    color: #707070;
-    text-align: center;
-    font-weight: normal;
-}
-
-.scorecard-header {
-    font-size: 42px;
-    text-align: left;
-    color: #707070;
-    text-align: center;
-    margin-bottom: 0;
-    font-weight: normal;
-}
-
-</style>
 </head>
-<body style="font-family: &quot;Roboto&quot;, &quot;Helvetica Neue&quot;, sans-serif;">
-<div class="nav" style="text-align: center;">
-  <img src="https://howsmyflattening.ca/assets/img/scorecard/HMF_Logo_Website.svg">
-  <h1 class="nav-title" style="margin-bottom: 0px;font-size: 31px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.19;letter-spacing: 0.62px;color: #275d6f;">How's My Flattening?</h1>
-  <h5 style="margin-top: 0px">Ontario's COVID-19 Warning System</h5>
-</div>
-<div class="nav" style="text-align: center;">
-  <h1 class="scorecard-header" style="font-size: 42px;text-align: center;color: #707070;margin-bottom: 0;font-weight: normal;">Below is your personalized COVID-19 report</h1>
-  <p>Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.<br><br> Read more on <a href="https://howsmyflattening.ca">Howsmyflattening.ca</a></p>
-  <table id="regions" style="border-collapse: collapse;width: ;border: 1px solid black;text-align: center;">
-    <tr>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">Public Health Unit</th>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">Case Incidence (Per 100,000 People)</th>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">Rt</th>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">% of Tests Back in Less than 24 hrs</th>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">Percent Positivity</th>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">Total ICU Bed Occupied</th>
-      <th style="border: 1px solid black;text-align: center;padding: 10px;background-color: #275d6f;color: white;">Risk</th>
-    </tr>
+<body style="font-family: &quot;Roboto&quot;, &quot;Helvetica Neue&quot;, sans-serif">
+<div style="align-content: center; width: 414px; margin: 0 auto;">
+  <div class="nav" style="text-align: center;align-items: center;">
+    <img style="width: 97px;height: 95px;" alt="logo" src="https://howsmyflattening.ca/assets/img/scorecard/HMF_Logo_Website.svg">
+    <h1 style="margin-bottom: 0px;font-size: 27px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.19;letter-spacing: 0.62px;color: #275d6f;">How's My Flattening?</h1>
+    <h5 style="margin-top: 0px; font-size: 21px;color: #275d6f;font-weight: normal;">Ontario's COVID-19 Warning System</h5>
+  </div>
+  <div style="text-align: center;margin: 0 auto;">
+    <p style="margin: 0 auto;font-size: 23px;font-weight: normal;color: #275d6f;width: 284px;text-align: center;">Below is your personalized COVID-19 report</p>
+    <p style="width: 362px; font-size: 16px;color: #275d6f;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.</p>
     {% for region in regions %}
+    <table style="width: 414px;text-align: center;margin-top:30px;">
       <tr>
-        <td style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;">{{ region["phu"] }}</td>
-        <td style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;">{{ region["rolling_pop"] }}</td>
-        <td style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;">{{ region["rt_ml"] }}</td>
-        <td style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;">{{ region["rolling_test_twenty_four"] }}</td>
-        <td style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;">{{ region["percent_positive"] }}</td>
-        <td style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;">{{ region["critical_care_pct"] }}</td>
+        <td colspan="2" style="text-align: center;padding: 10px;background-color: #275d6f;color: white;">Public Health Unit</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center;height:35px;padding: 10px;">{{ region["phu"] }}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Case Incidence (Per 100,000 People)</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["rolling_pop"] }}</td>
+      </td>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 41px;padding: 10px;">{{ region["rt_ml"] }}</td>
+      </td>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["rolling_test_twenty_four"] }}</td>
+      </td>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 41px;padding: 10px;">{{ region["percent_positive"] }}</td>
+      </td>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Bed Occupied</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 41px;padding: 10px;">{{ region["critical_care_pct"] }}</td>
+      </tr>
+      <tr>
         {% if region["rolling_pop"] >= 10  %}
-        <td class="red" style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;background-color: #FF0034;color: white;">Curving up Dangerously</td>
-        {% elif region["rolling_pop"] >= 5 %}
-        <td class="orange" style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;background-color: #FF9600;color: white;">Curving Up Quickly</td>
-        {% elif region["rolling_pop"] >= 1 %}
-        <td class="yellow" style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;background-color: #FFC900;color: white;">Curving Up Somewhat</td>
-        {% else %}
-        <td class="green" style="border: 1px solid black;text-align: center;height: 50px;padding: 10px;background-color: #00D474;color: white;">Curving Down</td>
+          <td colspan="2" class="red" style="text-align: center;height: 41px;padding: 10px;background-color: #FF0034;color: white;">Risk Level: Curving up Dangerously</td>
+          {% elif region["rolling_pop"] >= 5 %}
+          <td colspan="2" class="orange" style="text-align: center;height: 41px;padding: 10px;background-color: #FF9600;color: white;">Risk Level: Curving Up Quickly</td>
+          {% elif region["rolling_pop"] >= 1 %}
+          <td colspan="2" class="yellow" style="text-align: center;height: 41px;padding: 10px;background-color: #FFC900;color: white;">Risk Level: Curving Up Somewhat</td>
+          {% else %}
+          <td colspan="2" class="green" style="text-align: center;height: 41px;padding: 10px;background-color: #00D474;color: white;">Risk Level: Curving Down</td>
         {% endif %}
       </tr>
+    </table>
     {% endfor %}
-  </table>
-  <p>Regards,</p>
-  <p>The How's My Flattening Team</p>
-  <p>P.s. Please visit the site if you want to change the regions or the frequency for this email. Please help us spread the word by sharing the site with your family and friends. If you have any feedback for us, please use the chatbot on the site and let us know how we can improve. </p>
+    <p style="font-size: 16px;color: #275d6f;">Visit <b><a href="https://howsmyflattening.ca">Howsmyflattening.ca</a></b> for more info</p>
+    <p style="font-size: 16px;color: #275d6f;"><b>Want to see something different? Choose new regions on the website and resubscribe</b></p>
+    <p style="font-size: 16px;color: #275d6f;">Please help spread the word by sharing the site with your friend and family</p>
+    <p style="font-size: 16px;color: #275d6f;">If you have any feedback for us, please use the chatbot on the site and let us know how we can improve</p>
+  </div>
 </div>
 </body>
 </html>
