@@ -7,7 +7,7 @@ ONTARIO'S COVID-19 WARNING SYSTEM
 ** THANKS FOR SIGNING UP,
 ------------------------------------------------------------
 
-Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 12pm.{% elif frequency == 'weekly' %} every Monday at noon.{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
+Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 11am.{% elif frequency == 'weekly' %} every Monday at 11am{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
 
 Please check Howsmyflattening.ca (https://howsmyflattening.ca) for more details or if you want to change the regions or the frequency for this email.
 
