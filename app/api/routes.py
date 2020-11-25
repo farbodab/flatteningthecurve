@@ -542,13 +542,21 @@ def email(frequency):
 @as_json
 @cache.cached(timeout=600)
 def get_reopening_times():
-    df = pd.read_sql_table('metric_update_date', db.engine)
-    df = df.loc[df.recent == True]
-    data = []
-    for index, row in df.iterrows():
-        source = row['source']
-        date_refreshed = row['date_refreshed']
-        data.append({'source':source, 'date_refreshed':date_refreshed})
+    url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
+    positivity = "https://docs.google.com/spreadsheets/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=1769215322"
+    df = pd.read_csv(url)
+    positive = pd.read_csv(positivity)
+    df['date'] = pd.to_datetime(df['date'])
+    positive['Date'] = pd.to_datetime(positive['Date'])
+    df = df.merge(positive, left_on=['date', 'HR_UID'], right_on=['Date', 'HR_UID'], how='left')
+    df = df.rename(columns={"% Positivity":"percent_positive"})
+    df['date'] = df['date'].dt.strftime('%B %d')
+    metrics = ["rolling_pop", "rolling_test_twenty_four", "critical_care_pct", "rt_ml", "percent_positive"]
+    data = {"rolling_pop":[], "rolling_test_twenty_four":[], "critical_care_pct":[], "rt_ml":[], "percent_positive":[]}
+    for metric in metrics:
+        temp = df.loc[df[metric].notna()].tail(1)
+        date_refreshed = temp['date'].values[:]
+        data[metric] = date_refreshed
     return data
 
 @bp.route('/api/epi', methods=['GET'])
