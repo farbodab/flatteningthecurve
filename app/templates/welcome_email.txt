@@ -23,6 +23,22 @@ Public Health Unit {{ region["phu"] }} 		CASE INCIDENCE (PER 100,000 PEOPLE)
 {% endfor %}
 ------------------------------------------------------------
 
+Why send it at 11am?
+
+Great question! This report is made up of a few data sources that are handled by different organizations. Every day the updates are made around 10:30. 11 am gives the system time for any delays.
+
+------------------------------------------------------------
+
+Want to see different regions?
+
+1. Visit Howsmyflattening.ca (https://howsmyflattening.ca)
+2. Choose different regions on the site
+3. Re-signup for a custom COVID-19 update
+
+This will overwrite the current one you are being sent!
+
+------------------------------------------------------------
+
 Found a bug?
 
 We try our best, but alas are only human! Please reach out if there is something that seems broken, or could work better.
@@ -48,4 +64,5 @@ Donate today (http://thcf.convio.net/site/TR?px=1274438&fr_id=1080&pg=personal)
 Stop sending reports to this email address!
 
 If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/api/mail/"+token}}) to unsubscribe.
+
 ------------------------------------------------------------
