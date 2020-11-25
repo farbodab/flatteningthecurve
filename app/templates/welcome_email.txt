@@ -1,38 +1,51 @@
+
+
+[logo]
+
+ 
 ** HOW'S MY FLATTENING?
 ------------------------------------------------------------
 
 ONTARIO'S COVID-19 WARNING SYSTEM
 
- 
-** THANKS FOR SIGNING UP,
+Thanks for signing up!
+
+Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 11am.{% elif frequency == 'weekly' %} every Monday at 11am.{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
+{% for region in regions %}
+
+Public Health Unit {{ region["phu"] }} 		CASE INCIDENCE (PER 100,000 PEOPLE)
+{{ region["rolling_pop"] }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
+{{ region["rt_ml"] }} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
+{{ region["rolling_test_twenty_four"] * 100 }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
+{{ region["percent_positive"] }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU BED OCCUPIED
+{{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} {% if region["rolling_pop"] >= 10 %} Risk Level: Curving up Dangerously {% elif region["rolling_pop"] >= 5 %} Risk Level: Curving Up Quickly {% elif region["rolling_pop"] >= 1 %} Risk Level: Curving Up Somewhat {% else %} Risk Level: Curving Down {% endif %}
+
+{% endfor %}
 ------------------------------------------------------------
 
-Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 11am.{% elif frequency == 'weekly' %} every Monday at 11am{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
+Found a bug?
 
-Please check Howsmyflattening.ca (https://howsmyflattening.ca) for more details or if you want to change the regions or the frequency for this email.
+We try our best, but alas are only human! Please reach out if there is something that seems broken, or could work better.
+
+Click here to tell us about it (mailto:incoming+howsmyflattening-www-howsmyflattening-ca-18957126-issue-@incoming.gitlab.com)
+
+------------------------------------------------------------
+
+Share The Power Of Better Information!
 
 Please help us spread the word by sharing the site with your family and friends.
 
-If you have any feedback for us, please use the chatbot on the site and let us know how we can improve.
-
-{% for region in regions %}
-Public Health Unit: {{ region["phu"] }}
-Case Incidence (Per 100,000 People): {{ region["rolling_pop"] }}
-Rt: {{ region["rt_ml"] }}
-% of Tests Back in Less than 24 hrs: {{ region["rolling_test_twenty_four"] }}
-Percent Positivity: {{ region["percent_positive"] }}
-Total ICU Bed Occupied: {{ region["critical_care_pct"] }}
-{% if region["rolling_pop"] >= 10  %}
-Risk: Curving up Dangerously
-{% elif region["rolling_pop"] >= 5 %}
-Risk: Curving Up Quickly
-{% elif region["rolling_pop"] >= 1 %}
-Risk: Curving Up Somewhat
-{% else %}
-Risk: Curving Down
-{% endif %}
 ------------------------------------------------------------
-{% endfor %}
-Regards,
 
-The How's My Flattening Team
+There Is No I In Team
+
+You can be part of the great work that the HowsMyFlattening Team are up to by becoming a financial supporter.
+
+Donate today (http://thcf.convio.net/site/TR?px=1274438&fr_id=1080&pg=personal)
+
+------------------------------------------------------------
+
+Stop sending reports to this email address!
+
+If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/"+token}}) to unsubscribe.
+------------------------------------------------------------

@@ -19,6 +19,7 @@ import sendgrid
 import os
 from sendgrid.helpers.mail import *
 import click
+import jwt
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -488,8 +489,9 @@ def sign_up(email,regions,frequency):
     from_email = "alert@howsmyflattening.ca"
     to_email = email
     subject = "Your Personalized COVID-19 Report"
-    html = render_template("welcome_email.html",regions=regions,frequency=frequency)
-    text = render_template("welcome_email.txt",regions=regions,frequency=frequency)
+    token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
+    html = render_template("welcome_email.html",regions=regions,frequency=frequency, token=token)
+    text = render_template("welcome_email.txt",regions=regions,frequency=frequency, token=token)
     message = Mail(
     from_email=from_email,
     to_emails=to_email,
@@ -501,11 +503,27 @@ def sign_up(email,regions,frequency):
     except Exception as e:
         print(e.message)
 
+@bp.route('/api/mail/<token>', methods=['GET'])
+def unsubscribe(token):
+    try:
+        email = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=['HS256'])['email']
+        past = Subscribers.query.filter_by(email=email).all()
+        if past:
+            for item in past:
+                db.session.delete(item)
+            db.session.commit()
+            return 'You have been unsubscribed', 200
+        else:
+            return 'We did not find any subscricptiosn for this email address', 200
+    except:
+        return 'Invalid Link', 400
+
 @bp.cli.command("email")
 @click.argument("frequency")
 def email(frequency):
     df = get_summary(-1)
     df = df.round(2)
+    date = get_times()
     past = Subscribers.query.filter_by(frequency=frequency)
     subscribers = pd.read_sql_query(past.statement, db.engine)
     emails = subscribers.email.unique()
@@ -515,6 +533,7 @@ def email(frequency):
     ontario = ontario.tail(1).to_dict(orient='records')[0]
     for email in emails:
         temp = subscribers.loc[subscribers.email == email]
+        token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
         my_regions = temp.region.unique()[:]
         temp_df = df.loc[df.HR_UID.isin(my_regions)]
         regions = temp_df.to_dict(orient='records')
@@ -523,8 +542,8 @@ def email(frequency):
         from_email = "alert@howsmyflattening.ca"
         to_email = email
         subject = "Your Personalized COVID-19 Report"
-        html = render_template("alert_email.html",regions=regions,ontario=ontario)
-        text = render_template("alert_email.txt",regions=regions,ontario=ontario)
+        html = render_template("alert_email.html",regions=regions,ontario=ontario,date=date,token=token)
+        text = render_template("alert_email.txt",regions=regions,ontario=ontario,date=date,token=token)
         message = Mail(
         from_email=from_email,
         to_emails=to_email,
@@ -536,12 +555,8 @@ def email(frequency):
         except Exception as e:
             print(e.message)
 
-
-
-@bp.route('/api/times', methods=['GET'])
-@as_json
-@cache.cached(timeout=600)
-def get_reopening_times():
+@cache.memoize(timeout=600)
+def get_times():
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
     positivity = "https://docs.google.com/spreadsheets/d/1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk/export?format=csv&id=1npx8yddDIhPk3wuZuzcB6sj8WX760H1RUFNEYpYznCk&gid=1769215322"
     df = pd.read_csv(url)
@@ -557,6 +572,14 @@ def get_reopening_times():
         temp = df.loc[df[metric].notna()].tail(1)
         date_refreshed = temp['date'].values[:]
         data[metric] = date_refreshed
+    return data
+
+
+@bp.route('/api/times', methods=['GET'])
+@as_json
+@cache.cached(timeout=600)
+def get_reopening_times():
+    data = get_times()
     return data
 
 @bp.route('/api/epi', methods=['GET'])
