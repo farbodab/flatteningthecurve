@@ -1,36 +1,83 @@
+
+
+[logo]
+
+ 
 ** HOW'S MY FLATTENING?
 ------------------------------------------------------------
 
 ONTARIO'S COVID-19 WARNING SYSTEM
 
- 
-** BELOW IS YOUR PERSONALIZED COVID-19 REPORT
-------------------------------------------------------------
+Below is your personalized COVID-19 report
 
 Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.
 
-Read more on Howsmyflattening.ca (https://howsmyflattening.ca)
-
-{% for region in regions %}
-Public Health Unit: {{ region["phu"] }}
-Case Incidence (Per 100,000 People): {{ region["rolling_pop"] }}
-Rt: {{ region["rt_ml"] }}
-% of Tests Back in Less than 24 hrs: {{ region["rolling_test_twenty_four"] }}
-Percent Positivity: {{ region["percent_positive"] }}
-Total ICU Bed Occupied: {{ region["critical_care_pct"] }}
-{% if region["rolling_pop"] >= 10  %}
-Risk: Curving up Dangerously
-{% elif region["rolling_pop"] >= 5 %}
-Risk: Curving Up Quickly
-{% elif region["rolling_pop"] >= 1 %}
-Risk: Curving Up Somewhat
-{% else %}
-Risk: Curving Down
-{% endif %}
 ------------------------------------------------------------
+
+Data Last Updated
+A Note About When We Get The Data
+The metrics we track come from a number of different sources that are updated at different regularities. We always use the most current data that is available to us.
+
+   CASE INCIDENCE (PER 100,000 PEOPLE)
+{{ date["rolling_pop"][0] }} 		RT
+{{ date["rt_ml"][0] }} 		% OF TESTS BACK IN LESS THAN 24 HRS
+{{ date["rolling_test_twenty_four"][0] }} 		PERCENT POSITIVITY
+{{ date["percent_positive"][0] }} 		TOTAL ICU BED OCCUPIED
+{{ date["critical_care_pct"][0] }}
+
+------------------------------------------------------------
+{% for region in regions %}
+
+Public Health Unit {{ region["phu"] }} 		CASE INCIDENCE (PER 100,000 PEOPLE)
+{{ region["rolling_pop"] }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
+{{ region["rt_ml"] }} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
+{{ region["rolling_test_twenty_four"] * 100 }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
+{{ region["percent_positive"] }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU BED OCCUPIED
+{{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} {% if region["rolling_pop"] >= 10 %} Risk Level: Curving up Dangerously {% elif region["rolling_pop"] >= 5 %} Risk Level: Curving Up Quickly {% elif region["rolling_pop"] >= 1 %} Risk Level: Curving Up Somewhat {% else %} Risk Level: Curving Down {% endif %}
+
 {% endfor %}
-Regards,
+------------------------------------------------------------
 
-The How's My Flattening Team
+Why send it at 11am?
 
-P.s. Please visit the site if you want to change the regions or the frequency for this email. Please help us spread the word by sharing the site with your family and friends. If you have any feedback for us, please use the chatbot on the site and let us know how we can improve.
+Great question! This report is made up of a few data sources that are handled by different organizations. Every day the updates are made around 10:30. 11 am gives the system time for any delays.
+
+------------------------------------------------------------
+
+Want to see different regions?
+
+1. Visit Howsmyflattening.ca (https://howsmyflattening.ca)
+2. Choose different regions on the site
+3. Re-signup for a custom COVID-19 update
+
+This will overwrite the current one you are being sent!
+
+------------------------------------------------------------
+
+Found a bug?
+
+We try our best, but alas are only human! Please reach out if there is something that seems broken, or could work better.
+
+Click here to tell us about it (mailto:incoming+howsmyflattening-www-howsmyflattening-ca-18957126-issue-@incoming.gitlab.com)
+
+------------------------------------------------------------
+
+Share The Power Of Better Information!
+
+Please help us spread the word by sharing the site with your family and friends.
+
+------------------------------------------------------------
+
+There Is No I In Team
+
+You can be part of the great work that the HowsMyFlattening Team are up to by becoming a financial supporter.
+
+Donate today (http://thcf.convio.net/site/TR?px=1274438&fr_id=1080&pg=personal)
+
+------------------------------------------------------------
+
+Stop sending reports to this email address!
+
+If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/"+token}}) to unsubscribe.
+
+------------------------------------------------------------
