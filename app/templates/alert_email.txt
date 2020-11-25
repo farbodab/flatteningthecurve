@@ -78,6 +78,6 @@ Donate today (http://thcf.convio.net/site/TR?px=1274438&fr_id=1080&pg=personal)
 
 Stop sending reports to this email address!
 
-If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/"+token}}) to unsubscribe.
+If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/api/mail/"+token}}) to unsubscribe.
 
 ------------------------------------------------------------
