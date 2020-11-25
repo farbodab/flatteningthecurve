@@ -19,6 +19,7 @@ import sendgrid
 import os
 from sendgrid.helpers.mail import *
 import click
+import jwt
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -488,8 +489,9 @@ def sign_up(email,regions,frequency):
     from_email = "alert@howsmyflattening.ca"
     to_email = email
     subject = "Your Personalized COVID-19 Report"
-    html = render_template("welcome_email.html",regions=regions,frequency=frequency)
-    text = render_template("welcome_email.txt",regions=regions,frequency=frequency)
+    token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
+    html = render_template("welcome_email.html",regions=regions,frequency=frequency, token=token)
+    text = render_template("welcome_email.txt",regions=regions,frequency=frequency, token=token)
     message = Mail(
     from_email=from_email,
     to_emails=to_email,
@@ -500,6 +502,21 @@ def sign_up(email,regions,frequency):
         response = sg.send(message)
     except Exception as e:
         print(e.message)
+
+@bp.route('/api/mail/<token>', methods=['GET'])
+def unsubscribe(token):
+    try:
+        email = jwt.decode(token, os.getenv('SECRET_KEY'),algorithms=['HS256'])['email']
+        past = Subscribers.query.filter_by(email=email).all()
+        if past:
+            for item in past:
+                db.session.delete(item)
+            db.session.commit()
+            return 'You have been unsubscribed', 200
+        else:
+            return 'We did not find any subscricptiosn for this email address', 200
+    except:
+        return 'Invalid Link', 400
 
 @bp.cli.command("email")
 @click.argument("frequency")
@@ -516,6 +533,7 @@ def email(frequency):
     ontario = ontario.tail(1).to_dict(orient='records')[0]
     for email in emails:
         temp = subscribers.loc[subscribers.email == email]
+        token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
         my_regions = temp.region.unique()[:]
         temp_df = df.loc[df.HR_UID.isin(my_regions)]
         regions = temp_df.to_dict(orient='records')
@@ -524,8 +542,8 @@ def email(frequency):
         from_email = "alert@howsmyflattening.ca"
         to_email = email
         subject = "Your Personalized COVID-19 Report"
-        html = render_template("alert_email.html",regions=regions,ontario=ontario,date=date)
-        text = render_template("alert_email.txt",regions=regions,ontario=ontario,date=date)
+        html = render_template("alert_email.html",regions=regions,ontario=ontario,date=date,token=token)
+        text = render_template("alert_email.txt",regions=regions,ontario=ontario,date=date,token=token)
         message = Mail(
         from_email=from_email,
         to_emails=to_email,
