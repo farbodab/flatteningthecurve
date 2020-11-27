@@ -13,11 +13,13 @@
     <p style="margin: 0 auto;font-size: 23px;font-weight: normal;color: #275d6f;width: 284px;text-align: center;">Below is your personalized COVID-19 report</p><br>
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.</p>
     <hr>
-    {% for region in regions %}
     <table style="width: 414px;text-align: center;margin-top:30px;">
       <tr>
         <td colspan="3" style="text-align: center;padding: 10px;background-color: #275d6f;color: white;">Public Health Unit</td>
       </tr>
+    </table>
+    {% for region in regions %}
+    <table style="width: 414px;text-align: center;">
       <tr>
         <td colspan="3" style="text-align: center;height:35px;padding: 10px;">{{ region["phu"] }}</td>
       </tr>
@@ -59,6 +61,33 @@
       </tr>
     </table>
     {% endfor %}
+    <table style="width: 414px;text-align: center;margin-top:30px;">
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Metric We Measured</th>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Data Last Updated</th>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Case Incidence (Per 100,000 People)</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rolling_pop"][0] }}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Rt</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rt_ml"][0] }}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">% of Tests Back in Less than 24 hrs</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rolling_test_twenty_four"][0]  }}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Percent Positivity</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["percent_positive"][0] }}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Total ICU Bed Occupied</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["critical_care_pct"][0] }}</td>
+      </tr>
+    </table>
+    <p style="width: 362px; font-size: 16px;color: #275d6f;margin: 0 auto;"><b>A Note About When We Get The Data</b><br>Each of the metrics we track comes from a separate source that is updated at different intervals. We always use the most current data that is available to us.</p>
     <hr>
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;"><b>Why send it at 11am?</b><br><br>Great question! This report is made up of a few data sources that are handled by different organizations. Every day the updates are made around 10:30. 11 am gives the system time for any delays.</p>
     <hr>
@@ -76,7 +105,6 @@
     <p style="width: 362px; font-size: 16px;color: #275d6f;margin: 0 auto;"><b>There Is No I In Team</b><br><br>You can be part of the great work that the HowsMyFlattening Team are up to by becoming a financial supporter. <br><br><a style="color: #275d6f;" href="http://thcf.convio.net/site/TR?px=1274438&fr_id=1080&pg=personal">Donate today</a></p>
     <hr>
     <p style="width: 362px; font-size: 16px;color: #275d6f;margin: 0 auto;"><b>Stop sending reports to this email address!</b><br><br>If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, <a style="color: #275d6f;" href={{"http://flatteningthecurve.herokuapp.com/api/mail/"+token}}>click here</a> to unsubscribe.</p>
-    <hr>
   </div>
 </div>
 </body>
