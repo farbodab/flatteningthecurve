@@ -486,7 +486,7 @@ def sign_up(email,regions,frequency):
     regions = temp_df.to_dict(orient='records')
     key = os.environ.get('EMAIL_API')
     sg = sendgrid.SendGridAPIClient(api_key=key)
-    from_email = "alert@howsmyflattening.ca"
+    from_email = "mycovidreport@howsmyflattening.ca"
     to_email = email
     subject = "Your Personalized COVID-19 Report"
     token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
@@ -539,7 +539,7 @@ def email(frequency):
         regions = temp_df.to_dict(orient='records')
         key = os.environ.get('EMAIL_API')
         sg = sendgrid.SendGridAPIClient(api_key=key)
-        from_email = "alert@howsmyflattening.ca"
+        from_email = "mycovidreport@howsmyflattening.ca"
         to_email = email
         subject = "Your Personalized COVID-19 Report"
         html = render_template("alert_email.html",regions=regions,ontario=ontario,date=date,token=token)
