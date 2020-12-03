@@ -24,70 +24,71 @@
         <td colspan="3" style="text-align: center;height:35px;padding: 10px;">{{ region["phu"] }}</td>
       </tr>
       <tr>
+        {% if region["rolling_pop"] >= 10  %}
+          <td colspan="3" class="red" style="text-align: center;height: 31px;padding: 10px;background-color: #d94718;color: white;">Community Risk Level: High</td>
+          {% elif region["rolling_pop"] >= 5 %}
+          <td colspan="3" class="orange" style="text-align: center;height: 31px;padding: 10px;background-color: #f28e24;color: white;">Community Risk Level: Medium</td>
+          {% elif region["rolling_pop"] >= 1 %}
+          <td colspan="3" class="yellow" style="text-align: center;height: 31px;padding: 10px;background-color: #f2bb2b;color: white;">Community Risk Level: Low</td>
+          {% else %}
+          <td colspan="3" class="green" style="text-align: center;height: 31px;padding: 10px;background-color: #18a77b;color: white;">Community Risk Level: Very Low</td>
+        {% endif %}
+      </tr>
+      <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Case Incidence (Per 100,000 People)</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_pop"] }}</td>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ region["rt_ml"] }}</td>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] * 100 }}</td>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ region["percent_positive"] }}</td>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Bed Occupied</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] * 100}}</td>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
-      </tr>
-      <tr>
-        {% if region["rolling_pop"] >= 10  %}
-          <td colspan="3" class="red" style="text-align: center;height: 31px;padding: 10px;background-color: #d94718;color: white;">Risk Level: Curving up Dangerously</td>
-          {% elif region["rolling_pop"] >= 5 %}
-          <td colspan="3" class="orange" style="text-align: center;height: 31px;padding: 10px;background-color: #f28e24;color: white;">Risk Level: Curving Up Quickly</td>
-          {% elif region["rolling_pop"] >= 1 %}
-          <td colspan="3" class="yellow" style="text-align: center;height: 31px;padding: 10px;background-color: #f2bb2b;color: white;">Risk Level: Curving Up Somewhat</td>
-          {% else %}
-          <td colspan="3" class="green" style="text-align: center;height: 31px;padding: 10px;background-color: #18a77b;color: white;">Risk Level: Curving Down</td>
-        {% endif %}
+        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </tr>
     </table>
     {% endfor %}
-    <table style="width: 414px;text-align: center;margin-top:30px;">
+    <table style="width: 414px;text-align: center; margin-top:10px;">
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Metric We Measured</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Metric We Measured</th>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Data Last Updated</th>
       </tr>
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Case Incidence (Per 100,000 People)</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Case Incidence (Per 100,000 People)</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rolling_pop"][0] }}</td>
       </tr>
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Rt</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Rt</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rt_ml"][0] }}</td>
       </tr>
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">% of Tests Back in Less than 24 hrs</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">% of Tests Back in Less than 24 hrs</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rolling_test_twenty_four"][0]  }}</td>
       </tr>
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Percent Positivity</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Percent Positivity</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["percent_positive"][0] }}</td>
       </tr>
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Total ICU Bed Occupied</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Total ICU Bed Occupied</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["critical_care_pct"][0] }}</td>
       </tr>
     </table>
-    <p style="width: 362px; font-size: 16px;color: #275d6f;margin: 0 auto;"><b>A Note About When We Get The Data</b><br>Each of the metrics we track comes from a separate source that is updated at different intervals. We always use the most current data that is available to us.</p>
+    <br>
+    <p style="width: 362px; font-size: 16px;color: #275d6f;margin: 0 auto; "><b>A Note About When We Get The Data</b><br><br>Each of the metrics we track comes from a separate source that is updated at different intervals. We always use the most current data that is available to us.</p>
     <hr>
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;"><b>Why send it at 11am?</b><br><br>Great question! This report is made up of a few data sources that are handled by different organizations. Every day the updates are made around 10:30. 11 am gives the system time for any delays.</p>
     <hr>

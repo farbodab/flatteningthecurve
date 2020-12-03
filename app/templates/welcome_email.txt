@@ -1,5 +1,3 @@
-
-
 [logo]
 
  
@@ -13,14 +11,32 @@ Thanks for signing up!
 Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 11am.{% elif frequency == 'weekly' %} every Monday at 11am.{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
 {% for region in regions %}
 
-Public Health Unit {{ region["phu"] }} 		CASE INCIDENCE (PER 100,000 PEOPLE)
-{{ region["rolling_pop"] }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
-{{ region["rt_ml"] }} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
-{{ region["rolling_test_twenty_four"] * 100 }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
-{{ region["percent_positive"] }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU BED OCCUPIED
-{{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} {% if region["rolling_pop"] >= 10 %} Risk Level: Curving up Dangerously {% elif region["rolling_pop"] >= 5 %} Risk Level: Curving Up Quickly {% elif region["rolling_pop"] >= 1 %} Risk Level: Curving Up Somewhat {% else %} Risk Level: Curving Down {% endif %}
+ Public Health Unit
 
-{% endfor %}
+ {% for region in regions %}
+
+ {{ region["phu"] }} {% if region["rolling_pop"] >= 10 %} Community Risk Level: High {% elif region["rolling_pop"] >= 5 %} Community Risk Level: Medium {% elif region["rolling_pop"] >= 1 %} Community Risk Level: Low {% else %} Community Risk Level: Very Low {% endif %} 		CASE INCIDENCE (PER 100,000 PEOPLE)
+ {{ region["rolling_pop"] }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
+ {{ region["rt_ml"] }} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
+ {{ region["rolling_test_twenty_four"] * 100 }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
+ {{ region["percent_positive"] }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU BED OCCUPIED
+ {{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %}
+
+ {% endfor %}
+
+ 		METRIC WE MEASURED
+ 		DATA LAST UPDATED
+ 		CASE INCIDENCE (PER 100,000 PEOPLE)
+ {{ date["rolling_pop"][0] }} 		RT
+ {{ date["rt_ml"][0] }} 		% OF TESTS BACK IN LESS THAN 24 HRS
+ {{ date["rolling_test_twenty_four"][0] }} 		PERCENT POSITIVITY
+ {{ date["percent_positive"][0] }} 		TOTAL ICU BED OCCUPIED
+ {{ date["critical_care_pct"][0] }}
+
+A Note About When We Get The Data
+
+Each of the metrics we track comes from a separate source that is updated at different intervals. We always use the most current data that is available to us.
+
 ------------------------------------------------------------
 
 Why send it at 11am?
@@ -63,4 +79,4 @@ Donate today (http://thcf.convio.net/site/TR?px=1274438&fr_id=1080&pg=personal)
 
 Stop sending reports to this email address!
 
-If you are only looking to change the report content, follow the instructions listed below  “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/api/mail/"+token}}) to unsubscribe.
+If you are only looking to change the report content, follow the instructions listed below “Want To See Different Regions?”. Otherwise, click here ({{"http://flatteningthecurve.herokuapp.com/api/mail/"+token}}) to unsubscribe.
