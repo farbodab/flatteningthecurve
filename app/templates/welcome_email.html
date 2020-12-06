@@ -61,32 +61,6 @@
       </tr>
     </table>
     {% endfor %}
-    <table style="width: 414px;text-align: center; margin-top:10px;">
-      <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Metric We Measured</th>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;width: 257px;color: black;">Data Last Updated</th>
-      </tr>
-      <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Case Incidence (Per 100,000 People)</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rolling_pop"][0] }}</td>
-      </tr>
-      <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Rt</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rt_ml"][0] }}</td>
-      </tr>
-      <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">% of Tests Back in Less than 24 hrs</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["rolling_test_twenty_four"][0]  }}</td>
-      </tr>
-      <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Percent Positivity</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["percent_positive"][0] }}</td>
-      </tr>
-      <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Total ICU Bed Occupied</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["critical_care_pct"][0] }}</td>
-      </tr>
-    </table>
     <br>
     <p style="width: 362px; font-size: 16px;color: #275d6f;margin: 0 auto; "><b>A Note About When We Get The Data</b><br><br>Each of the metrics we track comes from a separate source that is updated at different intervals. We always use the most current data that is available to us.</p>
     <hr>
