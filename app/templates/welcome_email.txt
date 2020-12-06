@@ -9,7 +9,6 @@ ONTARIO'S COVID-19 WARNING SYSTEM
 Thanks for signing up!
 
 Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 11am.{% elif frequency == 'weekly' %} every Monday at 11am.{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
-{% for region in regions %}
 
  Public Health Unit
 
@@ -23,15 +22,6 @@ Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourh
  {{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %}
 
  {% endfor %}
-
- 		METRIC WE MEASURED
- 		DATA LAST UPDATED
- 		CASE INCIDENCE (PER 100,000 PEOPLE)
- {{ date["rolling_pop"][0] }} 		RT
- {{ date["rt_ml"][0] }} 		% OF TESTS BACK IN LESS THAN 24 HRS
- {{ date["rolling_test_twenty_four"][0] }} 		PERCENT POSITIVITY
- {{ date["percent_positive"][0] }} 		TOTAL ICU BED OCCUPIED
- {{ date["critical_care_pct"][0] }}
 
 A Note About When We Get The Data
 
