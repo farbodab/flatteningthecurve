@@ -657,7 +657,7 @@ def get_risk():
     if critical_care_patients >= 10:
         response["Risk"] = 'High'
     elif critical_care_patients >= 5:
-        response["Risk"] = 'High'
+        response["Risk"] = 'Medium'
     else:
         response["Risk"] = 'Low'
     return response
