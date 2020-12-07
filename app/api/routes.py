@@ -642,18 +642,26 @@ def get_risk():
     location = request.args.get('location')
     if not location:
         return 'Missing location parameter', 400
+
     response = {}
     fsa = location[:3].upper()
     df = pd.read_csv("pccf_on.csv")
-    HR_UID = df.loc[df.fsa == fsa]['HR_UID'].values[0]
+    try:
+        HR_UID = df.loc[df.fsa == fsa]['HR_UID'].values[0]
+        PHU = df.loc[df.fsa == fsa]['ENGNAME'].values[0]
+    except:
+        return 'Public health unit not found', 400
     df = get_summary(HR_UID)
     critical_care_patients = df.tail(1)['critical_care_patients'].values[0]
+    response = {"PHU": PHU, "FSA": fsa}
     if critical_care_patients >= 10:
-        return 'High'
+        response["Risk"] = 'High'
     elif critical_care_patients >= 5:
-        return 'Medium'
+        response["Risk"] = 'High'
     else:
-        return 'Low'
+        response["Risk"] = 'Low'
+    return response
+
 
 @bp.route('/api/bot', methods=['GET'])
 @cache.cached(timeout=600, query_string=True)
