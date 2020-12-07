@@ -636,6 +636,32 @@ def get_percentages():
     }
     return json.dumps(data)
 
+@bp.route('/api/risk', methods=['GET'])
+@cache.cached(timeout=600, query_string=True)
+def get_risk():
+    location = request.args.get('location')
+    if not location:
+        return 'Missing location parameter', 400
+    response = {}
+    fsa = location[:3].upper()
+    df = pd.read_csv("pccf_on.csv")
+    HR_UID = df.loc[df.fsa == fsa]['HR_UID'].values
+    if len(HR_UID) == 0:
+        return 'Public health unit not found', 400
+    df = get_summary(-1)
+    response = {"FSA": fsa}
+    risk = []
+    for phu in HR_UID:
+        critical_care_patients = df.loc[df.HR_UID == phu]['critical_care_patients'].values[0]
+        if critical_care_patients >= 10:
+            risk.append(3)
+        elif critical_care_patients >= 5:
+            risk.append(2)
+        else:
+            risk.append(1)
+    response['Risk'] = sum(risk) / len(risk)
+    return response
+
 
 @bp.route('/api/bot', methods=['GET'])
 @cache.cached(timeout=600, query_string=True)
