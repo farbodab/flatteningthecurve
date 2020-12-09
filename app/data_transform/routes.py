@@ -195,6 +195,16 @@ def transform(data_in, data_out):
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             yield df, save_file, date
 
+def process_cases(row):
+    if row["rolling_pop"] >= 10:
+        return "High"
+    elif row["rolling_pop"] >= 5:
+        return "Medium"
+    elif row["rolling_pop"] >= 1:
+        return "Low"
+    else:
+        return "Very Low"
+
 @bp.cli.command('public_cases_ontario_confirmed_positive_cases')
 def transform_public_cases_ontario_confirmed_positive_cases():
     for df, save_file, date in transform(
@@ -1221,6 +1231,27 @@ def transform_public_summary_ontario():
     cases_df['phu'] = cases_df['phu'].replace(Replace)
     cases_df = cases_df[['phu','HR_UID','case_reported_date', 'rolling','rolling_pop']]
     cases_df.rename(columns={"case_reported_date": "date"},inplace=True)
+    cases_df['risk'] = cases_df.apply(process_cases, axis=1)
+    cases_df['count'] = None
+    cases_df['prev'] = None
+    unique = cases_df.HR_UID.unique()
+    hrs = []
+    for hr in unique:
+        temp = cases_df.loc[cases_df.HR_UID == hr]
+        prev = None
+        count = 1
+        for index, row in temp.iterrows():
+            temp.at[index,'prev'] = prev
+            risk = row['risk']
+            if risk != prev:
+                prev = risk
+                count = 1
+            else:
+                count += 1
+            temp.at[index,'count'] = count
+        hrs.append(temp)
+    cases_df = pd.concat(hrs)
+
 
 
     tests_path = get_last_file(tests)
@@ -1245,7 +1276,7 @@ def transform_public_summary_ontario():
     rt_df.rename(columns={"ML": "rt_ml", "Low": "rt_low", "High": "rt_high"},inplace=True)
 
     merged = pd.merge(merged,rt_df, left_on=['phu', 'date'], right_on=['PHU', 'date_report'], how='left')
-    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","rt_ml","rt_low","rt_high"]]
+    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","rt_ml","rt_low","rt_high", 'prev','risk', 'count']]
     save_file, save_dir = get_file_path(final)
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     merged.to_csv(save_file, index=False)

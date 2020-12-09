@@ -397,7 +397,7 @@ def get_summary(HR_UID):
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": []}
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": [], "prev": [], "risk": [], "count": []}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
@@ -406,7 +406,8 @@ def get_summary(HR_UID):
             temp['rolling_test_twenty_four_trend'] = temp['rolling_test_twenty_four'].diff(periods=7)
             temp['percent_positive_trend'] = temp['% Positivity'].diff(periods=7)
             temp['critical_care_pct_trend']  = temp['critical_care_pct'].diff(periods=7)
-
+            temp['risk'] = temp['risk'].fillna('NaN')
+            temp['prev'] = temp['prev'].fillna('NaN')
             if len(temp) > 0:
                 loop['phu'].append(get_last(temp['phu']))
                 loop['HR_UID'].append(hr)
@@ -425,12 +426,17 @@ def get_summary(HR_UID):
                 loop['percent_positive_trend'].append(get_last(temp['percent_positive_trend']))
                 loop['critical_care_beds'].append(get_last(temp['critical_care_beds']))
                 loop['critical_care_patients'].append(get_last(temp['critical_care_patients']))
+                loop['prev'].append(get_last(temp['prev']))
+                loop['risk'].append(get_last(temp['risk']))
+                loop['count'].append(get_last(temp['count']))
         temp = df.loc[df.phu == 'Ontario']
         temp['rolling_pop_trend'] = temp['rolling_pop'].diff(periods=7)
         temp['rt_ml_trend'] = temp['rt_ml'].diff(periods=7)
         temp['rolling_test_twenty_four_trend'] = temp['rolling_test_twenty_four'].diff(periods=7)
         temp['percent_positive_trend'] = temp['% Positivity'].diff(periods=7)
         temp['critical_care_pct_trend']  = temp['critical_care_pct'].diff(periods=7)
+        temp['risk'] = temp['risk'].fillna('NaN')
+        temp['prev'] = temp['prev'].fillna('NaN')
         loop['phu'].append('Ontario')
         loop['HR_UID'].append(-1)
         loop['date'].append(get_last(temp['date']))
@@ -448,6 +454,9 @@ def get_summary(HR_UID):
         loop['percent_positive_trend'].append(get_last(temp['percent_positive_trend']))
         loop['critical_care_beds'].append(get_last(temp['critical_care_beds']))
         loop['critical_care_patients'].append(get_last(temp['critical_care_patients']))
+        loop['prev'].append(get_last(temp['prev']))
+        loop['risk'].append(get_last(temp['risk']))
+        loop['count'].append(get_last(temp['count']))
         df = pd.DataFrame(loop)
     return df
 
@@ -522,7 +531,8 @@ def unsubscribe(token):
 @click.argument("frequency")
 def email(frequency):
     df = get_summary(-1)
-    df = df.round(2)
+    df = df.round(1)
+    changed = df.loc[df['count'] == 1]
     date = get_times()
     past = Subscribers.query.filter_by(frequency=frequency)
     subscribers = pd.read_sql_query(past.statement, db.engine)
@@ -531,29 +541,60 @@ def email(frequency):
     ontario['Date'] = pd.to_datetime(ontario['Date'])
     ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
     ontario = ontario.tail(1).to_dict(orient='records')[0]
-    for email in emails:
-        temp = subscribers.loc[subscribers.email == email]
-        token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
-        my_regions = temp.region.unique()[:]
-        temp_df = df.loc[df.HR_UID.isin(my_regions)]
-        regions = temp_df.to_dict(orient='records')
-        key = os.environ.get('EMAIL_API')
-        sg = sendgrid.SendGridAPIClient(api_key=key)
-        from_email = "mycovidreport@howsmyflattening.ca"
-        to_email = email
-        subject = "Your Personalized COVID-19 Report"
-        html = render_template("alert_email.html",regions=regions,ontario=ontario,date=date,token=token)
-        text = render_template("alert_email.txt",regions=regions,ontario=ontario,date=date,token=token)
-        message = Mail(
-        from_email=from_email,
-        to_emails=to_email,
-        subject='Your personalized COVID-19 report',
-        plain_text_content=text,
-        html_content=html)
-        try:
-            response = sg.send(message)
-        except Exception as e:
-            print(e.message)
+    if frequency == 'daily' or frequency == 'weekly':
+        for email in emails:
+            temp = subscribers.loc[subscribers.email == email]
+            token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
+            my_regions = temp.region.unique()[:]
+            temp_df = df.loc[df.HR_UID.isin(my_regions)]
+            temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
+            regions = temp_df.to_dict(orient='records')
+            regions_changed = temp_changed.to_dict(orient='records')
+            key = os.environ.get('EMAIL_API')
+            sg = sendgrid.SendGridAPIClient(api_key=key)
+            from_email = "mycovidreport@howsmyflattening.ca"
+            to_email = email
+            subject = "Your Personalized COVID-19 Report"
+            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token)
+            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token)
+            message = Mail(
+            from_email=from_email,
+            to_emails=to_email,
+            subject='Your personalized COVID-19 report',
+            plain_text_content=text,
+            html_content=html)
+            try:
+                response = sg.send(message)
+            except Exception as e:
+                print(e.message)
+    elif frequency == 'change':
+        for email in emails:
+            temp = subscribers.loc[subscribers.email == email]
+            token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
+            my_regions = temp.region.unique()[:]
+            temp_df = df.loc[(df.HR_UID.isin(my_regions)) & (df['count'] == 1)]
+            if len(temp_df) > 1:
+                temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
+                regions = temp_df.to_dict(orient='records')
+                regions_changed = temp_changed.to_dict(orient='records')
+                key = os.environ.get('EMAIL_API')
+                sg = sendgrid.SendGridAPIClient(api_key=key)
+                from_email = "mycovidreport@howsmyflattening.ca"
+                to_email = email
+                subject = "Your Personalized COVID-19 Report"
+                html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token)
+                text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token)
+                message = Mail(
+                from_email=from_email,
+                to_emails=to_email,
+                subject='Your personalized COVID-19 report',
+                plain_text_content=text,
+                html_content=html)
+                try:
+                    response = sg.send(message)
+                except Exception as e:
+                    print(e.message)
+
 
 @cache.memoize(timeout=600)
 def get_times():
