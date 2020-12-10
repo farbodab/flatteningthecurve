@@ -29,7 +29,6 @@ importlib-metadata==1.6.0
 itsdangerous==1.1.0
 Jinja2==2.11.1
 jsonschema==3.2.0
-kaggle==1.5.6
 kiwisolver==1.2.0
 limits==1.5.1
 Mako==1.1.2
