@@ -695,11 +695,11 @@ def get_risk():
     for phu in HR_UID:
         critical_care_patients = df.loc[df.HR_UID == phu]['critical_care_patients'].values[0]
         if critical_care_patients >= 10:
-            risk.append(3)
+            risk.append(4)
         elif critical_care_patients >= 5:
             risk.append(2)
         else:
-            risk.append(1)
+            risk.append(0)
     response['Risk'] = sum(risk) / len(risk)
     return response
 
