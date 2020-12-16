@@ -690,10 +690,14 @@ def get_risk():
     if len(HR_UID) == 0:
         return 'Public health unit not found', 400
     df = get_summary(-1)
+    risk_df = pd.read_csv("https://docs.google.com/spreadsheets/d/1eJcsbs7vSt3rfV_lAH94PbWvAs9u6OxR9KXRpl45MWc/export?format=csv&id=1eJcsbs7vSt3rfV_lAH94PbWvAs9u6OxR9KXRpl45MWc&gid=1865799742")
     response = {"FSA": fsa}
     risk = []
+    color = []
     for phu in HR_UID:
         critical_care_patients = df.loc[df.HR_UID == phu]['critical_care_patients'].values[0]
+        risk_location = risk_df.loc[risk_df.HR_UID == phu]['stage'].values[0]
+        color.append(risk_location)
         if critical_care_patients >= 10:
             risk.append(4)
         elif critical_care_patients >= 5:
@@ -701,6 +705,7 @@ def get_risk():
         else:
             risk.append(0)
     response['Risk'] = sum(risk) / len(risk)
+    response['Province'] = int(min(color))
     return response
 
 
