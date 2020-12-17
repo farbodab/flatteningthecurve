@@ -512,6 +512,117 @@ def sign_up(email,regions,frequency):
     except Exception as e:
         print(e.message)
 
+def create_text_response(text):
+    response = {
+    "fulfillmentText": text,
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            text
+          ]
+        }
+      }
+    ],
+    "source": "Howsmyflattening.com"
+  }
+    return response
+
+def lookup_postal(postal_code):
+    postal_code = postal_code.upper().replace(" ", "")
+    pccf = pd.read_csv('pccf_on_postal.csv')
+    result = pccf.loc[pccf.postal_code == postal_code]
+    HR_UID = result['HR_UID'].values[0]
+    PHU = result['ENGNAME'].values[0]
+    return HR_UID, PHU
+
+def get_fsa(postal_code):
+    postal_code = postal_code.upper().replace(" ", "")
+    fsa = postal_code[:3]
+    df = pd.read_sql_table('iphis', db.engine)
+    temp = df.loc[df.fsa == fsa]
+    cases = int(temp.tail(1)['cases_two_weeks'].values[0])
+    deaths = int(temp.tail(1)['deaths_two_weeks'].values[0])
+    date = temp.tail(1)['index'].values[0]
+    return date, cases, deaths, fsa
+
+@cache.memoize(timeout=600)
+def get_ontario():
+    ontario_cases = pd.read_csv("https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv")
+    pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+    pop = pop.loc[pop.province == "Ontario"]
+    pop['health_region'] = pop['health_region'].replace(POP)
+    ontario_cases = pd.merge(ontario_cases,pop, left_on=['Reporting_PHU'], right_on=['health_region'], how='left')
+    ontario_cases["Case_Reported_Date"] = pd.to_datetime(ontario_cases["Case_Reported_Date"])
+    return ontario_cases
+
+@bp.route('/api/chatbot', methods=['POST'])
+def chatbot_webhook():
+    data = request.get_json()
+    try:
+        intent = data['queryResult']['intent']['displayName']
+        session = data['session']
+    except:
+        'request not in proper format', 400
+    if intent == "Default Welcome Intent":
+        ontario = vis.get_testresults()
+        ontario['Date'] = pd.to_datetime(ontario['Date'])
+        ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
+        date = ontario.tail(1)['Date'].values[0]
+        cases = int(ontario.tail(1)['New positives'].values[0])
+        deaths = int(ontario.tail(1)['New deaths'].values[0])
+        hospital = int(ontario.tail(1)['Hospitalized'].values[0])
+        icu = int(ontario.tail(1)['ICU'].values[0])
+        response = create_text_response(f"Hi! I'm Covey. Most recently on {date}, Ontario reported {cases} new cases of COVID-19 and {deaths} new deaths. There are currently {hospital} COVID-19 cases in hospital and {icu} in the ICU.")
+    elif intent == 'How many cases are there in my area?':
+        postal_code = data['queryResult']['parameters']['PostalCode']
+        date, cases, deaths, fsa = get_fsa(postal_code)
+        response = create_text_response(f"As of {date}, there are {cases} new cases and {deaths} new deaths in {fsa} in the last 2 week.")
+    elif intent == 'Are cases in my area increasing or decreasing?':
+        postal_code = data['queryResult']['parameters']['PostalCode']
+        HR_UID, PHU = lookup_postal(postal_code)
+        df = get_summary(-1)
+        df = df.loc[df.HR_UID == HR_UID]
+        rt = df.tail(1)['rt_ml'].values[0]
+        response = create_text_response(f"The estimated Rt for {PHU} is {rt}. Rt is a measure of how contagious a disease is at a certain point in time. It tells us the average number of people one sick person can infect (e.g. an Rt of 5 means that on average, each case is expected to infect 5 other people). If Rt is greater than 1, it means the outbreak is growing.")
+    elif intent == 'When should I expect to get my test results back?':
+        postal_code = data['queryResult']['parameters']['PostalCode']
+        HR_UID, PHU = lookup_postal(postal_code)
+        df = get_summary(-1)
+        df = df.loc[df.HR_UID == HR_UID]
+        test = df.tail(1)['rolling_test_twenty_four'].values[0]
+        response = create_text_response(f"In {PHU}, {test}% of tests are returned in 24 hours or less")
+    elif intent == 'Tell me more about Ontario Cases':
+        postal_code = data['queryResult']['parameters']['PostalCode']
+        HR_UID, PHU = lookup_postal(postal_code)
+        ontario_cases = get_ontario()
+        phu = ontario_cases.loc[ontario_cases.HR_UID == HR_UID]
+        month = ontario_cases["Case_Reported_Date"].max() - pd.Timedelta(30, unit='d')
+        temp = phu.loc[phu["Case_Reported_Date"] > month]
+        cases = len(temp)
+        age = temp['Age_Group'].value_counts(True)
+        age_index = temp['Age_Group'].value_counts(True).index
+        age_group_1 = age_index[0]
+        age_group_1_pct = round(age[0], 2)
+        age_group_2 = age_index[1]
+        age_group_2_pct = round(age[1], 2)
+        temp['Case_AcquisitionInfo'] =  temp['Case_AcquisitionInfo'].replace({'CC': 'Close Contact', 'No Epi-link': 'Community Spread', 'OB': 'Outbreak'})
+        acquisition = temp['Case_AcquisitionInfo'].value_counts(True)
+        acquisition_index = temp['Case_AcquisitionInfo'].value_counts(True).index
+        acquisition_source = acquisition_index[0]
+        acquisition_source_pct = round(acquisition[0],2)
+        response = create_text_response(f"In the last month, there have been {cases} cases in {PHU}. The majority of the cases in {PHU} were in {age_group_1} which accounted for {age_group_1_pct*100}% of cases and {age_group_2} which accounted for {age_group_2_pct*100}% of cases. Most of these cases are acquired via {acquisition_source} ({acquisition_source_pct*100}%). ")
+    elif intent == 'What should I do given the current data?':
+        postal_code = data['queryResult']['parameters']['PostalCode']
+        HR_UID, PHU = lookup_postal(postal_code)
+        df = get_summary(-1)
+        df = df.loc[df.HR_UID == HR_UID]
+        risk = df.tail(1)['risk'].values[0]
+        response = create_text_response(f"{PHU} is in {risk} risk. The following precautions are recommended by the Govt of Canada: [bullet list of recommendations from first page]")
+    else:
+        response = create_text_response("I'm confused")
+    return jsonify(response)
+
 @bp.route('/api/mail/<token>', methods=['GET'])
 def unsubscribe(token):
     try:
@@ -709,8 +820,6 @@ def get_risk():
     return response
 
 
-@bp.route('/api/bot', methods=['GET'])
-@cache.cached(timeout=600, query_string=True)
 def get_bot():
     location = request.args.get('location')
     if not location:
