@@ -5,6 +5,7 @@ from app.export import restrictedsheetsHelper
 import glob
 from datetime import datetime, date
 from app.models import *
+from app import db, cache
 import pandas as pd
 
 
@@ -33,6 +34,13 @@ def export(sheetsConfig, data_out):
 def restricted_export(sheetsConfig, data_out):
     file_path, _ = get_file(data_out)
     sheetsConfig[0]['file'] = file_path
+    if data_out['table_name'] == 'iphis':
+        df = pd.read_csv(file_path)
+        df['cases_two_weeks'] = df.groupby('fsa').cases.rolling(14).sum().droplevel(level=0)
+        df['deaths_two_weeks'] = df.groupby('fsa').deaths.rolling(14).sum().droplevel(level=0)
+        max_date = df['index'].max()
+        temp = df.loc[df['index'] == max_date]
+        temp.to_sql(data_out['table_name'],db.engine, if_exists='replace')
     restrictedsheetsHelper.exportToSheets(sheetsConfig)
 
 @bp.cli.command('public_capacity_ontario_testing_24_hours')
