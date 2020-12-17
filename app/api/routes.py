@@ -531,7 +531,7 @@ def unsubscribe(token):
 @click.argument("frequency")
 def email(frequency):
     df = get_summary(-1)
-    df = df.round(1)
+    df = df.round(2)
     changed = df.loc[df['count'] == 1]
     date = get_times()
     past = Subscribers.query.filter_by(frequency=frequency)
