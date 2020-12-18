@@ -573,13 +573,14 @@ def chatbot_webhook():
         deaths = int(ontario.tail(1)['New deaths'].values[0])
         hospital = int(ontario.tail(1)['Hospitalized'].values[0])
         icu = int(ontario.tail(1)['ICU'].values[0])
-        response = create_text_response(f"Hi! I'm Covey. Most recently on {date}, Ontario reported {cases} new cases of COVID-19 and {deaths} new deaths. There are currently {hospital} COVID-19 cases in hospital and {icu} in the ICU. If you'd like to know more about cases in your region, simply ask me how many cases are there in my area!")
+        response = create_text_response(f"Hi! I'm Covee, the COVID-19 bot built by HowsMyFlattening.ca . Most recently on {date}, Ontario reported {cases} new cases of COVID-19 and {deaths} new deaths. There are currently {hospital} COVID-19 cases in hospital and {icu} in the ICU. If you'd like to know more about cases in your region, simply ask me how many cases are there in my area!")
     elif intent == 'How many cases are there in my postal code?':
         postal_code = data['queryResult']['parameters']['PostalCode']
         date, cases, deaths, fsa = get_fsa(postal_code)
         response = create_text_response(f"As of {date}, there are {cases} new cases and {deaths} new deaths in {fsa} in the last 2 week.")
     elif intent == 'How many cases are there in my area?':
         PHU = data['queryResult']['parameters']['PHU']
+        print(PHU)
         HR_UID = pd.read_csv('phu.csv')
         HR_UID = HR_UID.loc[HR_UID.phu == PHU]['HR_UID'].values[0]
         df = get_summary(-1)
@@ -613,6 +614,7 @@ def chatbot_webhook():
         month = ontario_cases["Case_Reported_Date"].max() - pd.Timedelta(30, unit='d')
         temp = phu.loc[phu["Case_Reported_Date"] > month]
         cases = len(temp)
+        temp['Age_Group'] = temp['Age_Group'].replace({'20s': '20 Year Olds', '30s': '30 Year Olds', '40s': '40 Year Olds', '50s': '50 Year Olds', '60s': '60 Year Olds', '70s': '70 Year Olds', '80s': '80 Year Olds','90s': '90 Year Olds', '<20': 'Kids younger than 20 years old'})
         age = temp['Age_Group'].value_counts(True)
         age_index = temp['Age_Group'].value_counts(True).index
         age_group_1 = age_index[0]
