@@ -573,28 +573,41 @@ def chatbot_webhook():
         deaths = int(ontario.tail(1)['New deaths'].values[0])
         hospital = int(ontario.tail(1)['Hospitalized'].values[0])
         icu = int(ontario.tail(1)['ICU'].values[0])
-        response = create_text_response(f"Hi! I'm Covey. Most recently on {date}, Ontario reported {cases} new cases of COVID-19 and {deaths} new deaths. There are currently {hospital} COVID-19 cases in hospital and {icu} in the ICU.")
-    elif intent == 'How many cases are there in my area?':
+        response = create_text_response(f"Hi! I'm Covey. Most recently on {date}, Ontario reported {cases} new cases of COVID-19 and {deaths} new deaths. There are currently {hospital} COVID-19 cases in hospital and {icu} in the ICU. If you'd like to know more about cases in your region, simply ask me how many cases are there in my area!")
+    elif intent == 'How many cases are there in my postal code?':
         postal_code = data['queryResult']['parameters']['PostalCode']
         date, cases, deaths, fsa = get_fsa(postal_code)
         response = create_text_response(f"As of {date}, there are {cases} new cases and {deaths} new deaths in {fsa} in the last 2 week.")
+    elif intent == 'How many cases are there in my area?':
+        PHU = data['queryResult']['parameters']['PHU']
+        HR_UID = pd.read_csv('phu.csv')
+        HR_UID = HR_UID.loc[HR_UID.phu == PHU]['HR_UID'].values[0]
+        df = get_summary(-1)
+        df = df.loc[df.HR_UID == HR_UID]
+        df['date'] = df['date'].dt.strftime('%B %d')
+        date = df.tail(1)['date'].values[0]
+        cases = round(df.tail(1)['rolling_pop'].values[0],2)
+        response = create_text_response(f"As of {date}, there have been on average {cases} daily cases per 100,000 people in {PHU}. Would you like to know more?")
     elif intent == 'Are cases in my area increasing or decreasing?':
-        postal_code = data['queryResult']['parameters']['PostalCode']
-        HR_UID, PHU = lookup_postal(postal_code)
+        PHU = data['queryResult']['parameters']['PHU']
+        HR_UID = pd.read_csv('phu.csv')
+        HR_UID = HR_UID.loc[HR_UID.phu == PHU]['HR_UID'].values[0]
         df = get_summary(-1)
         df = df.loc[df.HR_UID == HR_UID]
         rt = df.tail(1)['rt_ml'].values[0]
         response = create_text_response(f"The estimated Rt for {PHU} is {rt}. Rt is a measure of how contagious a disease is at a certain point in time. It tells us the average number of people one sick person can infect (e.g. an Rt of 5 means that on average, each case is expected to infect 5 other people). If Rt is greater than 1, it means the outbreak is growing.")
     elif intent == 'When should I expect to get my test results back?':
-        postal_code = data['queryResult']['parameters']['PostalCode']
-        HR_UID, PHU = lookup_postal(postal_code)
+        PHU = data['queryResult']['parameters']['PHU']
+        HR_UID = pd.read_csv('phu.csv')
+        HR_UID = HR_UID.loc[HR_UID.phu == PHU]['HR_UID'].values[0]
         df = get_summary(-1)
         df = df.loc[df.HR_UID == HR_UID]
         test = df.tail(1)['rolling_test_twenty_four'].values[0]
         response = create_text_response(f"In {PHU}, {test}% of tests are returned in 24 hours or less")
-    elif intent == 'Tell me more about Ontario Cases':
-        postal_code = data['queryResult']['parameters']['PostalCode']
-        HR_UID, PHU = lookup_postal(postal_code)
+    elif intent == 'How many cases are there in my area? - yes':
+        PHU = data['queryResult']['outputContexts'][0]['parameters']['PHU']
+        HR_UID = pd.read_csv('phu.csv')
+        HR_UID = HR_UID.loc[HR_UID.phu == PHU]['HR_UID'].values[0]
         ontario_cases = get_ontario()
         phu = ontario_cases.loc[ontario_cases.HR_UID == HR_UID]
         month = ontario_cases["Case_Reported_Date"].max() - pd.Timedelta(30, unit='d')
@@ -613,8 +626,9 @@ def chatbot_webhook():
         acquisition_source_pct = round(acquisition[0],2)
         response = create_text_response(f"In the last month, there have been {cases} cases in {PHU}. The majority of the cases in {PHU} were in {age_group_1} which accounted for {age_group_1_pct*100}% of cases and {age_group_2} which accounted for {age_group_2_pct*100}% of cases. Most of these cases are acquired via {acquisition_source} ({acquisition_source_pct*100}%). ")
     elif intent == 'What should I do given the current data?':
-        postal_code = data['queryResult']['parameters']['PostalCode']
-        HR_UID, PHU = lookup_postal(postal_code)
+        PHU = data['queryResult']['parameters']['PHU']
+        HR_UID = pd.read_csv('phu.csv')
+        HR_UID = HR_UID.loc[HR_UID.phu == PHU]['HR_UID'].values[0]
         df = get_summary(-1)
         df = df.loc[df.HR_UID == HR_UID]
         risk = df.tail(1)['risk'].values[0]
