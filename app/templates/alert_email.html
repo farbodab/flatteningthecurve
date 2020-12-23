@@ -12,7 +12,6 @@
   <div style="text-align: center;margin: 0 auto;">
     <p style="margin: 0 auto;font-size: 23px;font-weight: normal;color: #275d6f;width: 284px;text-align: center;">Below is your personalized COVID-19 report</p><br>
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.</p><br>
-    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;"><b>A few days ago, we shared with you that specific data element had been removed from the publicly reported datasets. This meant that we could not calculate the percentage of tests returned within 24 hours and this metric was showing up as 0 on the website and email reports. We heard back from the Ontario Digital Service and are now using another data piece to calculate it. We do not expect this to change the accuracy of reported metrics going forward, although there are some effects on the historical data which we are working on addressing - The HMF Team</b></p>
     <hr>
     {% if regions_changed |length > 0  %}
     <div style="text-align: center;margin: 0 auto;">
