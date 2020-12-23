@@ -811,7 +811,7 @@ def transform_public_capacity_ontario_testing_24_hours():
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}):
         for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
             df[column] = pd.to_datetime(df[column])
-        df['turn_around'] = (df['test_reported_date'] - df['specimen_reported_date']).dt.days
+        df['turn_around'] = (df['case_reported_date'] - df['specimen_reported_date']).dt.days
         def less(thing):
             phu = thing.reporting_phu.unique()[0]
             date = thing.specimen_reported_date.unique()[0]
