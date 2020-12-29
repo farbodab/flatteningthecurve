@@ -50,22 +50,22 @@
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ region["rt_ml"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rt_ml"] |float}}</td>
         <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] * 100 }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rolling_test_twenty_four"] |float }}</td>
         <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ region["percent_positive"] }}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["percent_positive"]|float  }}</td>
         <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
         <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Bed Occupied</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] * 100}}</td>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["critical_care_pct"] |float }}</td>
         <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </tr>
     </table>
