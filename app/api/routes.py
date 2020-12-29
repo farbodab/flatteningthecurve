@@ -658,6 +658,8 @@ def unsubscribe(token):
 @click.argument("frequency")
 def email(frequency):
     df = get_summary(-1)
+    df['rolling_test_twenty_four'] = df['rolling_test_twenty_four'] * 100
+    df['critical_care_pct'] = df['critical_care_pct'] * 100
     df = df.round(2)
     changed = df.loc[df['count'] == 1]
     date = get_times()
