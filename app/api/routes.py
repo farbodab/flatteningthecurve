@@ -754,6 +754,14 @@ def get_reopening_times():
     data = get_times()
     return data
 
+@bp.route('/api/alerts', methods=['GET'])
+@cache.cached(timeout=600)
+def get_alerts():
+    df = pd.read_sql_table('alerts', db.engine)
+    df = df.loc[df.active == True]
+    data = df.to_json(orient='records')
+    return data
+
 @bp.route('/api/epi', methods=['GET'])
 @cache.cached(timeout=600, query_string=True)
 def get_percentages():
