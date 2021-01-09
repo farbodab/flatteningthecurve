@@ -397,7 +397,7 @@ def get_summary(HR_UID):
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": [], "prev": [], "risk": [], "count": []}
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"covid_pct":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": [], "prev": [], "risk": [], "count": []}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
@@ -419,6 +419,7 @@ def get_summary(HR_UID):
                 loop['rolling_test_twenty_four_trend'].append(get_last(temp['rolling_test_twenty_four_trend']))
                 loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
                 loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+                loop['covid_pct'].append(get_last(temp['covid_pct']))
                 loop['critical_care_pct_trend'].append(get_last(temp['critical_care_pct_trend']))
                 loop['rt_ml'].append(get_last(temp['rt_ml']))
                 loop['rt_ml_trend'].append(get_last(temp['rt_ml_trend']))
@@ -447,6 +448,7 @@ def get_summary(HR_UID):
         loop['rolling_test_twenty_four_trend'].append(get_last(temp['rolling_test_twenty_four_trend']))
         loop['confirmed_positive'].append(get_last(temp['confirmed_positive']))
         loop['critical_care_pct'].append(get_last(temp['critical_care_pct']))
+        loop['covid_pct'].append(get_last(temp['covid_pct']))
         loop['critical_care_pct_trend'].append(get_last(temp['critical_care_pct_trend']))
         loop['rt_ml'].append(get_last(temp['rt_ml']))
         loop['rt_ml_trend'].append(get_last(temp['rt_ml_trend']))
