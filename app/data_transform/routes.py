@@ -681,9 +681,8 @@ def transform_public_capacity_ontario_phu_icu_capacity():
         data_in = {'classification':'restricted', 'stage': 'processed','source_name':'ccso', 'table_name':'ccis',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity',  'type': 'csv'}):
         try:
-            df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
-            result = {"phu":[], "critical_care_beds":[], "confirmed_positive":[],"critical_care_patients":[],"critical_care_pct":[]}
-            df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
+            result = {"phu":[], "critical_care_beds":[], "confirmed_positive":[],"critical_care_patients":[],"critical_care_pct":[], "covid_pct":[]}
+            df = df.loc[(df.icu_type == 'Medical/Surgical') & (df.icu_level == 'Level 3')]
             df['province'] = 'Ontario'
             df['phu'] = df['hospital_name'].replace(replace)
             unique = df.phu.unique()
@@ -693,21 +692,26 @@ def transform_public_capacity_ontario_phu_icu_capacity():
                 critical_care_patients = temp.critical_care_patients.sum()
                 confirmed_positive = temp.confirmed_positive.sum()
                 critical_care_pct = critical_care_patients / critical_care_beds
+                covid_pct = confirmed_positive / critical_care_beds
                 result["phu"].append(hr)
                 result["critical_care_beds"].append(critical_care_beds)
                 result["confirmed_positive"].append(confirmed_positive)
                 result["critical_care_patients"].append(critical_care_patients)
                 result["critical_care_pct"].append(critical_care_pct)
+                result["covid_pct"].append(covid_pct)
+
 
             critical_care_beds = df.loc[df.unit_inclusion == 'Baseline'].critical_care_beds.sum()
             critical_care_patients = df.critical_care_patients.sum()
             confirmed_positive = df.confirmed_positive.sum()
             critical_care_pct = critical_care_patients / critical_care_beds
+            covid_pct = confirmed_positive / critical_care_beds
             result["phu"].append("Ontario")
             result["critical_care_beds"].append(critical_care_beds)
             result["critical_care_patients"].append(critical_care_patients)
             result["critical_care_pct"].append(critical_care_pct)
             result["confirmed_positive"].append(confirmed_positive)
+            result["covid_pct"].append(covid_pct)
             result = pd.DataFrame(result)
             result.to_csv(save_file, index=False)
         except Exception as e:
@@ -1265,7 +1269,7 @@ def transform_public_summary_ontario():
     icu_path = get_last_file(icu)
     icu_df = pd.read_csv(icu_path)
     icu_df['phu'] = icu_df['phu'].replace(Replace)
-    icu_df = icu_df[["phu", "date","critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct"]]
+    icu_df = icu_df[["phu", "date","critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","covid_pct"]]
 
     merged = pd.merge(merged,icu_df, left_on=['phu', 'date'], right_on=['phu', 'date'], how='left')
 
@@ -1276,7 +1280,7 @@ def transform_public_summary_ontario():
     rt_df.rename(columns={"ML": "rt_ml", "Low": "rt_low", "High": "rt_high"},inplace=True)
 
     merged = pd.merge(merged,rt_df, left_on=['phu', 'date'], right_on=['PHU', 'date_report'], how='left')
-    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","rt_ml","rt_low","rt_high", 'prev','risk', 'count']]
+    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","covid_pct","rt_ml","rt_low","rt_high", 'prev','risk', 'count']]
     save_file, save_dir = get_file_path(final)
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     merged.to_csv(save_file, index=False)
