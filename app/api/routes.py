@@ -682,7 +682,7 @@ def email(frequency):
     ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
     ontario = ontario.tail(1).to_dict(orient='records')[0]
     if frequency == 'daily' or frequency == 'weekly':
-        for email in ["farbod@deepmedsolutions.com"]:
+        for email in emails:
             temp = subscribers.loc[subscribers.email == email]
             token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
             my_regions = temp.region.unique()[:]
