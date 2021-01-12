@@ -178,3 +178,11 @@ def export_public_cases_ontario_confirmed_positive_cases():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}
     export(sheetsConfig, data_out)
+
+@bp.cli.command('public_vaccination_ontario')
+def export_public_vaccination_ontario():
+    sheetsConfig = [
+        {'name':'Ontario Vaccination Data'}
+    ]
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'ontario',  'type': 'csv'}
+    export(sheetsConfig, data_out)
