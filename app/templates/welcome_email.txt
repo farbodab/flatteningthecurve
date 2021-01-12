@@ -1,4 +1,4 @@
-[logo]
+[logo] 
 
  
 ** HOW'S MY FLATTENING?
@@ -10,18 +10,21 @@ Thanks for signing up!
 
 Our goal is to keep it easy for you to keep track of COVID-19 in your neighbourhood. This email should be in your inbox {% if frequency == 'daily' %} daily at 11am.{% elif frequency == 'weekly' %} every Monday at 11am.{% else %} whenever there is a change in the public health regions you've selected.{% endif %}
 
- Public Health Unit
+------------------------------------------------------------
 
- {% for region in regions %}
+Public Health Unit
 
- {{ region["phu"] }} {% if region["rolling_pop"] >= 10 %} Community Risk Level: High {% elif region["rolling_pop"] >= 5 %} Community Risk Level: Medium {% elif region["rolling_pop"] >= 1 %} Community Risk Level: Low {% else %} Community Risk Level: Very Low {% endif %} 		CASE INCIDENCE (PER 100,000 PEOPLE)
- {{ region["rolling_pop"] }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
- {{ region["rt_ml"] }} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
- {{ region["rolling_test_twenty_four"] * 100 }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
- {{ region["percent_positive"] }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU BED OCCUPIED
- {{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %}
+{% for region in regions %}
 
- {% endfor %}
+{{ region["phu"] }} {% if region["rolling_pop"] >= 10 %} Community Risk Level: High {% elif region["rolling_pop"] >= 5 %} Community Risk Level: Medium {% elif region["rolling_pop"] >= 1 %} Community Risk Level: Low {% else %} Community Risk Level: Very Low {% endif %} 		CASE INCIDENCE (PER 100,000 PEOPLE)
+{{ '%0.1f' % region["rolling_pop"] |float }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
+{{ '%0.2f' % region["rt_ml"] |float}} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
+{{ region["rolling_test_twenty_four"] |int }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
+{{ '%0.1f' % region["percent_positive"]|float }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU OCCUPANCY
+{{ region["critical_care_pct"] |int }} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		COVID ICU OCCUPANCY
+{{ region["covid_pct"] |int }}  
+
+{% endfor %}
 
 A Note About When We Get The Data
 

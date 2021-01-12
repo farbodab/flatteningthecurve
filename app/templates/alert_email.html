@@ -12,6 +12,9 @@
   <div style="text-align: center;margin: 0 auto;">
     <p style="margin: 0 auto;font-size: 23px;font-weight: normal;color: #275d6f;width: 284px;text-align: center;">Below is your personalized COVID-19 report</p><br>
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.</p><br>
+    {% if alerts | length > 0  %}
+    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;"><b>{{alerts["message"]}}</b></p><br>
+    {% endif %}
     <hr>
     {% if regions_changed |length > 0  %}
     <div style="text-align: center;margin: 0 auto;">
@@ -64,9 +67,14 @@
         <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
       </td>
       <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Bed Occupied</th>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Occupancy</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] |int }}</td>
         <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Covid ICU Occupancy</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["covid_pct"] |int }}</td>
+        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">&nbsp;</td>
       </tr>
     </table>
     {% endfor %}
@@ -92,7 +100,11 @@
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["percent_positive"][0] }}</td>
       </tr>
       <tr>
-        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Total ICU Bed Occupied</th>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Total ICU Occupancy</th>
+        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["critical_care_pct"][0] }}</td>
+      </tr>
+      <tr>
+        <th style="font-size: 16px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #e4e4e4;color: white;width: 257px;color: #275d6f;">Covid ICU Occupancy</th>
         <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #a0bec7;text-align: center;height: 41px;padding: 10px;color: #275d6f;">{{ date["critical_care_pct"][0] }}</td>
       </tr>
     </table>
