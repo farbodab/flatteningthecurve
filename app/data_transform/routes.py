@@ -301,14 +301,14 @@ def transform_public_mobility_google():
         df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_vaccination_ontario')
-def transform_public_mobility_google():
+def transform_public_vaccination_ontario():
     for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'vaccination',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'ontario',  'type': 'csv'}):
 
         # population aged 20 and above
         total_eligible = 29865726
-        target_vaccination_rate = 0.7
+        target_vaccination_rate = 1
         target_eligible = total_eligible * target_vaccination_rate
         df['percentage_completed'] = df['total_vaccinations_completed'] / target_eligible * 100
         df.to_csv(save_file, index=False)
@@ -320,7 +320,7 @@ def transform_confidential_moh_iphis():
         data_out = {'classification':'confidential', 'stage': 'transformed','source_name':'moh', 'table_name':'iphis',  'type': 'csv'}):
 
         for column in ["case_reported_date", "client_death_date"]:
-            df[column] = pd.to_datetime(df[column])
+            df[column] = pd.to_datetime(df[column],errors='coerce')
         cases = df.groupby(['fsa','case_reported_date']).pseudo_id.count().reset_index()
         cases.rename(columns={'pseudo_id':'cases'},inplace=True)
         cases.rename(columns={'case_reported_date':'date'},inplace=True)
