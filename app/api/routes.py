@@ -656,12 +656,20 @@ def unsubscribe(token):
     except:
         return 'Invalid Link', 400
 
+@cache.memoize(timeout=600)
+def get_alerts():
+    df = pd.read_sql_table('alerts', db.engine)
+    df = df.loc[df.active == True]
+    return df
+
 @bp.cli.command("email")
 @click.argument("frequency")
 def email(frequency):
     df = get_summary(-1)
+    alerts = get_alerts().to_dict(orient='records')[0]
     df['rolling_test_twenty_four'] = df['rolling_test_twenty_four'] * 100
     df['critical_care_pct'] = df['critical_care_pct'] * 100
+    df['covid_pct'] = df['covid_pct'] * 100
     df = df.round(2)
     changed = df.loc[df['count'] == 1]
     date = get_times()
@@ -686,8 +694,8 @@ def email(frequency):
             from_email = "mycovidreport@howsmyflattening.ca"
             to_email = email
             subject = "Your Personalized COVID-19 Report"
-            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token)
-            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token)
+            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts)
+            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts)
             message = Mail(
             from_email=from_email,
             to_emails=to_email,
@@ -754,11 +762,11 @@ def get_reopening_times():
     data = get_times()
     return data
 
+
 @bp.route('/api/alerts', methods=['GET'])
 @cache.cached(timeout=600)
-def get_alerts():
-    df = pd.read_sql_table('alerts', db.engine)
-    df = df.loc[df.active == True]
+def send_alerts():
+    df = get_alerts()
     data = df.to_json(orient='records')
     return data
 
