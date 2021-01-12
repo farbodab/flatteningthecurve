@@ -59,6 +59,12 @@ def get_public_ontario_gov_daily_change_in_cases_by_phu():
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_ontario_gov_vaccination')
+def get_public_ontario_gov_daily_change_in_cases_by_phu():
+    item = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'vaccination',  'type': 'csv','url':"https://data.ontario.ca/dataset/752ce2b7-c15a-4965-a3dc-397bf405e7cc/resource/8a89caa9-511c-4568-af89-7f2174b4378c/download/vaccine_doses.csv"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
 #########################################
 @bp.cli.command('public_ontario_gov_ltc_covid_summary')
 def get_public_ontario_gov_ltc_covid_summary():
