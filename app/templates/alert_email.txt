@@ -10,29 +10,46 @@ Below is your personalized COVID-19 report
 
 Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU.
 
+{% if alerts | length > 0 %}
+{{alerts["message"]}}
+
+{% endif %}
 ------------------------------------------------------------
+{% if regions_changed |length > 0 %}
 
- Public Health Unit
+Changes In Community Risk Level For:
 
- {% for region in regions %}
+{% for region in regions_changed %}
+{{region['phu']}}
+{{region['prev']}} to {{region['risk']}}
 
- {{ region["phu"] }} {% if region["rolling_pop"] >= 10 %} Community Risk Level: High {% elif region["rolling_pop"] >= 5 %} Community Risk Level: Medium {% elif region["rolling_pop"] >= 1 %} Community Risk Level: Low {% else %} Community Risk Level: Very Low {% endif %} 		CASE INCIDENCE (PER 100,000 PEOPLE)
- {{ region["rolling_pop"] }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
- {{ region["rt_ml"] }} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
- {{ region["rolling_test_twenty_four"] * 100 }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
- {{ region["percent_positive"] }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU BED OCCUPIED
- {{ region["critical_care_pct"] * 100}} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %}
+{% endfor %}
+------------------------------------------------------------
+{% endif %}
 
- {% endfor %}
+Public Health Unit
 
- 		METRIC WE MEASURED
- 		DATA LAST UPDATED
- 		CASE INCIDENCE (PER 100,000 PEOPLE)
- {{ date["rolling_pop"][0] }} 		RT
- {{ date["rt_ml"][0] }} 		% OF TESTS BACK IN LESS THAN 24 HRS
- {{ date["rolling_test_twenty_four"][0] }} 		PERCENT POSITIVITY
- {{ date["percent_positive"][0] }} 		TOTAL ICU BED OCCUPIED
- {{ date["critical_care_pct"][0] }}
+{% for region in regions %}
+
+{{ region["phu"] }} {% if region["rolling_pop"] >= 10 %} Community Risk Level: High {% elif region["rolling_pop"] >= 5 %} Community Risk Level: Medium {% elif region["rolling_pop"] >= 1 %} Community Risk Level: Low {% else %} Community Risk Level: Very Low {% endif %} 		CASE INCIDENCE (PER 100,000 PEOPLE)
+{{ '%0.1f' % region["rolling_pop"] |float }} {% if region["rolling_pop_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		RT
+{{ '%0.2f' % region["rt_ml"] |float}} {% if region["rt_ml_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		% OF TESTS BACK IN LESS THAN 24 HRS
+{{ region["rolling_test_twenty_four"] |int }} {% if region["rolling_test_twenty_four_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		PERCENT POSITIVITY
+{{ '%0.1f' % region["percent_positive"]|float }} {% if region["percent_positive_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		TOTAL ICU OCCUPANCY
+{{ region["critical_care_pct"] |int }} {% if region["critical_care_pct_trend"] > 0 %} ↑ {% else %} ↓ {% endif %} 		COVID ICU OCCUPANCY
+{{ region["covid_pct"] |int }}  
+
+{% endfor %}
+
+   METRIC WE MEASURED
+   DATA LAST UPDATED
+   CASE INCIDENCE (PER 100,000 PEOPLE)
+{{ date["rolling_pop"][0] }} 		RT
+{{ date["rt_ml"][0] }} 		% OF TESTS BACK IN LESS THAN 24 HRS
+{{ date["rolling_test_twenty_four"][0] }} 		PERCENT POSITIVITY
+{{ date["percent_positive"][0] }} 		TOTAL ICU OCCUPANCY
+{{ date["critical_care_pct"][0] }} 		COVID ICU OCCUPANCY
+{{ date["critical_care_pct"][0] }}
 
 A Note About When We Get The Data
 
