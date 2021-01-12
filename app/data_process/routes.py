@@ -129,6 +129,42 @@ def process_public_ontario_gov_conposcovidloc():
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
 
+@bp.cli.command('public_ontario_gov_vaccination')
+def process_public_ontario_gov_covidtesting():
+    data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'vaccination',  'type': 'csv'}
+    date_field = ['date']
+    field_map = {
+    'report_date': 'date'
+    }
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        filename = file.split('_')[-1]
+        date = filename.split('.')[0]
+        save_file, save_dir = get_file_path(data, 'processed', date)
+        if not os.path.isfile(save_file):
+            try:
+                df = pd.read_csv(file)
+            except Exception as e:
+                print(f"Failed to get {file}")
+                print(e)
+                return e
+
+            df = df.rename(columns=field_map)
+            df.dropna(how='all', axis=1, inplace=True)
+            for index, row in df.iterrows():
+                if type(row['previous_day_doses_administered'])==str:
+                    df.at[index,'previous_day_doses_administered'] = row['previous_day_doses_administered'].replace(",","")
+                if type(row['total_doses_administered'])==str:
+                    df.at[index,'total_doses_administered'] = row['total_doses_administered'].replace(",","")
+                if type(row['total_vaccinations_completed'])==str:
+                    df.at[index,'total_vaccinations_completed'] = row['total_vaccinations_completed'].replace(",","")
+
+            for column in date_field:
+                df[column] = pd.to_datetime(df[column])
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            df.to_csv(save_file, index=False)
+
 @bp.cli.command('public_ontario_gov_covidtesting')
 def process_public_ontario_gov_covidtesting():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'covidtesting',  'type': 'csv'}

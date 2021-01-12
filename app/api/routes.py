@@ -754,6 +754,21 @@ def get_times():
         data[metric] = date_refreshed
     return data
 
+@cache.memoize(timeout=600)
+def get_vaccination(last=True):
+    url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1488620091"
+    df = pd.read_csv(url)
+    df['date'] = pd.to_datetime(df['date'])
+    if last:
+        df = df.loc[df.date == df.date.max()]
+    return df
+
+@bp.route('/api/vaccination', methods=['GET'])
+@cache.cached(timeout=600)
+def send_vaccination():
+    data = get_vaccination()
+    data = data.to_json(orient='records',date_format='iso')
+    return data
 
 @bp.route('/api/times', methods=['GET'])
 @as_json
