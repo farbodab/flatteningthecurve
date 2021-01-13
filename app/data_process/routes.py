@@ -130,7 +130,7 @@ def process_public_ontario_gov_conposcovidloc():
             df.to_csv(save_file, index=False)
 
 @bp.cli.command('public_ontario_gov_vaccination')
-def process_public_ontario_gov_covidtesting():
+def process_public_ontario_gov_vaccination():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'vaccination',  'type': 'csv'}
     date_field = ['date']
     field_map = {

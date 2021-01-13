@@ -667,6 +667,7 @@ def get_alerts():
 def email(frequency):
     df = get_summary(-1)
     alerts = get_alerts().to_dict(orient='records')[0]
+    vaccine = get_vaccination().to_dict(orient='records')[0]
     df['rolling_test_twenty_four'] = df['rolling_test_twenty_four'] * 100
     df['critical_care_pct'] = df['critical_care_pct'] * 100
     df['covid_pct'] = df['covid_pct'] * 100
@@ -694,8 +695,8 @@ def email(frequency):
             from_email = "mycovidreport@howsmyflattening.ca"
             to_email = email
             subject = "Your Personalized COVID-19 Report"
-            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts)
-            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts)
+            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine)
+            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine)
             message = Mail(
             from_email=from_email,
             to_emails=to_email,
