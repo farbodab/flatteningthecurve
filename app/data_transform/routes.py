@@ -307,7 +307,7 @@ def transform_public_vaccination_ontario():
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'ontario',  'type': 'csv'}):
 
         # population aged 20 and above
-        total_eligible = 29865726
+        total_eligible = 11602992
         target_vaccination_rate = 1
         target_eligible = total_eligible * target_vaccination_rate
         df['percentage_completed'] = df['total_vaccinations_completed'] / target_eligible * 100
