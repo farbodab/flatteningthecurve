@@ -48,7 +48,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 jsonschema==3.2.0
 kaggle==1.5.6
-kaleido==0.1.0.post1
+kaleido
 kiwisolver==1.2.0
 lazy-object-proxy==1.4.3
 limits==1.5.1
