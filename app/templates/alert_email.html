@@ -10,8 +10,10 @@
     <h5 style="margin-top: 0px; font-size: 21px;color: #275d6f;font-weight: normal;">Ontario's COVID-19 Warning System</h5>
   </div>
   <div style="text-align: center;margin: 0 auto;">
+    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;background-color: #e7edef;padding: 10px;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU. </p><br>
+    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto; background-color: #daf1ea;padding: 10px;">Yesterday, {{ vaccine["previous_day_doses_administered"] | int}} vaccine doses were administered bringing the total up to {{ vaccine["total_doses_administered"] | int}}. This is {{ '%0.2f' %  vaccine["percentage_completed"] |float }}% of the eligible population of Ontario.</p><br>
+    <img alt="Indicator Graph" src={{'https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/6_' + max_date + '.jpeg'}} width="374"><br>
     <p style="margin: 0 auto;font-size: 23px;font-weight: normal;color: #275d6f;width: 284px;text-align: center;">Below is your personalized COVID-19 report</p><br>
-    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU. Yesterday, {{ vaccine["previous_day_doses_administered"] | int}} vaccine doses were administered bringing the total up to {{ vaccine["total_doses_administered"] | int}}. This is {{ '%0.2f' %  vaccine["percentage_completed"] |float }}% of the eligible population of Ontario.</p><br>
     {% if alerts | length > 0  %}
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;"><b>{{alerts["message"]}}</b></p><br>
     {% endif %}
@@ -25,58 +27,176 @@
     </div>
     <hr>
     {% endif %}
-    <table style="width: 414px;text-align: center;margin-top:30px;">
-      <tr>
-        <td colspan="3" style="text-align: center;padding: 10px;background-color: #275d6f;color: white;">Public Health Unit</td>
-      </tr>
-    </table>
     {% for region in regions %}
-    <table style="width: 414px;text-align: center;">
-      <tr>
-        <td colspan="3" style="text-align: center;height:35px;padding: 10px;">{{ region["phu"] }}</td>
-      </tr>
-      <tr>
-        {% if region["rolling_pop"] >= 10  %}
-          <td colspan="3" class="red" style="text-align: center;height: 31px;padding: 10px;background-color: #d94718;color: white;">Community Risk Level: High</td>
-          {% elif region["rolling_pop"] >= 5 %}
-          <td colspan="3" class="orange" style="text-align: center;height: 31px;padding: 10px;background-color: #f28e24;color: white;">Community Risk Level: Medium</td>
-          {% elif region["rolling_pop"] >= 1 %}
-          <td colspan="3" class="yellow" style="text-align: center;height: 31px;padding: 10px;background-color: #f2bb2b;color: white;">Community Risk Level: Low</td>
-          {% else %}
-          <td colspan="3" class="green" style="text-align: center;height: 31px;padding: 10px;background-color: #18a77b;color: white;">Community Risk Level: Very Low</td>
-        {% endif %}
-      </tr>
-      <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Case Incidence (Per 100,000 People)</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' %  region["rolling_pop"] |float }}</td>
-        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
-      </td>
-      <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rt_ml"] |float}}</td>
-        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
-      </td>
-      <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] |int }}</td>
-        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
-      </td>
-      <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' % region["percent_positive"]|float  }}</td>
-        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
-      </td>
-      <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Occupancy</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] |int }}%</td>
-        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
-      </tr>
-      <tr>
-        <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Covid ICU Occupancy</th>
-        <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["covid_pct"] |int }}%</td>
-        <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">&nbsp;</td>
-      </tr>
-    </table>
+      {% if region["rolling_pop"] >= 10  %}
+        <table style="width: 414px;text-align: center;background-color: #d94718;padding: 20px; margin-top:20px;" >
+          <tr>
+            <td colspan="3" style="text-align: center;height:35px;padding: 10px;color: white;"><b><a style="color:white;" href={{"https://howsmyflattening.ca/#/summary/" ~ region["HR_UID"] }}>{{ region["phu"] }}<a></b></td>
+          </tr>
+          <tr>
+            <td colspan="3" class="red" style="text-align: center;height: 31px;padding: 10px;background-color: #d94718;color: white;">Community Risk Level: High</td>
+          </tr>
+          <tr>
+            <td colspan="3"><img alt="Indicator Graph" src={{'https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/' + region['HR_UID']|string + '_' + max_date + '.jpeg'}} width="374"></td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 66%;">Case Incidence (Per 100,000 People)</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 27%;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' %  region["rolling_pop"] |float }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 7%;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </td>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rt_ml"] |float}}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] |int }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' % region["percent_positive"]|float  }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Covid ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["covid_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">&nbsp;</td>
+          </tr>
+        </table>
+      {% elif region["rolling_pop"] >= 5 %}
+        <table style="width: 414px;text-align: center;background-color: #f28e24;padding: 20px;margin-top:20px;" >
+          <tr>
+            <td colspan="3" style="text-align: center;height:35px;padding: 10px;color: white;"><b><a style="color:white;" href={{"https://howsmyflattening.ca/#/summary/" ~ region["HR_UID"] }}>{{ region["phu"] }}<a></b></td>
+          </tr>
+          <tr>
+              <td colspan="3" class="orange" style="text-align: center;height: 31px;padding: 10px;background-color: #f28e24;color: white;">Community Risk Level: Medium</td>
+          </tr>
+          <tr>
+            <td colspan="3"><img alt="Indicator Graph" src={{'https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/' + region['HR_UID']|string + '_' + max_date + '.jpeg'}} width="374"></td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 66%;">Case Incidence (Per 100,000 People)</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 27%;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' %  region["rolling_pop"] |float }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 7%;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </td>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rt_ml"] |float}}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] |int }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' % region["percent_positive"]|float  }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Covid ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["covid_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">&nbsp;</td>
+          </tr>
+        </table>
+      {% elif region["rolling_pop"] >= 1 %}
+        <table style="width: 414px;text-align: center;background-color: #f2bb2b;padding: 20px;margin-top:20px;" >
+          <tr>
+            <td colspan="3" style="text-align: center;height:35px;padding: 10px;color: white;"><b><a style="color:white;" href={{"https://howsmyflattening.ca/#/summary/" ~ region["HR_UID"] }}>{{ region["phu"] }}<a></b></td>
+          </tr>
+          <tr>
+            <td colspan="3" class="yellow" style="text-align: center;height: 31px;padding: 10px;background-color: #f2bb2b;color: white;">Community Risk Level: Low</td>
+          </tr>
+          <tr>
+            <td colspan="3"><img alt="Indicator Graph" src={{'https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/' + region['HR_UID']|string + '_' + max_date + '.jpeg'}} width="374"></td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 66%;">Case Incidence (Per 100,000 People)</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 27%;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' %  region["rolling_pop"] |float }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 7%;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </td>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rt_ml"] |float}}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] |int }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' % region["percent_positive"]|float  }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Covid ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["covid_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">&nbsp;</td>
+          </tr>
+        </table>
+      {% else %}
+        <table style="width: 414px;text-align: center;background-color: #18a77b;padding: 20px;margin-top:20px;" >
+          <tr>
+            <td colspan="3" style="text-align: center;height:35px;padding: 10px;color: white;"><b><a style="color:white;" href={{"https://howsmyflattening.ca/#/summary/" ~ region["HR_UID"] }}>{{ region["phu"] }}<a></b></td>
+          </tr>
+          <tr>
+            <td colspan="3" class="green" style="text-align: center;height: 31px;padding: 10px;background-color: #18a77b;color: white;">Community Risk Level: Very Low</td>
+          </tr>
+          <tr>
+            <td colspan="3"><img alt="Indicator Graph" src={{'https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/' + region['HR_UID']|string + '_' + max_date + '.jpeg'}} width="374"></td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 66%;">Case Incidence (Per 100,000 People)</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 27%;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' %  region["rolling_pop"] |float }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 7%;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_pop_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </td>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Rt</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.2f' % region["rt_ml"] |float}}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rt_ml_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">% of Tests Back in Less than 24 hrs</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["rolling_test_twenty_four"] |int }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["rolling_test_twenty_four_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Percent Positivity</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #b6b6b6;text-align: center;height: 31px;padding: 10px;">{{ '%0.1f' % region["percent_positive"]|float  }}</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["percent_positive_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Total ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["critical_care_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">{% if region["critical_care_pct_trend"] > 0 %} &#8593; {% else %} &darr; {% endif %}</td>
+          </tr>
+          <tr>
+            <th style="font-size: 12px;border: solid 2px #ffffff;text-align: center;padding: 10px;background-color: #275d6f;color: white;width: 257px;">Covid ICU Occupancy</th>
+            <td style="font-size: 16px;border: solid 2px #ffffff;width: 110px;background-color: #e4e4e4;text-align: center;height: 31px;padding: 10px;">{{ region["covid_pct"] |int }}%</td>
+            <td style="font-size: 18px;border: solid 2px #ffffff;width: 36px;background-color: #275d6f;text-align: center;height: 31px;padding: 10px;color:white">&nbsp;</td>
+          </tr>
+        </table>
+    {% endif %}
     {% endfor %}
     <table style="width: 414px;text-align: center; margin-top:10px;">
       <tr>

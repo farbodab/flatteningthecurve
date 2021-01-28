@@ -20,6 +20,10 @@ import os
 from sendgrid.helpers.mail import *
 import click
 import jwt
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+from firebase_admin import credentials, initialize_app, storage
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -462,6 +466,90 @@ def get_summary(HR_UID):
         df = pd.DataFrame(loop)
     return df
 
+
+@bp.cli.command('get_images')
+def get_images():
+    df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615")
+    credintionals = {
+    "type": "service_account",
+    "project_id": "covid-data-analytics-hub",
+    "private_key_id": os.getenv('email_private_key_id'),
+    "private_key": os.getenv('email_private_key'),
+    "client_email": "firebase-adminsdk-irx4s@covid-data-analytics-hub.iam.gserviceaccount.com",
+    "client_id": "108720830737287977754",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-irx4s%40covid-data-analytics-hub.iam.gserviceaccount.com"
+    }
+    cred = credentials.Certificate(credintionals)
+    initialize_app(cred, {'storageBucket': 'covid-data-analytics-hub.appspot.com'})
+    bucket = storage.bucket()
+    for HR_UID in df.HR_UID.unique():
+        toronto = df.loc[df.HR_UID == HR_UID]
+        toronto['date'] = pd.to_datetime(toronto['date'])
+        toronto['empty'] = 1 - toronto['critical_care_pct']
+        toronto['non_covid'] = toronto['critical_care_pct'] - toronto['covid_pct']
+        icu = toronto.dropna(how='any', subset=['critical_care_pct'])
+        icu['week'] = icu['date'].dt.week
+        icu['label'] = icu['date'].apply(lambda x: str(x.week) + '-' + str(x.month_name())[:3] + '-' + str(x.year)[-2:])
+        icu['day-label'] = icu['date'].apply(lambda x: str(x.day) + '-' + str(x.month_name())[:3] + '-' + str(x.year)[-2:])
+        icu = icu.drop_duplicates(subset=['label'],keep='last')
+        icu_copy = icu.copy()
+        toronto_copy = toronto.copy()
+
+        icu = icu_copy.copy()
+
+        icu = icu.tail(26)
+
+        toronto = toronto_copy.copy()
+
+        toronto = toronto.loc[toronto.date >= icu.date.min()]
+
+        min_date = icu.date.min().month_name()
+        date_max = df.date.max()
+
+        fig = make_subplots(rows=2, cols=1, shared_xaxes=False)
+
+        fig.add_trace(go.Scatter(x=toronto['date'], y=toronto['rolling_pop'],
+                            mode='lines',
+                            name='Case Incidence', legendgroup="group1",
+                                line=dict(color='#1AA8D0', width=2)), row=1, col=1)
+
+
+        fig.add_trace(go.Bar(name='Covid Patients', x=icu['day-label'], y=icu['covid_pct'],marker_color='#D94718', marker_line_color='#D94718',legendgroup="group"),row=2, col=1)
+        fig.add_trace(go.Bar(name='Other Patients', x=icu['day-label'], y=icu['non_covid'],marker_color='#F2BB2B', marker_line_color='#F2BB2B',legendgroup="group"),row=2, col=1)
+        fig.add_trace(go.Bar(name='Available Room', x=icu['day-label'], y=icu['empty'],marker_color='#1AA8D0', marker_line_color='#1AA8D0',legendgroup="group"),row=2, col=1)
+
+        # Change the bar mode
+        fig.update_layout(
+            barmode='stack',
+            title=f" Daily Cases + ICU Capacity Update (Since {min_date})",
+            xaxis_title="Date",
+            xaxis2_title="Week Ending",
+            yaxis_title="Daily Cases Per 100k",
+            yaxis2_title="% of ICU beds",
+            yaxis2 = dict(
+            tickformat= ',.0%',
+            range= [0,1]
+            ),
+            plot_bgcolor='rgba(0,0,0,0)',
+            legend=dict(
+            yanchor="top",
+            y=0.6,
+            xanchor="right",
+            x=1.3
+            )
+        )
+
+        file = f"{HR_UID}_{date_max}.jpeg"
+        path = f"app/static/email/{file}"
+        fig.write_image(path)
+        blob = bucket.blob(file)
+        blob.upload_from_filename(path)
+        blob.make_public()
+        print("your file url", blob.public_url)
+
 @bp.route('/api/summary', methods=['GET'])
 @cache.cached(timeout=600, query_string=True)
 def get_summary_metrics():
@@ -666,7 +754,9 @@ def get_alerts():
 @click.argument("frequency")
 def email(frequency):
     df = get_summary(-1)
-    alerts = get_alerts().to_dict(orient='records')[0]
+    alerts = get_alerts().to_dict(orient='records')
+    if len(alerts) > 0:
+        alerts = alerts[0]
     vaccine = get_vaccination().to_dict(orient='records')[0]
     df['rolling_test_twenty_four'] = df['rolling_test_twenty_four'] * 100
     df['critical_care_pct'] = df['critical_care_pct'] * 100
@@ -687,6 +777,7 @@ def email(frequency):
             token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
             my_regions = temp.region.unique()[:]
             temp_df = df.loc[df.HR_UID.isin(my_regions)]
+            max_date = df.date.max().strftime("%Y-%m-%d")
             temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
             regions = temp_df.to_dict(orient='records')
             regions_changed = temp_changed.to_dict(orient='records')
@@ -695,8 +786,8 @@ def email(frequency):
             from_email = "mycovidreport@howsmyflattening.ca"
             to_email = email
             subject = "Your Personalized COVID-19 Report"
-            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine)
-            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine)
+            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine,max_date=max_date)
+            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine,max_date=max_date)
             message = Mail(
             from_email=from_email,
             to_emails=to_email,
