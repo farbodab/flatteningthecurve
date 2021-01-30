@@ -47,7 +47,7 @@ isort==5.6.4
 itsdangerous==1.1.0
 Jinja2==2.11.1
 jsonschema==3.2.0
-kaggle==1.5.6
+kaggle
 kaleido
 kiwisolver==1.2.0
 lazy-object-proxy==1.4.3
