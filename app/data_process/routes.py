@@ -154,7 +154,6 @@ def process_public_ontario_gov_vaccination():
             df.dropna(how='all', axis=1, inplace=True)
             df.dropna(how='any', inplace=True)
             for index, row in df.iterrows():
-                print(row)
                 if type(row['previous_day_doses_administered'])==str:
                     df.at[index,'previous_day_doses_administered'] = row['previous_day_doses_administered'].replace(",","")
                 if type(row['total_doses_administered'])==str:
