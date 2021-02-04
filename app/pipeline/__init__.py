@@ -37,6 +37,15 @@ def gov_ontario(ctx):
     ctx.forward(data_transform.transform_confidential_moh_iphis)
     ctx.forward(data_export.export_confidential_moh_iphis)
 
+@bp.cli.command('vaccine')
+@click.pass_context
+def vaccine(ctx):
+    ctx.forward(data_in.get_public_ontario_gov_vaccination)
+    ctx.forward(data_process.process_public_ontario_gov_vaccination)
+    ctx.forward(data_transform.transform_public_vaccination_ontario)
+    ctx.forward(data_export.export_public_vaccination_ontario)
+
+
 @bp.cli.command('ccso')
 @click.pass_context
 def ccso(ctx):
