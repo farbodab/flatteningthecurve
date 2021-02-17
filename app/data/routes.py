@@ -51,104 +51,38 @@ def confirmed_ontario():
         "Reporting_PHU_Longitude": "reporting_phu_longitude",
     }
     url = "https://data.ontario.ca/dataset/f4112442-bdc8-45d2-be3c-12efae72fb27/resource/455fd63b-603d-4608-8216-7d8647f43350/download/conposcovidloc.csv"
-    cases = {case.row_id:case for case in ConfirmedOntario.query.all()}
-    cases_max = [int(case.row_id) for case in ConfirmedOntario.query.all()]
-    req = requests.get(url)
-
     print('ontario case data being refreshed')
     df = pd.read_csv(url)
-    df = df.fillna(sql.null())
-    df = df.replace("12:00:00 AM", sql.null())
-    # cases_max = max(cases_max)
-    # df = df.loc[df.Row_ID > 28523]
-    for index, row in df.iterrows():
-        try:
-            if int(row["Row_ID"]) in cases:
-                daily_status = cases.get(int(row["Row_ID"]))
-                for header in field_map.keys():
-                    setattr(daily_status,field_map[header],row[header])
-                db.session.add(daily_status)
-                db.session.commit()
-            else:
-                c = ConfirmedOntario()
-                for header in field_map.keys():
-                    setattr(c,field_map[header],row[header])
-                db.session.add(c)
-                db.session.commit()
-        except Exception as e:
-            print(e)
-            print(f'failed to update case {row["Row_ID"]}')
-        if (index % 100) == 0:
-            print(f'{index} / {df.tail(1).index.values[0]} passed')
-
-    db.session.commit()
+    df = df.rename(columns=field_map)
+    df = df.fillna(0)
+    df = df[field_map.values()]
+    df.to_sql('confirmedontario',con=db.engine,if_exists='replace', index=False)
 
 def testsnew():
     url = "https://data.ontario.ca/dataset/f4f86e54-872d-43f8-8a86-3892fd3cb5e6/resource/ed270bb8-340b-41f9-a7c6-e8ef587e6d11/download/covidtesting.csv"
-    s=requests.get(url).content
-    df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+    df = pd.read_csv(url)
     df = df.dropna(how='all')
     df['Reported Date'] = pd.to_datetime(df['Reported Date'])
     date_include = datetime.strptime("2020-02-04","%Y-%m-%d")
     df = df.loc[df['Reported Date'] > date_include]
+    field_map = {
+    'Reported Date':'date',
+    'Confirmed Negative':'negative',
+    'Under Investigation':'investigation',
+    'Total Cases':'positive',
+    'Resolved':'resolved',
+    'Deaths':'deaths',
+    'Number of patients hospitalized with COVID-19':'hospitalized',
+    'Number of patients in ICU with COVID-19':'icu',
+    'Number of patients in ICU on a ventilator with COVID-19':'ventilator',
+    'Total patients approved for testing as of Reporting Date':'total'
+    }
+    df = df.rename(columns=field_map)
+    df.loc[df['negative'].isna(),'negative'] = df['total'] - df['positive'] - df['investigation']
+    df = df.fillna(0)
+    df = df[field_map.values()]
     print('ontario testing data being refreshed')
-    new = False
-    for index, row in df.iterrows():
-        if (index % 100) == 0:
-            print(f'{index} / {df.tail(1).index.values[0]} passed')
-        date = row['Reported Date']
-        negative = row['Confirmed Negative']
-        investigation = row['Under Investigation']
-        positive = row['Total Cases']
-        resolved = row['Resolved']
-        deaths = row['Deaths']
-        hospitalized = row['Number of patients hospitalized with COVID-19']
-        icu = row['Number of patients in ICU with COVID-19']
-        ventilator = row['Number of patients in ICU on a ventilator with COVID-19']
-        total = row['Total patients approved for testing as of Reporting Date']
-
-        if resolved != resolved:
-            resolved = 0
-        if deaths != deaths:
-            deaths = 0
-
-        if negative != negative:
-            negative = total - positive - investigation
-
-        c = CovidTests.query.filter_by(date=date).first()
-        if not c:
-            c = CovidTests(date=date, negative=negative, investigation=investigation, positive=positive, resolved=resolved, deaths=deaths, total=total)
-            if hospitalized==hospitalized:
-                c.hospitalized = hospitalized
-            if icu==icu:
-                c.icu = icu
-            if ventilator==ventilator:
-                c.ventilator = ventilator
-            db.session.add(c)
-            db.session.commit()
-            new = True
-        else:
-            if ((c.negative == negative) and (c.positive == positive) and (c.investigation == investigation) and (c.resolved == resolved) and (c.deaths == deaths) and (c.total == total) and (c.hospitalized == hospitalized) and (c.icu == icu) and (c.ventilator == ventilator)):
-                pass
-            else:
-                c.negative = negative
-                c.positive = positive
-                c.investigation = investigation
-                c.resolved = resolved
-                c.deaths = deaths
-                c.total = total
-                if hospitalized==hospitalized:
-                    c.hospitalized = hospitalized
-                if icu==icu:
-                    c.icu = icu
-                if ventilator==ventilator:
-                    c.ventilator = ventilator
-                db.session.add(c)
-                db.session.commit()
-    if new:
-        return 'New'
-    else:
-        return 'Same'
+    df.to_sql('covidtests',con=db.engine,if_exists='replace', index=False)
 
 def testsnew_faster():
     driver = webdriver.PhantomJS(service_log_path=os.path.devnull)

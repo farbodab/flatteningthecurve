@@ -24,6 +24,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 from firebase_admin import credentials, initialize_app, storage
+import tweepy
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -857,6 +858,36 @@ def email(frequency):
                     print(e.message)
 
 
+@bp.cli.command("tweet")
+def tweet():
+    vaccine = get_vaccination().to_dict(orient='records')[0]
+    ontario = vis.get_testresults()
+    ontario['Date'] = pd.to_datetime(ontario['Date'])
+    ontario['Date_full'] = ontario['Date'].dt.strftime('%Y-%m-%d')
+    ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
+    ontario = ontario.tail(1).to_dict(orient='records')[0]
+    image = "https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/6_2021-02-17.jpeg"
+    text = f'Most recently on {ontario["Date"]}, Ontario reported {int(ontario["New positives"])} new cases of COVID-19 and {int(ontario["New deaths"])} new deaths.\n\nThere are currently {int(ontario["Hospitalized"])} COVID-19 cases in hospital and {int(ontario["ICU"])} in the ICU.'
+    reply1_text = f'Yesterday, {vaccine["previous_day_doses_administered"]} vaccine doses were administered bringing the total up to {vaccine["total_doses_administered"]}. This is {vaccine["percentage_completed"]}% of the eligible population of Ontario.'
+    api_key = os.getenv('twitter_api_key')
+    api_secret_key = os.getenv('twitter_api_secret_key')
+    key = os.getenv('twitter_key')
+    secret = os.getenv('twitter_secret')
+    auth = tweepy.OAuthHandler(api_key, api_secret_key)
+    auth.set_access_token(key, secret)
+    api = tweepy.API(auth)
+    file = f"6_{ontario['Date_full']}.jpeg"
+    path = f"app/static/email/{file}"
+    original_tweet = api.update_with_media(filename=path,status=text)
+
+    # reply1_tweet = api.update_status(status=reply1_text,
+    #                                  in_reply_to_status_id=original_tweet.id,
+    #                                  auto_populate_reply_metadata=True)
+
+
+
+
+
 @cache.memoize(timeout=600)
 def get_times():
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
@@ -884,6 +915,14 @@ def get_vaccination(last=True):
     if last:
         df = df.loc[df.date == df.date.max()]
     return df
+
+@bp.route('/api/auth/twitter/', methods=['GET'])
+@cache.cached(timeout=600)
+def get_twitter():
+    print('GET')
+    print(request.args)
+    return 'success', 200
+
 
 @bp.route('/api/vaccination', methods=['GET'])
 @cache.cached(timeout=600)
