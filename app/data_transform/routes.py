@@ -210,25 +210,30 @@ def transform_public_cases_ontario_confirmed_positive_cases():
     for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'conposcovidloc',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'}):
-        pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
-        pop = pop.loc[pop.province == "Ontario"]
-        pop['health_region'] = pop['health_region'].replace(POP)
-        df = pd.merge(df,pop, left_on=['reporting_phu'], right_on=['health_region'], how='left')
-        df.to_csv(save_file, index=False)
+        try:
+            pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+            pop = pop.loc[pop.province == "Ontario"]
+            pop['health_region'] = pop['health_region'].replace(POP)
+            df = pd.merge(df,pop, left_on=['reporting_phu'], right_on=['health_region'], how='left')
+            df.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
 
 @bp.cli.command('public_vaccination_ontario')
 def transform_public_vaccination_ontario():
     for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'vaccination',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'ontario',  'type': 'csv'}):
-
-        # population aged 20 and above
-        total_eligible = 11602992
-        target_vaccination_rate = 1
-        target_eligible = total_eligible * target_vaccination_rate
-        df['total_vaccinations_completed'] = df['total_individuals_fully_vaccinated']
-        df['percentage_completed'] = df['total_vaccinations_completed'] / target_eligible * 100
-        df.to_csv(save_file, index=False)
+        try:
+            # population aged 20 and above
+            total_eligible = 11602992
+            target_vaccination_rate = 1
+            target_eligible = total_eligible * target_vaccination_rate
+            df['total_vaccinations_completed'] = df['total_individuals_fully_vaccinated']
+            df['percentage_completed'] = df['total_vaccinations_completed'] / target_eligible * 100
+            df.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
 
 @bp.cli.command('confidential_moh_iphis')
 def transform_confidential_moh_iphis():
@@ -271,108 +276,111 @@ def transform_public_rt_canada_bettencourt_and_ribeiro_approach():
     for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}):
-        df['date'] = pd.to_datetime(df['case_reported_date'])
-        df = df.set_index(['date','phu'])
-        df = df['value'].fillna(0)
+        try:
+            df['date'] = pd.to_datetime(df['case_reported_date'])
+            df = df.set_index(['date','phu'])
+            df = df['value'].fillna(0)
 
-        def prepare_cases(cases):
-            # modification - Isha Berry et al.'s data already come in daily
-            #new_cases = cases.diff()
-            new_cases = cases
+            def prepare_cases(cases):
+                # modification - Isha Berry et al.'s data already come in daily
+                #new_cases = cases.diff()
+                new_cases = cases
 
-            smoothed = new_cases.rolling(7,
-                win_type='gaussian',
-                min_periods=1,
-                # Alf: switching to right-aligned instead of centred to prevent leakage of
-                # information from the future
-                #center=True).mean(std=2).round()
-                center=False).mean(std=2).round()
+                smoothed = new_cases.rolling(7,
+                    win_type='gaussian',
+                    min_periods=1,
+                    # Alf: switching to right-aligned instead of centred to prevent leakage of
+                    # information from the future
+                    #center=True).mean(std=2).round()
+                    center=False).mean(std=2).round()
 
-            zeros = smoothed.index[smoothed.eq(0)]
-            if len(zeros) == 0:
-                idx_start = 0
-            else:
-                last_zero = zeros.max()
-                idx_start = smoothed.index.get_loc(last_zero) + 1
-            smoothed = smoothed.iloc[idx_start:]
-            original = new_cases.loc[smoothed.index]
-            return original, smoothed
-
-        # We create an array for every possible value of Rt
-        R_T_MAX = 12
-        r_t_range = np.linspace(0, R_T_MAX, R_T_MAX*100+1)
-
-        # Gamma is 1/serial interval
-        # https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article
-        GAMMA = 1/4
-
-        def get_posteriors(sr, window=7, min_periods=1):
-            lam = sr[:-1].values * np.exp(GAMMA * (r_t_range[:, None] - 1))
-
-            # Note: if you want to have a Uniform prior you can use the following line instead.
-            # I chose the gamma distribution because of our prior knowledge of the likely value
-            # of R_t.
-
-            # prior0 = np.full(len(r_t_range), np.log(1/len(r_t_range)))
-            prior0 = np.log(sps.gamma(a=3).pdf(r_t_range) + 1e-14)
-
-            likelihoods = pd.DataFrame(
-                # Short-hand way of concatenating the prior and likelihoods
-                data = np.c_[prior0, sps.poisson.logpmf(sr[1:].values, lam)],
-                index = r_t_range,
-                columns = sr.index)
-
-            # Perform a rolling sum of log likelihoods. This is the equivalent
-            # of multiplying the original distributions. Exponentiate to move
-            # out of log.
-            posteriors = likelihoods.rolling(window,
-                                             axis=1,
-                                             min_periods=min_periods).sum()
-            posteriors = np.exp(posteriors)
-
-            # Normalize to 1.0
-            posteriors = posteriors.div(posteriors.sum(axis=0), axis=1)
-
-            return posteriors
-
-        def highest_density_interval(pmf, p=.95):
-            # If we pass a DataFrame, just call this recursively on the columns
-            if(isinstance(pmf, pd.DataFrame)):
-                return pd.DataFrame([highest_density_interval(pmf[col]) for col in pmf],
-                                    index=pmf.columns)
-
-            cumsum = np.cumsum(pmf.values)
-            best = None
-            for i, value in enumerate(cumsum):
-                for j, high_value in enumerate(cumsum[i+1:]):
-                    if (high_value-value > p) and (not best or j<best[1]-best[0]):
-                        best = (i, i+j+1)
-                        break
-
-            low = pmf.index[best[0]]
-            high = pmf.index[best[1]]
-            return pd.Series([low, high], index=['Low', 'High'])
-
-        results = None
-        for prov_name, cases in df.groupby(level='phu'):
-            if cases.max() >= 30:
-                print(f'rt for {prov_name}')
-                new, smoothed = prepare_cases(cases)
-                try:
-                    posteriors = get_posteriors(smoothed)
-                except Exception as e:
-                    print(e)
-                    continue
-                hdis = highest_density_interval(posteriors)
-                most_likely = posteriors.idxmax().rename('ML')
-                result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['date','phu'])
-                if results is None:
-                    results = result
+                zeros = smoothed.index[smoothed.eq(0)]
+                if len(zeros) == 0:
+                    idx_start = 0
                 else:
-                    results = results.append(result)
+                    last_zero = zeros.max()
+                    idx_start = smoothed.index.get_loc(last_zero) + 1
+                smoothed = smoothed.iloc[idx_start:]
+                original = new_cases.loc[smoothed.index]
+                return original, smoothed
 
-        results['PHU'] = results['phu']
-        results.to_csv(save_file, index=False)
+            # We create an array for every possible value of Rt
+            R_T_MAX = 12
+            r_t_range = np.linspace(0, R_T_MAX, R_T_MAX*100+1)
+
+            # Gamma is 1/serial interval
+            # https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article
+            GAMMA = 1/4
+
+            def get_posteriors(sr, window=7, min_periods=1):
+                lam = sr[:-1].values * np.exp(GAMMA * (r_t_range[:, None] - 1))
+
+                # Note: if you want to have a Uniform prior you can use the following line instead.
+                # I chose the gamma distribution because of our prior knowledge of the likely value
+                # of R_t.
+
+                # prior0 = np.full(len(r_t_range), np.log(1/len(r_t_range)))
+                prior0 = np.log(sps.gamma(a=3).pdf(r_t_range) + 1e-14)
+
+                likelihoods = pd.DataFrame(
+                    # Short-hand way of concatenating the prior and likelihoods
+                    data = np.c_[prior0, sps.poisson.logpmf(sr[1:].values, lam)],
+                    index = r_t_range,
+                    columns = sr.index)
+
+                # Perform a rolling sum of log likelihoods. This is the equivalent
+                # of multiplying the original distributions. Exponentiate to move
+                # out of log.
+                posteriors = likelihoods.rolling(window,
+                                                 axis=1,
+                                                 min_periods=min_periods).sum()
+                posteriors = np.exp(posteriors)
+
+                # Normalize to 1.0
+                posteriors = posteriors.div(posteriors.sum(axis=0), axis=1)
+
+                return posteriors
+
+            def highest_density_interval(pmf, p=.95):
+                # If we pass a DataFrame, just call this recursively on the columns
+                if(isinstance(pmf, pd.DataFrame)):
+                    return pd.DataFrame([highest_density_interval(pmf[col]) for col in pmf],
+                                        index=pmf.columns)
+
+                cumsum = np.cumsum(pmf.values)
+                best = None
+                for i, value in enumerate(cumsum):
+                    for j, high_value in enumerate(cumsum[i+1:]):
+                        if (high_value-value > p) and (not best or j<best[1]-best[0]):
+                            best = (i, i+j+1)
+                            break
+
+                low = pmf.index[best[0]]
+                high = pmf.index[best[1]]
+                return pd.Series([low, high], index=['Low', 'High'])
+
+            results = None
+            for prov_name, cases in df.groupby(level='phu'):
+                if cases.max() >= 30:
+                    print(f'rt for {prov_name}')
+                    new, smoothed = prepare_cases(cases)
+                    try:
+                        posteriors = get_posteriors(smoothed)
+                    except Exception as e:
+                        print(e)
+                        continue
+                    hdis = highest_density_interval(posteriors)
+                    most_likely = posteriors.idxmax().rename('ML')
+                    result = pd.concat([most_likely, hdis], axis=1).reset_index(level=['date','phu'])
+                    if results is None:
+                        results = result
+                    else:
+                        results = results.append(result)
+
+            results['PHU'] = results['phu']
+            results.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
 
 @bp.cli.command('public_capacity_ontario_phu_icu_capacity')
 def transform_public_capacity_ontario_phu_icu_capacity():
@@ -491,52 +499,54 @@ def transform_public_capacity_ontario_phu_icu_capacity():
             result = pd.DataFrame(result)
             result.to_csv(save_file, index=False)
         except Exception as e:
-            print(e)
-            print(f"Error in {save_file}")
+            print(f"Failed to transform {save_file} due to {e}")
 
 @bp.cli.command('public_capacity_ontario_testing_24_hours')
 def transform_public_capacity_ontario_testing_24_hours():
     for df, save_file, date in transform(
         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
         data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}):
-        for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
-            df[column] = pd.to_datetime(df[column])
-        df['turn_around'] = (df['case_reported_date'] - df['specimen_reported_date']).dt.days
-        def less(thing):
-            phu = thing.reporting_phu.unique()[0]
-            date = thing.specimen_reported_date.unique()[0]
-            less_1 = len(thing.loc[thing.turn_around <=1])
-            total = len(thing)
-            return less_1
+        try:
+            for column in ['case_reported_date','specimen_reported_date', 'test_reported_date']:
+                df[column] = pd.to_datetime(df[column])
+            df['turn_around'] = (df['case_reported_date'] - df['specimen_reported_date']).dt.days
+            def less(thing):
+                phu = thing.reporting_phu.unique()[0]
+                date = thing.specimen_reported_date.unique()[0]
+                less_1 = len(thing.loc[thing.turn_around <=1])
+                total = len(thing)
+                return less_1
 
-        def total(thing):
-            phu = thing.reporting_phu.unique()[0]
-            date = thing.specimen_reported_date.unique()[0]
-            less_1 = len(thing.loc[thing.turn_around <=1])
-            total = len(thing)
-            return total
-        a = df.groupby(['reporting_phu','specimen_reported_date']).apply(less)
-        b = df.groupby(['reporting_phu','specimen_reported_date']).apply(total)
-        df = pd.merge(a.to_frame("less").reset_index(),b.to_frame("total").reset_index())
-        dfs = []
-        unique = df.reporting_phu.unique()
-        for hr in unique:
-            temp = df.loc[df.reporting_phu == hr]
-            temp['PHU'] = hr
+            def total(thing):
+                phu = thing.reporting_phu.unique()[0]
+                date = thing.specimen_reported_date.unique()[0]
+                less_1 = len(thing.loc[thing.turn_around <=1])
+                total = len(thing)
+                return total
+            a = df.groupby(['reporting_phu','specimen_reported_date']).apply(less)
+            b = df.groupby(['reporting_phu','specimen_reported_date']).apply(total)
+            df = pd.merge(a.to_frame("less").reset_index(),b.to_frame("total").reset_index())
+            dfs = []
+            unique = df.reporting_phu.unique()
+            for hr in unique:
+                temp = df.loc[df.reporting_phu == hr]
+                temp['PHU'] = hr
+                temp['total_7_day'] = temp.total.rolling(7).sum()
+                temp['less_7_day'] = temp.less.rolling(7).sum()
+                temp['Percentage in 24 hours_7dayrolling'] = temp['less_7_day'] / temp['total_7_day']
+                dfs.append(temp)
+
+            temp = df.groupby(['specimen_reported_date']).sum().reset_index()
+            temp['PHU'] = 'Ontario'
             temp['total_7_day'] = temp.total.rolling(7).sum()
             temp['less_7_day'] = temp.less.rolling(7).sum()
             temp['Percentage in 24 hours_7dayrolling'] = temp['less_7_day'] / temp['total_7_day']
             dfs.append(temp)
-
-        temp = df.groupby(['specimen_reported_date']).sum().reset_index()
-        temp['PHU'] = 'Ontario'
-        temp['total_7_day'] = temp.total.rolling(7).sum()
-        temp['less_7_day'] = temp.less.rolling(7).sum()
-        temp['Percentage in 24 hours_7dayrolling'] = temp['less_7_day'] / temp['total_7_day']
-        dfs.append(temp)
-        result = pd.concat(dfs)
-        result['Date'] = result['specimen_reported_date']
-        result.to_csv(save_file, index=False)
+            result = pd.concat(dfs)
+            result['Date'] = result['specimen_reported_date']
+            result.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
 
 @bp.cli.command('public_economic_ontario_job_postings')
 def transform_public_economic_ontario_job_postings():
@@ -595,24 +605,26 @@ def transform_public_cases_ontario_cases_seven_day_rolling_average():
     for df, save_file, date in transform(
         data_in={'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'daily_change_in_cases_by_phu',  'type': 'csv'},
         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}):
-
-        dfs = []
-        df['case_reported_date'] = pd.to_datetime(df['Date'])
-        pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
-        pop = pop.loc[pop.province == "Ontario"]
-        cases_df = pd.merge(df,pop, left_on=['HR_UID'], right_on=['HR_UID'], how='left')
-        cases_df['phu'] = cases_df['health_region_esri']
-        cases_df.loc[cases_df.HR_UID == 6, 'phu'] = 'Ontario'
-        cases_df.loc[cases_df.phu == "Ontario", 'pop'] = 14745040
-        unique = cases_df.HR_UID.unique()
-        for hr in unique:
-            temp = cases_df.loc[cases_df.HR_UID == hr]
-            temp['rolling'] = temp.value.rolling(7).mean()
-            temp['rolling_pop'] = temp['rolling'] / temp['pop'] * 100000
-            dfs.append(temp)
-        result = pd.concat(dfs)
-        result = result[['HR_UID','phu','case_reported_date', 'pop','value','rolling', 'rolling_pop']]
-        result.to_csv(save_file, index=False)
+        try:
+            dfs = []
+            df['case_reported_date'] = pd.to_datetime(df['Date'])
+            pop = pd.read_csv("https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/other/hr_map.csv")
+            pop = pop.loc[pop.province == "Ontario"]
+            cases_df = pd.merge(df,pop, left_on=['HR_UID'], right_on=['HR_UID'], how='left')
+            cases_df['phu'] = cases_df['health_region_esri']
+            cases_df.loc[cases_df.HR_UID == 6, 'phu'] = 'Ontario'
+            cases_df.loc[cases_df.phu == "Ontario", 'pop'] = 14745040
+            unique = cases_df.HR_UID.unique()
+            for hr in unique:
+                temp = cases_df.loc[cases_df.HR_UID == hr]
+                temp['rolling'] = temp.value.rolling(7).mean()
+                temp['rolling_pop'] = temp['rolling'] / temp['pop'] * 100000
+                dfs.append(temp)
+            result = pd.concat(dfs)
+            result = result[['HR_UID','phu','case_reported_date', 'pop','value','rolling', 'rolling_pop']]
+            result.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
 
 @bp.cli.command('public_summary_ontario')
 def transform_public_summary_ontario():
