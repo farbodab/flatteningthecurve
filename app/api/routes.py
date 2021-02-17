@@ -594,7 +594,10 @@ def subscribe():
     frequency = content['frequency'].lower()
     regions = content['regions']
     past = Subscribers.query.filter_by(email=email).all()
-    sign_up(email,regions,frequency)
+    try:
+        sign_up(email,regions,frequency)
+    except:
+        "sign up failed"
     if past:
         for item in past:
             db.session.delete(item)
