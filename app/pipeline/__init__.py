@@ -14,27 +14,19 @@ from app.data_export import routes as data_export
 def gov_ontario(ctx):
     ctx.forward(data_in.get_public_ontario_gov_conposcovidloc)
     ctx.forward(data_in.get_public_ontario_gov_daily_change_in_cases_by_phu)
-    try:
-        ctx.forward(data_in.get_public_ontario_gov_vaccination)
-        ctx.forward(data_process.process_public_ontario_gov_vaccination)
-        ctx.forward(data_transform.transform_public_vaccination_ontario)
-    except:
-        print("Vaccination failed")
+
     ctx.forward(data_process.process_public_ontario_gov_conposcovidloc)
     ctx.forward(data_process.process_public_ontario_gov_daily_change_in_cases_by_phu)
+    ctx.forward(data_process.process_restricted_moh_iphis)
+
     ctx.forward(data_transform.transform_public_cases_ontario_confirmed_positive_cases)
     ctx.forward(data_transform.transform_public_cases_ontario_cases_seven_day_rolling_average)
-    ctx.forward(data_transform.transform_public_cases_ontario_phu_weekly_new_cases)
     ctx.forward(data_transform.transform_public_capacity_ontario_testing_24_hours)
     ctx.forward(data_transform.transform_public_summary_ontario)
-
-    # ctx.forward(data_export.export_public_cases_ontario_confirmed_positive_cases)
-    ctx.forward(data_export.export_public_summary_ontario)
-    ctx.forward(data_export.export_public_vaccination_ontario)
-    ctx.forward(data_export.export_public_cases_ontario_phu_weekly_new_cases)
-    ctx.forward(data_export.export_public_capacity_ontario_testing_24_hours)
-    ctx.forward(data_process.process_restricted_moh_iphis)
     ctx.forward(data_transform.transform_confidential_moh_iphis)
+
+    ctx.forward(data_export.export_public_summary_ontario)
+    ctx.forward(data_export.export_public_capacity_ontario_testing_24_hours)
     ctx.forward(data_export.export_confidential_moh_iphis)
 
 @bp.cli.command('vaccine')
@@ -44,7 +36,6 @@ def vaccine(ctx):
     ctx.forward(data_process.process_public_ontario_gov_vaccination)
     ctx.forward(data_transform.transform_public_vaccination_ontario)
     ctx.forward(data_export.export_public_vaccination_ontario)
-
 
 @bp.cli.command('ccso')
 @click.pass_context
@@ -57,8 +48,8 @@ def ccso(ctx):
 @bp.cli.command('rt')
 @click.pass_context
 def rt(ctx):
-    ctx.forward(data_in.get_public_open_data_working_group_cases)
-    ctx.forward(data_process.process_public_open_data_working_group_cases)
-    ctx.forward(data_transform.transform_public_cases_canada_confirmed_positive_cases)
+    ctx.forward(data_in.get_public_ontario_gov_daily_change_in_cases_by_phu)
+    ctx.forward(data_process.process_public_ontario_gov_daily_change_in_cases_by_phu)
+    ctx.forward(data_transform.transform_public_cases_ontario_cases_seven_day_rolling_average)
     ctx.forward(data_transform.transform_public_rt_canada_bettencourt_and_ribeiro_approach)
     ctx.forward(data_export.export_public_rt_canada_bettencourt_and_ribeiro_approach)

@@ -467,6 +467,33 @@ def get_summary(HR_UID):
     return df
 
 
+@bp.route('/api/howsmyflattening', methods=['GET'])
+@as_json
+@cache.cached(timeout=600)
+def get_my_flattening():
+    df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615")
+    HR_UID = 6
+    toronto = df.loc[df.HR_UID == HR_UID]
+    toronto['date'] = pd.to_datetime(toronto['date'])
+    toronto['empty'] = 1 - toronto['critical_care_pct']
+    toronto['non_covid'] = toronto['critical_care_pct'] - toronto['covid_pct']
+    icu = toronto.dropna(how='any', subset=['critical_care_pct'])
+    icu['week'] = icu['date'].dt.week
+    icu['label'] = icu['date'].apply(lambda x: str(x.week) + '-' + str(x.month_name())[:3] + '-' + str(x.year)[-2:])
+    icu['day-label'] = icu['date'].apply(lambda x: str(x.day) + '-' + str(x.month_name())[:3] + '-' + str(x.year)[-2:])
+    icu = icu.drop_duplicates(subset=['label'],keep='last')
+    icu_copy = icu.copy()
+    toronto_copy = toronto.copy()
+    icu = icu_copy.copy()
+    icu = icu.tail(26)
+    toronto = toronto_copy.copy()
+    toronto = toronto.loc[toronto.date >= icu.date.min()]
+    min_date = icu.date.min().month_name()
+    date_max = df.date.max()
+    response = {"df": toronto.to_dict(orient='records'), "icu": icu.to_dict(orient='records'), "min_date": min_date}
+    return response
+
+
 @bp.cli.command('get_images')
 def get_images():
     df = pd.read_csv("https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615")
@@ -931,6 +958,51 @@ def get_percentages():
     }
     return json.dumps(data)
 
+
+@cache.memoize(timeout=600)
+def get_risk_df():
+    df = pd.read_csv("https://data.ontario.ca/dataset/cbb4d08c-4e56-4b07-9db6-48335241b88a/resource/ce9f043d-f0d4-40f0-9b96-4c8a83ded3f6/download/response_framework.csv")
+    phu_mapper={3895:3595,
+    5183:3539,
+    2244:3544,
+    4913:3575,
+    2261:3561,
+    2268:3568,
+    2227:3527,
+    2230:3530,
+    2258:3558,
+    2236:3536,
+    2237:3537,
+    2246:3546,
+    2265:3565,
+    2266:3566,
+    2270:3570,
+    2253:3553,
+    2240:3540,
+    2233:3533,
+    2241:3541,
+    2255:3555,
+    2262:3562,
+    2260:3560,
+    2238:3538,
+    2242:3542,
+    2249:3549,
+    2234:3534,
+    2235:3535,
+    2243:3543,
+    2263:3563,
+    2226:3526,
+    2247:3547,
+    2256:3556,
+    2257:3557,
+    2251:3551
+    }
+    df['HR_UID'] = df['Reporting_PHU_id'].replace(phu_mapper)
+    df['start_date'] = pd.to_datetime(df['start_date'])
+    df['end_date'] = pd.to_datetime(df['end_date'])
+    return df
+
+
 @bp.route('/api/risk', methods=['GET'])
 @cache.cached(timeout=600, query_string=True)
 def get_risk():
@@ -944,13 +1016,13 @@ def get_risk():
     if len(HR_UID) == 0:
         return 'Public health unit not found', 400
     df = get_summary(-1)
-    risk_df = pd.read_csv("https://docs.google.com/spreadsheets/d/1eJcsbs7vSt3rfV_lAH94PbWvAs9u6OxR9KXRpl45MWc/export?format=csv&id=1eJcsbs7vSt3rfV_lAH94PbWvAs9u6OxR9KXRpl45MWc&gid=1865799742")
+    risk_df = get_risk_df()
     response = {"FSA": fsa}
     risk = []
     color = []
     for phu in HR_UID:
         critical_care_patients = df.loc[df.HR_UID == phu]['critical_care_patients'].values[0]
-        risk_location = risk_df.loc[risk_df.HR_UID == phu]['stage'].values[0]
+        risk_location = risk_df.loc[risk_df.HR_UID == phu]['Status_PHU'].replace({"Lockdown":0, "Control": 1, "Restrict": 2, "Protect": 3, "Prevent": 4, "Other": 5}).values[-1]
         color.append(risk_location)
         if critical_care_patients >= 10:
             risk.append(4)
