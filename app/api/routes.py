@@ -860,15 +860,22 @@ def email(frequency):
 
 @bp.cli.command("tweet")
 def tweet():
+    df = get_summary(-1)
+    df['date'] = pd.to_datetime(df['date'])
+    df['rolling_pop_prev'] = df['rolling_pop'].shift(7)
+    df['change'] = df['rolling_pop'] - df['rolling_pop_prev']
+    max_date = df.date.max().strftime("%Y-%m-%d")
+    df = df.loc[(df.date == df.date.max()) & (df.phu != 'Ontario') & (df['change'] < 0)]
+    df = df.sort_values(by='change')
     vaccine = get_vaccination().to_dict(orient='records')[0]
     ontario = vis.get_testresults()
     ontario['Date'] = pd.to_datetime(ontario['Date'])
-    ontario['Date_full'] = ontario['Date'].dt.strftime('%Y-%m-%d')
     ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
     ontario = ontario.tail(1).to_dict(orient='records')[0]
     image = "https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/6_2021-02-17.jpeg"
-    text = f'Most recently on {ontario["Date"]}, Ontario reported {int(ontario["New positives"])} new cases of COVID-19 and {int(ontario["New deaths"])} new deaths.\n\nThere are currently {int(ontario["Hospitalized"])} COVID-19 cases in hospital and {int(ontario["ICU"])} in the ICU.'
-    reply1_text = f'Yesterday, {vaccine["previous_day_doses_administered"]} vaccine doses were administered bringing the total up to {vaccine["total_doses_administered"]}. This is {vaccine["percentage_completed"]}% of the eligible population of Ontario.'
+    text = f'\U00002615{ontario["Date"]}:#COVID19 in #Ontario\n\U0001F4C8{int(ontario["New positives"])} new cases, {int(ontario["New deaths"])} new deaths.\n\U0001F3E5{int(ontario["Hospitalized"])} in hospital, {int(ontario["ICU"])} in the ICU.\n\U0001F489{vaccine["previous_day_doses_administered"]} doses vaccinated yesterday ({round(vaccine["percentage_completed"],2)}% of Ontario)'
+    reply1_text = f'\U00002B50Top 3 Curve Flatteners in the last 7 days (using daily cases per 100k):\n1.{df.phu.values[0]} (from {round(df.rolling_pop_prev.values[0],2)} to {round(df.rolling_pop.values[0],2)})\n2.{df.phu.values[1]} (from {round(df.rolling_pop_prev.values[1],2)} to {round(df.rolling_pop.values[1],2)})\n3.{df.phu.values[2]} (from {round(df.rolling_pop_prev.values[2],2)} to {round(df.rolling_pop.values[2],2)})'
+    reply2_text = "\U0001F4E7Learn how the pandemic is affecting regions across the province. Sign up for a customized daily report delivered to your inbox at https://howsmyflattening.ca/#/home"
     api_key = os.getenv('twitter_api_key')
     api_secret_key = os.getenv('twitter_api_secret_key')
     key = os.getenv('twitter_key')
@@ -876,13 +883,15 @@ def tweet():
     auth = tweepy.OAuthHandler(api_key, api_secret_key)
     auth.set_access_token(key, secret)
     api = tweepy.API(auth)
-    file = f"6_{ontario['Date_full']}.jpeg"
+    file = f"6_{max_date}.jpeg"
     path = f"app/static/email/{file}"
     original_tweet = api.update_with_media(filename=path,status=text)
-
-    # reply1_tweet = api.update_status(status=reply1_text,
-    #                                  in_reply_to_status_id=original_tweet.id,
-    #                                  auto_populate_reply_metadata=True)
+    reply1_tweet = api.update_status(status=reply1_text,
+                                 in_reply_to_status_id=original_tweet.id,
+                                 auto_populate_reply_metadata=True)
+    reply2_tweet = api.update_status(status=reply2_text,
+                                     in_reply_to_status_id=reply1_tweet.id,
+                                     auto_populate_reply_metadata=True)
 
 
 
