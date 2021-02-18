@@ -25,6 +25,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 from firebase_admin import credentials, initialize_app, storage
 import tweepy
+import platform
 
 PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
  'Brant County Health Unit':'Brant County Health Unit',
@@ -571,7 +572,10 @@ def get_images():
         )
         # print(os.getcwd())
         file = f"{HR_UID}_{date_max}.jpeg"
-        path = f"{os.getcwd()}/app/static/email/{file}"
+        if platform.system() == 'Windows':
+            path = f"{os.getcwd()}/app/static/email/{file}"
+        else:
+            path = f"{os.getcwd()}/static/email/{file}"
         fig.write_image(path)
         blob = bucket.blob(file)
         blob.upload_from_filename(path)
