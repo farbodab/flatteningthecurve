@@ -502,7 +502,7 @@ def get_images():
     "type": "service_account",
     "project_id": "covid-data-analytics-hub",
     "private_key_id": os.getenv('email_private_key_id'),
-    "private_key": os.getenv('email_private_key'),
+    "private_key": os.getenv('email_private_key').replace('\\n', '\n'),
     "client_email": "firebase-adminsdk-irx4s@covid-data-analytics-hub.iam.gserviceaccount.com",
     "client_id": "108720830737287977754",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
