@@ -572,10 +572,7 @@ def get_images():
         )
         # print(os.getcwd())
         file = f"{HR_UID}_{date_max}.jpeg"
-        if platform.system() == 'Windows':
-            path = f"{os.getcwd()}/app/static/email/{file}"
-        else:
-            path = f"{os.getcwd()}/static/email/{file}"
+        path = f"{os.getcwd()}/app/static/email/{file}"
         fig.write_image(path)
         blob = bucket.blob(file)
         blob.upload_from_filename(path)
