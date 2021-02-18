@@ -1526,12 +1526,12 @@ def ltc_outbreaks_plot(region='ontario'):
 def rt_analysis_plot(region='Ontario'):
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=428679599"
     df = pd.read_csv(url)
-    df['date'] = pd.to_datetime(df['date_report'])
+    df['date'] = pd.to_datetime(df['date'])
 
     if region=='Ontario':
-        df = df.loc[df.health_region == region]
+        df = df.loc[df.phu == region]
     else:
-        df = df.loc[df.health_region == PHU[region]]
+        df = df.loc[df.phu == PHU[region]]
 
     if len(df) <= 0:
         div = sql.null()

@@ -135,7 +135,6 @@ def getrt():
 @bp.cli.command('ontario')
 def getontario():
     routes.testsnew()
-    routes.confirmed_ontario()
     print('Ontario data refreshed')
 
 @bp.cli.command('moh')
