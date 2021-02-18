@@ -136,9 +136,6 @@ def getrt():
 def getontario():
     routes.testsnew()
     routes.confirmed_ontario()
-    routes.getlongtermcare()
-    routes.getpredictivemodel()
-    routes.getideamodel()
     print('Ontario data refreshed')
 
 @bp.cli.command('moh')
