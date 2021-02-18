@@ -872,6 +872,8 @@ def tweet():
     df = df.sort_values(by='change')
     vaccine = get_vaccination().to_dict(orient='records')[0]
     ontario = vis.get_testresults()
+    ontario['percent_positive'] = ontario['New Positive pct']
+    ontario['percent_positive_trend'] = ontario['percent_positive'].diff(7)
     ontario['Date'] = pd.to_datetime(ontario['Date'])
     ontario['Date'] = ontario['Date'].dt.strftime('%B %d')
     ontario = ontario.tail(1).to_dict(orient='records')[0]
@@ -880,9 +882,9 @@ def tweet():
     down = '\U00002B07'
     image = "https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/6_2021-02-17.jpeg"
     text = f'\U00002615{ontario["Date"]}:#COVID19 in #Ontario\n\U0001F4C8{int(ontario["New positives"])} new cases, {int(ontario["New deaths"])} new deaths.\n\U0001F3E5{int(ontario["Hospitalized"])} in hospital, {int(ontario["ICU"])} in the ICU.\n\U0001F489{vaccine["previous_day_doses_administered"]} doses vaccinated yesterday ({round(vaccine["percentage_completed"],2)}% of Ontario)'
-    reply1_text = f"Key Indicators + Trend:\n\U0001F912Case Incidence: {round(ont['rolling_pop'],1)}{up if ont['rolling_pop_trend'] > 0 else down}({date['rolling_pop'][0]})\n\U0001F465Rt: {round(ont['rt_ml'],2)}{up if ont['rt_ml_trend'] > 0 else down}({date['rt_ml'][0]})\n\U000023F0Testing < 24h: {int(ont['rolling_test_twenty_four'])}%{up if ont['rolling_test_twenty_four_trend'] > 0 else down}({date['rolling_test_twenty_four'][0]})\n\U0001F9A0Percent Positivity: {round(ontario['Positive pct']*100,1)}%({ontario['Date']})\n\U0001F6CFICU Occupancy: {int(ont['critical_care_pct'])}%{up if ont['critical_care_pct_trend'] > 0 else down}({date['critical_care_pct'][0]})"
+    reply1_text = f"Key Indicators + Trend:\n\U0001F912Case Incidence: {round(ont['rolling_pop'],1)} {up if ont['rolling_pop_trend'] > 0 else down} ({date['rolling_pop'][0]})\n\U0001F465Rt: {round(ont['rt_ml'],2)} {up if ont['rt_ml_trend'] > 0 else down} ({date['rt_ml'][0]})\n\U000023F0Testing < 24h: {int(ont['rolling_test_twenty_four'])}% {up if ont['rolling_test_twenty_four_trend'] > 0 else down} ({date['rolling_test_twenty_four'][0]})\n\U0001F9A0Percent Positivity: {round(ontario['percent_positive']*100,1)}% {up if ontario['percent_positive_trend'] > 0 else down} ({ontario['Date']})\n\U0001F6CFICU Occupancy: {int(ont['critical_care_pct'])}% {up if ont['critical_care_pct_trend'] > 0 else down} ({date['critical_care_pct'][0]})"
     reply2_text = f'\U00002B50Top 3 Curve Flatteners in the last 7 days (using daily cases per 100k):\n1.{df.phu.values[0]} (from {round(df.rolling_pop_prev.values[0],1)} to {round(df.rolling_pop.values[0],1)})\n2.{df.phu.values[1]} (from {round(df.rolling_pop_prev.values[1],1)} to {round(df.rolling_pop.values[1],1)})\n3.{df.phu.values[2]} (from {round(df.rolling_pop_prev.values[2],1)} to {round(df.rolling_pop.values[2],1)})'
-    reply3_text = "\U0001F4E7Learn how the pandemic is affecting regions across the province. Sign up for a customized daily report delivered to your inbox at https://howsmyflattening.ca/#/home"
+    reply3_text = "\U0001F4E7Learn how the pandemic is affecting regions across the province. Sign up for a customized daily report delivered to your inbox at: https://howsmyflattening.ca/#/home"
     api_key = os.getenv('twitter_api_key')
     api_secret_key = os.getenv('twitter_api_secret_key')
     key = os.getenv('twitter_key')
@@ -902,10 +904,6 @@ def tweet():
     reply3_tweet = api.update_status(status=reply3_text,
                                      in_reply_to_status_id=reply2_tweet.id,
                                      auto_populate_reply_metadata=True)
-
-
-
-
 
 
 @cache.memoize(timeout=600)
