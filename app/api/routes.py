@@ -569,9 +569,9 @@ def get_images():
             x=1.3
             )
         )
-
+        # print(os.getcwd())
         file = f"{HR_UID}_{date_max}.jpeg"
-        path = f"app/static/email/{file}"
+        path = f"{os.getcwd()}/app/static/email/{file}"
         fig.write_image(path)
         blob = bucket.blob(file)
         blob.upload_from_filename(path)
