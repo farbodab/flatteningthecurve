@@ -171,26 +171,6 @@ def process_public_ontario_gov_vaccination():
 @bp.cli.command('public_ontario_gov_covidtesting')
 def process_public_ontario_gov_covidtesting():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'covidtesting',  'type': 'csv'}
-    field_map = {
-        "Reported Date":"reported_date",
-        "Confirmed Negative":"confirmed_negative",
-        "Presumptive Negative":"presumptive_negative",
-        "Presumptive Positive":"presumptive_positive",
-        "Confirmed Positive":"confirmed_positive",
-        "Resolved":"resolved",
-        "Deaths":"deaths",
-        "Total Cases":"total_cases",
-        "Total patients approved for testing as of Reporting Date":"total_patients_approved_for_testing_as_of_reporting_date",
-        "Total tests completed in the last day":"total_tests_completed_in_last_day",
-        "Under Investigation":"under_investigation",
-        "Number of patients hospitalized with COVID-19":"number_of_patients_hospitalized_with_covid19",
-        "Number of patients in ICU with COVID-19":"number_of_patients_in_icu_with_covid19",
-        "Number of patients in ICU on a ventilator with COVID-19":"number_of_patients_in_icu_on_a_ventilator_with_covid19",
-        "Total Positive LTC Resident Cases":"total_positive_ltc_resident_cases",
-        "Total Positive LTC HCW Cases":"total_positive_ltc_hcw_cases",
-        "Total LTC Resident Deaths":"total_ltc_resident_deaths",
-        "Total LTC HCW Deaths":"total_ltc_hcw_deaths"
-    }
     date_field = ['reported_date']
     load_file, load_dir = get_file_path(data)
     files = glob.glob(load_dir+"/*."+data['type'])
@@ -206,7 +186,12 @@ def process_public_ontario_gov_covidtesting():
                 print(e)
                 return e
 
-            df = df.rename(columns=field_map)
+            to_include = []
+            for column in df.columns:
+                name = column.replace(' ','_').lower()
+                df[name] = df[column]
+                to_include.append(name)
+            df = df[to_include]
 
             for column in date_field:
                 df[column] = pd.to_datetime(df[column])

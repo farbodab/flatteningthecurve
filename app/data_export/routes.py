@@ -99,13 +99,14 @@ def export_public_rt_canada_bettencourt_and_ribeiro_approach():
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
     export(sheetsConfig, data_out)
     file_path, date = get_file(data_out)
-    # m = MetricUpdateData.query.filter_by(source=data_out['table_name'], recent=True).first()
-    # if m:
-    #     m.recent = False
-    #     db.session.add(m)
-    # m_n = MetricUpdateData(source=data_out['table_name'], recent=True, date_refreshed=date)
-    # db.session.add(m_n)
-    # db.session.commit()
+
+
+@bp.cli.command('public_cases_ontario_covid_summary')
+def export_public_cases_ontario_covid_summary():
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_covid_summary',  'type': 'csv'}
+    file_path, date = get_file(data_out)
+    df = pd.read_csv(file_path)
+    df.to_sql(data_out['table_name'],db.engine, if_exists='replace')
 
 @bp.cli.command('public_socioeconomic_ontario_211_call_reports')
 def export_public_socioeconomic_ontario_211_call_reports():
