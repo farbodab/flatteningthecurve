@@ -205,6 +205,22 @@ def process_cases(row):
     else:
         return "Very Low"
 
+@bp.cli.command('public_cases_ontario_covid_summary')
+def transform_public_cases_ontario_covid_summary():
+    for df, save_file, date in transform(
+        data_in={'classification':'public', 'stage': 'processed','source_name':'ontario_gov', 'table_name':'covidtesting',  'type': 'csv'},
+        data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_covid_summary',  'type': 'csv'}):
+        try:
+            for column in df.columns:
+                if column != 'reported_date':
+                    change = f"{column}_change"
+                    df[change] = df[column].diff()
+            df.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
+
+
+
 @bp.cli.command('public_cases_ontario_confirmed_positive_cases')
 def transform_public_cases_ontario_confirmed_positive_cases():
     for df, save_file, date in transform(
