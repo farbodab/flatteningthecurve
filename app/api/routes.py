@@ -895,8 +895,11 @@ def tweet():
     auth.set_access_token(key, secret)
     api = tweepy.API(auth)
     file = f"6_{max_date}.jpeg"
-    path = f"{os.getcwd()}/app/static/email/{file}"
-    original_tweet = api.update_with_media(filename=path,status=text)
+    url = f"https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/{file}"
+    with open(filename, 'wb') as handle:
+        response = requests.get(url)
+        handle.write(response.content)
+    original_tweet = api.update_with_media(filename=file,status=text)
     reply1_tweet = api.update_status(status=reply1_text,
                                  in_reply_to_status_id=original_tweet.id,
                                  auto_populate_reply_metadata=True)
