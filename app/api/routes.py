@@ -517,6 +517,7 @@ def get_images():
     for HR_UID in df.HR_UID.unique():
         toronto = df.loc[df.HR_UID == HR_UID]
         toronto['date'] = pd.to_datetime(toronto['date'])
+        min_date = toronto.date.max() - pd.Timedelta(26, unit="D")
         toronto['empty'] = 1 - toronto['critical_care_pct']
         toronto['non_covid'] = toronto['critical_care_pct'] - toronto['covid_pct']
         icu = toronto.dropna(how='any', subset=['critical_care_pct'])
@@ -533,7 +534,7 @@ def get_images():
 
         toronto = toronto_copy.copy()
 
-        toronto = toronto.loc[toronto.date >= icu.date.min()]
+        toronto = toronto.loc[toronto.date >= min_date]
 
         min_date = icu.date.min().month_name()
         date_max = df.date.max()
@@ -884,7 +885,7 @@ def tweet():
     text = f'\U00002615{ontario["reported_date"]}:#COVID19 in #Ontario\n{int(ontario["total_cases_change"])} new cases, {int(ontario["deaths_change"])} new deaths.\n{int(ontario["number_of_patients_hospitalized_with_covid-19"])} in hospital, {int(ontario["number_of_patients_in_icu_with_covid-19"])} in the ICU.\n{vaccine["previous_day_doses_administered"]} doses vaccinated yesterday ({round(vaccine["percentage_completed"],2)}% of Ontario)'
     reply1_text= f'\U0001F3E5Long Term Care Update:\nResidents: {int(ontario["total_positive_ltc_resident_cases_change"])} new cases and {int(ontario["total_ltc_resident_deaths_change"])} new deaths.\nHealth Care Workers: {int(ontario["total_positive_ltc_hcw_cases_change"])} new cases and {int(ontario["total_ltc_hcw_deaths_change"])} new deaths.'
     reply2_text = f'\U0001F9A0Variant Update:\nB117 (identified in the UK): {int(ontario["total_lineage_b.1.1.7_change"])} new cases, {int(ontario["total_lineage_b.1.1.7"])} cases todate.\nB1351 (identified in South Africa): {int(ontario["total_lineage_b.1.351_change"])} new cases, {int(ontario["total_lineage_b.1.351"])} cases todate.\nP1 (identified in Brazil): {int(ontario["total_lineage_p.1_change"])} new cases, {int(ontario["total_lineage_p.1"])} cases todate.'
-    reply3_text = f"\U0001F4C8Key Indicators + Trend:\nCase Incidence: {round(ont['rolling_pop'],1)} {up if ont['rolling_pop_trend'] > 0 else down} ({date['rolling_pop'][0]})\nRt: {round(ont['rt_ml'],2)} {up if ont['rt_ml_trend'] > 0 else down} ({date['rt_ml'][0]})\nTesting < 24h: {int(ont['rolling_test_twenty_four'])}% {up if ont['rolling_test_twenty_four_trend'] > 0 else down} ({date['rolling_test_twenty_four'][0]})\nPercent Positivity: {round(ontario['percent_positive'],1)}% {up if ontario['percent_positive_trend'] > 0 else down} ({ontario['reported_date']})\nICU Occupancy: {int(ont['critical_care_pct'])}% {up if ont['critical_care_pct_trend'] > 0 else down} ({date['critical_care_pct'][0]})"
+    reply3_text = f"\U0001F4C8Ontario Key Indicators + Trend:\nCase Incidence: {round(ont['rolling_pop'],1)} {up if ont['rolling_pop_trend'] > 0 else down} ({date['rolling_pop'][0]})\nRt: {round(ont['rt_ml'],2)} {up if ont['rt_ml_trend'] > 0 else down} ({date['rt_ml'][0]})\nTesting < 24h: {int(ont['rolling_test_twenty_four'])}% {up if ont['rolling_test_twenty_four_trend'] > 0 else down} ({date['rolling_test_twenty_four'][0]})\nPercent Positivity: {round(ontario['percent_positive'],1)}% {up if ontario['percent_positive_trend'] > 0 else down} ({ontario['reported_date']})\nICU Occupancy: {int(ont['critical_care_pct'])}% {up if ont['critical_care_pct_trend'] > 0 else down} ({date['critical_care_pct'][0]})"
     reply4_text = f'\U00002B50Top 3 Curve Flatteners in the last 7 days (using daily cases per 100k):\n1.{df.phu.values[0]} (from {round(df.rolling_pop_prev.values[0],1)} to {round(df.rolling_pop.values[0],1)})\n2.{df.phu.values[1]} (from {round(df.rolling_pop_prev.values[1],1)} to {round(df.rolling_pop.values[1],1)})\n3.{df.phu.values[2]} (from {round(df.rolling_pop_prev.values[2],1)} to {round(df.rolling_pop.values[2],1)})'
     reply5_text = "\U0001F4E7Learn how the pandemic is affecting regions across the province. Sign up for a customized daily report delivered to your inbox at: https://howsmyflattening.ca/#/home"
     api_key = os.getenv('twitter_api_key')
