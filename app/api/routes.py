@@ -517,7 +517,7 @@ def get_images():
     for HR_UID in df.HR_UID.unique():
         toronto = df.loc[df.HR_UID == HR_UID]
         toronto['date'] = pd.to_datetime(toronto['date'])
-        min_date = toronto.date.max() - pd.Timedelta(26, unit="D")
+        min_date = toronto.date.max() - pd.Timedelta(7*26, unit="d")
         toronto['empty'] = 1 - toronto['critical_care_pct']
         toronto['non_covid'] = toronto['critical_care_pct'] - toronto['covid_pct']
         icu = toronto.dropna(how='any', subset=['critical_care_pct'])
@@ -536,7 +536,7 @@ def get_images():
 
         toronto = toronto.loc[toronto.date >= min_date]
 
-        min_date = icu.date.min().month_name()
+        min_date = toronto.date.min().month_name()
         date_max = df.date.max()
 
         fig = make_subplots(rows=2, cols=1, shared_xaxes=False)
@@ -837,6 +837,7 @@ def email(frequency):
             token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
             my_regions = temp.region.unique()[:]
             temp_df = df.loc[(df.HR_UID.isin(my_regions)) & (df['count'] == 1)]
+            max_date = df.date.max().strftime("%Y-%m-%d")
             if len(temp_df) > 1:
                 temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
                 regions = temp_df.to_dict(orient='records')
@@ -935,11 +936,12 @@ def tweet():
     auth.set_access_token(key, secret)
     api = tweepy.API(auth)
     file = f"6_{max_date}.jpeg"
+    path = f"{os.getcwd()}/app/static/email/{file}"
     url = f"https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/{file}"
-    with open(file, 'wb') as handle:
+    with open(path, 'wb') as handle:
         response = requests.get(url)
         handle.write(response.content)
-    original_tweet = api.update_with_media(filename=file,status=text)
+    original_tweet = api.update_with_media(filename=path,status=text)
     reply1_tweet = api.update_status(status=reply1_text,
                                  in_reply_to_status_id=original_tweet.id,
                                  auto_populate_reply_metadata=True)
