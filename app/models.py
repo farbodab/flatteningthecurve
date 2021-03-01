@@ -423,3 +423,4 @@ class Subscribers(db.Model):
     email = db.Column(db.String, index=True)
     region = db.Column(db.Integer, index=True)
     frequency = db.Column(db.String, index=True)
+    date_subscribed = db.Column(db.DateTime, index=True)
