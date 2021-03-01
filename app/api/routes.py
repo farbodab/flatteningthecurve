@@ -596,6 +596,7 @@ def subscribe():
     email = content['email'].lower()
     frequency = content['frequency'].lower()
     regions = content['regions']
+    date_subscribed = datetime.now()
     past = Subscribers.query.filter_by(email=email).all()
     try:
         sign_up(email,regions,frequency)
@@ -603,9 +604,11 @@ def subscribe():
         "sign up failed"
     if past:
         for item in past:
+            if item.date_subscribed:
+                date_subscribed = item.date_subscribed
             db.session.delete(item)
     for region in regions:
-        s = Subscribers(email=email,frequency=frequency,region=region)
+        s = Subscribers(email=email,frequency=frequency,region=region, date_subscribed=date_subscribed)
         db.session.add(s)
     db.session.commit()
 
