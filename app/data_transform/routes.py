@@ -205,6 +205,16 @@ def process_cases(row):
     else:
         return "Very Low"
 
+@bp.cli.command('public_subscribers_trend')
+def transform_public_subscribers_trend():
+    df = pd.read_sql_table('subscribers', db.engine)
+    df['date_subscribed'] = df['date_subscribed'].fillna(pd.Timestamp('2021-02-28'))
+    df['normalised_date'] = df['date_subscribed'].dt.normalize()
+    new = df.groupby('normalised_date')['email'].nunique().to_frame()
+    new['cumulative'] = new.email.cumsum()
+    new.to_sql('subscribers_trend', db.engine, if_exists='replace')
+
+
 @bp.cli.command('public_cases_ontario_covid_summary')
 def transform_public_cases_ontario_covid_summary():
     for df, save_file, date in transform(
