@@ -29,7 +29,6 @@ rtsheetsConfig = [
 sheetsConfig = [
     {'name':'Duration Percentiles', 'function':vis.get_duration_percentiles, 'col':21},
     {'name':'Jobs Data','function':vis.get_job_data, 'col':5, 'timeseries':'date'},
-    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
     {'name': 'Test Turn Around Distribution', 'function': vis.get_test_turn_around_distrib, 'col':4},
     {'name': 'Test Turn Around Time', 'function': vis.get_test_turn_around, 'col':4},
     {'name': 'Infection Source PCT', 'function': vis.get_source_infection_pct, 'col':4},
@@ -60,6 +59,7 @@ sheetsConfig = [
     {'name':'Long-term Care Homes','table':'longtermcare', 'timeseries':'date'},
     {'name':'Predictive Model','table':'predictivemodel', 'timeseries':'date'},
     {'name':'IDEA Model','table':'ideamodel', 'timeseries':'date'},
+    {'name':'Estimation of Rt from Case Counts','function':vis.get_rt_est, 'col':5, 'timeseries':'date'},
 ]
 
 kaggleConfig = [
