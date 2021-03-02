@@ -187,3 +187,10 @@ def export_public_vaccination_ontario():
     ]
     data_out = {'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'ontario',  'type': 'csv'}
     export(sheetsConfig, data_out)
+
+@bp.cli.command('public_subscribers_trend')
+def export_subscribers_trend():
+    sheetsConfig = [
+        {'name':'Subscriber Trend','table':'subscribers_trend'}
+    ]
+    sheetsHelper.exportToSheets(sheetsConfig)
