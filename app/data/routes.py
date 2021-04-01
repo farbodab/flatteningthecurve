@@ -73,8 +73,8 @@ def testsnew():
     'Resolved':'resolved',
     'Deaths':'deaths',
     'Number of patients hospitalized with COVID-19':'hospitalized',
-    'Number of patients in ICU with COVID-19':'icu',
-    'Number of patients in ICU on a ventilator with COVID-19':'ventilator',
+    'Number of patients in ICU due to COVID-19':'icu',
+    'Number of patients in ICU on a ventilator due to COVID-19':'ventilator',
     'Total patients approved for testing as of Reporting Date':'total'
     }
     df = df.rename(columns=field_map)
