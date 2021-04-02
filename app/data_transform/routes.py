@@ -255,7 +255,8 @@ def transform_public_vaccination_ontario():
             total_eligible = 11602992
             target_vaccination_rate = 1
             target_eligible = total_eligible * target_vaccination_rate
-            df['total_vaccinations_completed'] = df['total_individuals_fully_vaccinated']
+            df['one_only'] = df['total_doses_administered'] - df['total_doses_in_fully_vaccinated_individuals ']
+            df['total_vaccinations_completed'] = df['one_only'] + df['total_individuals_fully_vaccinated']
             df['percentage_completed'] = df['total_vaccinations_completed'] / target_eligible * 100
             df.to_csv(save_file, index=False)
         except Exception as e:
