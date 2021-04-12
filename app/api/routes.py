@@ -26,82 +26,15 @@ import numpy as np
 from firebase_admin import credentials, initialize_app, storage
 import tweepy
 import platform
+from app.api.helpers import *
 
-PHU = {'The District of Algoma Health Unit':'Algoma Public Health Unit',
- 'Brant County Health Unit':'Brant County Health Unit',
- 'Durham Regional Health Unit':'Durham Region Health Department',
- 'Grey Bruce Health Unit':'Grey Bruce Health Unit',
- 'Haldimand-Norfolk Health Unit':'Haldimand-Norfolk Health Unit',
- 'Haliburton, Kawartha, Pine Ridge District Health Unit':'Haliburton, Kawartha, Pine Ridge District Health Unit',
- 'Halton Regional Health Unit':'Halton Region Health Department',
- 'City of Hamilton Health Unit':'Hamilton Public Health Services',
- 'Hastings and Prince Edward Counties Health Unit':'Hastings and Prince Edward Counties Health Unit',
- 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
- 'Chatham-Kent Health Unit':'Chatham-Kent Health Unit',
- 'Kingston, Frontenac, and Lennox and Addington Health Unit':'Kingston, Frontenac and Lennox & Addington Public Health',
- 'Lambton Health Unit':'Lambton Public Health',
- 'Leeds, Grenville and Lanark District Health Unit':'Leeds, Grenville and Lanark District Health Unit',
- 'Middlesex-London Health Unit':'Middlesex-London Health Unit',
- 'Niagara Regional Area Health Unit':'Niagara Region Public Health Department',
- 'North Bay Parry Sound District Health Unit':'North Bay Parry Sound District Health Unit',
- 'Northwestern Health Unit':'Northwestern Health Unit',
- 'City of Ottawa Health Unit':'Ottawa Public Health',
- 'Peel Regional Health Unit':'Peel Public Health',
- 'Huron Perth Public Health Unit':'Huron Perth District Health Unit',
- 'Peterborough County–City Health Unit':'Peterborough Public Health',
- 'Porcupine Health Unit':'Porcupine Health Unit',
- 'Renfrew County and District Health Unit':'Renfrew County and District Health Unit',
- 'The Eastern Ontario Health Unit':'Eastern Ontario Health Unit',
- 'Simcoe Muskoka District Health Unit':'Simcoe Muskoka District Health Unit',
- 'Sudbury and District Health Unit':'Sudbury & District Health Unit',
- 'Thunder Bay District Health Unit':'Thunder Bay District Health Unit',
- 'Timiskaming Health Unit':'Timiskaming Health Unit',
- 'Waterloo Health Unit':'Region of Waterloo, Public Health',
- 'Wellington-Dufferin-Guelph Health Unit':'Wellington-Dufferin-Guelph Public Health',
- 'Windsor-Essex County Health Unit':'Windsor-Essex County Health Unit',
- 'York Regional Health Unit':'York Region Public Health Services',
- 'Southwestern Public Health Unit':'Southwestern Public Health',
- 'City of Toronto Health Unit':'Toronto Public Health',
- 'Ontario': 'Ontario'}
-
-POP = {
-     "Algoma": "Algoma Public Health Unit",
-     "Brant": "Brant County Health Unit",
-     "Chatham-Kent": "Chatham-Kent Health Unit",
-     "Durham":"Durham Region Health Department",
-     "Eastern":"Eastern Ontario Health Unit",
-     "Grey Bruce":"Grey Bruce Health Unit",
-     "Haldimand-Norfolk":"Haldimand-Norfolk Health Unit",
-     "Haliburton Kawartha Pineridge":"Haliburton, Kawartha, Pine Ridge District Health Unit",
-     "Halton":"Halton Region Health Department",
-     "Hamilton":"Hamilton Public Health Services",
-     "Hastings Prince Edward":"Hastings and Prince Edward Counties Health Unit",
-     "Huron Perth":"Huron Perth District Health Unit",
-     "Kingston Frontenac Lennox & Addington":"Kingston, Frontenac and Lennox & Addington Public Health",
-     "Lambton":"Lambton Public Health",
-     "Leeds Grenville and Lanark":"Leeds, Grenville and Lanark District Health Unit",
-     "Middlesex-London":"Middlesex-London Health Unit",
-     "Niagara":"Niagara Region Public Health Department",
-     "North Bay Parry Sound":"North Bay Parry Sound District Health Unit",
-     "Northwestern":"Northwestern Health Unit",
-     "Ottawa":"Ottawa Public Health",
-     "Peel":"Peel Public Health",
-     "Peterborough":"Peterborough Public Health",
-     "Porcupine":"Porcupine Health Unit",
-     "Renfrew":"Renfrew County and District Health Unit",
-     "Simcoe Muskoka":"Simcoe Muskoka District Health Unit",
-     "Southwestern":"Southwestern Public Health",
-     "Sudbury":"Sudbury & District Health Unit",
-     "Thunder Bay":"Thunder Bay District Health Unit",
-     "Timiskaming":"Timiskaming Health Unit",
-     "Toronto":"Toronto Public Health",
-     "Waterloo":"Region of Waterloo, Public Health",
-     "Wellington Dufferin Guelph":"Wellington-Dufferin-Guelph Public Health",
-     "Windsor-Essex":"Windsor-Essex County Health Unit",
-     "York":"York Region Public Health Services",
- }
 
 def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
+    """
+    Given variable data (dictionary with classification, stage, source_name
+    and table_name) returns custom directory to load file from, along with
+    filename which uses today's date by default or custom date
+    """
     source_dir = 'data/' + data['classification'] + '/' + data['stage'] + '/'
     load_dir = source_dir + data['source_name'] + '/' + data['table_name']
     file_name = data['table_name'] + '_' + today + '.' + data['type']
@@ -109,6 +42,11 @@ def get_dir(data, today=datetime.today().strftime('%Y-%m-%d')):
     return load_dir, file_path
 
 def get_last_file(data):
+    """
+    Given variable data (dictionary with classification, stage, source_name
+    and table_name) returns the latest file using its date parsed from file
+    name
+    """
     load_dir, file_path = get_dir(data)
     files = glob.glob(load_dir + "/*." + data['type'])
     files = [file.split('_')[-1] for file in files]
@@ -119,7 +57,6 @@ def get_last_file(data):
     return file_path
 
 def get_results():
-    items = request.get_json()
     c = Covid.query.filter_by(province="Ontario")
     df = pd.read_sql(c.statement, db.engine)
     case_count = df.groupby("date").case_id.count().cumsum().reset_index()
@@ -363,8 +300,8 @@ def get_reopening_metrics():
         except:
             temp_dict["testing"] = "nan"
 
-        temp = rt_df.loc[rt_df.health_region == phu_select]
-        temp = temp.sort_values('date_report')
+        temp = rt_df.loc[rt_df.PHU == phu_select]
+        temp = temp.sort_values('date')
         try:
             temp_dict["rt"] = str(temp.tail(1)['ML'].values[0])
         except:

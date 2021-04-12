@@ -1,4 +1,4 @@
-import pytest 
+import pytest
 from app import create_app, db, APP_ROOT
 from app.data import kaggleConfig
 from app.export import kaggleHelper
@@ -7,26 +7,19 @@ import subprocess
 import os
 from zipfile import ZipFile
 
-@pytest.fixture(scope='module')
-def test_client():
-    flask_app = create_app('testing')
+@pytest.fixture(scope='function')
+def app():
+    app = create_app('testing')
 
-    # Flask provides a way to test your application by exposing the Werkzeug test Client
-    # and handling the context locals for you.
-    testing_client = flask_app.test_client()
- 
-    # Establish an application context before running the tests.
-    ctx = flask_app.app_context()
+    ctx = app.app_context()
     ctx.push()
- 
-    yield testing_client  # this is where the testing happens!
- 
-    ctx.pop()
 
-@pytest.fixture(scope='module')
-def init_kaggle():
-    api = KaggleApi()
-    api.authenticate()
-    dirname = os.path.join(APP_ROOT, 'tests/data')
-    data = api.dataset_download_files('covid19-challenges', path=dirname, unzip=True)
+    def teardown():
+        ctx.pop()
 
+    return app
+
+
+@pytest.fixture(scope='function')
+def client(app):
+    return app.test_client()
