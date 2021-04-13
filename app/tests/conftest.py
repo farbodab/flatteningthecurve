@@ -23,3 +23,7 @@ def app():
 @pytest.fixture(scope='function')
 def client(app):
     return app.test_client()
+
+@pytest.fixture(scope='function')
+def cli(app):
+    return app.test_cli_runner()
