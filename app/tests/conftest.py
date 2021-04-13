@@ -1,8 +1,5 @@
 import pytest
 from app import create_app, db, APP_ROOT
-from app.data import kaggleConfig
-from app.export import kaggleHelper
-from kaggle.api.kaggle_api_extended import KaggleApi
 import subprocess
 import os
 from zipfile import ZipFile

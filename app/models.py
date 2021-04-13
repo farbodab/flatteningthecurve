@@ -424,3 +424,10 @@ class Subscribers(db.Model):
     region = db.Column(db.Integer, index=True)
     frequency = db.Column(db.String, index=True)
     date_subscribed = db.Column(db.DateTime, index=True)
+
+class Alert(db.Model):
+    __tablename__ = 'alerts'
+    id = db.Column(db.Integer(), primary_key=True)
+    type = db.Column(db.String)
+    message = db.Column(db.String)
+    active  = db.Column(db.Boolean)

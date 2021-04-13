@@ -1,5 +1,6 @@
 from app.api import bp
 from app.api.helpers import *
+from app.api import vis
 from app.models import *
 from app import db, cache
 from firebase_admin import credentials, initialize_app, storage
@@ -9,6 +10,12 @@ import click
 import pandas as pd
 import numpy as np
 import os
+import jwt
+import sendgrid
+from sendgrid.helpers.mail import *
+from flask import Flask, request, jsonify, g, render_template
+import tweepy
+import requests
 
 @bp.cli.command('get_images')
 def get_images():
@@ -89,10 +96,13 @@ def get_images():
         file = f"{HR_UID}_{date_max}.jpeg"
         path = f"{os.getcwd()}/app/static/email/{file}"
         fig.write_image(path, width=1200,height=675)
-        blob = bucket.blob(file)
-        blob.upload_from_filename(path)
-        blob.make_public()
-        print("your file url", blob.public_url)
+        if os.getenv('FLASK_CONFIG') == 'production':
+            blob = bucket.blob(file)
+            blob.upload_from_filename(path)
+            blob.make_public()
+            print("your file url", blob.public_url)
+        else:
+            print('done')
 
 @bp.cli.command("email")
 @click.argument("frequency")
@@ -138,11 +148,13 @@ def email(frequency):
             subject='Your personalized COVID-19 report',
             plain_text_content=text,
             html_content=html)
-            try:
-                response = sg.send(message)
-                print(response.status_code)
-            except Exception as e:
-                print("error " + e.message)
+            if os.getenv('FLASK_CONFIG') == 'production':
+                try:
+                    response = sg.send(message)
+                except Exception as e:
+                    print("error " + e.message)
+            else:
+                print('done')
     elif frequency == 'change':
         for email in emails:
             temp = subscribers.loc[subscribers.email == email]
@@ -167,11 +179,14 @@ def email(frequency):
                 subject='Your personalized COVID-19 report',
                 plain_text_content=text,
                 html_content=html)
-                try:
-                    response = sg.send(message)
-                    print(response.status_code)
-                except Exception as e:
-                    print("error " + e.message)
+                if os.getenv('FLASK_CONFIG') == 'production':
+                    try:
+                        response = sg.send(message)
+                        print(response.status_code)
+                    except Exception as e:
+                        print("error " + e.message)
+                else:
+                    print('done')
 
 @bp.cli.command("tweet")
 def tweet():
@@ -233,7 +248,7 @@ def tweet():
     date = get_times()
     up = '\U00002B06'
     down = '\U00002B07'
-    text = f'\U00002615{ontario["reported_date"]}:#COVID19 in #Ontario\n{int(ontario["total_cases_change"])} new cases, {int(ontario["deaths_change"])} new deaths.\n{int(ontario["number_of_patients_hospitalized_with_covid-19"])} in hospital, {int(ontario["number_of_patients_in_icu_with_covid-19"])} in the ICU.\n{vaccine["previous_day_doses_administered"]} doses vaccinated yesterday ({round(vaccine["percentage_completed"],2)}% of Ontario)'
+    text = f'\U00002615{ontario["reported_date"]}:#COVID19 in #Ontario\n{int(ontario["total_cases_change"])} new cases, {int(ontario["deaths_change"])} new deaths.\n{int(ontario["number_of_patients_hospitalized_with_covid-19"])} in hospital, {int(ontario["number_of_patients_in_icu_due_to_covid-19"])} in the ICU.\n{vaccine["previous_day_doses_administered"]} doses vaccinated yesterday ({round(vaccine["percentage_completed"],2)}% of Ontario)'
     reply1_text= f'\U0001F3E5Long Term Care Update:\nResidents: {int(ontario["total_positive_ltc_resident_cases_change"])} new cases and {int(ontario["total_ltc_resident_deaths_change"])} new deaths.\nHealth Care Workers: {int(ontario["total_positive_ltc_hcw_cases_change"])} new cases and {int(ontario["total_ltc_hcw_deaths_change"])} new deaths.'
     reply2_text = f'\U0001F9A0Variant Update:\nB117 (identified in the UK): {int(ontario["total_lineage_b.1.1.7_change"])} new cases, {int(ontario["total_lineage_b.1.1.7"])} cases todate.\nB1351 (identified in South Africa): {int(ontario["total_lineage_b.1.351_change"])} new cases, {int(ontario["total_lineage_b.1.351"])} cases todate.\nP1 (identified in Brazil): {int(ontario["total_lineage_p.1_change"])} new cases, {int(ontario["total_lineage_p.1"])} cases todate.'
     reply3_text = f"\U0001F4C8Ontario Key Indicators + Trend:\nCase Incidence: {round(ont['rolling_pop'],1)} {up if ont['rolling_pop_trend'] > 0 else down} ({date['rolling_pop'][0]})\nRt: {round(ont['rt_ml'],2)} {up if ont['rt_ml_trend'] > 0 else down} ({date['rt_ml'][0]})\nTesting < 24h: {int(ont['rolling_test_twenty_four'])}% {up if ont['rolling_test_twenty_four_trend'] > 0 else down} ({date['rolling_test_twenty_four'][0]})\nPercent Positivity: {round(ontario['percent_positive'],1)}% {up if ontario['percent_positive_trend'] > 0 else down} ({ontario['reported_date']})\nICU Occupancy: {int(ont['critical_care_pct'])}% {up if ont['critical_care_pct_trend'] > 0 else down} ({date['critical_care_pct'][0]})"
@@ -253,22 +268,25 @@ def tweet():
     with open(path, 'wb') as handle:
         response = requests.get(url)
         handle.write(response.content)
-    original_tweet = api.update_with_media(filename=path,status=text)
-    reply1_tweet = api.update_status(status=reply1_text,
-                                 in_reply_to_status_id=original_tweet.id,
-                                 auto_populate_reply_metadata=True)
-    reply2_tweet = api.update_status(status=reply2_text,
-                                     in_reply_to_status_id=reply1_tweet.id,
+    if os.getenv('FLASK_CONFIG') == 'production':
+        original_tweet = api.update_with_media(filename=path,status=text)
+        reply1_tweet = api.update_status(status=reply1_text,
+                                     in_reply_to_status_id=original_tweet.id,
                                      auto_populate_reply_metadata=True)
-    reply3_tweet = api.update_status(status=reply3_text,
-                                     in_reply_to_status_id=reply2_tweet.id,
-                                     auto_populate_reply_metadata=True)
-    reply4_tweet = api.update_status(status=reply4_text,
-                                     in_reply_to_status_id=reply3_tweet.id,
-                                     auto_populate_reply_metadata=True)
-    reply5_tweet = api.update_status(status=reply5_text,
-                                     in_reply_to_status_id=reply4_tweet.id,
-                                     auto_populate_reply_metadata=True)
-    reply6_tweet = api.update_status(status=reply6_text,
-                                     in_reply_to_status_id=reply5_tweet.id,
-                                     auto_populate_reply_metadata=True)
+        reply2_tweet = api.update_status(status=reply2_text,
+                                         in_reply_to_status_id=reply1_tweet.id,
+                                         auto_populate_reply_metadata=True)
+        reply3_tweet = api.update_status(status=reply3_text,
+                                         in_reply_to_status_id=reply2_tweet.id,
+                                         auto_populate_reply_metadata=True)
+        reply4_tweet = api.update_status(status=reply4_text,
+                                         in_reply_to_status_id=reply3_tweet.id,
+                                         auto_populate_reply_metadata=True)
+        reply5_tweet = api.update_status(status=reply5_text,
+                                         in_reply_to_status_id=reply4_tweet.id,
+                                         auto_populate_reply_metadata=True)
+        reply6_tweet = api.update_status(status=reply6_text,
+                                         in_reply_to_status_id=reply5_tweet.id,
+                                         auto_populate_reply_metadata=True)
+    else:
+        print('done')
