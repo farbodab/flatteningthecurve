@@ -1,9 +1,9 @@
 import pytest
 from app.data.cli import *
 
-def test_rt(cli):
-    result = cli.invoke(getrt)
-    assert 'Rt sheets updated' in result.output
+# def test_rt(cli):
+#     result = cli.invoke(getrt)
+#     assert 'Rt sheets updated' in result.output
 
 def test_ontario(cli):
     result = cli.invoke(getontario)
@@ -21,9 +21,9 @@ def test_international(cli):
     result = cli.invoke(getinternational)
     assert 'International data refreshed' in result.output
 
-def test_export_sheets(cli):
-    result = cli.invoke(export_sheets)
-    assert 'Google sheets updated' in result.output
+# def test_export_sheets(cli):
+#     result = cli.invoke(export_sheets)
+#     assert 'Google sheets updated' in result.output
 
 def test_updateplots(cli):
     result = cli.invoke(updateplots)

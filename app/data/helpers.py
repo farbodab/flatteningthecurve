@@ -1,5 +1,10 @@
 from app.api import vis
+from app.data import routes
+import pandas as pd
+from datetime import datetime
+from app import db
 
+pd.options.mode.chained_assignment = None  # default='warn'
 
 def confirmed_ontario():
     field_map = {

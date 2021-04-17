@@ -8,6 +8,7 @@ from app import db
 from app.models import *
 from app.api import bp
 import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
 import numpy as np
 import io
 import os
