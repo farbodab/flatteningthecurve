@@ -809,39 +809,12 @@ def email(frequency):
     ontario = ontario.tail(1).to_dict(orient='records')[0]
     if frequency == 'daily' or frequency == 'weekly':
         for email in emails:
-            temp = subscribers.loc[subscribers.email == email]
-            token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
-            my_regions = temp.region.unique()[:]
-            temp_df = df.loc[df.HR_UID.isin(my_regions)]
-            max_date = df.date.max().strftime("%Y-%m-%d")
-            temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
-            regions = temp_df.to_dict(orient='records')
-            regions_changed = temp_changed.to_dict(orient='records')
-            key = os.environ.get('EMAIL_API')
-            sg = sendgrid.SendGridAPIClient(api_key=key)
-            from_email = "mycovidreport@howsmyflattening.ca"
-            to_email = email
-            subject = "Your Personalized COVID-19 Report"
-            html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine,max_date=max_date)
-            text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine,max_date=max_date)
-            message = Mail(
-            from_email=from_email,
-            to_emails=to_email,
-            subject='Your personalized COVID-19 report',
-            plain_text_content=text,
-            html_content=html)
             try:
-                response = sg.send(message)
-            except Exception as e:
-                print(e.message)
-    elif frequency == 'change':
-        for email in emails:
-            temp = subscribers.loc[subscribers.email == email]
-            token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
-            my_regions = temp.region.unique()[:]
-            temp_df = df.loc[(df.HR_UID.isin(my_regions)) & (df['count'] == 1)]
-            max_date = df.date.max().strftime("%Y-%m-%d")
-            if len(temp_df) > 1:
+                temp = subscribers.loc[subscribers.email == email]
+                token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
+                my_regions = temp.region.unique()[:]
+                temp_df = df.loc[df.HR_UID.isin(my_regions)]
+                max_date = df.date.max().strftime("%Y-%m-%d")
                 temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
                 regions = temp_df.to_dict(orient='records')
                 regions_changed = temp_changed.to_dict(orient='records')
@@ -858,10 +831,37 @@ def email(frequency):
                 subject='Your personalized COVID-19 report',
                 plain_text_content=text,
                 html_content=html)
-                try:
+                response = sg.send(message)
+            except Exception as e:
+                print(e.message)
+    elif frequency == 'change':
+        for email in emails:
+            try:
+                temp = subscribers.loc[subscribers.email == email]
+                token = jwt.encode({'email': email}, os.getenv('SECRET_KEY'), algorithm='HS256').decode('utf-8')
+                my_regions = temp.region.unique()[:]
+                temp_df = df.loc[(df.HR_UID.isin(my_regions)) & (df['count'] == 1)]
+                max_date = df.date.max().strftime("%Y-%m-%d")
+                if len(temp_df) > 1:
+                    temp_changed = changed.loc[changed.HR_UID.isin(my_regions)]
+                    regions = temp_df.to_dict(orient='records')
+                    regions_changed = temp_changed.to_dict(orient='records')
+                    key = os.environ.get('EMAIL_API')
+                    sg = sendgrid.SendGridAPIClient(api_key=key)
+                    from_email = "mycovidreport@howsmyflattening.ca"
+                    to_email = email
+                    subject = "Your Personalized COVID-19 Report"
+                    html = render_template("alert_email.html",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine,max_date=max_date)
+                    text = render_template("alert_email.txt",regions=regions,regions_changed=regions_changed,ontario=ontario,date=date,token=token,alerts=alerts,vaccine=vaccine,max_date=max_date)
+                    message = Mail(
+                    from_email=from_email,
+                    to_emails=to_email,
+                    subject='Your personalized COVID-19 report',
+                    plain_text_content=text,
+                    html_content=html)
                     response = sg.send(message)
-                except Exception as e:
-                    print(e.message)
+            except Exception as e:
+                print(e.message)
 
 
 @bp.cli.command("tweet")
