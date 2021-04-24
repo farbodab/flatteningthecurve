@@ -833,7 +833,7 @@ def email(frequency):
                 html_content=html)
                 response = sg.send(message)
             except Exception as e:
-                print(e.message)
+                print(e)
     elif frequency == 'change':
         for email in emails:
             try:
@@ -861,7 +861,7 @@ def email(frequency):
                     html_content=html)
                     response = sg.send(message)
             except Exception as e:
-                print(e.message)
+                print(e)
 
 
 @bp.cli.command("tweet")
