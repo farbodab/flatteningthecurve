@@ -158,8 +158,8 @@ def process_public_ontario_gov_vaccination():
                     df.at[index,'previous_day_doses_administered'] = row['previous_day_doses_administered'].replace(",","")
                 if type(row['total_doses_administered'])==str:
                     df.at[index,'total_doses_administered'] = row['total_doses_administered'].replace(",","")
-                if type(row['total_doses_in_fully_vaccinated_individuals '])==str:
-                    df.at[index,'total_doses_in_fully_vaccinated_individuals '] = row['total_doses_in_fully_vaccinated_individuals '].replace(",","")
+                if type(row['total_doses_in_fully_vaccinated_individuals'])==str:
+                    df.at[index,'total_doses_in_fully_vaccinated_individuals'] = row['total_doses_in_fully_vaccinated_individuals'].replace(",","")
                 if type(row['total_individuals_fully_vaccinated'])==str:
                     df.at[index,'total_individuals_fully_vaccinated'] = row['total_individuals_fully_vaccinated'].replace(",","")
 
