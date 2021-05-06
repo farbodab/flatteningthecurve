@@ -20,7 +20,7 @@ flasgger==0.9.4
 Flask==1.1.1
 Flask-APScheduler==1.11.0
 Flask-Caching==1.8.0
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-DotEnv==0.1.2
 Flask-JSON==0.3.4
 Flask-Limiter==1.2.1
