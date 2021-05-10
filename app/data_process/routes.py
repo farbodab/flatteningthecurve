@@ -140,28 +140,28 @@ def process_public_ontario_gov_vaccination():
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
         try:
-        filename = file.split('_')[-1]
-        date = filename.split('.')[0]
-        save_file, save_dir = get_file_path(data, 'processed', date)
-        if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
-            df = pd.read_csv(file)
-            df = df.rename(columns=field_map)
-            df.dropna(how='all', axis=1, inplace=True)
-            df.dropna(how='any', inplace=True)
-            for index, row in df.iterrows():
-                if type(row['previous_day_doses_administered'])==str:
-                    df.at[index,'previous_day_doses_administered'] = row['previous_day_doses_administered'].replace(",","")
-                if type(row['total_doses_administered'])==str:
-                    df.at[index,'total_doses_administered'] = row['total_doses_administered'].replace(",","")
-                if type(row['total_doses_in_fully_vaccinated_individuals'])==str:
-                    df.at[index,'total_doses_in_fully_vaccinated_individuals'] = row['total_doses_in_fully_vaccinated_individuals'].replace(",","")
-                if type(row['total_individuals_fully_vaccinated'])==str:
-                    df.at[index,'total_individuals_fully_vaccinated'] = row['total_individuals_fully_vaccinated'].replace(",","")
+            filename = file.split('_')[-1]
+            date = filename.split('.')[0]
+            save_file, save_dir = get_file_path(data, 'processed', date)
+            if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
+                df = pd.read_csv(file)
+                df = df.rename(columns=field_map)
+                df.dropna(how='all', axis=1, inplace=True)
+                df.dropna(how='any', inplace=True)
+                for index, row in df.iterrows():
+                    if type(row['previous_day_doses_administered'])==str:
+                        df.at[index,'previous_day_doses_administered'] = row['previous_day_doses_administered'].replace(",","")
+                    if type(row['total_doses_administered'])==str:
+                        df.at[index,'total_doses_administered'] = row['total_doses_administered'].replace(",","")
+                    if type(row['total_doses_in_fully_vaccinated_individuals'])==str:
+                        df.at[index,'total_doses_in_fully_vaccinated_individuals'] = row['total_doses_in_fully_vaccinated_individuals'].replace(",","")
+                    if type(row['total_individuals_fully_vaccinated'])==str:
+                        df.at[index,'total_individuals_fully_vaccinated'] = row['total_individuals_fully_vaccinated'].replace(",","")
 
-            for column in date_field:
-                df[column] = pd.to_datetime(df[column])
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
-            df.to_csv(save_file, index=False)
+                for column in date_field:
+                    df[column] = pd.to_datetime(df[column])
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False)
         except Exception as e:
             print(f"Failed to get {file}")
             print(e)
