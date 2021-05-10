@@ -139,17 +139,12 @@ def process_public_ontario_gov_vaccination():
     load_file, load_dir = get_file_path(data)
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
+        try:
         filename = file.split('_')[-1]
         date = filename.split('.')[0]
         save_file, save_dir = get_file_path(data, 'processed', date)
         if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
-            try:
-                df = pd.read_csv(file)
-            except Exception as e:
-                print(f"Failed to get {file}")
-                print(e)
-                return e
-
+            df = pd.read_csv(file)
             df = df.rename(columns=field_map)
             df.dropna(how='all', axis=1, inplace=True)
             df.dropna(how='any', inplace=True)
@@ -167,6 +162,12 @@ def process_public_ontario_gov_vaccination():
                 df[column] = pd.to_datetime(df[column])
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to get {file}")
+            print(e)
+            return e
+
+
 
 @bp.cli.command('public_ontario_gov_covidtesting')
 def process_public_ontario_gov_covidtesting():
