@@ -194,3 +194,11 @@ def export_subscribers_trend():
         {'name':'Subscriber Trend','table':'subscribers_trend'}
     ]
     sheetsHelper.exportToSheets(sheetsConfig)
+
+@bp.cli.command('public_ices_positivity')
+def export_public_ices_positivity():
+    sheetsConfig = [
+        {'name':'PHU Positivity'}
+    ]
+    data_out = {'classification':'public', 'stage': 'processed','source_name':'ices', 'table_name':'positivity',  'type': 'csv'}
+    export(sheetsConfig, data_out)

@@ -8,6 +8,44 @@ from bs4 import BeautifulSoup
 import glob
 import os
 
+positivity_replace = {
+'ALG':3526,
+'BRN':3527,
+'CKH':3540,
+'DUR':3530,
+'EOH':3558,
+'GBH':3533,
+'HNH':3534,
+'HKP':3535,
+'HAL':3536,
+'HAM':3537,
+'HPE':3538,
+'HPH':3539,
+'KFL':3541,
+'LAM':3542,
+'LGL':3543,
+'MSL':3544,
+'NIA':3546,
+'NPS':3547,
+'NWR':3549,
+'OTT':3551,
+'PEL':3553,
+'PET':3555,
+'PQP':3556,
+'WAT':3565,
+'REN':3557,
+'SMD':3560,
+'SWH':3575,
+'SUD':3561,
+'THB':3562,
+'TSK':3563,
+'TOR':3595,
+'WDG':3566,
+'WEK':3568,
+'YRK':3570,
+'overall':6
+}
+
 def get_file_path(data, step='raw', today=datetime.today().strftime('%Y-%m-%d')):
     source_dir = 'data/' + data['classification'] + '/' + step + '/'
     if data['type'] != '':
@@ -80,8 +118,6 @@ def process_public_ontario_gov_daily_change_in_cases_by_phu():
 
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
-
-
 
 @bp.cli.command('public_ontario_gov_conposcovidloc')
 def process_public_ontario_gov_conposcovidloc():
@@ -167,8 +203,6 @@ def process_public_ontario_gov_vaccination():
             print(e)
             return e
 
-
-
 @bp.cli.command('public_ontario_gov_covidtesting')
 def process_public_ontario_gov_covidtesting():
     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'covidtesting',  'type': 'csv'}
@@ -198,7 +232,39 @@ def process_public_ontario_gov_covidtesting():
                 df[column] = pd.to_datetime(df[column])
             Path(save_dir).mkdir(parents=True, exist_ok=True)
             df.to_csv(save_file, index=False)
-#
+
+@bp.cli.command('restricted_ices_positivity')
+def process_restricted_ices_positivity():
+    data = {'classification':'restricted', 'source_name':'ices', 'table_name':'positivity',  'type': 'xlsx'}
+    date_field = ['reported_date']
+    load_file, load_dir = get_file_path(data)
+    files = glob.glob(load_dir+"/*."+data['type'])
+    for file in files:
+        try:
+            filename = file.split('_')[-1]
+            date = filename.split('.')[0]
+            data_out = {'classification':'public', 'source_name':'ices', 'table_name':'positivity',  'type': 'csv'}
+            save_file, save_dir = get_file_path(data_out, 'processed')
+            if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
+                temp_dfs = []
+                for item in positivity_replace:
+                    df = pd.read_excel(file,engine='openpyxl',sheet_name=item,header=2)
+                    df["HR_UID"] = positivity_replace[item]
+                    df["Overall - % positivity"] = df["Overall - % positivity"].str.replace("%","").astype(float)
+                    temp_dfs.append(df.rename(columns={
+                        "Overall - % positivity": "% Positivity",
+                        "End date of week":"Date"
+                    })[["Date","HR_UID","% Positivity"]])
+
+                df = pd.concat(temp_dfs)
+                Path(save_dir).mkdir(parents=True, exist_ok=True)
+                df.to_csv(save_file, index=False)
+
+        except Exception as e:
+            print(f"Failed to get {file}")
+            print(e)
+            return e
+    #
 # @bp.cli.command('public_ontario_gov_longtermcare_in_outbreak')
 # def process_public_ontario_gov_longtermcare_in_outbreak():
 #     data = {'classification':'public', 'source_name':'ontario_gov', 'table_name':'website',  'type': 'html'}

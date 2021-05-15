@@ -120,3 +120,4 @@ wrapt==1.12.1
 XlsxWriter==1.2.8
 xspline==0.0.2
 zipp==3.1.0
+openpyxl
