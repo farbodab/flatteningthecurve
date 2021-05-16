@@ -978,8 +978,8 @@ def get_times():
     df = df.merge(positive, left_on=['date', 'HR_UID'], right_on=['Date', 'HR_UID'], how='left')
     df = df.rename(columns={"% Positivity":"percent_positive"})
     df['date'] = df['date'].dt.strftime('%B %d')
-    metrics = ["rolling_pop", "rolling_test_twenty_four", "critical_care_pct", "rt_ml", "percent_positive"]
-    data = {"rolling_pop":[], "rolling_test_twenty_four":[], "critical_care_pct":[], "rt_ml":[], "percent_positive":[]}
+    metrics = ["rolling_pop", "rolling_test_twenty_four", "critical_care_pct", "rt_ml", "percent_positive", "percent_vaccinated"]
+    data = {"rolling_pop":[], "rolling_test_twenty_four":[], "critical_care_pct":[], "rt_ml":[], "percent_positive":[], "percent_vaccinated": []}
     for metric in metrics:
         temp = df.loc[df[metric].notna()].tail(1)
         date_refreshed = temp['date'].values[:]
