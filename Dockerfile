@@ -20,10 +20,7 @@ RUN apt-get update && apt-get install -yq \
     libgconf-2-4 \
     libncurses5 \
     libxml2 \
-    xclip \
-    r-base
-
-RUN R -e "install.packages(c('EpiEstim','incidence', 'magrittr', 'dplyr', 'httr', 'readxl'))"
+    xclip
 
 RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
     && unzip /tmp/chromedriver.zip -d /usr/bin/ \
