@@ -436,6 +436,7 @@ def get_summary(HR_UID):
                 loop['prev'].append(get_last(temp['prev']))
                 loop['risk'].append(get_last(temp['risk']))
                 loop['count'].append(get_last(temp['count']))
+                loop['percent_vaccinated'].append(get_last(temp['percent_vaccinated']))
         temp = df.loc[df.phu == 'Ontario']
         temp['rolling_pop_trend'] = temp['rolling_pop'].diff(periods=7)
         temp['rt_ml_trend'] = temp['rt_ml'].diff(periods=7)
