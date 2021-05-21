@@ -464,7 +464,7 @@ def process_restricted_ices_positivity():
             filename = file.split('_')[-1]
             date = filename.split('.')[0]
             data_out = {'classification':'public', 'source_name':'ices', 'table_name':'positivity',  'type': 'csv'}
-            save_file, save_dir = get_file_path(data_out, 'processed')
+            save_file, save_dir = get_file_path(data_out, 'processed', today=date)
             if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
                 temp_dfs = []
                 for item in positivity_replace:
