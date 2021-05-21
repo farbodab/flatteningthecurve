@@ -214,7 +214,6 @@ def transform_public_subscribers_trend():
     new['cumulative'] = new.email.cumsum()
     new.to_sql('subscribers_trend', db.engine, if_exists='replace')
 
-
 @bp.cli.command('public_cases_ontario_covid_summary')
 def transform_public_cases_ontario_covid_summary():
     for df, save_file, date in transform(
@@ -228,8 +227,6 @@ def transform_public_cases_ontario_covid_summary():
             df.to_csv(save_file, index=False)
         except Exception as e:
             print(f"Failed to transform {save_file} due to {e}")
-
-
 
 @bp.cli.command('public_cases_ontario_confirmed_positive_cases')
 def transform_public_cases_ontario_confirmed_positive_cases():
@@ -653,12 +650,29 @@ def transform_public_cases_ontario_cases_seven_day_rolling_average():
         except Exception as e:
             print(f"Failed to transform {save_file} due to {e}")
 
+@bp.cli.command('public_ices_vaccination')
+def transform_public_vaccination_phu():
+    for df, save_file, date in transform(
+        data_in={'classification':'public', 'stage': 'processed','source_name':'ices', 'table_name':'vaccination',  'type': 'csv'},
+        data_out={'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'phu',  'type': 'csv'}):
+        try:
+            FSA = pd.read_csv('fsa_pop.csv')
+            merged = pd.merge(df,FSA,left_on='FSA',right_on='FSA',how='left')
+            merged['residents_vaccinated'] = merged['% Vaccinated'] * merged['total_residence']
+            new = merged[['date','PHU_Id','PHU_Name','total_residence','residents_vaccinated']]
+            new = new.groupby(['date','PHU_Id','PHU_Name']).sum().reset_index()
+            new['percent_vaccinated'] = new['residents_vaccinated'] / new['total_residence']
+            new.to_csv(save_file, index=False)
+        except Exception as e:
+            print(f"Failed to transform {save_file} due to {e}")
+
 @bp.cli.command('public_summary_ontario')
 def transform_public_summary_ontario():
     cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}
     tests = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_testing_24_hours',  'type': 'csv'}
     icu = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_phu_icu_capacity_timeseries',  'type': 'csv'}
     rt = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_bettencourt_and_ribeiro_approach',  'type': 'csv'}
+    vaccination = {'classification':'public', 'stage': 'transformed','source_name':'vaccination', 'table_name':'phu',  'type': 'csv'}
     final = {'classification':'public', 'stage': 'transformed','source_name':'summary', 'table_name':'ontario',  'type': 'csv'}
 
     cases_path = get_last_file(cases)
@@ -687,8 +701,6 @@ def transform_public_summary_ontario():
         hrs.append(temp)
     cases_df = pd.concat(hrs)
 
-
-
     tests_path = get_last_file(tests)
     tests_df = pd.read_csv(tests_path)
     tests_df = tests_df[["PHU", "specimen_reported_date","Percentage in 24 hours_7dayrolling"]]
@@ -711,7 +723,16 @@ def transform_public_summary_ontario():
     rt_df.rename(columns={"ML": "rt_ml", "Low": "rt_low", "High": "rt_high"},inplace=True)
 
     merged = pd.merge(merged,rt_df, left_on=['phu', 'date'], right_on=['PHU', 'date'], how='left')
-    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","covid_pct","rt_ml","rt_low","rt_high", 'prev','risk', 'count']]
+
+    vaccination_path = get_last_file(vaccination)
+    vaccination_df = pd.read_csv(vaccination_path)
+    vaccination_df = vaccination_df[["date","PHU_Id","percent_vaccinated"]]
+    vaccination_df.rename(columns={"PHU_Id":"HR_UID"},inplace=True)
+
+    merged = pd.merge(merged,vaccination_df, left_on=['HR_UID', 'date'], right_on=['HR_UID', 'date'], how='left')
+
+
+    merged = merged[["phu", 'HR_UID','date', 'rolling','rolling_pop', 'rolling_test_twenty_four', "critical_care_beds","critical_care_patients","confirmed_positive","critical_care_pct","covid_pct","rt_ml","rt_low","rt_high", 'prev','risk', 'count',"percent_vaccinated"]]
     save_file, save_dir = get_file_path(final)
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     merged.to_csv(save_file, index=False)
@@ -823,511 +844,3 @@ def transform_public_socioeconomic_ontario_211_call_per_type_of_need():
                 rows.append([date,category,ReportNeedNum,ReportNeedNum_7day_rollingaverage,percentage_change])
         final_out_csv = pd.DataFrame(rows,columns=header)
         final_out_csv.to_csv(save_file, index=False)
-
-# @bp.cli.command('public_cases_ontario_phu_confirmed_positive_aggregated')
-# def transform_public_cases_ontario_phu_confirmed_positive_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_confirmed_positive_aggregated',  'type': 'csv'}):
-#         dfs = df.loc[df.province == "Ontario"]
-#         for column in ['date_report']:
-#             dfs[column] = pd.to_datetime(dfs[column])
-#         health_regions = dfs.health_region.unique()
-#
-#         data_frame = {'date_report':[], 'health_regions':[], 'new_cases':[], 'cumulative_cases': []}
-#         min = dfs['date_report'].min()
-#         max = dfs['date_report'].max()
-#         idx = pd.date_range(min, max)
-#
-#         for region in health_regions:
-#             df = dfs.loc[dfs.health_region == region]
-#             df = df.groupby("date_report").case_id.count()
-#             df = df.reindex(idx, fill_value=0).reset_index()
-#             date = datetime.strptime("2020-02-28","%Y-%m-%d")
-#             df = df.loc[df['index'] > date]
-#             df['date_str'] = df['index'].astype(str)
-#             df['cumulative_cases'] = df['case_id'].cumsum()
-#
-#             data_frame['date_report'] += df['index'].tolist()
-#             data_frame['health_regions'] += [region]*len(df['index'].tolist())
-#             data_frame['new_cases'] += df['case_id'].tolist()
-#             data_frame['cumulative_cases'] += df['cumulative_cases'].tolist()
-#
-#         df_final = pd.DataFrame(data_frame, columns=['date_report', 'health_regions', 'new_cases','cumulative_cases'])
-#         df_final.to_csv(save_file, index=False)
-
-# @bp.cli.command('public_cases_ontario_phu_weekly_new_cases')
-# def transform_public_cases_ontario_phu_weekly_new_cases():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_confirmed_positive_cases',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_phu_weekly_new_cases',  'type': 'csv'}):
-#
-#         ont_data = df.copy()
-#         for column in ['case_reported_date']:
-#             ont_data[column] = pd.to_datetime(ont_data[column])
-#
-#         header = ["date","case_count"]
-#         rows = []
-#
-#         delta = timedelta(days=1)
-#         start_date = datetime(2020,1,1)
-#         end_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')-timedelta(days=1)
-#
-#         while start_date <end_date:
-#             rows.append([start_date,ont_data[ont_data["case_reported_date"]==start_date].shape[0]])
-#             start_date = start_date + delta
-#
-#         # This is 100% correct
-#         daily_ont = pd.DataFrame(rows, columns=header)
-#         daily_ont = daily_ont.set_index('date').rolling(window=7).sum().reset_index()
-#         daily_ont['phu'] = 'Ontario'
-#         daily_ont = daily_ont.rename(columns={"date": "Date","case_count": "Cases", "phu": "PHU"})
-#
-#         phus = set(ont_data["reporting_phu"].values)
-#         header = ["date", "phu", "case_count"]
-#         rows = {}
-#
-#         delta = timedelta(days=1)
-#
-#         end_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')-timedelta(days=1)
-#
-#         for phu in phus:
-#             start_date = datetime(2020,1,1)
-#             phu_row = []
-#             while start_date <end_date:
-#                 phu_row.append([start_date,phu,ont_data[(ont_data["case_reported_date"]==start_date)&(ont_data["reporting_phu"]==phu)].shape[0]])
-#                 start_date = start_date + delta
-#             rows[phu] = phu_row
-#
-#         phu_dfs = []
-#         for phu in rows:
-#             phu_rows = rows[phu]
-#             phu_rows = pd.DataFrame(phu_rows, columns=header)
-#             phu_rows = phu_rows.set_index('date').rolling(window=7).sum().reset_index()
-#             phu_rows["phu"] = phu
-#             phu_dfs.append(phu_rows)
-#
-#
-#         daily_phu = pd.concat(phu_dfs)
-#         daily_phu = daily_phu.rename(columns={"date": "Date","case_count": "Cases", "phu": "PHU"})
-#
-#         df = pd.concat([daily_phu,daily_ont])
-#         df.to_csv(save_file, index=False)
-
-# @bp.cli.command('public_cases_canada_confirmed_positive_cases')
-# def transform_public_cases_canada_confirmed_positive_cases():
-#     for df, save_file, date in transform(
-#         data_in={'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'cases',  'type': 'csv'},
-#         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_positive_cases',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_cases_canada_confirmed_mortality_cases')
-# def transform_public_cases_canada_confirmed_mortality_cases():
-#     for df, save_file, date in transform(
-#         data_in={'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'mortality',  'type': 'csv'},
-#         data_out={'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_confirmed_mortality_cases',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_cases_canada_recovered_aggregated')
-# def transform_public_cases_canada_recovered_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'recovered_cumulative',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'canada_recovered_aggregated',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_cases_international_cases_aggregated')
-# def transform_public_cases_international_cases_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'jhu', 'table_name':'time_series_covid19_confirmed_global',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'international_cases_aggregated',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_cases_international_mortality_aggregated')
-# def transform_public_cases_international_mortality_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'jhu', 'table_name':'time_series_covid19_deaths_global',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'international_mortality_aggregated',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_cases_international_recovered_aggregated')
-# def transform_public_cases_international_recovered_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'jhu', 'table_name':'time_series_covid19_recovered_global',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'international_recovered_aggregated',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_testing_international_testing_aggregated')
-# def transform_public_testing_international_testing_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'owid', 'table_name':'covid_testing_all_observations',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'testing', 'table_name':'international_testing_aggregated',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_testing_canada_testing_aggregated')
-# def transform_public_testing_canada_testing_aggregated():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'open_data_working_group', 'table_name':'testing_cumulative',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'testing', 'table_name':'canada_testing_aggregated',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_interventions_canada_non_pharmaceutical_interventions')
-# def transform_public_interventions_canada_non_pharmaceutical_interventions():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'howsmyflattening', 'table_name':'npi_canada',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_interventions',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_interventions_international_non_pharmaceutical_interventions')
-# def transform_public_interventions_international_non_pharmaceutical_interventions():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'oxcgrt', 'table_name':'oxcgrt_latest',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'international_non_pharmaceutical_interventions',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_mobility_apple')
-# def transform_public_mobility_apple():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'apple', 'table_name':'applemobilitytrends',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'mobility', 'table_name':'apple',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-#
-# @bp.cli.command('public_mobility_google')
-# def transform_public_mobility_google():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'processed','source_name':'google', 'table_name':'global_mobility_report',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'mobility', 'table_name':'google',  'type': 'csv'}):
-#         df.to_csv(save_file, index=False)
-
-
-#
-# @bp.cli.command('public_capacity_ontario_lhin_icu_capacity')
-# def transform_public_capacity_ontario_lhin_icu_capacity():
-#     data = {'classification':'restricted', 'stage': 'processed','source_name':'ccso', 'table_name':'ccis',  'type': 'csv'}
-#     load_file, load_dir = get_file_path(data)
-#     df = pd.read_sql_table('icucapacity', db.engine)
-#     maxdate = df.iloc[df['date'].idxmax()]['date']
-#     files = glob.glob(load_dir+"/*."+data['type'])
-#     fields = ['region', 'lhin', 'critical_care_beds', 'critical_care_patients', 'vented_beds', 'vented_patients', 'confirmed_positive', 'confirmed_positive_ventilator']
-#     for file in files:
-#         filename = file.split('_')[-1]
-#         date = filename.split('.'+data['type'])[0]
-#         date = datetime.strptime(date, '%Y-%m-%d')
-#         if date > maxdate:
-#             df = pd.read_csv(file)
-#             df = df.loc[(df.icu_type != 'Neonatal') & (df.icu_type != 'Paediatric')]
-#             df = df.groupby(['region','lhin']).sum().reset_index()
-#             for index,row in df.iterrows():
-#                 c = ICUCapacity(date=date)
-#                 for header in fields:
-#                     setattr(c,header,row[header])
-#                 db.session.add(c)
-#                 db.session.commit()
-#     df = pd.read_sql_table('icucapacity', db.engine)
-#     data_out = {'classification':'public', 'stage': 'transformed','source_name':'capacity', 'table_name':'ontario_lhin_icu_capacity',  'type': 'csv'}
-#     save_file, save_dir = get_file_path(data_out)
-#     Path(save_dir).mkdir(parents=True, exist_ok=True)
-#     df.to_csv(save_file, index=False)
-
-
-#
-# @bp.cli.command('public_rt_canada_cori_approach')
-# def transform_public_rt_canada_cori_approach():
-#     data = {'classification':'public', 'stage': 'transformed','source_name':'rt', 'table_name':'canada_cori_approach',  'type': 'csv'}
-#     load_file, load_dir = get_file_path(data, 'processed')
-#     load_file = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/cases_timeseries_prov.csv"
-#     save_file, save_dir = get_file_path(data, 'transformed')
-#     Path(save_dir).mkdir(parents=True, exist_ok=True)
-#     output = subprocess.check_output(f"Rscript.exe --vanilla app/tools/r/Rt_ontario.r")
-
-# def impute_intervention_index(df_raw, prov, daterange):
-#     gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
-#     cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
-#     stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
-#     economic_idx = ['E1', 'E2']
-#     intervention_categories_all = ['C1 School Closing',
-#                                    'C2 Workplace Closures',
-#                                    'C3 Cancel public events',
-#                                    'C4 Public Gathering Restrictions',
-#                                    'C5 Close public transport',
-#                                    'C6 Stay at home requirements',
-#                                    'C7 Restrictions on internal movements',
-#                                    'C8 International Travel Controls',
-#                                    'E1 Income Support',
-#                                    'E2 Debt / Contract Relief for Households',
-#                                    'E3 Fiscal measures',
-#                                    'E4 Support for Other Countries',
-#                                    'H1 Public Info Campaigns',
-#                                    'H2 Testing policy',
-#                                    'H3 Contact tracing',
-#                                    'H4 Emergency investment in health care',
-#                                    'H5 Investment in vaccines']
-#
-#
-#     prov_list = ['Federal', 'Alberta', 'British Columbia', 'Manitoba',
-#                  'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia',
-#                  'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon']
-#
-#     gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
-#     cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
-#     stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
-#     economic_idx = ['E1', 'E2']
-#
-#     closure_code = ['C1', 'C2', 'C3', 'C5', 'C6', 'C7']
-#     restriction_code = ['C4']
-#     travel_code = ['C8']
-#     income_code = ['E1']
-#     relief_code = ['E2']
-#     fiscal_code = ['E3', 'E4', 'H4', 'H5']
-#     info_code = ['H1']
-#     test_code = ['H2']
-#     trace_code = ['H3']
-#
-#     geo_flag = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'H1']
-#     sect_flag = ['E1']
-#
-#     # Setting columns for the empty dataframe
-#     other_cols_all = []
-#     ss = geo_flag + sect_flag
-#     for s in ss:
-#         other_cols_all.append(f'{s}_flag')
-#
-#     code_dct = {'C4': 'oxford_restriction_code',
-#                 'C8': 'oxford_travel_code',
-#                 'E1': 'oxford_income_amount',
-#                 'E2': 'oxford_debt_relief_code',
-#                 'H1': 'oxford_public_info_code',
-#                 'H2': 'oxford_testing_code',
-#                 'H3': 'oxford_tracing_code'}
-#     for cc in closure_code:
-#         code_dct[cc] = 'oxford_closure_code'
-#     for fc in fiscal_code:
-#         code_dct[fc] = 'oxford_fiscal_measure_cad_mod'
-#
-#     code_max = {'C1': 3,
-#                 'C2': 3,
-#                 'C3': 2,
-#                 'C4': 4,
-#                 'C5': 2,
-#                 'C6': 3,
-#                 'C7': 2,
-#                 'C8': 4,
-#                 'E1': 2,
-#                 'E2': 2,
-#                 'H1': 2,
-#                 'H2': 3,
-#                 'H3': 2}
-#
-#     df_raw2 = df_raw[(df_raw['region'] == prov) & (df_raw['subregion'] == 'All')]
-#
-#     # Make empty dataframe with all the neccesary columns and rows (dates)
-#     dff = pd.DataFrame( {
-#         "region" : prov,
-#         "date" : daterange,
-#     })
-#
-#     df_return = pd.concat([dff,pd.DataFrame(columns=intervention_categories_all+other_cols_all)], sort=False)
-#
-#     df_return["Government response index"] = 0
-#     df_return["Containment and health index"] = 0
-#     df_return["Stringency index"] = 0
-#     df_return["Economic support index"] = 0
-#
-#     for idx, row in df_return.iterrows():
-#         obs_date = row['date']
-# #         subset = df_raw2[(df_raw2['start_date'] <= obs_date) & (df_raw2['start_date'] >= obs_date - np.timedelta64(28,'D'))]
-#         subset = df_raw2[(df_raw2['start_date'] <= obs_date)]
-#         gri = 0
-#         chi = 0
-#         si = 0
-#         esi = 0
-#
-#         for iv in intervention_categories_all:
-#             iv_pref = iv.split(' ')[0]
-#             subset_iv = subset[subset['oxford_government_response_category'] == iv]
-#
-#             if len(subset_iv[subset_iv['end_date'].isnull() == False]):
-#                 help_subset = subset_iv[subset_iv['end_date'].isnull() == False]
-#                 help_subset['end_date'] = pd.to_datetime(help_subset['end_date'], infer_datetime_format='%Y-%m-%d')
-#                 end_date = help_subset.sort_values(by='end_date',ascending=False)['end_date'].iloc[0]
-#                 if iv_pref not in fiscal_code:
-#                     if len(subset_iv[subset_iv['start_date'] >= end_date]):
-#                         subset_iv = subset_iv[subset_iv['start_date'] >= end_date]
-#
-#             if len(subset_iv):
-#                 if iv_pref in fiscal_code:
-#                     df_return.at[idx, iv] = np.nansum(subset_iv[code_dct[iv_pref]])
-#                 else:
-#                     df_return.at[idx, iv] = np.nanmax(subset_iv[code_dct[iv_pref]])
-#                     if iv_pref in geo_flag:
-#                         df_return.at[idx, iv_pref + '_flag'] = np.nanmax(subset_iv['oxford_geographic_target_code'])
-#                     elif iv_pref in sect_flag:
-#                         df_return.at[idx, iv_pref + '_flag'] = np.nanmax(subset_iv['oxford_income_target'])
-#             else:
-#                 if idx:
-#                     df_return.at[idx, iv] = df_return.iloc[idx-1][iv]
-#                     if iv_pref in geo_flag:
-#                         df_return.at[idx, iv_pref + '_flag'] = 0
-#                     elif iv_pref in sect_flag:
-#                         df_return.at[idx, iv_pref + '_flag'] = 0
-#                 else:
-#                     df_return.at[idx, iv] = 0
-#                     if iv_pref in geo_flag:
-#                         df_return.at[idx, iv_pref + '_flag'] = 0
-#                     elif iv_pref in sect_flag:
-#                         df_return.at[idx, iv_pref + '_flag'] = 0
-#
-#             if iv_pref in cont_hlth_idx:
-#
-#                 if iv_pref in geo_flag:
-#                     iv_val = 100 * (df_return.iloc[idx][iv]- 0.5*(1-df_return.iloc[idx][iv_pref + '_flag'])) / code_max[iv_pref]
-#                 else:
-#                     iv_val = 100 * df_return.iloc[idx][iv] / code_max[iv_pref]
-#
-#                 iv_val = max(0, iv_val)
-#                 gri += iv_val
-#                 chi += iv_val
-#                 if iv_pref in stringency_idx:
-#                     si += iv_val
-#
-#             if iv_pref in economic_idx:
-#                 if iv_pref in sect_flag:
-#                     iv_val = 100 * (df_return.iloc[idx][iv]- 0.5*(1-df_return.iloc[idx][iv_pref + '_flag'])) / code_max[iv_pref]
-#                 else:
-#                     iv_val = 100 * df_return.iloc[idx][iv] / code_max[iv_pref]
-#
-#                 iv_val = max(0, iv_val)
-#
-#                 gri += iv_val
-#                 esi += iv_val
-#
-#         df_return.at[idx, "Government response index"] = gri / 13
-#         df_return.at[idx, "Containment and health index"] = chi / 11
-#         df_return.at[idx, "Stringency index"] = si / 9
-#         df_return.at[idx, "Economic support index"] = esi / 2
-#
-#     return df_return
-# @bp.cli.command('public_interventions_canada_non_pharmaceutical_intervention_stringency')
-# def transform_public_interventions_canada_non_pharmaceutical_intervention_stringency():
-#     for df, save_file, date in transform(
-#         data_in = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_interventions',  'type': 'csv'},
-#         data_out = {'classification':'public', 'stage': 'transformed','source_name':'interventions', 'table_name':'canada_non_pharmaceutical_intervention_stringency',  'type': 'csv'}):
-#         start_tracking_date = np.datetime64('2020-01-07')
-#         latest_tracking_date = np.datetime64(datetime.today().strftime('%Y-%m-%d'))
-#         gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
-#         cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
-#         stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
-#         economic_idx = ['E1', 'E2']
-#         intervention_categories_all = ['C1 School Closing',
-#                                        'C2 Workplace Closures',
-#                                        'C3 Cancel public events',
-#                                        'C4 Public Gathering Restrictions',
-#                                        'C5 Close public transport',
-#                                        'C6 Stay at home requirements',
-#                                        'C7 Restrictions on internal movements',
-#                                        'C8 International Travel Controls',
-#                                        'E1 Income Support',
-#                                        'E2 Debt / Contract Relief for Households',
-#                                        'E3 Fiscal measures',
-#                                        'E4 Support for Other Countries',
-#                                        'H1 Public Info Campaigns',
-#                                        'H2 Testing policy',
-#                                        'H3 Contact tracing',
-#                                        'H4 Emergency investment in health care',
-#                                        'H5 Investment in vaccines']
-#         prov_list = ['Federal', 'Alberta', 'British Columbia', 'Manitoba',
-#                      'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia',
-#                      'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon']
-#         gov_res_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'E1', 'E2', 'H1', 'H2', 'H3']
-#         cont_hlth_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1', 'H2', 'H3']
-#         stringency_idx = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'H1']
-#         economic_idx = ['E1', 'E2']
-#         closure_code = ['C1', 'C2', 'C3', 'C5', 'C6', 'C7']
-#         restriction_code = ['C4']
-#         travel_code = ['C8']
-#         income_code = ['E1']
-#         relief_code = ['E2']
-#         fiscal_code = ['E3', 'E4', 'H4', 'H5']
-#         info_code = ['H1']
-#         test_code = ['H2']
-#         trace_code = ['H3']
-#         geo_flag = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'H1']
-#         sect_flag = ['E1']
-#         # Setting columns for the empty dataframe
-#         other_cols_all = []
-#         ss = geo_flag + sect_flag
-#         for s in ss:
-#             other_cols_all.append(f'{s}_flag')
-#         # What are the unique places (country/region/subregion)?
-#         df["subregion"].fillna('All', inplace=True)
-#         df['start_date'] = pd.to_datetime(df['start_date'])
-#         df_places = df[['country', 'region', 'subregion']].drop_duplicates().sort_values(['region', 'subregion'])
-#         # Make list of unique places, condensing name with underscore separation
-#         unique_places = df_places[['country', 'region', 'subregion']].apply(lambda row: '_'.join(row.values.astype(str)), axis=1).values.tolist()
-#         daterange = pd.date_range(start=start_tracking_date,end=latest_tracking_date)
-#         code_dct = {'C4': 'oxford_restriction_code',
-#                     'C8': 'oxford_travel_code',
-#                     'E1': 'oxford_income_amount',
-#                     'E2': 'oxford_debt_relief_code',
-#                     'H1': 'oxford_public_info_code',
-#                     'H2': 'oxford_testing_code',
-#                     'H3': 'oxford_tracing_code'}
-#         for cc in closure_code:
-#             code_dct[cc] = 'oxford_closure_code'
-#         for fc in fiscal_code:
-#             code_dct[fc] = 'oxford_fiscal_measure_cad_mod'
-#         code_max = {'C1': 3,
-#                     'C2': 3,
-#                     'C3': 2,
-#                     'C4': 4,
-#                     'C5': 2,
-#                     'C6': 3,
-#                     'C7': 2,
-#                     'C8': 4,
-#                     'E1': 2,
-#                     'E2': 2,
-#                     'H1': 2,
-#                     'H2': 3,
-#                     'H3': 2}
-#         df['oxford_fiscal_measure_cad_mod'] = df['oxford_fiscal_measure_cad'].apply(parse_cad)
-#         # Generate temporal stringency index per province
-#         on = impute_intervention_index(df, 'Ontario', daterange)
-#         qb = impute_intervention_index(df, 'Quebec', daterange)
-#         bc = impute_intervention_index(df, 'British Columbia', daterange)
-#         sk = impute_intervention_index(df, 'Saskatchewan', daterange)
-#         nb = impute_intervention_index(df, 'New Brunswick', daterange)
-#         ns = impute_intervention_index(df, 'Nova Scotia', daterange)
-#         mb = impute_intervention_index(df, 'Manitoba', daterange)
-#         ab = impute_intervention_index(df, 'Alberta', daterange)
-#         nv = impute_intervention_index(df, 'Nunavut', daterange)
-#         pei = impute_intervention_index(df, 'Prince Edward Island', daterange)
-#         nwt = impute_intervention_index(df, 'Northwest Territories', daterange)
-#         nl = impute_intervention_index(df, 'Newfoundland and Labrador', daterange)
-#         yt = impute_intervention_index(df, 'Yukon', daterange)
-#         prov_dict = {'Ontario': on,
-#                     'Quebec': qb,
-#                     'British Columbia': bc,
-#                     'Saskatchewan': sk,
-#                     'New Brunswick': nb,
-#                     'Nova Scotia': ns,
-#                     'Manitoba' : mb,
-#                     'Alberta' : ab,
-#                     'Prince Edward Island': pei,
-#                     'Nunavut': nv,
-#                     'Northwest Territories' : nwt,
-#                     'Newfoundland and Labrador' : nl,
-#                     'Yukon': yt}
-#         canada = pd.DataFrame(columns=['date', 'region', 'Government response index',
-#                'Containment and health index', 'Stringency index',
-#                'Economic support index'])
-#         for k, v in prov_dict.items():
-#             canada = pd.concat([canada, v[['date', 'region', 'Government response index',
-#                'Containment and health index', 'Stringency index',
-#                'Economic support index']]])
-#         for index_type in ['Government response index',
-#                'Containment and health index', 'Stringency index',
-#                'Economic support index']:
-#             canada[index_type] = pd.to_numeric(canada[index_type])
-#         canada['region'] = canada['region'].apply(str)
-#         canada['date'] = pd.to_datetime(canada['date'])
-#         canada['date'] = canada['date'].dt.strftime('%m/%d')
-#         canada.to_csv(save_file, index=False)

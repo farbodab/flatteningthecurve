@@ -403,7 +403,7 @@ def get_summary(HR_UID):
     elif int(HR_UID)>0:
         df = df.loc[df.HR_UID == int(HR_UID)]
     else:
-        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"covid_pct":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": [], "prev": [], "risk": [], "count": []}
+        loop = {"phu":[], "HR_UID":[], "date":[], "rolling":[], "rolling_pop":[], "rolling_pop_trend":[],"rolling_test_twenty_four":[], "rolling_test_twenty_four_trend":[],"confirmed_positive":[], "critical_care_beds":[],"critical_care_patients":[],"critical_care_pct":[], "critical_care_pct_trend":[],"covid_pct":[],"rt_ml":[], "rt_ml_trend":[],"percent_positive": [],"percent_positive_trend": [], "prev": [], "risk": [], "count": [], "percent_vaccinated": []}
         unique = df.HR_UID.unique()
         for hr in unique:
             temp = df.loc[df.HR_UID == hr]
@@ -436,6 +436,7 @@ def get_summary(HR_UID):
                 loop['prev'].append(get_last(temp['prev']))
                 loop['risk'].append(get_last(temp['risk']))
                 loop['count'].append(get_last(temp['count']))
+                loop['percent_vaccinated'].append(get_last(temp['percent_vaccinated']))
         temp = df.loc[df.phu == 'Ontario']
         temp['rolling_pop_trend'] = temp['rolling_pop'].diff(periods=7)
         temp['rt_ml_trend'] = temp['rt_ml'].diff(periods=7)
@@ -465,6 +466,7 @@ def get_summary(HR_UID):
         loop['prev'].append(get_last(temp['prev']))
         loop['risk'].append(get_last(temp['risk']))
         loop['count'].append(get_last(temp['count']))
+        loop['percent_vaccinated'].append(get_last(temp['percent_vaccinated']))
         df = pd.DataFrame(loop)
     return df
 
@@ -976,8 +978,8 @@ def get_times():
     df = df.merge(positive, left_on=['date', 'HR_UID'], right_on=['Date', 'HR_UID'], how='left')
     df = df.rename(columns={"% Positivity":"percent_positive"})
     df['date'] = df['date'].dt.strftime('%B %d')
-    metrics = ["rolling_pop", "rolling_test_twenty_four", "critical_care_pct", "rt_ml", "percent_positive"]
-    data = {"rolling_pop":[], "rolling_test_twenty_four":[], "critical_care_pct":[], "rt_ml":[], "percent_positive":[]}
+    metrics = ["rolling_pop", "rolling_test_twenty_four", "critical_care_pct", "rt_ml", "percent_positive", "percent_vaccinated"]
+    data = {"rolling_pop":[], "rolling_test_twenty_four":[], "critical_care_pct":[], "rt_ml":[], "percent_positive":[], "percent_vaccinated": []}
     for metric in metrics:
         temp = df.loc[df[metric].notna()].tail(1)
         date_refreshed = temp['date'].values[:]

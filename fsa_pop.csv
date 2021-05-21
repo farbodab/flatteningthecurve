@@ -1,0 +1,480 @@
+,FSA,PHU_Id,PHU_Name,total_residence
+0,M1X,3595,City of Toronto Health Unit,16466.0
+1,M9L,3595,City of Toronto Health Unit,13107.0
+2,M3K,3595,City of Toronto Health Unit,7195.0
+3,L6R,3553,Peel Regional Health Unit,103700.0
+4,L0J,3570,York Regional Health Unit,5409.0
+5,L6P,3553,Peel Regional Health Unit,99629.0
+6,L4T,3553,Peel Regional Health Unit,43455.0
+7,L7A,3553,Peel Regional Health Unit,99507.0
+8,M9W,3595,City of Toronto Health Unit,46094.0
+9,M9V,3595,City of Toronto Health Unit,62570.0
+10,M3C,3595,City of Toronto Health Unit,44116.0
+11,L6V,3553,Peel Regional Health Unit,46598.0
+12,L6X,3553,Peel Regional Health Unit,80911.0
+13,L5W,3553,Peel Regional Health Unit,28678.0
+14,M3L,3595,City of Toronto Health Unit,20558.0
+15,L6T,3553,Peel Regional Health Unit,42916.0
+16,L6Y,3553,Peel Regional Health Unit,99691.0
+17,L6A,3570,York Regional Health Unit,95939.0
+18,L6S,3553,Peel Regional Health Unit,60081.0
+19,M3N,3595,City of Toronto Health Unit,46149.0
+20,M6L,3595,City of Toronto Health Unit,22828.0
+21,M3J,3595,City of Toronto Health Unit,30500.0
+22,M6M,3595,City of Toronto Health Unit,46805.0
+23,M6N,3595,City of Toronto Health Unit,44721.0
+24,M1W,3595,City of Toronto Health Unit,53797.0
+25,M1B,3595,City of Toronto Health Unit,72890.0
+26,L6W,3553,Peel Regional Health Unit,24336.0
+27,L1T,3530,Durham Regional Health Unit,57288.0
+28,L4L,3570,York Regional Health Unit,58757.0
+29,M1V,3595,City of Toronto Health Unit,59722.0
+30,L3S,3570,York Regional Health Unit,63480.0
+31,M1J,3595,City of Toronto Health Unit,40998.0
+32,M4H,3595,City of Toronto Health Unit,23118.0
+33,L4H,3570,York Regional Health Unit,76030.0
+34,L4W,3553,Peel Regional Health Unit,22637.0
+35,M9M,3595,City of Toronto Health Unit,25725.0
+36,M5T,3595,City of Toronto Health Unit,20669.0
+37,M9N,3595,City of Toronto Health Unit,28242.0
+38,L1Z,3530,Durham Regional Health Unit,34074.0
+39,M1K,3595,City of Toronto Health Unit,54623.0
+40,L5M,3553,Peel Regional Health Unit,124259.0
+41,L4K,3570,York Regional Health Unit,18001.0
+42,M3A,3595,City of Toronto Health Unit,38699.0
+43,L1S,3530,Durham Regional Health Unit,45017.0
+44,L7C,3553,Peel Regional Health Unit,31231.0
+45,M1H,3595,City of Toronto Health Unit,27100.0
+46,L5R,3553,Peel Regional Health Unit,44358.0
+47,M5C,3595,City of Toronto Health Unit,3463.0
+48,M1S,3595,City of Toronto Health Unit,42060.0
+49,L5V,3553,Peel Regional Health Unit,59394.0
+50,M1E,3595,City of Toronto Health Unit,51663.0
+51,K1W,3551,City of Ottawa Health Unit,12124.0
+52,M6A,3595,City of Toronto Health Unit,23392.0
+53,M2R,3595,City of Toronto Health Unit,46233.0
+54,L3C,3546,Niagara Regional Area Health Unit,33995.0
+55,L5A,3553,Peel Regional Health Unit,54189.0
+56,M1G,3595,City of Toronto Health Unit,32951.0
+57,L1X,3530,Durham Regional Health Unit,22117.0
+58,N9B,3568,Windsor-Essex County Health Unit,20620.0
+59,L5B,3553,Peel Regional Health Unit,75698.0
+60,L6Z,3553,Peel Regional Health Unit,36484.0
+61,M1L,3595,City of Toronto Health Unit,39452.0
+62,M3M,3595,City of Toronto Health Unit,27009.0
+63,L8E,3537,City of Hamilton Health Unit,43301.0
+64,L4Z,3553,Peel Regional Health Unit,43383.0
+65,M2J,3595,City of Toronto Health Unit,66862.0
+66,M1R,3595,City of Toronto Health Unit,33457.0
+67,L4X,3553,Peel Regional Health Unit,21727.0
+68,M6E,3595,City of Toronto Health Unit,41351.0
+69,L9E,3536,Halton Regional Health Unit,2803.0
+70,L2V,3546,Niagara Regional Area Health Unit,18087.0
+71,P0N,3556,Porcupine Health Unit,9873.0
+72,L4Y,3553,Peel Regional Health Unit,26020.0
+73,L4B,3570,York Regional Health Unit,42196.0
+74,K4C,3551,City of Ottawa Health Unit,4760.0
+75,L1V,3530,Durham Regional Health Unit,57520.0
+76,L5N,3553,Peel Regional Health Unit,95401.0
+77,L3K,3546,Niagara Regional Area Health Unit,19608.0
+78,L4E,3570,York Regional Health Unit,59743.0
+79,L4J,3570,York Regional Health Unit,86581.0
+80,N1C,3566,Wellington-Dufferin-Guelph Health Unit,3982.0
+81,K1T,3551,City of Ottawa Health Unit,41095.0
+82,M9R,3595,City of Toronto Health Unit,38736.0
+83,M8V,3595,City of Toronto Health Unit,41638.0
+84,N9G,3568,Windsor-Essex County Health Unit,22610.0
+85,M6B,3595,City of Toronto Health Unit,31997.0
+86,M1M,3595,City of Toronto Health Unit,24873.0
+87,K1R,3551,City of Ottawa Health Unit,21767.0
+88,L6C,3570,York Regional Health Unit,57333.0
+89,M2L,3595,City of Toronto Health Unit,13122.0
+90,L5L,3553,Peel Regional Health Unit,49378.0
+91,L9T,3536,Halton Regional Health Unit,123404.0
+92,M1P,3595,City of Toronto Health Unit,49165.0
+93,N1A,3534,Haldimand-Norfolk Health Unit,13254.0
+94,L1W,3530,Durham Regional Health Unit,18837.0
+95,L5C,3553,Peel Regional Health Unit,33497.0
+96,L1K,3530,Durham Regional Health Unit,44310.0
+97,M4B,3595,City of Toronto Health Unit,20335.0
+98,L6E,3570,York Regional Health Unit,40637.0
+99,N1T,3565,Waterloo Health Unit,20223.0
+100,L1P,3530,Durham Regional Health Unit,18870.0
+101,L9C,3537,City of Hamilton Health Unit,43092.0
+102,M5J,3595,City of Toronto Health Unit,16736.0
+103,M1T,3595,City of Toronto Health Unit,38347.0
+104,M9A,3595,City of Toronto Health Unit,38566.0
+105,L0R,3537,City of Hamilton Health Unit,93376.0
+106,L8R,3537,City of Hamilton Health Unit,13221.0
+107,M1C,3595,City of Toronto Health Unit,38838.0
+108,M9C,3595,City of Toronto Health Unit,41818.0
+109,L2M,3546,Niagara Regional Area Health Unit,34633.0
+110,L8T,3537,City of Hamilton Health Unit,20288.0
+111,M2M,3595,City of Toronto Health Unit,37137.0
+112,L7E,3553,Peel Regional Health Unit,35649.0
+113,L9V,3566,Wellington-Dufferin-Guelph Health Unit,11660.0
+114,L2E,3546,Niagara Regional Area Health Unit,21170.0
+115,L2S,3546,Niagara Regional Area Health Unit,20424.0
+116,N6E,3544,Middlesex-London Health Unit,29900.0
+117,L8N,3537,City of Hamilton Health Unit,16537.0
+118,M3H,3595,City of Toronto Health Unit,41760.0
+119,L8W,3537,City of Hamilton Health Unit,28176.0
+120,M4X,3595,City of Toronto Health Unit,23178.0
+121,L1L,3530,Durham Regional Health Unit,10170.0
+122,L1R,3530,Durham Regional Health Unit,44231.0
+123,L2H,3546,Niagara Regional Area Health Unit,28659.0
+124,L6K,3536,Halton Regional Health Unit,15088.0
+125,L8L,3537,City of Hamilton Health Unit,35237.0
+126,L7B,3570,York Regional Health Unit,17084.0
+127,M4T,3595,City of Toronto Health Unit,11506.0
+128,L3B,3546,Niagara Regional Area Health Unit,24405.0
+129,L3R,3570,York Regional Health Unit,71497.0
+130,M2H,3595,City of Toronto Health Unit,28199.0
+131,L6H,3536,Halton Regional Health Unit,72062.0
+132,N6M,3544,Middlesex-London Health Unit,7155.0
+133,K2E,3551,City of Ottawa Health Unit,21292.0
+134,N2G,3565,Waterloo Health Unit,16522.0
+135,M9P,3595,City of Toronto Health Unit,22550.0
+136,L2A,3546,Niagara Regional Area Health Unit,18133.0
+137,L0P,3553,Peel Regional Health Unit,8913.0
+138,M6H,3595,City of Toronto Health Unit,49391.0
+139,M6P,3595,City of Toronto Health Unit,44316.0
+140,K2W,3551,City of Ottawa Health Unit,9355.0
+141,N9E,3568,Windsor-Essex County Health Unit,23615.0
+142,L1E,3530,Durham Regional Health Unit,29481.0
+143,L5E,3553,Peel Regional Health Unit,13897.0
+144,L6B,3570,York Regional Health Unit,33829.0
+145,L5K,3553,Peel Regional Health Unit,15320.0
+146,M8W,3595,City of Toronto Health Unit,22791.0
+147,M4R,3595,City of Toronto Health Unit,12774.0
+148,L4C,3570,York Regional Health Unit,81340.0
+149,N5V,3544,Middlesex-London Health Unit,32869.0
+150,M8Y,3595,City of Toronto Health Unit,23480.0
+151,N8W,3568,Windsor-Essex County Health Unit,25974.0
+152,M5B,3595,City of Toronto Health Unit,15213.0
+153,K1B,3551,City of Ottawa Health Unit,19822.0
+154,L8H,3537,City of Hamilton Health Unit,28235.0
+155,L9W,3566,Wellington-Dufferin-Guelph Health Unit,48590.0
+156,L7T,3536,Halton Regional Health Unit,19045.0
+157,L3Z,3560,Simcoe Muskoka District Health Unit,40152.0
+158,L0S,3546,Niagara Regional Area Health Unit,60168.0
+159,N3W,3534,Haldimand-Norfolk Health Unit,14181.0
+160,K2B,3551,City of Ottawa Health Unit,37813.0
+161,M6K,3595,City of Toronto Health Unit,43445.0
+162,K1N,3551,City of Ottawa Health Unit,29317.0
+163,N1H,3566,Wellington-Dufferin-Guelph Health Unit,46355.0
+164,L8J,3537,City of Hamilton Health Unit,26761.0
+165,L2G,3546,Niagara Regional Area Health Unit,29693.0
+166,M4A,3595,City of Toronto Health Unit,15893.0
+167,L9L,3530,Durham Regional Health Unit,15117.0
+168,L1H,3530,Durham Regional Health Unit,34168.0
+169,M8Z,3595,City of Toronto Health Unit,19191.0
+170,M4C,3595,City of Toronto Health Unit,54819.0
+171,K2G,3551,City of Ottawa Health Unit,55292.0
+172,L7N,3536,Halton Regional Health Unit,13896.0
+173,N1K,3566,Wellington-Dufferin-Guelph Health Unit,11081.0
+174,L3X,3570,York Regional Health Unit,47689.0
+175,P0W,3549,Northwestern Health Unit,7146.0
+176,M4S,3595,City of Toronto Health Unit,30925.0
+177,L1J,3530,Durham Regional Health Unit,45326.0
+178,M5A,3595,City of Toronto Health Unit,47230.0
+179,K1E,3551,City of Ottawa Health Unit,15945.0
+180,K4A,3551,City of Ottawa Health Unit,63319.0
+181,L7M,3536,Halton Regional Health Unit,51600.0
+182,M1N,3595,City of Toronto Health Unit,24050.0
+183,L4G,3570,York Regional Health Unit,65109.0
+184,M5M,3595,City of Toronto Health Unit,28411.0
+185,N2P,3565,Waterloo Health Unit,22929.0
+186,M4P,3595,City of Toronto Health Unit,22841.0
+187,M2N,3595,City of Toronto Health Unit,84831.0
+188,L5G,3553,Peel Regional Health Unit,21857.0
+189,L8V,3537,City of Hamilton Health Unit,22026.0
+190,N1L,3566,Wellington-Dufferin-Guelph Health Unit,16718.0
+191,K1V,3551,City of Ottawa Health Unit,62198.0
+192,L4A,3570,York Regional Health Unit,49081.0
+193,K1G,3551,City of Ottawa Health Unit,38432.0
+194,L3T,3570,York Regional Health Unit,56683.0
+195,N5Y,3544,Middlesex-London Health Unit,37117.0
+196,L5H,3553,Peel Regional Health Unit,19164.0
+197,M6C,3595,City of Toronto Health Unit,26666.0
+198,L8G,3537,City of Hamilton Health Unit,22840.0
+199,N0R,3568,Windsor-Essex County Health Unit,50572.0
+200,M4J,3595,City of Toronto Health Unit,39048.0
+201,K2P,3551,City of Ottawa Health Unit,19337.0
+202,L5J,3553,Peel Regional Health Unit,30128.0
+203,N2R,3565,Waterloo Health Unit,16344.0
+204,L9G,3537,City of Hamilton Health Unit,25066.0
+205,L8K,3537,City of Hamilton Health Unit,33658.0
+206,K4B,3551,City of Ottawa Health Unit,5020.0
+207,L2J,3546,Niagara Regional Area Health Unit,15208.0
+208,M5N,3595,City of Toronto Health Unit,18465.0
+209,M4L,3595,City of Toronto Health Unit,36187.0
+210,N8H,3568,Windsor-Essex County Health Unit,29875.0
+211,N8X,3568,Windsor-Essex County Health Unit,18124.0
+212,L1M,3530,Durham Regional Health Unit,22590.0
+213,N3P,3527,Brant County Health Unit,8972.0
+214,L4P,3570,York Regional Health Unit,30862.0
+215,K1J,3551,City of Ottawa Health Unit,30917.0
+216,N0C,3533,Grey Bruce Health Unit,18135.0
+217,K1K,3551,City of Ottawa Health Unit,35346.0
+218,L7J,3536,Halton Regional Health Unit,14441.0
+219,N8S,3568,Windsor-Essex County Health Unit,23443.0
+220,N3H,3565,Waterloo Health Unit,24159.0
+221,L9B,3537,City of Hamilton Health Unit,26192.0
+222,N3T,3527,Brant County Health Unit,37432.0
+223,K1C,3551,City of Ottawa Health Unit,40907.0
+224,L1C,3530,Durham Regional Health Unit,47527.0
+225,M6S,3595,City of Toronto Health Unit,37206.0
+226,M6R,3595,City of Toronto Health Unit,21806.0
+227,L9P,3530,Durham Regional Health Unit,17943.0
+228,P0K,3556,Porcupine Health Unit,11443.0
+229,N9J,3568,Windsor-Essex County Health Unit,21082.0
+230,L0C,3530,Durham Regional Health Unit,10097.0
+231,N5X,3544,Middlesex-London Health Unit,36745.0
+232,N9A,3568,Windsor-Essex County Health Unit,30922.0
+233,M2K,3595,City of Toronto Health Unit,26487.0
+234,K6H,3558,The Eastern Ontario Health Unit,35282.0
+235,K4P,3551,City of Ottawa Health Unit,10565.0
+236,N0A,3534,Haldimand-Norfolk Health Unit,41788.0
+237,N1R,3565,Waterloo Health Unit,45725.0
+238,K1H,3551,City of Ottawa Health Unit,17400.0
+239,N1G,3566,Wellington-Dufferin-Guelph Health Unit,32476.0
+240,K2J,3551,City of Ottawa Health Unit,80630.0
+241,M9B,3595,City of Toronto Health Unit,36336.0
+242,L6M,3536,Halton Regional Health Unit,79152.0
+243,L6J,3536,Halton Regional Health Unit,27483.0
+244,M5E,3595,City of Toronto Health Unit,11098.0
+245,L2P,3546,Niagara Regional Area Health Unit,15813.0
+246,M6G,3595,City of Toronto Health Unit,34595.0
+247,L1G,3530,Durham Regional Health Unit,44415.0
+248,K4M,3551,City of Ottawa Health Unit,13374.0
+249,N8P,3568,Windsor-Essex County Health Unit,13987.0
+250,M4V,3595,City of Toronto Health Unit,19940.0
+251,L9A,3537,City of Hamilton Health Unit,26885.0
+252,L9Z,3560,Simcoe Muskoka District Health Unit,23375.0
+253,N8Y,3568,Windsor-Essex County Health Unit,21236.0
+254,L9S,3560,Simcoe Muskoka District Health Unit,31667.0
+255,N5Z,3544,Middlesex-London Health Unit,25541.0
+256,M5V,3595,City of Toronto Health Unit,53640.0
+257,N2C,3565,Waterloo Health Unit,18312.0
+258,L2N,3546,Niagara Regional Area Health Unit,31932.0
+259,L0G,3570,York Regional Health Unit,46798.0
+260,N4L,3533,Grey Bruce Health Unit,8629.0
+261,N8T,3568,Windsor-Essex County Health Unit,19568.0
+262,L7G,3536,Halton Regional Health Unit,50707.0
+263,L8P,3537,City of Hamilton Health Unit,24372.0
+264,N6L,3544,Middlesex-London Health Unit,4493.0
+265,L3Y,3570,York Regional Health Unit,46970.0
+266,L3P,3570,York Regional Health Unit,41813.0
+267,N2T,3565,Waterloo Health Unit,22817.0
+268,M5G,3595,City of Toronto Health Unit,10464.0
+269,M2P,3595,City of Toronto Health Unit,8622.0
+270,N3S,3527,Brant County Health Unit,27724.0
+271,K1Y,3551,City of Ottawa Health Unit,22283.0
+272,L0A,3535,"Haliburton, Kawartha, Pine Ridge District Health Unit",15171.0
+273,N4G,3575,Oxford Elgin St. Thomas Health Unit,21329.0
+274,L3M,3546,Niagara Regional Area Health Unit,28870.0
+275,N2M,3565,Waterloo Health Unit,38056.0
+276,M4Y,3595,City of Toronto Health Unit,34244.0
+277,L1N,3530,Durham Regional Health Unit,52519.0
+278,N6G,3544,Middlesex-London Health Unit,48709.0
+279,K2K,3551,City of Ottawa Health Unit,27681.0
+280,N9C,3568,Windsor-Essex County Health Unit,13161.0
+281,N2N,3565,Waterloo Health Unit,28498.0
+282,L7K,3553,Peel Regional Health Unit,8746.0
+283,L4S,3570,York Regional Health Unit,40634.0
+284,L2T,3546,Niagara Regional Area Health Unit,11456.0
+285,K6J,3558,The Eastern Ontario Health Unit,18569.0
+286,L6L,3536,Halton Regional Health Unit,32600.0
+287,L2R,3546,Niagara Regional Area Health Unit,27522.0
+288,N3Y,3534,Haldimand-Norfolk Health Unit,23846.0
+289,N1S,3565,Waterloo Health Unit,20227.0
+290,N6H,3544,Middlesex-London Health Unit,43119.0
+291,L0N,3553,Peel Regional Health Unit,7887.0
+292,N1M,3566,Wellington-Dufferin-Guelph Health Unit,17951.0
+293,N6P,3544,Middlesex-London Health Unit,9677.0
+294,L9K,3537,City of Hamilton Health Unit,15792.0
+295,M4W,3595,City of Toronto Health Unit,16561.0
+296,M6J,3595,City of Toronto Health Unit,34783.0
+297,K9K,3555,Peterborough CountyÂ–City Health Unit,13860.0
+298,M4G,3595,City of Toronto Health Unit,21181.0
+299,N2L,3565,Waterloo Health Unit,32939.0
+300,K2C,3551,City of Ottawa Health Unit,30636.0
+301,N5W,3544,Middlesex-London Health Unit,25684.0
+302,M5P,3595,City of Toronto Health Unit,21597.0
+303,K9A,3535,"Haliburton, Kawartha, Pine Ridge District Health Unit",27732.0
+304,L9R,3560,Simcoe Muskoka District Health Unit,25614.0
+305,M4K,3595,City of Toronto Health Unit,34572.0
+306,L7L,3536,Halton Regional Health Unit,50625.0
+307,K4K,3558,The Eastern Ontario Health Unit,16874.0
+308,K2T,3551,City of Ottawa Health Unit,12400.0
+309,K1Z,3551,City of Ottawa Health Unit,24636.0
+310,K1L,3551,City of Ottawa Health Unit,19762.0
+311,N3R,3527,Brant County Health Unit,37253.0
+312,K1S,3551,City of Ottawa Health Unit,32127.0
+313,L7S,3536,Halton Regional Health Unit,12764.0
+314,M4N,3595,City of Toronto Health Unit,17364.0
+315,N1E,3566,Wellington-Dufferin-Guelph Health Unit,45734.0
+316,L1A,3535,"Haliburton, Kawartha, Pine Ridge District Health Unit",16482.0
+317,N2E,3565,Waterloo Health Unit,42870.0
+318,K2S,3551,City of Ottawa Health Unit,36296.0
+319,N4B,3534,Haldimand-Norfolk Health Unit,8398.0
+320,P8T,3549,Northwestern Health Unit,6433.0
+321,N7G,3544,Middlesex-London Health Unit,19401.0
+322,M5R,3595,City of Toronto Health Unit,28418.0
+323,N6K,3544,Middlesex-London Health Unit,38021.0
+324,N4W,3554,Perth District Health Unit,12254.0
+325,K2H,3551,City of Ottawa Health Unit,28797.0
+326,L9H,3537,City of Hamilton Health Unit,32865.0
+327,N6B,3544,Middlesex-London Health Unit,12232.0
+328,K0B,3558,The Eastern Ontario Health Unit,22098.0
+329,N0B,3566,Wellington-Dufferin-Guelph Health Unit,85453.0
+330,L8S,3537,City of Hamilton Health Unit,16374.0
+331,N3L,3527,Brant County Health Unit,15769.0
+332,M4E,3595,City of Toronto Health Unit,27551.0
+333,K0C,3558,The Eastern Ontario Health Unit,55072.0
+334,N4K,3533,Grey Bruce Health Unit,30284.0
+335,P3L,3561,Sudbury and District Health Unit,8324.0
+336,L1B,3530,Durham Regional Health Unit,12669.0
+337,L7R,3536,Halton Regional Health Unit,18325.0
+338,N1P,3565,Waterloo Health Unit,8233.0
+339,L8B,3537,City of Hamilton Health Unit,15511.0
+340,M4M,3595,City of Toronto Health Unit,26779.0
+341,P4N,3556,Porcupine Health Unit,26636.0
+342,N6A,3544,Middlesex-London Health Unit,13087.0
+343,N0H,3533,Grey Bruce Health Unit,52763.0
+344,K2M,3551,City of Ottawa Health Unit,31208.0
+345,M5S,3595,City of Toronto Health Unit,18433.0
+346,N2A,3565,Waterloo Health Unit,33001.0
+347,N3C,3565,Waterloo Health Unit,29065.0
+348,N8M,3568,Windsor-Essex County Health Unit,11734.0
+349,L8M,3537,City of Hamilton Health Unit,14601.0
+350,N2H,3565,Waterloo Health Unit,23136.0
+351,N5P,3575,Oxford Elgin St. Thomas Health Unit,21518.0
+352,P1P,3560,Simcoe Muskoka District Health Unit,10509.0
+353,L9X,3560,Simcoe Muskoka District Health Unit,6418.0
+354,L4N,3560,Simcoe Muskoka District Health Unit,107844.0
+355,N0E,3534,Haldimand-Norfolk Health Unit,37816.0
+356,L0L,3560,Simcoe Muskoka District Health Unit,45993.0
+357,K9J,3555,Peterborough CountyÂ–City Health Unit,47643.0
+358,L9N,3570,York Regional Health Unit,12911.0
+359,L0E,3570,York Regional Health Unit,22796.0
+360,K0A,3551,City of Ottawa Health Unit,113630.0
+361,K2L,3551,City of Ottawa Health Unit,20652.0
+362,N6C,3544,Middlesex-London Health Unit,32543.0
+363,N9Y,3568,Windsor-Essex County Health Unit,16826.0
+364,L7P,3536,Halton Regional Health Unit,30759.0
+365,N9V,3568,Windsor-Essex County Health Unit,21807.0
+366,N4T,3575,Oxford Elgin St. Thomas Health Unit,13761.0
+367,M3B,3595,City of Toronto Health Unit,14727.0
+368,K2A,3551,City of Ottawa Health Unit,18617.0
+369,N2K,3565,Waterloo Health Unit,30327.0
+370,M8X,3595,City of Toronto Health Unit,11490.0
+371,P3N,3561,Sudbury and District Health Unit,8304.0
+372,P3C,3561,Sudbury and District Health Unit,17649.0
+373,L0B,3530,Durham Regional Health Unit,16330.0
+374,N4S,3575,Oxford Elgin St. Thomas Health Unit,34605.0
+375,P1L,3560,Simcoe Muskoka District Health Unit,18217.0
+376,L0M,3560,Simcoe Muskoka District Health Unit,38652.0
+377,N2J,3565,Waterloo Health Unit,20072.0
+378,L0K,3560,Simcoe Muskoka District Health Unit,38032.0
+379,N8A,3540,Chatham-Kent Health Unit,14940.0
+380,K6A,3558,The Eastern Ontario Health Unit,13710.0
+381,P1H,3560,Simcoe Muskoka District Health Unit,18122.0
+382,P3P,3561,Sudbury and District Health Unit,15798.0
+383,N2B,3565,Waterloo Health Unit,17975.0
+384,P3E,3561,Sudbury and District Health Unit,29711.0
+385,N8N,3568,Windsor-Essex County Health Unit,26065.0
+386,P0P,3561,Sudbury and District Health Unit,21136.0
+387,L3V,3560,Simcoe Muskoka District Health Unit,49301.0
+388,N6J,3544,Middlesex-London Health Unit,28759.0
+389,L4M,3560,Simcoe Muskoka District Health Unit,49827.0
+390,K0G,3543,"Leeds, Grenville and Lanark District Health Unit",40461.0
+391,P3B,3561,Sudbury and District Health Unit,16497.0
+392,N0P,3540,Chatham-Kent Health Unit,56331.0
+393,L9Y,3560,Simcoe Muskoka District Health Unit,27366.0
+394,P1B,3547,North Bay Parry Sound District Health Unit,36178.0
+395,P0V,3549,Northwestern Health Unit,26077.0
+396,N0J,3575,Oxford Elgin St. Thomas Health Unit,34433.0
+397,N0L,3544,Middlesex-London Health Unit,52939.0
+398,K7C,3543,"Leeds, Grenville and Lanark District Health Unit",18353.0
+399,N5C,3575,Oxford Elgin St. Thomas Health Unit,16237.0
+400,K0L,3555,Peterborough CountyÂ–City Health Unit,77990.0
+401,K7N,3541,"Kingston, Frontenac and Lennox and Addington Health Unit",8275.0
+402,K8P,3538,Hastings and Prince Edward Counties Health Unit,22912.0
+403,K0E,3543,"Leeds, Grenville and Lanark District Health Unit",40684.0
+404,K6V,3543,"Leeds, Grenville and Lanark District Health Unit",29258.0
+405,K0J,3557,Renfrew County and District Health Unit,35299.0
+406,K9H,3555,Peterborough CountyÂ–City Health Unit,30205.0
+407,N0G,3533,Grey Bruce Health Unit,84624.0
+408,N3A,3565,Waterloo Health Unit,16906.0
+409,K9V,3535,"Haliburton, Kawartha, Pine Ridge District Health Unit",29996.0
+410,N7S,3542,Lambton Health Unit,30263.0
+411,L9M,3560,Simcoe Muskoka District Health Unit,15903.0
+412,K0K,3538,Hastings and Prince Edward Counties Health Unit,120165.0
+413,P3A,3561,Sudbury and District Health Unit,24906.0
+414,N5R,3575,Oxford Elgin St. Thomas Health Unit,29805.0
+415,L4R,3560,Simcoe Muskoka District Health Unit,20184.0
+416,N0K,3554,Perth District Health Unit,25396.0
+417,K8N,3538,Hastings and Prince Edward Counties Health Unit,30929.0
+418,P6A,3526,The District of Algoma Health Unit,37500.0
+419,N7L,3540,Chatham-Kent Health Unit,26234.0
+420,K0M,3535,"Haliburton, Kawartha, Pine Ridge District Health Unit",53185.0
+421,P7B,3562,Thunder Bay District Health Unit,25652.0
+422,N0M,3539,Huron County Health Unit,69517.0
+423,N0N,3542,Lambton Health Unit,43246.0
+424,P0T,3562,Thunder Bay District Health Unit,34779.0
+425,K8V,3538,Hastings and Prince Edward Counties Health Unit,29098.0
+426,P7C,3562,Thunder Bay District Health Unit,24397.0
+427,K0H,3541,"Kingston, Frontenac and Lennox and Addington Health Unit",46399.0
+428,P0H,3547,North Bay Parry Sound District Health Unit,33896.0
+429,P7A,3562,Thunder Bay District Health Unit,30167.0
+430,P0M,3561,Sudbury and District Health Unit,51850.0
+431,P0L,3556,Porcupine Health Unit,26624.0
+432,K7L,3541,"Kingston, Frontenac and Lennox and Addington Health Unit",23409.0
+433,K7M,3541,"Kingston, Frontenac and Lennox and Addington Health Unit",50455.0
+434,N5A,3554,Perth District Health Unit,33950.0
+435,N7T,3542,Lambton Health Unit,27654.0
+436,K7K,3541,"Kingston, Frontenac and Lennox and Addington Health Unit",34862.0
+607,N8R,3568,Windsor-Essex County Health Unit,14025.0
+697,P0X,3549,Northwestern Health Unit,9043.0
+744,P0A,3547,North Bay Parry Sound District Health Unit,17917.0
+745,N5H,3575,Oxford Elgin St. Thomas Health Unit,16536.0
+769,N4N,3533,Grey Bruce Health Unit,10459.0
+776,P3Y,3561,Sudbury and District Health Unit,7928.0
+781,K4R,3558,The Eastern Ontario Health Unit,8153.0
+807,K7S,3557,Renfrew County and District Health Unit,14329.0
+814,K8A,3557,Renfrew County and District Health Unit,27615.0
+844,N7V,3542,Lambton Health Unit,12180.0
+845,K7V,3557,Renfrew County and District Health Unit,14313.0
+853,N7M,3540,Chatham-Kent Health Unit,26398.0
+857,P7E,3562,Thunder Bay District Health Unit,22311.0
+860,K7H,3543,"Leeds, Grenville and Lanark District Health Unit",16526.0
+1345,P7J,3562,Thunder Bay District Health Unit,5250.0
+1354,P3G,3561,Sudbury and District Health Unit,4146.0
+1437,P9N,3549,Northwestern Health Unit,16527.0
+1473,P7G,3562,Thunder Bay District Health Unit,12300.0
+1502,P8N,3549,Northwestern Health Unit,11716.0
+1504,P2N,3563,Timiskaming Health Unit,7541.0
+1679,N9H,3568,Windsor-Essex County Health Unit,12138.0
+1752,P5N,3556,Porcupine Health Unit,8724.0
+1878,N2V,3565,Waterloo Health Unit,19454.0
+2004,N4V,3575,Oxford Elgin St. Thomas Health Unit,3399.0
+2131,N3B,3565,Waterloo Health Unit,12098.0
+2470,K6K,3558,The Eastern Ontario Health Unit,3165.0
+2691,N9K,3568,Windsor-Essex County Health Unit,2885.0
+2694,L0H,3570,York Regional Health Unit,2256.0
+2969,N4X,3554,Perth District Health Unit,10218.0
+3018,K8H,3557,Renfrew County and District Health Unit,13778.0
+3053,P9A,3549,Northwestern Health Unit,11707.0
+3062,P6B,3526,The District of Algoma Health Unit,23651.0
+3084,K7P,3541,"Kingston, Frontenac and Lennox and Addington Health Unit",24428.0
+3085,P6C,3526,The District of Algoma Health Unit,19619.0
+3161,L6G,3570,York Regional Health Unit,6887.0
+3175,P0E,3560,Simcoe Muskoka District Health Unit,3494.0
+3176,N7W,3542,Lambton Health Unit,2340.0
+3409,K9L,3555,Peterborough CountyÂ–City Health Unit,7759.0
+3520,K7G,3543,"Leeds, Grenville and Lanark District Health Unit",8845.0
+3764,P0J,3563,Timiskaming Health Unit,21897.0
+4233,P7K,3562,Thunder Bay District Health Unit,6328.0
+4514,N2Z,3533,Grey Bruce Health Unit,12237.0

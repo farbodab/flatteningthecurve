@@ -34,7 +34,7 @@ def gov_ontario(ctx):
     ctx.forward(data_export.export_public_cases_ontario_covid_summary)
     ctx.forward(data_export.export_public_capacity_ontario_testing_24_hours)
     ctx.forward(data_export.export_confidential_moh_iphis)
-    ctx.forward(data_process.export_public_ices_positivity)
+    ctx.forward(data_export.export_public_ices_positivity)
 
 @bp.cli.command('vaccine')
 @click.pass_context
