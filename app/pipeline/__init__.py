@@ -21,14 +21,17 @@ def gov_ontario(ctx):
     ctx.forward(data_process.process_public_ontario_gov_daily_change_in_cases_by_phu)
     ctx.forward(data_process.process_restricted_moh_iphis)
     ctx.forward(data_process.process_restricted_ices_positivity)
+    ctx.forward(data_process.process_restricted_ices_vaccination)
 
 
     ctx.forward(data_transform.transform_public_cases_ontario_confirmed_positive_cases)
     ctx.forward(data_transform.transform_public_cases_ontario_covid_summary)
     ctx.forward(data_transform.transform_public_cases_ontario_cases_seven_day_rolling_average)
     ctx.forward(data_transform.transform_public_capacity_ontario_testing_24_hours)
+    ctx.forward(data_transform.transform_public_vaccination_phu)
     ctx.forward(data_transform.transform_public_summary_ontario)
     ctx.forward(data_transform.transform_confidential_moh_iphis)
+
 
     ctx.forward(data_export.export_public_summary_ontario)
     ctx.forward(data_export.export_public_cases_ontario_covid_summary)

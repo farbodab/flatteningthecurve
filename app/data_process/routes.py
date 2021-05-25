@@ -495,7 +495,7 @@ def process_restricted_ices_vaccination():
             filename = file.split('_')[-1]
             date = filename.split('.')[0]
             data_out = {'classification':'public', 'source_name':'ices', 'table_name':'vaccination',  'type': 'csv'}
-            save_file, save_dir = get_file_path(data_out, 'processed')
+            save_file, save_dir = get_file_path(data_out, 'processed',today=date)
             if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
                 date = pd.read_excel(file,engine='openpyxl',sheet_name=2, header=11)
                 date_text = date.iloc[0,0]
