@@ -1,0 +1,12 @@
+logo
+
+
+** How's My Flattening?
+------------------------------------------------------------
+
+Your Data Is Out of Date
+
+The following issues have been detected:
+{% for issue in issues %}
+* {{ issue }}
+{% endfor %}
