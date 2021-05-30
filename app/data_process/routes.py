@@ -485,9 +485,9 @@ def process_restricted_ices_positivity():
             print(e)
             return e
 
-@bp.cli.command('restricted_ices_vaccination')
-def process_restricted_ices_vaccination():
-    data = {'classification':'restricted', 'source_name':'ices', 'table_name':'vaccination',  'type': 'xlsx'}
+@bp.cli.command('public_ices_vaccination')
+def process_public_ices_vaccination():
+    data = {'classification':'public', 'source_name':'ices', 'table_name':'vaccination',  'type': 'xlsx'}
     load_file, load_dir = get_file_path(data)
     files = glob.glob(load_dir+"/*."+data['type'])
     for file in files:
@@ -495,7 +495,7 @@ def process_restricted_ices_vaccination():
             filename = file.split('_')[-1]
             date = filename.split('.')[0]
             data_out = {'classification':'public', 'source_name':'ices', 'table_name':'vaccination',  'type': 'csv'}
-            save_file, save_dir = get_file_path(data_out, 'processed',today=date)
+            save_file, save_dir = get_file_path(data_out, 'processed')
             if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
                 date = pd.read_excel(file,engine='openpyxl',sheet_name=2, header=11)
                 date_text = date.iloc[0,0]

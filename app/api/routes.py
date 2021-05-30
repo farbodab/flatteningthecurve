@@ -966,9 +966,65 @@ def tweet():
                                      in_reply_to_status_id=reply5_tweet.id,
                                      auto_populate_reply_metadata=True)
 
+@bp.cli.command("status")
+def status():
+    issues = []
+    date = get_times(False)
+    now = datetime.now()
+    rolling_pop = (now - pd.to_datetime(date['rolling_pop'])).days.tolist()[0]
+    rolling_test_twenty_four = (now - pd.to_datetime(date['rolling_test_twenty_four'])).days.tolist()[0]
+    critical_care_pct = (now - pd.to_datetime(date['critical_care_pct'])).days.tolist()[0]
+    rt_ml = (now - pd.to_datetime(date['rt_ml'])).days.tolist()[0]
+    percent_positive = (now - pd.to_datetime(date['percent_positive'])).days.tolist()[0]
+    percent_vaccinated = (now - pd.to_datetime(date['percent_vaccinated'])).days.tolist()[0]
+    rolling_pop_value = 3
+    if rolling_pop > rolling_pop_value:
+        issues.append(f"Case Incidence (Per 100,000 People) is behind by {rolling_pop} days. Acceptable range is: {rolling_pop_value}")
+
+    rolling_test_twenty_four_value = 3
+    if rolling_test_twenty_four > rolling_test_twenty_four_value:
+        issues.append(f"Testing < 24h is behind by {rolling_test_twenty_four} days. Acceptable range is: {rolling_test_twenty_four_value}")
+
+    critical_care_pct_value = 3
+    if critical_care_pct > critical_care_pct_value:
+        issues.append(f"ICU Occupancy is behind by {critical_care_pct} days. Acceptable range is: {critical_care_pct_value}")
+
+    rt_ml_value = 3
+    if rt_ml > rt_ml_value:
+        issues.append(f"Rt is behind by {rt_ml} days. Acceptable range is: {rt_ml_value}")
+
+    percent_positive_value = 8
+    if percent_positive > percent_positive_value:
+        issues.append(f"Percent positivity is behind by {percent_positive} days. Acceptable range is: {percent_positive_value}")
+
+    percent_vaccinated_value = 8
+    if percent_vaccinated > percent_vaccinated_value:
+        issues.append(f"Percent vaccinated is behind by {percent_vaccinated} days. Acceptable range is: {percent_vaccinated_value}")
+
+    if len(issues) > 0:
+        key = os.environ.get('EMAIL_API')
+        sg = sendgrid.SendGridAPIClient(api_key=key)
+        from_email = "data@howsmyflattening.ca"
+        to_email = ["farbod.abolhassani@utoronto.ca", "laura.rosella@utoronto.ca", "Benjamin.Fine@thp.ca"]
+        subject = f"{len(issues)}/6 elements out of date"
+        html = render_template("data_email.html", issues=issues)
+        text = render_template("data_email.txt", issues=issues)
+        message = Mail(
+        from_email=from_email,
+        to_emails=to_email,
+        subject=subject,
+        plain_text_content=text,
+        html_content=html)
+        response = sg.send(message)
+
+
+
+
+
+
 
 @cache.memoize(timeout=600)
-def get_times():
+def get_times(convert=True):
     url = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=1804151615"
     positivity = "https://docs.google.com/spreadsheets/d/19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA/export?format=csv&id=19LFZWy85MVueUm2jYmXXE6EC3dRpCPGZ05Bqfv5KyGA&gid=2051486909"
     df = pd.read_csv(url)
@@ -977,7 +1033,8 @@ def get_times():
     positive['Date'] = pd.to_datetime(positive['Date'])
     df = df.merge(positive, left_on=['date', 'HR_UID'], right_on=['Date', 'HR_UID'], how='left')
     df = df.rename(columns={"% Positivity":"percent_positive"})
-    df['date'] = df['date'].dt.strftime('%B %d')
+    if convert:
+        df['date'] = df['date'].dt.strftime('%B %d')
     metrics = ["rolling_pop", "rolling_test_twenty_four", "critical_care_pct", "rt_ml", "percent_positive", "percent_vaccinated"]
     data = {"rolling_pop":[], "rolling_test_twenty_four":[], "critical_care_pct":[], "rt_ml":[], "percent_positive":[], "percent_vaccinated": []}
     for metric in metrics:
