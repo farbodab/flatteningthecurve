@@ -1005,7 +1005,7 @@ def status():
         key = os.environ.get('EMAIL_API')
         sg = sendgrid.SendGridAPIClient(api_key=key)
         from_email = "data@howsmyflattening.ca"
-        to_email = ["farbod.abolhassani@utoronto.ca", "laura.rosella@utoronto.ca", "Benjamin.Fine@thp.ca"]
+        to_email = ["farbod.abolhassani@utoronto.ca", "laura.rosella@utoronto.ca", "Benjamin.Fine@thp.ca", "zenita.hirji@utoronto.ca"]
         subject = f"{len(issues)}/6 elements out of date"
         html = render_template("data_email.html", issues=issues)
         text = render_template("data_email.txt", issues=issues)
