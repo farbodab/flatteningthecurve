@@ -502,8 +502,8 @@ def process_public_ices_vaccination():
                 update_date_text = date_text.split()[-1]
                 update_date = pd.to_datetime(update_date_text,format="%d%b%Y")
                 df = pd.read_excel(file,engine='openpyxl',sheet_name=2,header=23)
-                df = df[['FSA','% Vaccinated with at least 1 dose\n(All ages)']]
-                df = df.rename(columns={'% Vaccinated with at least 1 dose\n(All ages)':'% Vaccinated'})
+                df = df[['FSA','% Vaccinated with at least 1 dose\n(All ages, including <12 and undocumented age)']]
+                df = df.rename(columns={'% Vaccinated with at least 1 dose\n(All ages, including <12 and undocumented age)':'% Vaccinated'})
                 df['date'] = update_date
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False)
