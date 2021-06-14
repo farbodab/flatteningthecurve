@@ -400,7 +400,7 @@ def process_restricted_ccso_ccis():
             date = filename.split('.')[0]
             save_file, save_dir = get_file_path(data, 'processed', date)
             if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
-                df = pd.read_csv(file)
+                df = pd.read_csv(file, encoding="ISO-8859-1")
                 df = df.rename(columns=field_map)
                 df = df[field_map.values()]
                 for column in date_field:
