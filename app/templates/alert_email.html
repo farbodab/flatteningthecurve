@@ -11,7 +11,7 @@
   </div>
   <div style="text-align: center;margin: 0 auto;">
     <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto;background-color: #e7edef;padding: 10px;">Most recently on {{ ontario["Date"] }}, Ontario reported {{ ontario["New positives"] | int}} new cases of COVID-19 and {{ ontario["New deaths"] | int}} new deaths. There are currently {{ ontario["Hospitalized"] | int}} COVID-19 cases in hospital and {{ ontario["ICU"] | int}} in the ICU. </p><br>
-    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto; background-color: #daf1ea;padding: 10px;">Yesterday, {{ vaccine["previous_day_doses_administered"] | int}} vaccine doses were administered bringing the total up to {{ vaccine["total_doses_administered"] | int}}. This is {{ '%0.2f' %  vaccine["percentage_completed"] |float }}% of the eligible population of Ontario.</p><br>
+    <p style="width: 362px; font-size: 16px;color: #275d6f; margin: 0 auto; background-color: #daf1ea;padding: 10px;">Yesterday, {{ vaccine["previous_day_total_doses_administered"] | int}} vaccine doses were administered bringing the total up to {{ vaccine["total_doses_administered"] | int}}. This is {{ '%0.2f' %  vaccine["percentage_completed"] |float }}% of the eligible population of Ontario.</p><br>
     <img alt="Indicator Graph" src={{'https://storage.googleapis.com/covid-data-analytics-hub.appspot.com/6_' + max_date + '.jpeg'}} width="374"><br>
     <p style="margin: 0 auto;font-size: 23px;font-weight: normal;color: #275d6f;width: 284px;text-align: center;">Below is your personalized COVID-19 report</p><br>
     {% if alerts | length > 0  %}
