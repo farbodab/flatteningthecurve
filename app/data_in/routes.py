@@ -125,6 +125,12 @@ def get_public_ices_vaccination():
     get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
     return True
 
+@bp.cli.command('public_ices_percent_positivity')
+def get_public_ices_percent_positivity():
+    item = {'classification':'public', 'source_name':'ices', 'table_name':'percent_positivity',  'type': 'xlsx','url':"https://www.ices.on.ca/~/media/Files/COVID-19/ICES-COVID19-Testing-Data-FSA-percent-positivity.ashx?la=en-CA"}
+    get_public_csv(item['source_name'],item['table_name'],item['type'],item['url'])
+    return True
+
 @bp.cli.command('confidential_211_call_reports')
 def get_confidential_211_call_reports():
     item = {'classification':'confidential', 'source_name':'211', 'table_name':'call_reports',  'type': 'csv'}

@@ -666,6 +666,38 @@ def transform_public_vaccination_phu():
         except Exception as e:
             print(f"Failed to transform {save_file} due to {e}")
 
+@bp.cli.command('public_ices_percent_positivity')
+def transform_public_ices_percent_positivity():
+    for df, save_file, date in transform(
+        data_in={'classification':'public', 'stage': 'processed','source_name':'ices', 'table_name':'percent_positivity',  'type': 'csv'},
+        data_out={'classification':'public', 'stage': 'transformed','source_name':'testing', 'table_name':'percent_positivity',  'type': 'csv'}):
+        # try:
+        max_date_str = df['End date of week'].max()
+        fsa = pd.read_csv('fsa_pop.csv')
+        fsa = fsa[['FSA','PHU_Id','PHU_Name','total_residence']]
+        final = pd.merge(df,fsa,how='left',left_on='FSA', right_on='FSA')
+        max_date = final.loc[(final['End date of week'] == max_date_str) & (final.total_residence.notna())]
+        max_date = max_date.loc[max_date['Overall - number tested per 100,000 population']!='Suppressed']
+        max_date = max_date.loc[max_date['Overall - % positivity']!='Suppressed']
+        
+        max_date['Overall - number tested per 100,000 population'] = max_date['Overall - number tested per 100,000 population'].astype(float)
+        max_date['Overall - % positivity'] = max_date['Overall - % positivity'].astype(float)
+
+        
+        max_date['number_tested'] = max_date['Overall - number tested per 100,000 population'] / 100000 * max_date['total_residence']
+        max_date['covid_positive'] = max_date['Overall - % positivity'] * max_date['number_tested']
+
+        max_date['covid_positive'] = max_date['covid_positive'].astype(float)
+        final = max_date[['PHU_Id','PHU_Name','covid_positive','number_tested']].groupby(['PHU_Id','PHU_Name']).sum().reset_index()
+        final['percent_positive'] = ((final['covid_positive'] / final['number_tested']) * 100).round(1)
+        final['PHU_Id'] = final['PHU_Id'].astype(int)
+        final.rename(columns={'PHU_Id':'HR_UID', 'percent_positive':'% Positivity'},inplace=True)
+        final['Date'] = max_date_str
+        final = final[['Date','HR_UID','% Positivity']]
+        final.to_csv(save_file,index=False)
+        # except Exception as e:
+        #     print(f"Failed to transform {save_file} due to {e}")
+
 @bp.cli.command('public_summary_ontario')
 def transform_public_summary_ontario():
     cases = {'classification':'public', 'stage': 'transformed','source_name':'cases', 'table_name':'ontario_cases_seven_day_rolling_average',  'type': 'csv'}
