@@ -453,9 +453,9 @@ def process_restricted_moh_iphis():
             print(e)
             return e
 
-@bp.cli.command('restricted_ices_positivity')
-def process_restricted_ices_positivity():
-    data = {'classification':'restricted', 'source_name':'ices', 'table_name':'positivity',  'type': 'xlsx'}
+@bp.cli.command('public_ices_percent_positivity')
+def process_public_ices_percent_positivity():
+    data = {'classification':'public', 'source_name':'ices', 'table_name':'percent_positivity',  'type': 'xlsx'}
     date_field = ['reported_date']
     load_file, load_dir = get_file_path(data)
     files = glob.glob(load_dir+"/*."+data['type'])
@@ -463,20 +463,14 @@ def process_restricted_ices_positivity():
         try:
             filename = file.split('_')[-1]
             date = filename.split('.')[0]
-            data_out = {'classification':'public', 'source_name':'ices', 'table_name':'positivity',  'type': 'csv'}
+            data_out = {'classification':'public', 'source_name':'ices', 'table_name':'percent_positivity',  'type': 'csv'}
             save_file, save_dir = get_file_path(data_out, 'processed', today=date)
             if not os.path.isfile(save_file) or date ==  datetime.today().strftime('%Y-%m-%d'):
-                temp_dfs = []
-                for item in positivity_replace:
-                    df = pd.read_excel(file,engine='openpyxl',sheet_name=item,header=2)
-                    df["HR_UID"] = positivity_replace[item]
-                    df["Overall - % positivity"] = df["Overall - % positivity"].str.replace("%","").astype(float)
-                    temp_dfs.append(df.rename(columns={
-                        "Overall - % positivity": "% Positivity",
-                        "End date of week":"Date"
-                    })[["Date","HR_UID","% Positivity"]])
-
-                df = pd.concat(temp_dfs)
+                dfs = []
+                for i in range(3,8):
+                    dfs.append(pd.read_excel(file,engine='openpyxl', sheet_name=i, skiprows=28))
+                
+                df = pd.concat(dfs)
                 Path(save_dir).mkdir(parents=True, exist_ok=True)
                 df.to_csv(save_file, index=False)
 

@@ -195,10 +195,10 @@ def export_subscribers_trend():
     ]
     sheetsHelper.exportToSheets(sheetsConfig)
 
-@bp.cli.command('public_ices_positivity')
+@bp.cli.command('public_ices_percent_positivity')
 def export_public_ices_positivity():
     sheetsConfig = [
         {'name':'PHU Positivity'}
     ]
-    data_out = {'classification':'public', 'stage': 'processed','source_name':'ices', 'table_name':'positivity',  'type': 'csv'}
+    data_out = {'classification':'public', 'stage': 'transformed','source_name':'testing', 'table_name':'percent_positivity',  'type': 'csv'}
     export(sheetsConfig, data_out)
