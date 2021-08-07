@@ -993,20 +993,20 @@ def status():
     if rt_ml > rt_ml_value:
         issues.append(f"Rt is behind by {rt_ml} days. Acceptable range is: {rt_ml_value}")
 
-    percent_positive_value = 8
-    if percent_positive > percent_positive_value:
-        issues.append(f"Percent positivity is behind by {percent_positive} days. Acceptable range is: {percent_positive_value}")
+    # percent_positive_value = 8
+    # if percent_positive > percent_positive_value:
+    #     issues.append(f"Percent positivity is behind by {percent_positive} days. Acceptable range is: {percent_positive_value}")
 
-    percent_vaccinated_value = 8
-    if percent_vaccinated > percent_vaccinated_value:
-        issues.append(f"Percent vaccinated is behind by {percent_vaccinated} days. Acceptable range is: {percent_vaccinated_value}")
+    # percent_vaccinated_value = 8
+    # if percent_vaccinated > percent_vaccinated_value:
+    #     issues.append(f"Percent vaccinated is behind by {percent_vaccinated} days. Acceptable range is: {percent_vaccinated_value}")
 
     if len(issues) > 0:
         key = os.environ.get('EMAIL_API')
         sg = sendgrid.SendGridAPIClient(api_key=key)
         from_email = "data@howsmyflattening.ca"
         to_email = ["farbod.abolhassani@utoronto.ca", "laura.rosella@utoronto.ca", "Benjamin.Fine@thp.ca", "zenita.hirji@utoronto.ca"]
-        subject = f"{len(issues)}/6 elements out of date"
+        subject = f"{len(issues)}/4 elements out of date"
         html = render_template("data_email.html", issues=issues)
         text = render_template("data_email.txt", issues=issues)
         message = Mail(

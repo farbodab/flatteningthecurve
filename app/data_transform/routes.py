@@ -250,11 +250,11 @@ def transform_public_vaccination_ontario():
         try:
             # population aged 20 and above
             total_eligible = 11602992
+            # population aged 12 and above
+            total_eligible = 13439631
             target_vaccination_rate = 1
             target_eligible = total_eligible * target_vaccination_rate
-            df['one_only'] = df['total_doses_administered'] - df['total_doses_in_fully_vaccinated_individuals']
-            df['total_vaccinations_completed'] = df['one_only'] + df['total_individuals_fully_vaccinated']
-            df['percentage_completed'] = df['total_vaccinations_completed'] / target_eligible * 100
+            df['percentage_completed'] = df['total_individuals_fully_vaccinated'] / target_eligible * 100
             df.to_csv(save_file, index=False)
         except Exception as e:
             print(f"Failed to transform {save_file} due to {e}")
